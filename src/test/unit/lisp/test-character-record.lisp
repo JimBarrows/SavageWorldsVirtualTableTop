@@ -14,3 +14,15 @@
   (let ((record (make-instance savage-worlds::'character-record)))
     (is (= 0
 	   (savage-worlds::fighting-value record)))))
+
+(test fighting-modifier-with-fighting-skill
+  (let ((record (make-instance savage-worlds::'character-record))
+	(fight-skill (savage-worlds::fighting (make-instance savage-worlds::'trait-rank :rank 'd12 :value 12 :modifier 5))))
+    (push fight-skill (savage-worlds::skills record))
+    (is (= 5
+	   (savage-worlds::fighting-modifier record)))))
+
+(test fighting-modifier-without-fighting-skill
+  (let ((record (make-instance savage-worlds::'character-record)))
+    (is (= 0
+	   (savage-worlds::fighting-modifier record)))))

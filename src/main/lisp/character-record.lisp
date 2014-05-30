@@ -32,17 +32,25 @@
    (background :initform "")))
 
 (defmethod fighting-value ((record character-record))
-  (let ((fight-skill (find *fighting* (skills record) :test #'(lambda (l r) (eq (name l) (name r))))))
+  (let ((fight-skill 
+	 (find *fighting* (skills record) 
+	       :test #'(lambda (l r) (eq (name l) (name r))))))
     (if fight-skill 
 	(value (rank fight-skill))
 	0)))
 
 (defmethod fighting-modifier ((record character-record))
-  0)
+  (let ((fight-skill 
+	 (find *fighting* (skills record) 
+	       :test #'(lambda (l r) (eq (name l) (name r))))))
+    (if fight-skill 
+	(modifier (rank fight-skill))
+	0)))
 
 
 (defmethod shield-bonus ((record character-record))
   0)
+
 
 (defmethod armor-bonus ((record character-record))
   0)
