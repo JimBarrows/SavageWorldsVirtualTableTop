@@ -1,4 +1,4 @@
-l(in-package :cl)
+(in-package :cl)
 (defpackage savage-worlds-asd (:use :cl :asdf))
 (in-package :savage-worlds-asd)
 
@@ -10,20 +10,31 @@ l(in-package :cl)
 		 (:module "main"
 			  :pathname "src/main/lisp"
 			  :components ((:file "package")
-				       (:file "traits")
-				       (:file "dice")
-				       (:file "races")
+				       (:file "traits"
+					      :depends-on ("package"))
+				       (:file "dice" :depends-on ("package"))
+				       (:file "races" :depends-on ("package"))
+				       (:file "gear" :depends-on ("package"))
+				       (:file "skills" 
+					      :depends-on ("package" 
+							   "traits" 
+							   "dice"))
+				       (:file "edges"
+					      :depends-on( "package"
+							    "traits"))
+				       (:file "hindrances"
+					      :depends-on( "package"
+							   "traits"))
+				       (:file "plot-point" :depends-on ("package"))
 				       (:file "character-record" 
 					      :depends-on ("package" 
 							   "traits" 
 							   "dice" 
 							   "races" 
-							   "skills"))
-				       (:file "plot-point" :depends-on ("package"))
-				       (:file "skills" 
-					      :depends-on ("package" 
-							   "traits" 
-							   "dice"))))
+							   "skills"
+							   "gear"
+							   "edges"
+							   "traits"))))
 		 (:module "unit-tests"
 			  :pathname "src/test/unit/lisp"
 			  :depends-on (:main )

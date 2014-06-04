@@ -26,10 +26,15 @@
    (skills :initarg :skills
            :initform ()
 	   :accessor skills)
-   (equipment :initform())
+   (gear :initform()
+	 :accessor gear)
    (edges :initform())
    (hindrances :initform())
    (background :initform "")))
+
+(defmethod add-gear( gear-to-add (record character-record))
+  (let ((new-gear (make-instance 'gear :description gear-to-add)))
+    (push new-gear (gear record))))
 
 (defmethod fighting-value ((record character-record))
   (let ((fight-skill 
@@ -49,18 +54,25 @@
 
 
 (defmethod shield-bonus ((record character-record))
-  0)
+  (reduce #'+ (map 'list #'(lambda (gear)
+			     (if (eq (find-class 'shield) (class-of (description gear)))
+				 (parry (description gear))
+				 0))
+		   (gear record))))
 
 
 (defmethod armor-bonus ((record character-record))
-  0)
+  (reduce #'+ (map 'list #'(lambda (gear)
+			     (if (eq (find-class 'armor) (class-of (description gear)))
+				 (armor (description gear))
+				 0))
+		   (gear record))))
 
 (defmethod parry ((record character-record))
   (+ 2 
      (half (fighting-value record)) 
      (half (fighting-modifier record))  
-     (shield-bonus record) 
-     (armor-bonus record)))
+     (shield-bonus record)))
 
 (defmethod toughness ((record character-record))
   (+ 2 
@@ -69,4 +81,4 @@
      (armor-bonus record)))
 
 (defun half (value)
-  (/ 2 value))
+  (/ value 2))

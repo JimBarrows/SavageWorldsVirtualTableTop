@@ -1,21 +1,14 @@
 (in-package :savage-worlds)
 
-(defclass trait-rank ()
-  ((rank
-    :initarg :rank
-    :initform :d4
-    :reader rank)
-   (modifier 
-    :initarg :modifier
-    :initform 0
-    :reader modifier)
-   (value
-    :initarg :value
-    :initform 4
-    :reader value)))
+(defclass dice ()
+  ((number-of-times-to-roll :initarg :number-of-times-to-roll
+	  :initform 1
+	  :reader number-of-times-to-roll)
+   (sides :initarg :sides
+	  :initform 6
+	  :reader sides)))2
 
-(defvar *d4* (make-instance 'trait-rank))
-(defvar *d6* (make-instance 'trait-rank :rank :d6 :value 6))
-(defvar *d8* (make-instance 'trait-rank :rank :d8 :value 8))
-(defvar *d10* (make-instance 'trait-rank :rank :d10 :value 10))
-(defvar *d12* (make-instance 'trait-rank :rank :d12 :value 12))
+(defun dice ( number-of-times-to-roll &key (d 6) )
+  (make-instance 'dice :number-of-times-to-roll number-of-times-to-roll :sides d))
+
+
