@@ -10,6 +10,7 @@
 		 (:module "main"
 			  :pathname "src/main/lisp"
 			  :components ((:file "package")
+				       (:file "utils")
 				       (:file "traits"
 					      :depends-on ("package"))
 				       (:file "dice" :depends-on ("package"))
@@ -28,6 +29,7 @@
 				       (:file "plot-point" :depends-on ("package"))
 				       (:file "character-record" 
 					      :depends-on ("package" 
+							   "utils"
 							   "traits" 
 							   "dice" 
 							   "races" 

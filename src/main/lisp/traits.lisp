@@ -38,28 +38,23 @@
 (defclass skill( trait)
   ((description :initarg :description)))
 
-(defun default-agility ( &optional (rank *d4*))
+(defun agility ( &optional (rank *d4*))
   (make-instance 'attribute :name 'agility
 		 :rank rank))
 
-(defun default-smarts ( &optional (rank *d4*))
+(defun smarts ( &optional (rank *d4*))
   (make-instance 'attribute :name 'smarts
 		 :rank rank))
 
-(defun default-spirit ( &optional (rank *d4*))
+(defun spirit ( &optional (rank *d4*))
   (make-instance 'attribute :name 'spirit
 		 :rank rank))
 
-(defun default-strength ( &optional (rank *d4*))
+(defun strength ( &optional (rank *d4*))
   (make-instance 'attribute :name 'strength
 		 :rank rank))
 
-(defun default-vigor ( &optional (rank *d4*))
+(defun vigor ( &optional (rank *d4*))
   (make-instance 'attribute :name 'vigor
 		 :rank rank))
-
-(defclass provides-charisma-bonus()
-  ((bonus :initform 0
-	  :initarg :charisma
-	  :accessor charisma)))
 

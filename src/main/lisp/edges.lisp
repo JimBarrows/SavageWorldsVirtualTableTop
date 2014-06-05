@@ -12,9 +12,45 @@
 		   :reader traits)
    (description :initform ""
 		:initarg :description
-		:reader description)))
+		:reader description)
+   (charisma :initform 0
+	     :initarg :charisma
+	     :reader charisma)))
+
+(defclass requirement ()())
+
+(defclass min-rank ( requirement) 
+  ((rank :initform 'novice
+	:initarg :is
+	:reader is)))
+
+(defclass min-skill ( requirement)
+  ((skill :initform (error "Must provide a skill")
+	 :initarg :is
+	 :reader is)))
+
+(defclass min-trait ( requirement)
+  ((trait :initform (error "Must provide a trait")
+	 :initarg :is
+	 :reader is)))
+
+(defclass edge-required (requirement)
+  ((edge :initform (error "Must provide the edge that is required")
+	:initarg :is
+	:reader is)))
 
 (defclass background-edge( edge)())
+
+(defvar attractive (make-instance 'background-edge 
+				  :name 'attractive 
+				  :requirements '((min-rank :is 'novice) (min-skill :is (vigor *d6*)))
+				  :charisma 2))
+
+(defvar very-attractive (make-instance 'background-edge
+				       :name 'very-attractive
+				       :requirements '((min-rank :is 'novice)
+						       (edge-required :is attractive))
+				       :charisma 4))
 
 (defclass combat-edge( edge)())
 
