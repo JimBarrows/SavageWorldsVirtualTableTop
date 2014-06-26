@@ -1,1 +1,0 @@
-A webapp to make the Pen-And-Paper Savage Worlds RPG into a Finger-And-Glass RPG.  No rules will change, but instead of paper to record everything, you'll use a smart devices.
