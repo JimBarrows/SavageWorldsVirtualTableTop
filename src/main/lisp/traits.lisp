@@ -29,6 +29,22 @@
     :initform *d4*
     :reader rank)))
 
+(defmethod increase-rank ((advance trait))
+  (cond
+    ((eq (rank advance) *d4*) (setf (slot-value advance 'rank) *d6*))
+    ((eq (rank advance) *d6*) (setf (slot-value advance 'rank) *d8*))
+    ((eq (rank advance) *d8*) (setf (slot-value advance 'rank) *d10*))
+    ((eq (rank advance) *d10*) (setf (slot-value advance 'rank) *d12*))
+    ((eq (rank advance) *d12*) (setf (slot-value advance 'rank) *d12*))))
+
+(defmethod decrease-rank ((advance trait))
+  (cond
+    ((eq (rank advance) *d4*) (setf (slot-value advance 'rank) *d4*))
+    ((eq (rank advance) *d6*) (setf (slot-value advance 'rank) *d4*))
+    ((eq (rank advance) *d8*) (setf (slot-value advance 'rank) *d6*))
+    ((eq (rank advance) *d10*) (setf (slot-value advance 'rank) *d8*))
+    ((eq (rank advance) *d12*) (setf (slot-value advance 'rank) *d10*))))
+
 (deftype attributes () 
   '(member agility smarts spirit strength vigor))
 
@@ -38,23 +54,23 @@
 (defclass skill( trait)
   ((description :initarg :description)))
 
-(defun agility ( &optional (rank *d4*))
+(defun create-agility ( &optional (rank *d4*))
   (make-instance 'attribute :name 'agility
 		 :rank rank))
 
-(defun smarts ( &optional (rank *d4*))
+(defun create-smarts ( &optional (rank *d4*))
   (make-instance 'attribute :name 'smarts
 		 :rank rank))
 
-(defun spirit ( &optional (rank *d4*))
+(defun create-spirit ( &optional (rank *d4*))
   (make-instance 'attribute :name 'spirit
 		 :rank rank))
 
-(defun strength ( &optional (rank *d4*))
+(defun create-strength ( &optional (rank *d4*))
   (make-instance 'attribute :name 'strength
 		 :rank rank))
 
-(defun vigor ( &optional (rank *d4*))
+(defun create-vigor ( &optional (rank *d4*))
   (make-instance 'attribute :name 'vigor
 		 :rank rank))
 

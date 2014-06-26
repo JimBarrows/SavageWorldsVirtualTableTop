@@ -1,6 +1,6 @@
 (in-package :savage-worlds)
 
-(defclass edge( provides-charisma-bonus)
+(defclass edge ( )
   ((name :initform (error "Must provide a name")
 	 :initarg :name
 	 :reader name)

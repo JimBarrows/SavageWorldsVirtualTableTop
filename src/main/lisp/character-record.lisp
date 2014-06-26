@@ -6,19 +6,19 @@
    (race :initform *human*
          :initarg :race
          :reader race)
-   (agility :initform (default-agility)
+   (agility :initform (create-agility)
             :reader agility
             :initarg :agility)
-   (smarts :initform (default-smarts)
+   (smarts :initform (create-smarts)
            :reader smarts
            :initarg smarts)
-   (spirit :initform (default-spirit)
+   (spirit :initform (create-spirit)
            :reader spirit
            :initarg spirit)
-   (strength :initform (default-strength)
+   (strength :initform (create-strength)
              :reader strength
              :initarg strength)
-   (vigor :initform (default-vigor)
+   (vigor :initform (create-vigor)
           :reader vigor
           :initarg vigor)
    (pace :initform 6)

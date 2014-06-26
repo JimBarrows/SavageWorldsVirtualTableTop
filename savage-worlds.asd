@@ -10,7 +10,8 @@
 		 (:module "main"
 			  :pathname "src/main/lisp"
 			  :components ((:file "package")
-				       (:file "utils")
+				       (:file "utils" 
+					      :depends-on ("package"))
 				       (:file "traits"
 					      :depends-on ("package"))
 				       (:file "dice" :depends-on ("package"))
@@ -36,7 +37,10 @@
 							   "skills"
 							   "gear"
 							   "edges"
-							   "traits"))))
+							   "traits"))
+				       (:file "character-creation-state"
+					      :depends-on("package"
+							  "character-record"))))
 		 (:module "unit-tests"
 			  :pathname "src/test/unit/lisp"
 			  :depends-on (:main )
