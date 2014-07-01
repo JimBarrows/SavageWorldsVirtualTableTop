@@ -17,11 +17,11 @@
    (max-number-minor-hindrances :initform 1
 			  :reader max-number-minor-hindrances)))
 
-(defmethod increase-strength ((state character-creation-state))
-  (let ((record (record state))
-	(attribute-points (attribute-points state)))
-    (if (< 0 attribute-points)
-	(progn
-	  (push record (
+;(defmethod increase-strength ((state character-creation-state))
+ ; (let ((record (record state))
+;	(attribute-points (attribute-points state)))
+ ;   (if (< 0 attribute-points)
+;	(progn
+;	  (push record (
 	
 	  

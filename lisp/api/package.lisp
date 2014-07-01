@@ -1,7 +1,5 @@
 (in-package :cl-user)
 
-(defpackage savage-worlds
-	(:use :cl :cl-ddd)
+(defpackage savage-worlds-api
+	(:use :cl :cl-store :cl-ddd)
 	(:export character-record attributes))
-
-
