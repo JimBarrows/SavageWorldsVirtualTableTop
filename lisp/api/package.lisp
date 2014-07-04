@@ -1,5 +1,5 @@
 (in-package :cl-user)
 
 (defpackage savage-worlds-api
-	(:use :cl :cl-store :cl-ddd)
-	(:export character-record attributes))
+	(:use :cl :hunchentoot :cl-store :cl-ddd :ht-routes :savage-worlds)
+	(:export start-application stop-application))

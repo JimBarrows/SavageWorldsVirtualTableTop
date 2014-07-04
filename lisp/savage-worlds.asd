@@ -7,19 +7,23 @@
     :version "1.0.0"
     :depends-on (:fiveam 
 		 :hunchentoot 
-		 :restas 
 		 :cl-json
 		 :cl-store
+		 :ht-routes
 		 :uuid
 		 :cl-stripe)
     :components ((:static-file "README.md")
 
 		 (:module "cl-ddd"
 			  :components((:file "package")
-				      (:file "authentication-services" :depends-on ("package" "entity"))
+				      (:file "authentication-services" :depends-on ("package" 
+										    "authentication-entities"
+										    "entity"))
 				      (:file "authentication-json-endpoint" 
-					     :depends-on ( "package" "authentication-services"))
-				      (:file "authentication-entities" :depends-on ("package" "entity"))
+					     :depends-on ( "package" 
+							   "authentication-services"))
+				      (:file "authentication-entities" :depends-on ("package" 
+										    "entity"))
 				      (:file "entity" :depends-on ("package"))))
 
 		 (:module "api"
