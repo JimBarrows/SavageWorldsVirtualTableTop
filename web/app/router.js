@@ -4,6 +4,7 @@ Router.map(function() {
     this.route('component-test');
     this.route('helper-test');
     this.route('signup');
+    this.route('member');
 });
 
 export default Router;

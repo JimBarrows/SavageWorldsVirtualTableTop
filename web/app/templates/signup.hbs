@@ -51,69 +51,11 @@
 	      {{/if}}
 	    </div>
 	  </div>	
-
-	  <div id="credit_card_errors" {{bind-attr class="credit_card_error:has-error"}}>
-	    {{#if credit_card_error}}
-	      <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-	      <span class="help-block">
-		{{credit_card_error_message}}
-	      </span>
-	    {{/if}}
-	    <div id="credit_card_number_group" 
-		 {{bind-attr class=":form-group credit_card_number_error:has-error"}}>
-	      <div class="input-group">
-                <span class="input-group-addon">
-		  <span class="glyphicon glyphicon-credit-card"></span>
-		</span>
-                {{input type="text" value=credit_card_number class="form-control" 
-		placeholder="Credit Card Number" }}
-		{{#if credit_card_number_error}}
-		  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-		  <span class="help-block">
-		    {{credit_card_number_error}}
-		  </span>
-		{{/if}}
-	      </div>
-	    </div>		
-
-	    <div id="cvc_number_group" {{bind-attr class=":form-group cvc_number_error:has-error "}}>
-	      <div class="input-group">
-                <span class="input-group-addon">
-		  <span class="glyphicon glyphicon-credit-card"></span>
-		</span>
-                {{input type="text" value=cvc_number class="form-control" placeholder="CVC Number" }}
-		{{#if cvc_number_error}}
-		  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-		  <span class="help-block">
-		    {{cvc_number_error}}
-		  </span>
-		{{/if}}
-	      </div>
-	    </div>		
-
-	    <div id="expiration_date_group" {{bind-attr class=":form-group expiration_date_error:has-error "}}>
-	      <div class="input-group">
-                <span class="input-group-addon">
-		  <span class="glyphicon glyphicon-calendar"></span>
-		</span>
-                {{input type="text" value=expiration_date class="form-control datepicker" placeholder="MM/YYYY" data-provide="datepicker" data-date-format="mm/yyyy" data-date-minViewMode="1"}}
-		{{#if expiration_date_error}}
-		  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-		  <span class="help-block">
-		    {{expiration_date_error}}
-		  </span>
-		{{/if}}
-	      </div>
-	    </div>
-	    
-	  </div>
-
         </div>
         <button 
 	  {{action 'signup'}}
-	  class="btn btn-sm btn-primary btn-block" 1
-role="button">
-	  I want to do things!
+	  class="btn btn-sm btn-primary btn-block" role="button">
+	  I want to Play!
 	</button> 
       </div>
     </div>
