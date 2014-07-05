@@ -8,7 +8,7 @@
   (write-char #\" stream))
 
 (map-routes
-  ("/signup" :post cl-ddd:signup )
+  ("/users" :post cl-ddd:signup )
 )
 
 (defconstant +Unprocessable-Entity+ 422)
