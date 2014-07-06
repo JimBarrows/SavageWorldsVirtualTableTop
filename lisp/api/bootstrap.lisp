@@ -1,13 +1,14 @@
+(in-package :cl-ddd)
+(defvar *user-repository* nil)
+
 (in-package :savage-worlds-api)
 
 (defvar *ht-server* nil)
-(defvar *task-repository* nil)
-(defvar *user-repository* nil)
 
 (defun start-application()
   "Start up the application"
-  (setf *user-repository* (make-instance 'cl-ddd::user-repository))
-  (cl-ddd::load-data *user-repository*)
+  (setf cl-ddd::*user-repository* (make-instance 'cl-ddd::user-repository))
+  (cl-ddd::load-data cl-ddd::*user-repository*)
   (setf *ht-server* 
 	(start (make-instance 'acceptor 
 			      :port 8080))))

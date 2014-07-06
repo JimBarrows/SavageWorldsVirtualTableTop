@@ -1,7 +1,10 @@
-import Application from 'appkit/app';
-import Router from 'appkit/router';
+/* global require */
 
-function startApp(attrs) {
+var Application = require('savage-worlds/app')['default'];
+var Router = require('savage-worlds/router')['default'];
+import Ember from 'ember';
+
+export default function startApp(attrs) {
   var App;
 
   var attributes = Ember.merge({
@@ -25,5 +28,3 @@ function startApp(attrs) {
 
   return App;
 }
-
-export default startApp;
