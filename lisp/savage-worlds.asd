@@ -30,6 +30,7 @@
 			  :depends-on ( :main )
 			  :components((:file "package")
 				      (:file "configuration" :depends-on ("package"))
+				      (:file "url-dispatch" :depends-on ("package"))
 				      (:file "bootstrap" :depends-on ("package" "configuration"))))
 
 
