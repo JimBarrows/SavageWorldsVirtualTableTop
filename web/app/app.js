@@ -9,6 +9,8 @@ var App = Ember.Application.extend({
   Resolver: Resolver
 });
 
+
+
 loadInitializers(App, 'savage-worlds');
 App.Store = DS.Store.extend();
 export default App;

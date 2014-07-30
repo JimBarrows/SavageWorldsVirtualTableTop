@@ -6,6 +6,7 @@
 	 (name (string-trim " " (rest (assoc :username input-json))))
 	 (password (string-trim " " (rest (assoc :password input-json)))))	 
     (setf (hunchentoot:content-type*) "application/json") 
+    (hunchentoot::log-message* :debug "users-post")
     (let ((new-user (signup name password)))
       (if (typep new-user 'user)
 	  (format nil "{\"user\":~a}" (json:encode-json-to-string new-user))

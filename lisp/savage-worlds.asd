@@ -27,7 +27,7 @@
 				      (:file "entity" :depends-on ("package"))))
 
 		 (:module "api"
-			  :depends-on ( :main )
+			  :depends-on ( :main :cl-ddd)
 			  :components((:file "package")
 				      (:file "configuration" :depends-on ("package"))
 				      (:file "url-dispatch" :depends-on ("package"))

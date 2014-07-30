@@ -15,7 +15,6 @@ export default Ember.ObjectController.extend({
 	}
     },
 
-
     actions: {
 	signup: function() {
 	    var user = this.get('model');
@@ -24,8 +23,19 @@ export default Ember.ObjectController.extend({
 	    if( this.validPasswords( user.get('password'), cp)){		
 		user.save().then( 
 		    function( post) {
-			self.transitionToRoute('/member', post);
-			self.set("confirm_password", "");
+			var data = {
+			    identification:user.get('username'), 
+			    password:user.get('password')};
+			self.get('session')
+			    .authenticate('authenticator:custom', data)
+			    .then(
+				function() {
+				    self.transitionToRoute('/member', post);
+				    self.set("confirm_password", "");
+				}, 
+				function(error) {
+				    _this.set('errorMessage', error);
+				});
 		    },
 		    function(error){
 		    });
