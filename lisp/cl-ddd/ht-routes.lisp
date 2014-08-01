@@ -50,14 +50,14 @@
     res))
 
 (defun make-path-scanner (route)
-  (let* ((path (car route))
+  (let* ((path (first route))
          (newpath path)
          (param-names (get-param-names path))
          ;; default pattern for any params
          (pattern *default-param-regex*))
     (if param-names
         (dolist (p param-names)
-          (aif (getf (cdr route) (read-from-string p))
+          (aif (getf (rest route) (read-from-string p))
                (setf pattern (strcat "(" it ")")))
           (setf newpath (regex-replace p newpath pattern))))
     (create-scanner (strcat "^" newpath "$"))))
