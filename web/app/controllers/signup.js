@@ -34,7 +34,7 @@ export default Ember.ObjectController.extend({
 				    self.set("confirm_password", "");
 				}, 
 				function(error) {
-				    _this.set('errorMessage', error);
+				    self.set('errorMessage', error);
 				});
 		    },
 		    function(error){

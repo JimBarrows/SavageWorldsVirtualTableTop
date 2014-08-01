@@ -8,7 +8,8 @@
   (write-char #\" stream))
 
 (map-routes
-  ("/api/users" :post cl-ddd:users-post )
+  ("/api/users" :post cl-ddd:users-post 
+		:get cl-ddd:users-get )
 )
 
 (defconstant +Unprocessable-Entity+ 422)
