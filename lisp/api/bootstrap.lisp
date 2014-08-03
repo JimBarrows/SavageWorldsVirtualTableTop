@@ -1,6 +1,8 @@
 (in-package :cl-ddd)
 (defvar *user-repository* nil)
 
+(in-package :savage-worlds-api)
+
 (defvar *ht-server* nil)
 
 (defun start-application()
@@ -16,6 +18,6 @@
 
 (defun stop-application()
   "Stop the application cleanly"
-  (cl-ddd::save-data *user-repository*)
+  (cl-ddd::save-data cl-ddd::*user-repository*)
   (stop *ht-server*)
   (setf *ht-server* nil))

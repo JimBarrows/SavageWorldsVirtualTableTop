@@ -68,7 +68,8 @@
 							   "traits"))
 				       (:file "character-creation-state"
 					      :depends-on("package"
-							  "character-record"))))
+							  "character-record"))
+				       (:file "repositories" :depends-on("package" "plot-point"))))
 		 (:module "unit-tests"
 			  :depends-on (:main )
 			  :components ((:file "package")
