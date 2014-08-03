@@ -8,6 +8,7 @@ Router.map(function() {
     this.route('signup');
     this.route('member');
     this.route('login');
+    this.route('plot-points');
 });
 
 export default Router;
