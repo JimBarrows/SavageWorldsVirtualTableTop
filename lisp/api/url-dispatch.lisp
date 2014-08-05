@@ -10,7 +10,8 @@
 (map-routes
   ("/api/users" :post cl-ddd:users-post 
 		:get cl-ddd:users-get )
-  ("/api/plotPoints" :get plot-points-get))
+  ("/api/plotPoints" :get plot-points-get
+		     :post plot-points-post))
 
 (defconstant +Unprocessable-Entity+ 422)
 

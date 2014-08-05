@@ -11,7 +11,9 @@ var CustomAuthenticator = Base.extend({
 	    }).then( function (user) {
 		if( user.get('content').length) {
 		    var username = user.get('content').objectAt(0).get('data').username;
-		    resolve({userId: username});
+		    var userId= user.get('content').objectAt(0).get('data').id;
+		    resolve({username: username,
+			    userId: userId});
 		} else {
 		    reject();
 		}
