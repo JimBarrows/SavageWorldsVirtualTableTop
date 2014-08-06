@@ -9,10 +9,6 @@
 	 :initform (error "Name must be provided")
 	 :reader name
 	 :documentation "The name of the plot point")))
-  ; (setting-rules :initarg :setting-rules
-;		  :initform '()
-;		  :reader setting-rules
-;		  :documentation "A list of rules for the plot point")))
 
 (defmethod find-all-plot-points-belonging-to ((plot-point-repo plot-point-repository) (user-id uuid:uuid))
   (find-if (lambda (plot-point)

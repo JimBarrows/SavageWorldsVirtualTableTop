@@ -8,8 +8,10 @@ Router.map(function() {
     this.route('signup');
     this.route('member');
     this.route('login');
-    this.route('plot-points');
-  this.route('plot-point');
+    this.resource('plot-points', function(){
+	this.route('create', {path:"/new"});
+	this.route('read', {path:"/:plot-points_id"});
+    });
 });
 
 export default Router;

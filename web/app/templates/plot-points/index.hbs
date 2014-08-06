@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Plot Points</h1>
+  </div>
+  
+  {{#link-to "plot-points.create" class="btn btn-default"}}Add{{/link-to}}
+  <table class="table table-stripes table-responsive">
+    <thead>
+      <tr>
+	<th>Name</th>
+	<th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each plot-point in controller}}
+	<tr>
+	  <td>{{plot-point.name}}</td>
+	  <td>{{#link-to "plot-points.read" plot-point class="btn btn-default btn-xs"}}<span class="glyphicon glyphicon-eye-open"></span>{{/link-to}}</td>
+	</tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

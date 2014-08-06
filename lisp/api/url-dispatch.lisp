@@ -14,8 +14,6 @@
   ("/api/plotPoints" :get plot-points-get
 		     :post plot-points-post))
 
-)
-
 
 (defconstant +Unprocessable-Entity+ 422)
 
