@@ -21,7 +21,7 @@
 		  slots)
 	 ,@options)
        (defclass ,repo-name ,() ,(list
-				  '( data :initform '() :reader data)
+				  '( data :initform '() :accessor data)
 				  `( storage-name :initform ,repo-file-name)))
        (defmethod add ((repo ,repo-name) (entity ,classname))
 	 (push entity (slot-value repo 'data)))

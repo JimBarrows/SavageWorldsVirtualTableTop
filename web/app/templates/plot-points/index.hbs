@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each plot-point in controller}}
+      {{#each plot-point in controller itemController="plot-point" }}
 	<tr>
 	  <td>{{plot-point.name}}</td>
 	  <td>
@@ -22,6 +22,9 @@
 	    {{#link-to "plot-points.update" plot-point class="btn btn-default btn-xs"}}
 	      <span class="glyphicon glyphicon-pencil"></span>
 	    {{/link-to}}
+	    <button {{action "delete" plot-point}}class="btn btn-danger btn-xs">
+	      <span class="glyphicon glyphicon-remove">
+	    </button>
 	  </td>
 	</tr>
       {{/each}}

@@ -33,3 +33,10 @@
 					id 
 					:name name)))))
 
+(defun plot-points-delete ()
+  (setf (hunchentoot:content-type*) "application/json") 
+  (let* ((id (uuid:make-uuid-from-string (getf *route-params* :id))))
+    (hunchentoot::log-message* :debug "plot point delete id ~a" id)
+    (savage-worlds::delete-plot-point savage-worlds::*plot-point-repository* id))
+  (format nil ""))
+

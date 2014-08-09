@@ -11,7 +11,8 @@
   ("/api/users" :post cl-ddd:users-post 
 		:get cl-ddd:users-get )
 
-  ("/api/plotPoints/:id" :put plot-points-put)
+  ("/api/plotPoints/:id" :put plot-points-put
+			 :delete plot-points-delete)
 
   ("/api/plotPoints" :get plot-points-get
 		     :post plot-points-post))

@@ -13,6 +13,12 @@
     (setf (name original) name)
     original))
 
+(defmethod delete-plot-point ((repo plot-point-repository) (id uuid::uuid))
+  (let ((original (cl-ddd::find-by-id repo id)))
+    (setf (cl-ddd::data repo)
+	  (remove original (cl-ddd::list-data repo)))))
+
+
 (defmethod find-all-plot-points-belonging-to ((plot-point-repo plot-point-repository) (user-id uuid:uuid))
   (mapcar (lambda (plot-point)
 	     (uuid:uuid= user-id (user-id plot-point)))
