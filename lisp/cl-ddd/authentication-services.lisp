@@ -10,3 +10,17 @@
   (let ((new-user (make-instance 'user :username name :password password)))
     (add *user-repository* new-user)
     (return-from signup new-user)))
+
+(defun login( name password)
+  (let ((user (find-by-username *user-repository* name)))
+    (cond
+      ((or (string= "" name)
+	   (string= "" password))
+       nil)
+      ((and (username-exists-p *user-repository* name)
+	    (string= name (username user))
+	    (string= password (password user)))
+       user))))
+      
+    
+

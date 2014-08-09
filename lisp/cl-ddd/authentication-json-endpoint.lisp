@@ -16,11 +16,11 @@
 (defun users-get()
   (let* ((password (hunchentoot:get-parameter "password"))
 	 (username (hunchentoot:get-parameter "username"))
-	 (user (username-exists-p *user-repository* username)))
+	 (logged-in-user (login username password)))
     (setf (hunchentoot:content-type*) "application/json") 
     (hunchentoot::log-message* :debug "users-get")
-    (if (and user (string= password (password user)))
-	(format nil "{\"user\":[~a]}" (json:encode-json-to-string user))
+    (if logged-in-user
+	(format nil "{\"user\":[~a]}" (json:encode-json-to-string logged-in-user))
 	(progn
 	  (setf (hunchentoot:return-code*) hunchentoot::+http-authorization-required+)
 	  (format nil "")))))

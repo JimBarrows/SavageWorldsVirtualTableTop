@@ -14,3 +14,9 @@
   (find-if (lambda (user)
 	     (string= username (username user)))
 	   (data user-repo)))
+
+(defmethod find-by-username ((user-repo user-repository) username)
+  (find-if (lambda (user)
+	     (string= username (username user)))
+	   (data user-repo)))
+
