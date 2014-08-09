@@ -16,7 +16,20 @@
 	 (name (string-trim " " (rest (assoc :name input-json))))
 	 (user-id (uuid:make-uuid-from-string (string-trim " " (rest (assoc :user-id input-json)))))
 	 (new-plot-point (make-instance savage-worlds::'plot-point :name name :user-id user-id)))
-    (hunchentoot::log-message* :debug "user-id ~a; name ~a" user-id name)
+    (hunchentoot::log-message* :debug "plot point post user-id ~a; name ~a" user-id name)
     (cl-ddd::add savage-worlds::*plot-point-repository* new-plot-point)
     (format nil "{\"plot-point\":~a}" (encode-json-to-string new-plot-point))))
+
+(defun plot-points-put ()
+  (setf (hunchentoot:content-type*) "application/json") 
+  (let* ((input-string (hunchentoot::raw-post-data :force-text t))
+	 (input-json (rest (first (decode-json-from-string input-string))))
+	 (id (uuid:make-uuid-from-string (getf *route-params* :id)))
+	 (name (string-trim " " (rest (assoc :name input-json)))))
+    (hunchentoot::log-message* :debug "plot point put id ~a; name ~a" id name)
+    (format nil "{\"plot-point\":~a}" (encode-json-to-string 
+				       (savage-worlds::update 
+					savage-worlds::*plot-point-repository* 
+					id 
+					:name name)))))
 

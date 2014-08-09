@@ -11,9 +11,10 @@
   ("/api/users" :post cl-ddd:users-post 
 		:get cl-ddd:users-get )
 
+  ("/api/plotPoints/:id" :put plot-points-put)
+
   ("/api/plotPoints" :get plot-points-get
 		     :post plot-points-post))
-
 
 (defconstant +Unprocessable-Entity+ 422)
 

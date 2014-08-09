@@ -11,6 +11,7 @@ Router.map(function() {
     this.resource('plot-points', function(){
 	this.route('create', {path:"/new"});
 	this.route('read', {path:"/:plot-points_id"});
+	this.route('update', {path:"/update/:plot-points_id"});
     });
 });
 
