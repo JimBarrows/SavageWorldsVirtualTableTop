@@ -2,4 +2,10 @@
   <div class="page-header">
     <h1>{{model.name}}</h1>
   </div>
+  <h1>Setting Rules</h1>
+  <ul class="list-group">
+    {{#each rule in model.settingRules}}
+      <li class="list-group-item">{{rule.name}}</li>
+    {{/each}}
+  </ul>
 </div>

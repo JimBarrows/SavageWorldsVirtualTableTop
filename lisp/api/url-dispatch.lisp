@@ -1,12 +1,5 @@
 (in-package :savage-worlds-api)
 												
-(defmethod json::encode-json((u uuid::uuid) 
-			     &optional (stream json::*json-output*)) 
-  "encode a uuid class as a string, so we get the actual number"
-  (write-char #\" stream)
-  (uuid::print-object u stream)
-  (write-char #\" stream))
-
 (map-routes
   ("/api/users" :post cl-ddd:users-post 
 		:get cl-ddd:users-get )
@@ -15,7 +8,9 @@
 			 :delete plot-points-delete)
 
   ("/api/plotPoints" :get plot-points-get
-		     :post plot-points-post))
+		     :post plot-points-post)
+
+  ("/api/settingRules" :get setting-rules-get))
 
 (defconstant +Unprocessable-Entity+ 422)
 

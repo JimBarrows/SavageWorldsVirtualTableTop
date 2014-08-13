@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    settingRules: [],
     actions:{
 	save:function(){
 	    var plotPoint = this.get('model');
@@ -12,6 +13,12 @@ export default Ember.Controller.extend({
 		},
 		function( error) {
 		});
+	},
+	addRule: function( rule){
+	    this.get('model').get('settingRules').pushObject( rule);
+	},
+	removeRule: function( rule){
+	    this.get('model').get('settingRules').removeObject( rule);
 	}
     }
 });

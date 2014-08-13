@@ -1,4 +1,4 @@
-(in-package :savage-worlds)
+(in-package :savage-worlds-api)
 
 (setf hunchentoot::*show-lisp-errors-p* t)
 (setf *catch-errors-p* nil)
@@ -7,7 +7,3 @@
 (defvar *http-stream* *standard-output*)
 
 (defvar *project-name* "Savage Worlds")
-
-(in-package #:stripe)
-(defvar *default-api-key* "sk_test_ACcfN1tSFydvkBpxBEExd07W")
-

@@ -30,7 +30,11 @@
 			  :depends-on ( :main :cl-ddd)
 			  :components((:file "package")
 				      (:file "configuration" :depends-on ("package"))
-				      (:file "plot-point-end-points" :depends-on("package" "configuration"))
+				      (:file "cl-json-customizations" :depends-on ("package"))
+				      (:file "plot-point-end-points" :depends-on("package" 
+										 "configuration"))
+				      (:file "setting-rules-end-points" :depends-on("package" 
+										    "configuration"))
 				      (:file "url-dispatch" :depends-on ("package" "plot-point-end-points"))
 				      (:file "bootstrap" :depends-on ("package" "configuration"))))
 
