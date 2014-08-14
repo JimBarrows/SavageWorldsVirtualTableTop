@@ -11,7 +11,3 @@
 		     :post settings-post)
 
   ("/api/settingRules" :get setting-rules-get))
-
-(defconstant +Unprocessable-Entity+ 422)
-
-(hunchentoot::def-http-return-code +Unprocessable-Entity+ 422 "Unprocessable Entity")

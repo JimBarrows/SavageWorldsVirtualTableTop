@@ -7,3 +7,7 @@
 (defvar *http-stream* *standard-output*)
 
 (defvar *project-name* "Savage Worlds")
+
+(defconstant +Unprocessable-Entity+ 422)
+
+(hunchentoot::def-http-return-code +Unprocessable-Entity+ 422 "Unprocessable Entity")
