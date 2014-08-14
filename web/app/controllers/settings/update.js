@@ -4,12 +4,12 @@ export default Ember.Controller.extend({
     settingRules: [],
     actions:{
 	save:function(){
-	    var plotPoint = this.get('model');
-	    plotPoint.set('userId', this.get('session.userId'));
+	    var setting = this.get('model');
+	    setting.set('userId', this.get('session.userId'));
 	    var self = this;
-	    plotPoint.save().then(
+	    setting.save().then(
 		function( post){
-		    self.transitionToRoute("/plot-points", post);
+		    self.transitionToRoute("/settings", post);
 		},
 		function( error) {
 		});

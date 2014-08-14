@@ -3,7 +3,7 @@ import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixi
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
     model: function() {
-	return this.store.find('plot-point',{
+	return this.store.find('setting',{
 	    userId: this.get('session.userId')
 	});
     }

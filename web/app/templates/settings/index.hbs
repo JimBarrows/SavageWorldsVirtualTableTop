@@ -1,9 +1,9 @@
 <div class="container">
   <div class="page-header">
-    <h1>Plot Points</h1>
+    <h1>Settings</h1>
   </div>
   
-  {{#link-to "plot-points.create" class="btn btn-default"}}Add{{/link-to}}
+  {{#link-to "settings.create" class="btn btn-default"}}Add{{/link-to}}
   <table class="table table-stripes table-responsive">
     <thead>
       <tr>
@@ -12,17 +12,17 @@
       </tr>
     </thead>
     <tbody>
-      {{#each plot-point in controller itemController="plot-point" }}
+      {{#each setting in controller itemController="setting" }}
 	<tr>
-	  <td>{{plot-point.name}}</td>
+	  <td>{{setting.name}}</td>
 	  <td>
-	    {{#link-to "plot-points.read" plot-point class="btn btn-default btn-xs"}}
+	    {{#link-to "settings.read" setting class="btn btn-default btn-xs"}}
 	      <span class="glyphicon glyphicon-eye-open"></span>
 	    {{/link-to}}
-	    {{#link-to "plot-points.update" plot-point class="btn btn-default btn-xs"}}
+	    {{#link-to "settings.update" setting class="btn btn-default btn-xs"}}
 	      <span class="glyphicon glyphicon-pencil"></span>
 	    {{/link-to}}
-	    <button {{action "delete" plot-point}}class="btn btn-danger btn-xs">
+	    <button {{action "delete" setting}}class="btn btn-danger btn-xs">
 	      <span class="glyphicon glyphicon-remove">
 	    </button>
 	  </td>

@@ -14,7 +14,7 @@
 (defclass hand-weapon-description ( gear-description)
   ((era :initform (error "Must provide an era")
 	:reader era
-	:documentation "One of Medieval, Modern, or Futuristic, plot points can add their own")
+	:documentation "One of Medieval, Modern, or Futuristic, settings can add their own")
    (damage :initform (error "Must provide damage")
 	   :reader damage
 	   :documentation "For hand weapons this should be a rank value")
@@ -31,7 +31,7 @@
   ((era :initform (error "Must provide an era")
 	:reader era
 	:initarg :era
-	:documentation "One of Medieval, Modern, or Futuristic, plot points can add their own")
+	:documentation "One of Medieval, Modern, or Futuristic, settings can add their own")
   (armor :initform 1
 	 :reader armor
 	 :initarg :armor)
@@ -57,7 +57,7 @@
 (defclass ranged-weapons (gear-description)
   ((era :initform (error "Must provide an era")
 	:reader era
-	:documentation "One of Medieval, Modern, or Futuristic, plot points can add their own")
+	:documentation "One of Medieval, Modern, or Futuristic, settings can add their own")
    (short :initform (error "Must provide a short range value")
 	  :reader short
 	  :initarg :s)

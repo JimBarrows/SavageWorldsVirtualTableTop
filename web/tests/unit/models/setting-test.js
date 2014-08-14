@@ -1,6 +1,6 @@
 import { test, moduleForModel } from 'ember-qunit';
 
-moduleForModel('plot-point', 'PlotPoint', {
+moduleForModel('setting', 'Setting', {
   // Specify the other units that are required for this test.
   needs: []
 });

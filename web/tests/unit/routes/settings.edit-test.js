@@ -1,6 +1,6 @@
 import { test, moduleFor } from 'ember-qunit';
 
-moduleFor('route:plot-point', 'PlotPointRoute', {
+moduleFor('route:settings.edit', 'Settings.EditRoute', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });

@@ -7,7 +7,7 @@
   (attribute :initarg :attribute
              :initform (error "Must provide an attribute"))))
 
-;The default skill descriptions any plot point can have 
+;The default skill descriptions any setting can have 
 (defvar *fighting*   (make-instance 'skill-description :name 'fighting :attribute 'strength))
 
 ;convience functions to create a skill class for a description

@@ -31,13 +31,13 @@
 			  :components((:file "package")
 				      (:file "configuration" :depends-on ("package"))
 				      (:file "cl-json-customizations" :depends-on ("package"))
-				      (:file "plot-point-end-points" :depends-on("package" 
-										 "configuration"))
+				      (:file "setting-end-points" :depends-on("package" 
+									      "configuration"))
 				      (:file "setting-rules-end-points" :depends-on("package" 
 										    "configuration"))
-				      (:file "url-dispatch" :depends-on ("package" "plot-point-end-points"))
+				      (:file "url-dispatch" :depends-on ("package" "setting-end-points"))
 				      (:file "bootstrap" :depends-on ("package" "configuration"))))
-
+		 
 
 		 (:module "main"
 			  :depends-on (:cl-ddd)
@@ -59,7 +59,7 @@
 				       (:file "hindrances"
 					      :depends-on( "package"
 							   "traits"))
-				       (:file "plot-point" :depends-on ("package"))
+				       (:file "setting" :depends-on ("package"))
 				       (:file "character-record" 
 					      :depends-on ("package" 
 							   "utils"
@@ -73,7 +73,7 @@
 				       (:file "character-creation-state"
 					      :depends-on("package"
 							  "character-record"))
-				       (:file "repositories" :depends-on("package" "plot-point"))))
+				       (:file "repositories" :depends-on("package" "setting"))))
 		 (:module "unit-tests"
 			  :depends-on (:main )
 			  :components ((:file "package")
