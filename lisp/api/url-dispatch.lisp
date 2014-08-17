@@ -10,4 +10,6 @@
   ("/api/settings" :get settings-get
 		     :post settings-post)
 
-  ("/api/settingRules" :get setting-rules-get))
+  ("/api/settingRules" :get setting-rules-get)
+
+  ("/api/skillDescriptions" :get skill-descriptions-get))

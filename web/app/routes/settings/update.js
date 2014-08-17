@@ -5,5 +5,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     setupController: function(controller, model) {
 	controller.set('model', model);
 	controller.set('settingRules', this.store.find('setting-rule'));
+	controller.set('skillDescriptions', this.store.find('skill-description'));
     }
 });

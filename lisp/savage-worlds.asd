@@ -35,6 +35,8 @@
 									      "configuration"))
 				      (:file "setting-rules-end-points" :depends-on("package" 
 										    "configuration"))
+				      (:file "skills-end-points" :depends-on("package" 
+									     "configuration"))
 				      (:file "url-dispatch" :depends-on ("package" "setting-end-points"))
 				      (:file "bootstrap" :depends-on ("package" "configuration"))))
 		 

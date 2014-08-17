@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     settingRules: [],
+    skillDescriptions:[],
     actions:{
 	save:function(){
 	    var setting = this.get('model');
@@ -19,6 +20,12 @@ export default Ember.Controller.extend({
 	},
 	removeRule: function( rule){
 	    this.get('model').get('settingRules').removeObject( rule);
+	},
+	addSkill: function( skill){
+	    this.get('model').get('skillDescriptions').pushObject( skill);
+	},
+	removeSkill: function( skill){
+	    this.get('model').get('skillDescriptions').removeObject( skill);
 	}
     }
 });

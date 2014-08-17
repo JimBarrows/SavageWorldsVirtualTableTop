@@ -26,14 +26,16 @@
 	 (input-json (rest (first (decode-json-from-string input-string))))
 	 (id (uuid:make-uuid-from-string (getf *route-params* :id)))
 	 (name (string-trim " " (rest (assoc :name input-json))))
-	 (setting-rules (map 'list #'parse-integer (rest (assoc :setting-rules input-json)))))
-    (hunchentoot::log-message* :debug "setting put id ~a; name ~a; setting-rules ~a" id name setting-rules)
+	 (setting-rules (map 'list #'parse-integer (rest (assoc :setting-rules input-json))))
+	 (skill-descriptions (map 'list #'parse-integer (rest (assoc :skill-descriptions input-json)))))
+    (hunchentoot::log-message* :debug "settings put id: ~a name: ~a setting-rules: ~a skill-descriptions: ~a" id name setting-rules skill-descriptions)
     (format nil "{\"setting\":~a}" (encode-json-to-string 
 				       (savage-worlds::update 
 					savage-worlds::*setting-repository* 
 					id 
 					:name name
-					:setting-rule-ids setting-rules)))))
+					:setting-rule-ids setting-rules
+					:skill-descriptions skill-descriptions)))))
 
 (defun settings-delete ()
   (setf (hunchentoot:content-type*) "application/json") 

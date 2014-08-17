@@ -1,6 +1,6 @@
 (in-package :savage-worlds)
 
-(defentity setting-rule ()
+(defclass setting-rule ()
   ((id :initarg :id 
        :initform (error "Id must be provided"))
    (name :initarg :name 
@@ -37,16 +37,21 @@
 	 :documentation "The name of the setting")
    (setting-rules :initarg :setting-rules
 		  :initform '()
-		  :documentation "List of rules for this setting")))
+		  :documentation "List of rules for this setting")
+   (skill-descriptions :initarg :skill-descriptions
+		       :initform '()
+		       :documentation "List of skills available for this setting.")))
 
 (defmethod update ((repo setting-repository) 
 		   (id uuid::uuid) 
 		   &key 
 		     (name) 
-		     (setting-rule-ids))
+		     (setting-rule-ids)
+		     (skill-descriptions))
   (let ((original (cl-ddd::find-by-id repo id)))
     (setf (name original) name)
     (setf (setting-rules original)  setting-rule-ids)
+    (setf (skill-descriptions original) skill-descriptions)
     original))
 
 (defmethod delete-setting ((repo setting-repository) (id uuid::uuid))
