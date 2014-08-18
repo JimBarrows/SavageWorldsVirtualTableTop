@@ -6,18 +6,34 @@
    (name :initarg :name 
 	 :initform (error "Name must be provided"))))
 
-(defvar *setting-rules* (list 
-		       (make-instance 'setting-rule :id 0 :name "Blood and Guts")
-		       (make-instance 'setting-rule :id 1 :name "Born a Hero")
-		       (make-instance 'setting-rule :id 2 :name "Critical Failures")
-		       (make-instance 'setting-rule :id 3 :name "Fanatics")
-		       (make-instance 'setting-rule :id 4 :name "Gritty Damage")
-		       (make-instance 'setting-rule :id 5 :name "Heroes Never Die")
-		       (make-instance 'setting-rule :id 6 :name "High Adventure")
-		       (make-instance 'setting-rule :id 7 :name "Jokers Wild")
-		       (make-instance 'setting-rule :id 8 :name "Multiple Languages")
-		       (make-instance 'setting-rule :id 9 :name "No Power Points")
-		       (make-instance 'setting-rule :id 10 :name "Skill Specialization")))
+
+(defvar *blood-and-guts* (make-instance 'setting-rule :id 0 :name "Blood and Guts"))
+(defvar *born-a-hero*    (make-instance 'setting-rule :id 1 :name "Born a Hero"))
+(defvar *critical-failures* (make-instance 'setting-rule :id 2 :name "Critical Failures"))
+(defvar *fanatics*  (make-instance 'setting-rule :id 3 :name "Fanatics"))
+(defvar *gritty-damage* (make-instance 'setting-rule :id 4 :name "Gritty Damage"))
+(defvar *heroes-never-die* (make-instance 'setting-rule :id 5 :name "Heroes Never Die"))
+(defvar *high-adventure*  (make-instance 'setting-rule :id 6 :name "High Adventure"))
+(defvar *jokers-wild*  (make-instance 'setting-rule :id 7 :name "Jokers Wild"))
+(defvar *multiple-languages* (make-instance 'setting-rule :id 8 :name "Multiple Languages"))
+(defvar *no-power-points* (make-instance 'setting-rule :id 9 :name "No Power Points"))
+(defvar *skill-specialization* (make-instance 'setting-rule :id 10 :name "Skill Specialization"))
+
+(defvar *setting-rules* '())
+
+(defun load-setting-rule-list()
+  (setf *setting-rules* '())
+  (push *blood-and-guts* *setting-rules*)
+  (push *born-a-hero* *setting-rules*)
+  (push *critical-failures* *setting-rules*)
+  (push *fanatics* *setting-rules*)
+  (push *gritty-damage* *setting-rules*)
+  (push *heroes-never-die* *setting-rules*)
+  (push *high-adventure* *setting-rules*)
+  (push *jokers-wild* *setting-rules*)
+  (push *multiple-languages* *setting-rules*)
+  (push *no-power-points* *setting-rules*)
+  (push *skill-specialization* *setting-rules*))
 
 (defun find-setting-rules-by-id (setting-rule-ids)
   (remove nil 

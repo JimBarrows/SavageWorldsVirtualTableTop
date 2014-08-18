@@ -18,6 +18,7 @@
 
 (defun stop-application()
   "Stop the application cleanly"
+  (savage-worlds::unload-repositories)
   (cl-ddd::save-data cl-ddd::*user-repository*)
   (stop *ht-server*)
   (setf *ht-server* nil))

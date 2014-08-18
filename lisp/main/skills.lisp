@@ -19,18 +19,18 @@
 (defvar *intimidation*  (make-instance 'skill-description :id 7 :name 'intimidation :attribute 'spirit))
 (defvar *investigation*  (make-instance 'skill-description :id 8 :name 'investigation :attribute 'smarts))
 
-(defvar *skill-list* '())
+(defvar *skill-description-list* '())
 
-(defun load-skill-list()
+(defun load-skill-description-list()
   (setf *skill-list* '())
-  (push *boating* *skill-list*) 
-  (push *climbing* *skill-list*)
-  (push *driving* *skill-list*)
-  (push *fighting* *skill-list*)
-  (push *gambling* *skill-list*)
-  (push *healing* *skill-list*)
-  (push *intimidation* *skill-list*)
-  (push *investigation* *skill-list*))
+  (push *boating* *skill-description-list*) 
+  (push *climbing* *skill-description-list*)
+  (push *driving* *skill-description-list*)
+  (push *fighting* *skill-description-list*)
+  (push *gambling* *skill-description-list*)
+  (push *healing* *skill-description-list*)
+  (push *intimidation* *skill-description-list*)
+  (push *investigation* *skill-description-list*))
 
 ;convience functions to create a skill class for a description
 (defun fighting ( &optional (rank *d4*))
