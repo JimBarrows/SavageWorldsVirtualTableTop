@@ -11,7 +11,8 @@
 		 :cl-store
 		 :ht-routes
 		 :uuid
-		 :cl-stripe)
+		 :cl-stripe
+		 :cl-semver)
     :components ((:static-file "README.md")
 
 		 (:module "cl-ddd"
