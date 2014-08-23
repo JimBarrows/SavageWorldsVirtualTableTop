@@ -9,10 +9,9 @@
 		 :hunchentoot 
 		 :cl-json
 		 :cl-store
-		 :ht-routes
 		 :uuid
-		 :cl-stripe
-		 :cl-semver)
+		 :ht-routes
+		 :sb-daemon)
     :components ((:static-file "README.md")
 
 		 (:module "cl-ddd"
@@ -31,15 +30,20 @@
 			  :depends-on ( :main :cl-ddd)
 			  :components((:file "package")
 				      (:file "configuration" :depends-on ("package"))
-				      (:file "cl-json-customizations" :depends-on ("package"))
+				      (:file "cl-json-customizations" :depends-on ("package"
+										   "configuration"))
 				      (:file "setting-end-points" :depends-on("package" 
 									      "configuration"))
 				      (:file "setting-rules-end-points" :depends-on("package" 
 										    "configuration"))
-				      (:file "skill-description-end-points" :depends-on("package" 
-									     "configuration"))
-				      (:file "url-dispatch" :depends-on ("package" "setting-end-points"))
-				      (:file "bootstrap" :depends-on ("package" "configuration"))))
+				      (:file "skill-description-end-points" :depends-on(
+											"package" 
+											"configuration"))
+				      (:file "url-dispatch" :depends-on ("package"
+									 "configuration"
+									 "setting-end-points"))
+				      (:file "bootstrap" :depends-on ("package" 
+								      "configuration"))))
 		 
 
 		 (:module "main"

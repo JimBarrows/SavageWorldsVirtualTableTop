@@ -22,3 +22,19 @@
   (cl-ddd::save-data cl-ddd::*user-repository*)
   (stop *ht-server*)
   (setf *ht-server* nil))
+
+#+sbcl
+(progn
+  (defparameter *running* t)
+  (defun main (argv)
+    (declare (ignore argv))
+    (sb-daemon:daemonize :output "/tmp/sytes.output"
+                         :error "/tmp/sytes.error"
+                         :exit-parent t
+                         :sigterm (lambda (sig)
+                                    (declare (ignore sig))
+				    (stop-aplication)
+                                    (setf *running* nil)))
+    (setf *running* t)
+    (start-application)
+    (loop while *running* do (sleep 1))))
