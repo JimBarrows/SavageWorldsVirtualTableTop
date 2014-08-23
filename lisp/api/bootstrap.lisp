@@ -25,16 +25,19 @@
 
 #+sbcl
 (progn
+  (format t "Starting Savage Worlds")
   (defparameter *running* t)
   (defun main (argv)
     (declare (ignore argv))
-    (sb-daemon:daemonize :output "/tmp/sytes.output"
-                         :error "/tmp/sytes.error"
+    (format t "setting up daemon")
+    (sb-daemon:daemonize :output "/tmp/savage-worlds.output"
+                         :error "/tmp/savage-worlds.error"
                          :exit-parent t
                          :sigterm (lambda (sig)
                                     (declare (ignore sig))
-				    (stop-aplication)
+				    (stop-application)
                                     (setf *running* nil)))
     (setf *running* t)
+    (format t "Starting server")
     (start-application)
     (loop while *running* do (sleep 1))))
