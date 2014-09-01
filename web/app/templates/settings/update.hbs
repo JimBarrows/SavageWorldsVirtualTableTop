@@ -17,34 +17,8 @@
 	{{/if}}
       </div>
     </div>
+    {{two-column-picker name="Rules" available=controller.settingRules selected=controller.model.settingRules}}
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Setting Rules</label>
-      <div class="col-sm-5">
-	<div class="panel panel-default">
-	  <div class="panel-heading">Available</div>
-	  <div class="panel-body">
-	    <ul class="list-group">
-	      {{#each rule in controller.settingRules}}
-		<li class="list-group-item" {{action addRule rule}}>{{rule.name}}</li>
-	      {{/each}}
-	    </ul>
-	  </div>
-	</div>
-      </div>
-      <div class="col-sm-5">
-	<div class="panel panel-default">
-	  <div class="panel-heading">In Setting</div>
-	  <div class="panel-body">
-	    <ul class="list-group">
-	      {{#each rule in controller.model.settingRules}}
-		<li class="list-group-item" {{action removeRule rule}}>{{rule.name}}</li>
-	      {{/each}}
-	    </ul>
-	  </div>
-	</div>
-      </div>
-    </div>
- <div class="form-group">
       <label for="name" class="col-sm-2 control-label">Skills</label>
       <div class="col-sm-5">
 	<div class="panel panel-default">

@@ -13,12 +13,6 @@ export default Ember.Controller.extend({
 		    self.transitionToRoute("/settings", post);
 		});
 	},
-	addRule: function( rule){
-	    this.get('model').get('settingRules').pushObject( rule);
-	},
-	removeRule: function( rule){
-	    this.get('model').get('settingRules').removeObject( rule);
-	},
 	addSkill: function( skill){
 	    this.get('model').get('skillDescriptions').pushObject( skill);
 	},
