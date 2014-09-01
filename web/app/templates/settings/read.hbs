@@ -2,10 +2,16 @@
   <div class="page-header">
     <h1>{{model.name}}</h1>
   </div>
-  <h1>Setting Rules</h1>
+  <h2>Rules</h2>
   <ul class="list-group">
     {{#each rule in model.settingRules}}
       <li class="list-group-item">{{rule.name}}</li>
+    {{/each}}
+  </ul>
+  <h1>Skills</h1>
+  <ul class="list-group">
+    {{#each skill in model.skillDescriptions}}
+      <li class="list-group-item">{{skill.name}}({{skill.attribute}})</li>
     {{/each}}
   </ul>
 </div>
