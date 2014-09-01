@@ -9,8 +9,6 @@ export default Ember.Controller.extend({
 	    setting.save().then(
 		function( post){
 		    self.transitionToRoute("/settings", post);
-		},
-		function( error) {
 		});
 	}
     }

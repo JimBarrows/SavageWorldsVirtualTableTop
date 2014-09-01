@@ -12,5 +12,4 @@ var App = Ember.Application.extend({
 
 
 loadInitializers(App, 'savage-worlds');
-App.Store = DS.Store.extend();
 export default App;

@@ -8,23 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{BASE_TAG}}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="assets/vendor.css">
-  <link rel="stylesheet" href="assets/savage-worlds.css">
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/savage-worlds.css">
   </head>
   <body>
-    <script>
-      window.SavageWorldsENV = {{ENV}};
-      window.EmberENV = window.SavageWorldsENV.EmberENV;
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/savage-worlds.js"></script>
     <script>
+      window.SavageWorldsENV = require('savage-worlds/config/environment')['default'];
+      window.EmberENV = window.SavageWorldsENV.EmberENV;
       window.SavageWorlds = require('savage-worlds/app')['default'].create(SavageWorldsENV.APP);
     </script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   </body>
 </html>

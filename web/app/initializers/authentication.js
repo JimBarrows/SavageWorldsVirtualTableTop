@@ -22,10 +22,12 @@ var CustomAuthenticator = Base.extend({
     },
 
     invalidate: function(data) {
+	data = data; //is not used
 	return new Ember.RSVP.resolve();
     },
 
     restore: function(data) {
+	data = data; //is not used
 	return new Ember.RSVP.reject();
     }
 });
@@ -34,6 +36,7 @@ export default {
     name: 'authentication',
     before: 'simple-auth',
     initialize: function(container, application) {
+	application = application; //is not used
 	container.register('authenticator:custom', CustomAuthenticator);
 	container.injection('authenticator:custom', 'store', 'store:main');
     }

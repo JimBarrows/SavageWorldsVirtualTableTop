@@ -1,3 +1,4 @@
+import Ember from 'ember';
 export default Ember.ObjectController.extend({
 
     confirm_password: "",
@@ -36,8 +37,6 @@ export default Ember.ObjectController.extend({
 				function(error) {
 				    self.set('errorMessage', error);
 				});
-		    },
-		    function(error){
 		    });
 	    }
 	}

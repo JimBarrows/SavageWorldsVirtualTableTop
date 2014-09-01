@@ -53,5 +53,8 @@ runner
 src_managed
 target/
 test-output
+tmp/
 tmp*
 *.sqlite3
+vendor/
+node_modules/
