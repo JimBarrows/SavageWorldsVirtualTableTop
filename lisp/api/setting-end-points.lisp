@@ -3,10 +3,11 @@
 (defun settings-get ()
   (hunchentoot::log-message* :debug "settings-get")
   (setf (hunchentoot:content-type*) "application/json") 
-  (let ((setting-list (cl-ddd::list-data savage-worlds::*setting-repository*)))
+  (let* ((user-id  (uuid:make-uuid-from-string 
+		     (string-trim " " (hunchentoot:get-parameter "userId"))))
+	 (setting-list (savage-worlds::find-all-settings-belonging-to savage-worlds::*setting-repository* user-id)))
     (if setting-list
-	(format nil "{\"settings\":~a}" (encode-json-to-string 
-			  (cl-ddd::list-data  savage-worlds::*setting-repository*)))
+	(format nil "{\"settings\":~a}" (encode-json-to-string setting-list ))
 	(format nil "{\"settings\":[]}"))))
 
 (defun settings-post ()
