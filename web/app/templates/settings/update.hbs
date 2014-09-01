@@ -18,33 +18,7 @@
       </div>
     </div>
     {{two-column-picker name="Rules" available=controller.settingRules selected=controller.model.settingRules}}
-    <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Skills</label>
-      <div class="col-sm-5">
-	<div class="panel panel-default">
-	  <div class="panel-heading">Available</div>
-	  <div class="panel-body">
-	    <ul class="list-group">
-	      {{#each skill in controller.skillDescriptions}}
-		<li class="list-group-item" {{action addSkill skill}}>{{skill.name}}({{skill.attribute}})</li>
-	      {{/each}}
-	    </ul>
-	  </div>
-	</div>
-      </div>
-      <div class="col-sm-5">
-	<div class="panel panel-default">
-	  <div class="panel-heading">In Setting</div>
-	  <div class="panel-body">
-	    <ul class="list-group">
-	      {{#each skill in controller.model.skillDescriptions}}
-		<li class="list-group-item" {{action removeSkill skill}}>{{skill.name}}({{skill.attribute}})</li>
-	      {{/each}}
-	    </ul>
-	  </div>
-	</div>
-      </div>
-    </div>
+    {{two-column-picker name="Skills" available=controller.skillDescriptions selected=controller.model.skillDescriptions}}
     <button 
       {{action 'save'}}
       class="btn btn-sm btn-primary" role="button">
