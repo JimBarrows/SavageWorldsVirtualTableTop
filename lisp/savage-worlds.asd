@@ -41,6 +41,8 @@
 											"configuration"))
 				      (:file "hindrance-end-points" :depends-on( "package"
 										 "configuration"))
+				      (:file "edge-end-points" :depends-on( "package"
+										 "configuration"))
 				      (:file "url-dispatch" :depends-on ("package"
 									 "configuration"
 									 "setting-end-points"))
@@ -68,7 +70,16 @@
 				       (:file "hindrances"
 					      :depends-on( "package"
 							   "traits"))
-				       (:file "setting" :depends-on ("package"))
+				       (:file "setting-rules"
+					      :depends-on( "package")
+				       (:file "setting" :depends-on ("package"
+								     "setting-rules"
+								     "hindrances"
+								     "edges"
+								     "skills"
+								     "gear"
+								     "races"
+								     "traits"))
 				       (:file "character-record" 
 					      :depends-on ("package" 
 							   "utils"
@@ -78,7 +89,8 @@
 							   "skills"
 							   "gear"
 							   "edges"
-							   "traits"))
+							   "traits"
+							   "setting"))
 				       (:file "character-creation-state"
 					      :depends-on("package"
 							  "character-record"))
