@@ -3,12 +3,13 @@
 (defmethod encode-json((setting savage-worlds::setting) 
 		       &optional (stream json::*json-output*)) 
  "Encode a setting"
-  (format (or stream nil) "{ \"id\": \"~a\", \"userId\": \"~a\", \"name\": \"~a\", \"settingRules\": [~{~a~^, ~}], \"skillDescriptions\":[~{~a~^, ~}]}"
+  (format (or stream nil) "{ \"id\": \"~a\", \"userId\": \"~a\", \"name\": \"~a\", \"settingRules\": [~{~a~^, ~}], \"skillDescriptions\":[~{~a~^, ~}], \"hindrances\":[~{~a~^, ~}]}"
 	  (cl-ddd::id setting)
 	  (savage-worlds::user-id setting)
 	  (savage-worlds::name setting)
 	  (savage-worlds::setting-rules setting)
-	  (savage-worlds::skill-descriptions setting)))
+	  (savage-worlds::skill-descriptions setting)
+	  (savage-worlds::hindrances setting)))
 
 (defmethod encode-json((u uuid::uuid) 
 		       &optional (stream json::*json-output*)) 

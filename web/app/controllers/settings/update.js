@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     settingRules: [],
     skillDescriptions:[],
+    hindrances:[],
     actions:{
 	save:function(){
 	    var setting = this.get('model');
