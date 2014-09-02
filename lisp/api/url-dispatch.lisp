@@ -14,4 +14,8 @@
 
   ("/api/settingRules" :get setting-rules-get-all)
 
-  ("/api/skillDescriptions" :get skill-descriptions-get))
+  ("/api/skillDescriptions" :get skill-descriptions-get)
+
+  ("/api/hindrances/:id" :get hindrances-get-one)
+
+  ("/api/hindrances" :get hindrances-get-all))

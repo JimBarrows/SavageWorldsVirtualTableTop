@@ -39,6 +39,8 @@
 				      (:file "skill-description-end-points" :depends-on(
 											"package" 
 											"configuration"))
+				      (:file "hindrance-end-points" :depends-on( "package"
+										 "configuration"))
 				      (:file "url-dispatch" :depends-on ("package"
 									 "configuration"
 									 "setting-end-points"))
