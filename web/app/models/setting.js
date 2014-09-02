@@ -5,5 +5,6 @@ export default DS.Model.extend({
     name: DS.attr('string'),
     settingRules: DS.hasMany('setting-rule',{async:true}),
     skillDescriptions: DS.hasMany('skill-description',{async:true}),
-    hindrances: DS.hasMany('hindrance',{async:true})
+    hindrances: DS.hasMany('hindrance',{async:true}),
+    edges: DS.hasMany('edge',{async:true})
 });

@@ -20,4 +20,9 @@
 
   ("/api/hindrances/:id" :get hindrances-get-by-id)
 
-  ("/api/hindrances" :get hindrances-get-all))
+  ("/api/hindrances" :get hindrances-get-all)
+
+  ("/api/edges/:id" :get edges-get-by-id)
+
+  ("/api/edges" :get edges-get-all))
+

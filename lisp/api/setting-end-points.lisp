@@ -29,7 +29,8 @@
 	 (name (string-trim " " (rest (assoc :name input-json))))
 	 (setting-rules (map 'list #'parse-integer (rest (assoc :setting-rules input-json))))
 	 (skill-descriptions (map 'list #'parse-integer (rest (assoc :skill-descriptions input-json))))
-	 (hindrances (map 'list #'parse-integer (rest (assoc :hindrances input-json)))))
+	 (hindrances (map 'list #'parse-integer (rest (assoc :hindrances input-json))))
+	 (edges (map 'list #'parse-integer (rest (assoc :edges input-json)))))
     (hunchentoot::log-message* :debug "settings put id: ~a name: ~a setting-rules: ~a skill-descriptions: ~a" id name setting-rules skill-descriptions)
     (format nil "{\"setting\":~a}" (encode-json-to-string 
 				    (savage-worlds::update 
@@ -38,7 +39,8 @@
 				     :name name
 				     :setting-rule-ids setting-rules
 				     :skill-descriptions skill-descriptions
-				     :hindrances hindrances)))))
+				     :hindrances hindrances
+				     :edges edges)))))
 
 (defun settings-delete ()
   (setf (hunchentoot:content-type*) "application/json") 
