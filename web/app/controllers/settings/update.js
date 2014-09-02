@@ -12,12 +12,6 @@ export default Ember.Controller.extend({
 		function( post){
 		    self.transitionToRoute("/settings", post);
 		});
-	},
-	addSkill: function( skill){
-	    this.get('model').get('skillDescriptions').pushObject( skill);
-	},
-	removeSkill: function( skill){
-	    this.get('model').get('skillDescriptions').removeObject( skill);
 	}
     }
 });

@@ -19,6 +19,8 @@
     </div>
     {{two-column-picker name="Rules" available=controller.settingRules selected=controller.model.settingRules}}
     {{two-column-picker name="Skills" available=controller.skillDescriptions selected=controller.model.skillDescriptions}}
+    {{two-column-picker name="Hindrances" available=controller.hindrances selected=controller.model.hindrances}}
+
     <button 
       {{action 'save'}}
       class="btn btn-sm btn-primary" role="button">
