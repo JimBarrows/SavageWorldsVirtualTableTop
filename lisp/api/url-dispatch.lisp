@@ -10,12 +10,14 @@
   ("/api/settings" :get settings-get
 		     :post settings-post)
 
-  ("/api/settingRules/:id" :get setting-rules-get-one)
+  ("/api/settingRules/:id" :get setting-rules-get-by-id)
 
   ("/api/settingRules" :get setting-rules-get-all)
 
-  ("/api/skillDescriptions" :get skill-descriptions-get)
+  ("/api/skillDescriptions" :get skill-descriptions-get-all)
 
-  ("/api/hindrances/:id" :get hindrances-get-one)
+  ("/api/skillDescriptions/:id" :get skill-descriptions-get-by-id)
+
+  ("/api/hindrances/:id" :get hindrances-get-by-id)
 
   ("/api/hindrances" :get hindrances-get-all))

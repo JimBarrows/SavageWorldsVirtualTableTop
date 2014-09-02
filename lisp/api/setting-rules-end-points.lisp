@@ -6,7 +6,7 @@
   (format nil "{\"setting-rule\":~a}" (encode-json-to-string 
 					   savage-worlds::*setting-rules*)))
 
-(defun setting-rules-get-one ()
+(defun setting-rules-get-by-id ()
   (hunchentoot::log-message* :debug "setting-rules-get-one")
   (setf (hunchentoot:content-type*) "application/json") 
   (let* ((id (parse-integer (getf *route-params* :id))))

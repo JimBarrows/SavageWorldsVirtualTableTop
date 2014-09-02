@@ -5,7 +5,7 @@
   (format nil "{\"hindrance\":~a}" (encode-json-to-string 
 					   savage-worlds::*hindrances*)))
 
-(defun hindrances-get-one()
+(defun hindrances-get-by-id()
 (setf (hunchentoot:content-type*) "application/json") 
   (let* ((id (parse-integer (getf *route-params* :id))))
     (hunchentoot::log-message* :debug "id ~a" id)

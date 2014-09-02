@@ -8,10 +8,16 @@
       <li class="list-group-item">{{rule.name}}</li>
     {{/each}}
   </ul>
-  <h1>Skills</h1>
+  <h2>Skills</h2>
   <ul class="list-group">
     {{#each skill in model.skillDescriptions}}
       <li class="list-group-item">{{skill.name}}({{skill.attribute}})</li>
+    {{/each}}
+  </ul>
+  <h2>Hindrances</h2>
+  <ul class="list-group">
+    {{#each hindrance in model.hindrances}}
+      <li class="list-group-item">{{hindrance.name}}</li>
     {{/each}}
   </ul>
 </div>
