@@ -48,8 +48,6 @@
 									 "setting-end-points"))
 				      (:file "bootstrap" :depends-on ("package" 
 								      "configuration"))))
-		 
-
 		 (:module "main"
 			  :depends-on (:cl-ddd)
 			  :components ((:file "package")
@@ -61,17 +59,12 @@
 				       (:file "races" :depends-on ("package"))
 				       (:file "gear" :depends-on ("package"))
 				       (:file "skills" 
-					      :depends-on ("package" 
-							   "traits" 
-							   "dice"))
+					      :depends-on ("package" "traits" "dice"))
 				       (:file "edges"
-					      :depends-on( "package"
-							    "traits"))
+					      :depends-on( "package" "traits"))
 				       (:file "hindrances"
-					      :depends-on( "package"
-							   "traits"))
-				       (:file "setting-rules"
-					      :depends-on( "package")
+					      :depends-on( "package" "traits"))
+				       (:file "setting-rules" :depends-on( "package"))
 				       (:file "setting" :depends-on ("package"
 								     "setting-rules"
 								     "hindrances"
@@ -91,9 +84,11 @@
 							   "edges"
 							   "traits"
 							   "setting"))
-				       (:file "character-creation-state"
-					      :depends-on("package"
-							  "character-record"))
+				       (:file "character-creation-state" :depends-on("package" "character-record"))
+				       (:file "constants" :depends-on ("package"
+								       "setting-rules"
+								       "edges"
+								       "hindrances"))
 				       (:file "repositories" :depends-on("package" "setting"))))
 		 (:module "unit-tests"
 			  :depends-on (:main )

@@ -28,15 +28,9 @@
 
 (defclass legendary-edge( edge)())
 
-(defvar *edges* '())
-
 (defun background-edge (&key name )
   (let ((edge (make-instance 'background-edge
 			     :id (list-length *edges*)
 			     :name name)))
     (push edge *edges*)
     edge))
-
-(defvar attractive (background-edge :name 'attractive ))
-
-(defvar very-attractive (background-edge :name 'very-attractive))

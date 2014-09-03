@@ -12,8 +12,6 @@
 
 (defclass minor-hindrance( hindrance)())
 
-(defvar *hindrances* '())
-
 (defun major-hindrance ( &key name)
   (let ((hindrance (make-instance 'major-hindrance :id (list-length *hindrances*) :name name)))
     (push hindrance *hindrances*)
@@ -23,12 +21,6 @@
   (let ((hindrance (make-instance 'minor-hindrance :id (list-length *hindrances*) :name name)))
     (push hindrance *hindrances*)
     hindrance))
-
-(defvar all-thumbs (minor-hindrance :name 'all-thumbs))
-(defvar anemic (minor-hindrance :name 'anemic))
-(defvar arrogant (major-hindrance :name 'arrogant)) 
-(defvar bad-eyes (minor-hindrance :name 'bad-eyes))
-(defvar very-bad-eyes (major-hindrance :name 'very-bad-eyes))
 		
 (defun find-hindrances-by-id-list (id-list)
   (remove nil
