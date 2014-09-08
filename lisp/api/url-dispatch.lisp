@@ -24,5 +24,9 @@
 
   ("/api/edges/:id" :get edges-get-by-id)
 
-  ("/api/edges" :get edges-get-all))
+  ("/api/edges" :get edges-get-all)
+
+  ("/api/gear/:id" :get gear-get-by-id)
+
+  ("/api/gear" :get gear-get-all))
 

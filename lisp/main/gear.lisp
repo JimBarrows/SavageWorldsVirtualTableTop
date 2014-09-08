@@ -1,107 +1,96 @@
 (in-package :savage-worlds)
 
-(defclass gear-description ()
-  ((name :initarg :name
-	 :initform (error "Must provide a name for the gear")
-	 :reader name)
-   (weight :initarg :weight
-		 :initform 0
-		 :reader weight)
-   (cost :initarg :cost
-	 :initform 0
-	 :reader cost)))
+(deflist :name gear
+  :slots (era
+	  weight
+	  cost
+	  sub-type
+	  notes))
 
-(defclass hand-weapon-description ( gear-description)
-  ((era :initform (error "Must provide an era")
-	:reader era
-	:documentation "One of Medieval, Modern, or Futuristic, settings can add their own")
-   (damage :initform (error "Must provide damage")
-	   :reader damage
-	   :documentation "For hand weapons this should be a rank value")
-   (parry :initform 0
-	  :reader parry)
-   (two-hands :initform nil
-		:reader is-two-handed)
-   (armor-pierce :initform nil
-		 :reader armor-pierce)
-   (reach :initform nil
-	  :reader has-reach)))
+(defsublist :name hand-weapon
+  :parent gear
+  :slots
+  (damage
+   parry
+   two-handed-?
+   armor-piercing
+   reach))
 
-(defclass armor (gear-description)
-  ((era :initform (error "Must provide an era")
-	:reader era
-	:initarg :era
-	:documentation "One of Medieval, Modern, or Futuristic, settings can add their own")
-  (armor :initform 1
-	 :reader armor
-	 :initarg :armor)
-   (armor-pierce :initform nil
-		 :reader armor-pierce
-		 :initarg :ap)
-   (parry :initform nil
-	  :initarg :parry
-	  :reader parry)
-   (coverage :initform '(torso)
-	     :initarg :coverage
-	     :reader covers)))
+(defsublist :name armor 
+  :parent gear
+  :slots
+  (armor
+   armor-vs-bullets
+   armor-pierce
+   parry
+   coverage))
 
-(defclass kevlar(amor)
-  ((armor-vs-bullets :initform 0
-		     :initarg :vs-bullets
-		     :reader :armor-vs-bullets)))
+(defsublist :name ranged-weapon
+  :parent gear
+  :slots
+  (short
+   medium
+   long
+   damage
+   rate-of-fire
+   shots 
+   minimum-strength
+   armor-pierce 
+   reload 
+   revolover-?
+   semi-auto-?
+   auto-? 
+   snapfire-?
+   heavy-weapon-?))
 
-(defclass barding(armor)())
+(defsublist :name vehicle-mounted-and-at-gun
+  :parent gear
+  :slots
+  (short
+   medium
+   long
+   ap-damage
+   ap-ap
+   he-damage
+   he-ap
+   he-template
+   rate-of-fire ))
 
-(defclass shield(armor)())
+(defsublist :name special-weapon
+  :parent gear
+  :slots
+  (short
+   medium
+   long
+   damage
+   rate-of-fire
+   armor-piercing
+   min-str
+   burst))
 
-(defclass ranged-weapons (gear-description)
-  ((era :initform (error "Must provide an era")
-	:reader era
-	:documentation "One of Medieval, Modern, or Futuristic, settings can add their own")
-   (short :initform (error "Must provide a short range value")
-	  :reader short
-	  :initarg :s)
-   (medium :initform (error "Must provide a medium range value")
-	   :reader medium
-	   :initarg :m)
-   (long :initform (error "Must provide a long range value")
-	 :reader long
-	 :initarg :l)
-   (damage :initform (error "Must provide a damage value")
-	   :reader damage
-	   :initarg :damage
-	   :documentation "Can be either a dice value, or trait-rank")
-   (rate-of-fire :initform 1
-		 :reader rate-of-fire
-		 :initarg :rof)
-   (shots :initform nil
-	  :reader shots
-	  :initarg :shots)
-   (minimum-strength :initform nil
-		     :reader minimum-strength
-		     :initarg :min-str)
-   (armor-pierce :initform nil
-		 :reader armor-pierce)
-   (reload :initform 0
-	   :reader ranged-weapon-reload
-	   :initarg :actions-to-reload)
-   (revolover-p :initform nil
-		:reader ranged-weapon-is-revolver
-		:initarg :revolver)
-   (semi-auto-p :initform nil
-		:reader ranged-weapon-is-semi-auto
-		:initarg :semi-auto)
-   (auto-p :initform nil
-	   :reader ranged-weapon-is-automatic
-	   :initarg :auto)
-   (snapfire :initform nil
-	     :reader ranged-weapon-is-snapfire-capable
-	     :initarg :snapfire)
-   (heavy-weapon-p :initform nil
-		   :reader is-heavy-weapon
-		   :initarg :hw)))
+(defsublist :name ammunition
+  :parent gear)
+   
+(defsublist :name vehicle
+  :parent gear
+  :slots (acceleration
+	  top-speed
+	  toughness
+	  armor
+	  crew
+	  passengers))
 
-(defclass gear ()
+(defsublist :name aircraft
+  :parent gear
+  :slots (acceleration
+	  top-speed
+	  climb
+	  toughness
+	  armor
+	  crew
+	  passengers))
+
+(defclass owned-gear ()
   ((total :initform 1
 	 :reader total
 	 :initarg :total)
@@ -110,24 +99,28 @@
 		:initarg :description)))
 
 (defmethod total-weight ((g gear))
-  (* (weight (description g))
+  (* (gear-weight (description g))
      (total g)))
 
 (defmethod name ((g gear))
-  (name (description g)))
+  (gear-name (description g)))
 
-(defvar leather-armor (make-instance 'armor :era 'medieval
-				     :name 'leather
-				     :armor 1
-				     :weight 15
-				     :cost 50
-				     :coverage '('torso 'arms 'legs)))
+(defvar dagger (hand-weapon :era 'medieval :name 'dagger :sub-type 'blade :damage '(:strength (dice 1 :d 4)  :weight 1 :cost 25)))
 
-(defvar small-shield (make-instance 'shield :era 'medieval 
-				    :name 'small-shield 
-				    :armor 0 
-				    :weight 8 
-				    :cost 25 
-				    :parry 1))
+			    
+(defvar leather-armor (armor :era 'medieval :name 'leather      :armor 1 :weight 15 :cost 50 :coverage '('torso 'arms 'legs)))
+(defvar small-shield  (armor :era 'medieval :name 'small-shield :armor 0 :weight 8  :cost 25 :coverage '('front-left)       :parry 1))
 
+(defvar throwing-axe (ranged-weapon :era 'medieval :name 'throwing-axe :short 3 :medium 6 :long 12 :damage '(:strength :d6) :rate-of-fire 1 :cost 75 :weight 2))
 
+(defvar 25mm-cannon (vehicle-mounted-and-at-gun :name '25mm-cannon :short 25 :medium 50 :long 100 :ap-damage '() :he-damage '((dice 3 :d 8)) :he-ap 4 :rate-of-fire 3 :notes '('heavy-weapon)))
+
+(defvar cannon-shot (special-weapon :name 'cannon-shot :short 50 :medium 100 :long 200 :damage '((dice 3 :d 6) 1) :rate-of-fire 1 :armor-piercing 4 :cost 'military :burst 'medium-bust-template :notes '('heavy-weapon)))
+
+(defvar backpack (gear :sub-type 'adventuring-gear :name 'backpack :cost 50 :weight 2))
+
+(defvar arrow (ammunition :name 'arrow :weight 1/5 :cost 1/2))
+
+(defvar horse-and-carriage (vehicle :name 'horse-and-carriage :toughness 10 :armor 2 :crew 1 :passengers 3 :cost 3000 :notes :see-horse :civilian))
+
+(defvar helicoptor (aircraft :name 'helicopter :acceleration 20 :top-speed 50 :toughness 11 :armor 2 :crew 1  :passengers 3 :cost 500000 :climb -1))

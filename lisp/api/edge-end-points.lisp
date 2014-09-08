@@ -3,7 +3,7 @@
 (defun edges-get-all()
   (setf (hunchentoot:content-type*) "application/json") 
   (format nil "{\"edges\":~a}" (encode-json-to-string 
-					   savage-worlds::*edges*)))
+					   savage-worlds::edge-list)))
 
 (defun edges-get-by-id()
 (setf (hunchentoot:content-type*) "application/json") 
@@ -13,4 +13,4 @@
 	    (encode-json-to-string 
 	     (find-if #'(lambda (edge)
 			  (= (savage-worlds::edge-id edge) id))
-		      savage-worlds::*edges*)))))
+		      savage-worlds::edge-list)))))

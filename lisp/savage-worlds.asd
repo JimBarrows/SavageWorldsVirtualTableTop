@@ -11,7 +11,8 @@
 		 :cl-store
 		 :uuid
 		 :ht-routes
-		 :sb-daemon)
+		 :sb-daemon
+		 :closer-mop)
     :components ((:static-file "README.md")
 
 		 (:module "cl-ddd"
@@ -43,6 +44,8 @@
 										 "configuration"))
 				      (:file "edge-end-points" :depends-on( "package"
 										 "configuration"))
+				      (:file "gear-description-end-points" :depends-on( "package"
+											"configuration"))
 				      (:file "url-dispatch" :depends-on ("package"
 									 "configuration"
 									 "setting-end-points"))
@@ -57,7 +60,7 @@
 					      :depends-on ("package"))
 				       (:file "dice" :depends-on ("package"))
 				       (:file "races" :depends-on ("package"))
-				       (:file "gear" :depends-on ("package"))
+				       (:file "gear" :depends-on ("package" "utils"))
 				       (:file "skills" 
 					      :depends-on ("package" "traits" "dice"))
 				       (:file "edges"
