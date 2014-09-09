@@ -3,7 +3,7 @@
 (defun hindrances-get-all()
   (setf (hunchentoot:content-type*) "application/json") 
   (format nil "{\"hindrance\":~a}" (encode-json-to-string 
-					   savage-worlds::*hindrances*)))
+					   savage-worlds::hindrance-list)))
 
 (defun hindrances-get-by-id()
 (setf (hunchentoot:content-type*) "application/json") 
@@ -13,4 +13,4 @@
 	    (encode-json-to-string 
 	     (find-if #'(lambda (hindrance)
 			  (= (savage-worlds::hindrance-id hindrance) id))
-		      savage-worlds::*hindrances*)))))
+		      savage-worlds::hindrance-list)))))

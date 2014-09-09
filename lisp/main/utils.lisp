@@ -24,6 +24,7 @@
 			 (funcall function-to-apply item))
 		 list))))
 
+
 (defmacro deflist (&key name (slots '()))
   (let ((list-name (format-symbol t "~:@(~a-list~)" name))
 	(find-by-id-list-name (format-symbol t "~:@(find-all-~a-in-id-list~)" name))
@@ -76,37 +77,34 @@
 		      (= (,id-name ,name) id))
 		  ,list-name)))))
 
-(defmacro defsublist (&key name parent (slots '()))
-  (let ((list-name (format-symbol t "~:@(~a-list~)" parent))
-	(parent-slots (filter-out #'(lambda (slot-name) 
-				      (eq slot-name 'id))
-				  (mapcar #'sb-pcl:slot-definition-name 
-					  (sb-pcl:class-slots (find-class parent))))))
+(defmacro defsublist (&key name parent (parent-slots '()) (slots '()))
+  (let ((list-name (format-symbol t "~:@(~a-list~)" parent)))
     `(progn
        (defclass ,name ( ,parent)
-	 ,(each (lambda (slot)
-		  (if (atom slot)
-		      (list slot :initarg (make-keyword (string slot)) 
-			    :reader (format-symbol t "~:@(~a-~a~)" name slot))
-		      (if (find :accessor slot)
-			  slot
-			  (append slot (list :initarg  (make-keyword (string (first slot)))
-					     :reader (format-symbol t "~:@(~a-~a~)" name (first slot)))))))
-		slots))
-       (defun ,name ,(append '(&key ) 
-			     parent-slots
-			     slots)
-	 (let ((,name ,(append `(make-instance ',name 
-					       :id (list-length ,list-name))
-			       (flatten 
-				(each (lambda (slot)
-					(if (atom slot)
-					    (list
-					     (make-keyword (string slot)) 
-					     slot)
-					    (list
-					     (make-keyword (string (first slot))) 
-					     (first slot))))
-				      (append parent-slots slots))))))
-	   (push ,name ,list-name)
-	   ,name)))))
+	  ,(each (lambda (slot)
+		   (if (atom slot)
+		       (list slot :initarg (make-keyword (string slot)) 
+			     :reader (format-symbol t "~:@(~a-~a~)" name slot))
+		       (if (find :accessor slot)
+			   slot
+			   (append slot (list :initarg  (make-keyword (string (first slot)))
+					      :reader (format-symbol t "~:@(~a-~a~)" name (first slot)))))))
+		 slots))
+       (defun ,name ,(append '(&key name) 
+			      parent-slots
+			      slots)
+	  (let ((,name ,(append `(make-instance ',name 
+						 :id (list-length ,list-name)
+						 :name name)
+				 (flatten 
+				  (each (lambda (slot)
+					  (if (atom slot)
+					      (list
+					       (make-keyword (string slot)) 
+					       slot)
+					      (list
+					       (make-keyword (string (first slot))) 
+					       (first slot))))
+					(append parent-slots slots))))))
+	     (push ,name ,list-name)
+	     ,name)))))

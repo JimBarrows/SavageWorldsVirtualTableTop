@@ -9,6 +9,7 @@
 
 (defsublist :name hand-weapon
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots
   (damage
    parry
@@ -18,6 +19,7 @@
 
 (defsublist :name armor 
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots
   (armor
    armor-vs-bullets
@@ -27,6 +29,7 @@
 
 (defsublist :name ranged-weapon
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots
   (short
    medium
@@ -45,6 +48,7 @@
 
 (defsublist :name vehicle-mounted-and-at-gun
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots
   (short
    medium
@@ -58,6 +62,7 @@
 
 (defsublist :name special-weapon
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots
   (short
    medium
@@ -69,10 +74,12 @@
    burst))
 
 (defsublist :name ammunition
-  :parent gear)
+  :parent gear
+  :parent-slots (era weight cost sub-type notes))
    
 (defsublist :name vehicle
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots (acceleration
 	  top-speed
 	  toughness
@@ -82,6 +89,7 @@
 
 (defsublist :name aircraft
   :parent gear
+  :parent-slots (era weight cost sub-type notes)
   :slots (acceleration
 	  top-speed
 	  climb
@@ -113,7 +121,7 @@
 
 (defvar throwing-axe (ranged-weapon :era 'medieval :name 'throwing-axe :short 3 :medium 6 :long 12 :damage '(:strength :d6) :rate-of-fire 1 :cost 75 :weight 2))
 
-(defvar 25mm-cannon (vehicle-mounted-and-at-gun :name '25mm-cannon :short 25 :medium 50 :long 100 :ap-damage '() :he-damage '((dice 3 :d 8)) :he-ap 4 :rate-of-fire 3 :notes '('heavy-weapon)))
+(defvar 25mm-cannon (vehicle-mounted-and-at-gun :name 'twenty-five-mm-cannon :short 25 :medium 50 :long 100 :ap-damage '() :he-damage '((dice 3 :d 8)) :he-ap 4 :rate-of-fire 3 :notes '('heavy-weapon)))
 
 (defvar cannon-shot (special-weapon :name 'cannon-shot :short 50 :medium 100 :long 200 :damage '((dice 3 :d 6) 1) :rate-of-fire 1 :armor-piercing 4 :cost 'military :burst 'medium-bust-template :notes '('heavy-weapon)))
 
@@ -121,6 +129,6 @@
 
 (defvar arrow (ammunition :name 'arrow :weight 1/5 :cost 1/2))
 
-(defvar horse-and-carriage (vehicle :name 'horse-and-carriage :toughness 10 :armor 2 :crew 1 :passengers 3 :cost 3000 :notes :see-horse :civilian))
+(defvar horse-and-carriage (vehicle :name 'horse-and-carriage :toughness 10 :armor 2 :crew 1 :passengers 3 :cost 3000 :notes '(:see-horse :civilian)))
 
 (defvar helicoptor (aircraft :name 'helicopter :acceleration 20 :top-speed 50 :toughness 11 :armor 2 :crew 1  :passengers 3 :cost 500000 :climb -1))

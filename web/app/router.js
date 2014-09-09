@@ -13,6 +13,7 @@ Router.map(function() {
 	this.route('read', {path:"/:settings_id"});
 	this.route('update', {path:"/update/:settings_id"});
     });
+
 });
 
 export default Router;

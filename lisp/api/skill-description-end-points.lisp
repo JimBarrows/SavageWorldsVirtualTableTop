@@ -2,7 +2,7 @@
 
 (defun skill-descriptions-get-all ()
   (setf (hunchentoot:content-type*) "application/json") 
-  (format nil "{\"skill-description\":~a}" (encode-json-to-string savage-worlds::*skill-descriptions*)))
+  (format nil "{\"skill-description\":~a}" (encode-json-to-string savage-worlds::skill-description-list)))
 
 (defun skill-descriptions-get-by-id()
   (setf (hunchentoot:content-type*) "application/json") 
@@ -11,5 +11,5 @@
     (format nil "{\"skill-description\":~a}" 
 	    (encode-json-to-string 
 	     (find-if #'(lambda (skill-description)
-			  (= (savage-worlds::id skill-description) id))
-		      savage-worlds::*skill-descriptions*)))))
+			  (= (savage-worlds::skill-description-id skill-description) id))
+		      savage-worlds::skill-description-list)))))

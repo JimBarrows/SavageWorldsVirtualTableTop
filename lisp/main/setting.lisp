@@ -19,7 +19,10 @@
 		       :documentation "List of hindrances available for this setting.")
    (edges :initarg :edges
 		       :initform '()
-		       :documentation "List of edges available for this setting.")))
+		       :documentation "List of edges available for this setting.")
+   (gear-list :initarg :gear
+		       :initform '()
+		       :documentation "List of gear available for this setting.")))
 
 (defmethod update ((repo setting-repository) 
 		   (id uuid::uuid) 
@@ -28,13 +31,15 @@
 		     (setting-rule-ids)
 		     (skill-descriptions)
 		     (hindrances)
-		     (edges))
+		     (edges)
+		     (gear))
   (let ((original (cl-ddd::find-by-id repo id)))
     (setf (name original) name)
     (setf (setting-rules original)  setting-rule-ids)
     (setf (skill-descriptions original) skill-descriptions)
     (setf (hindrances original) hindrances)
     (setf (edges original) edges)
+    (setf (gear-list original) gear)
     original))
 
 (defmethod delete-setting ((repo setting-repository) (id uuid::uuid))

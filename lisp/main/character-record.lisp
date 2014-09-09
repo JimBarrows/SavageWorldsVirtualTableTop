@@ -25,8 +25,8 @@
    (skills :initarg :skills
            :initform ()
 	   :accessor skills)
-   (gear :initform()
-	 :accessor gear)
+;   (gear :initform()
+;	 :accessor gear)
    (cash :initform 500
 	 :accessor cash)
    (edges :initform()
@@ -35,12 +35,12 @@
 	       :accessor hindrances)
    (background :initform "")))
 
-(defmethod add-gear( gear-to-add (record character-record))
-  (let ((new-gear (make-instance 'gear :description gear-to-add)))
-    (push new-gear (gear record))))
+;(defmethod add-gear( gear-to-add (record character-record))
+;  (let ((new-gear (make-instance 'gear :description gear-to-add)))
+;    (push new-gear (gear record))))
 
-(defmethod add-edge( edge-to-add (record character-record))
-  (push edge-to-add (edges record)))
+;(defmethod add-edge( edge-to-add (record character-record))
+;  (push edge-to-add (edges record)))
 
 (defmethod add-hindrance( hindrance-to-add (record character-record))
   (push hindrance-to-add (hindrances record)))

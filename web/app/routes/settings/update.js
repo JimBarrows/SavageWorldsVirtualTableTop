@@ -8,5 +8,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	controller.set('skillDescriptions', this.store.find('skill-description'));
 	controller.set('hindrances', this.store.find('hindrance'));
 	controller.set('edges', this.store.find('edge'));
+	controller.set('gear', this.store.find('gear'));
     }
 });
