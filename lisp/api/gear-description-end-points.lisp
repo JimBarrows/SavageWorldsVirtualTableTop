@@ -6,10 +6,8 @@
 					   savage-worlds::gear-list)))
 
 (defun gear-get-by-id()
-(setf (hunchentoot:content-type*) "application/json") 
+  (setf (hunchentoot:content-type*) "application/json") 
   (let* ((id (parse-integer (getf *route-params* :id))))
     (format nil "{\"gear\":~a}" 
 	    (encode-json-to-string 
-	     (find-if #'(lambda (gear)
-			  (= (savage-worlds::gear-id gear) id))
-		      savage-worlds::gear-list)))))
+	     (savage-worlds::find-setting-rule-by-id id)))))
