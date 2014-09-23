@@ -68,6 +68,8 @@
 				       (:file "hindrances"
 					      :depends-on( "package" "traits"))
 				       (:file "setting-rules" :depends-on( "package"))
+				       (:file "base-record" :depends-on( "package" "gear" "skills"))
+				       (:file "beasts" :depends-on("package" "base-record"))
 				       (:file "setting" :depends-on ("package"
 								     "setting-rules"
 								     "hindrances"
@@ -75,10 +77,12 @@
 								     "skills"
 								     "gear"
 								     "races"
-								     "traits"))
+								     "traits"
+								     "beasts"))
 				       (:file "character-record" 
 					      :depends-on ("package" 
 							   "utils"
+							   "base-record"
 							   "traits" 
 							   "dice" 
 							   "races" 

@@ -1,6 +1,6 @@
 (in-package :savage-worlds)
 
-(deflist :name gear
+(deflist :name gear-description
   :slots (era
 	  weight
 	  cost
@@ -8,7 +8,7 @@
 	  notes))
 
 (defsublist :name hand-weapon
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots
   (damage
@@ -18,7 +18,7 @@
    reach))
 
 (defsublist :name armor 
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots
   (armor
@@ -28,7 +28,7 @@
    coverage))
 
 (defsublist :name ranged-weapon
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots
   (short
@@ -47,7 +47,7 @@
    heavy-weapon-?))
 
 (defsublist :name vehicle-mounted-and-at-gun
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots
   (short
@@ -61,7 +61,7 @@
    rate-of-fire ))
 
 (defsublist :name special-weapon
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots
   (short
@@ -74,11 +74,11 @@
    burst))
 
 (defsublist :name ammunition
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes))
    
 (defsublist :name vehicle
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots (acceleration
 	  top-speed
@@ -88,7 +88,7 @@
 	  passengers))
 
 (defsublist :name aircraft
-  :parent gear
+  :parent (gear-description)
   :parent-slots (era weight cost sub-type notes)
   :slots (acceleration
 	  top-speed
@@ -97,21 +97,6 @@
 	  armor
 	  crew
 	  passengers))
-
-(defclass owned-gear ()
-  ((total :initform 1
-	 :reader total
-	 :initarg :total)
-   (description :initform (error "Must provide a description")
-		:reader description
-		:initarg :description)))
-
-(defmethod total-weight ((g gear))
-  (* (gear-weight (description g))
-     (total g)))
-
-(defmethod name ((g gear))
-  (gear-name (description g)))
 
 (defvar dagger (hand-weapon :era 'medieval :name 'dagger :sub-type 'blade :damage '(:strength (dice 1 :d 4)  :weight 1 :cost 25)))
 
@@ -125,7 +110,7 @@
 
 (defvar cannon-shot (special-weapon :name 'cannon-shot :short 50 :medium 100 :long 200 :damage '((dice 3 :d 6) 1) :rate-of-fire 1 :armor-piercing 4 :cost 'military :burst 'medium-bust-template :notes '('heavy-weapon)))
 
-(defvar backpack (gear :sub-type 'adventuring-gear :name 'backpack :cost 50 :weight 2))
+(defvar backpack (gear-description :sub-type 'adventuring-gear :name 'backpack :cost 50 :weight 2))
 
 (defvar arrow (ammunition :name 'arrow :weight 1/5 :cost 1/2))
 

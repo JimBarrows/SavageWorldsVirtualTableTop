@@ -54,6 +54,9 @@
 (defclass skill( trait)
   ((description :initarg :description)))
 
+(defun skill (description rank)
+  (make-instance 'skill :name (skill-description-name description) :description description :trait rank))
+
 (defun create-agility ( &optional (rank *d4*))
   (make-instance 'attribute :name 'agility
 		 :rank rank))
