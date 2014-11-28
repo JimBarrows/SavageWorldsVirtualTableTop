@@ -1,0 +1,44 @@
+<header ng-switch on="$location.path().indexOf('/HindranceDescriptions/new') > -1">
+    <h3 ng-switch-when="true">Create a new HindranceDescription</h3>
+    <h3 ng-switch-when="false">View or edit HindranceDescription</h3>
+</header>
+<form id="HindranceDescriptionForm" name="HindranceDescriptionForm" class="form-horizontal" role="form">
+    <div ng-show="displayError" class="alert alert-danger">
+        <strong>Error!</strong> Something broke. Retry, or cancel and start afresh.
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': HindranceDescriptionForm.name.$invalid}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div id="nameControls" class="col-sm-10">
+            <input id="name" name="name" type="text" required class="form-control" ng-model="hindranceDescription.name" placeholder="Enter the HindranceDescription Name"></input>
+            <span class="help-block error" ng-show="HindranceDescriptionForm.name.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': HindranceDescriptionForm.severity.$invalid}">
+        <label for="severity" class="col-sm-2 control-label">Severity</label>
+        <div id="severityControls" class="col-sm-10">
+        <select id="severity" name="severity" class="form-control" ng-model="hindranceDescription.severity" ng-options="s for s in severityList" required >
+            <option value="">Choose a Severity</option>
+        </select>
+        <span class="help-block error" ng-show="HindranceDescriptionForm.severity.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': HindranceDescriptionForm.effects.$invalid}">
+        <label for="effects" class="col-sm-2 control-label">Effects</label>
+        <div id="effectsControls" class="col-sm-10">
+            <input id="effects" name="effects" type="text" required class="form-control" ng-model="hindranceDescription.effects" placeholder="Enter the HindranceDescription Effects"></input>
+            <span class="help-block error" ng-show="HindranceDescriptionForm.effects.$error.required">required</span> 
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveHindranceDescription" name="saveHindranceDescription" class="btn btn-primary" ng-disabled="isClean() || HindranceDescriptionForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteHindranceDescription" name="deleteHindranceDescription" class="btn btn-danger" ng-show="hindranceDescription.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

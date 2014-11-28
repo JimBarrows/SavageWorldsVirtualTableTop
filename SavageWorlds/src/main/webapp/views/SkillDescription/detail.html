@@ -1,0 +1,43 @@
+<header ng-switch on="$location.path().indexOf('/SkillDescriptions/new') > -1">
+    <h3 ng-switch-when="true">Create a new SkillDescription</h3>
+    <h3 ng-switch-when="false">View or edit SkillDescription</h3>
+</header>
+<form id="SkillDescriptionForm" name="SkillDescriptionForm" class="form-horizontal" role="form">
+    <div ng-show="displayError" class="alert alert-danger">
+        <strong>Error!</strong> Something broke. Retry, or cancel and start afresh.
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': SkillDescriptionForm.name.$invalid}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div id="nameControls" class="col-sm-10">
+            <input id="name" name="name" type="text" required class="form-control" ng-model="skillDescription.name" placeholder="Enter the SkillDescription Name"></input>
+            <span class="help-block error" ng-show="SkillDescriptionForm.name.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SkillDescriptionForm.attribute.$invalid}">
+        <label for="attribute" class="col-sm-2 control-label">Attribute</label>
+        <div id="attributeControls" class="col-sm-10">
+        <select id="attribute" name="attribute" class="form-control" ng-model="skillDescription.attribute" ng-options="a for a in attributeList" required >
+            <option value="">Choose a Attribute</option>
+        </select>
+        <span class="help-block error" ng-show="SkillDescriptionForm.attribute.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SkillDescriptionForm.description.$invalid}">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div id="descriptionControls" class="col-sm-10">
+            <input id="description" name="description" type="text" class="form-control" ng-model="skillDescription.description" placeholder="Enter the SkillDescription Description"></input>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveSkillDescription" name="saveSkillDescription" class="btn btn-primary" ng-disabled="isClean() || SkillDescriptionForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteSkillDescription" name="deleteSkillDescription" class="btn btn-danger" ng-show="skillDescription.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

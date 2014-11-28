@@ -1,0 +1,72 @@
+<header ng-switch on="$location.path().indexOf('/EdgeDescriptions/new') > -1">
+    <h3 ng-switch-when="true">Create a new EdgeDescription</h3>
+    <h3 ng-switch-when="false">View or edit EdgeDescription</h3>
+</header>
+<form id="EdgeDescriptionForm" name="EdgeDescriptionForm" class="form-horizontal" role="form">
+    <div ng-show="displayError" class="alert alert-danger">
+        <strong>Error!</strong> Something broke. Retry, or cancel and start afresh.
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': EdgeDescriptionForm.name.$invalid}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div id="nameControls" class="col-sm-10">
+            <input id="name" name="name" type="text" required class="form-control" ng-model="edgeDescription.name" placeholder="Enter the EdgeDescription Name"></input>
+            <span class="help-block error" ng-show="EdgeDescriptionForm.name.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EdgeDescriptionForm.minimumRank.$invalid}">
+        <label for="minimumRank" class="col-sm-2 control-label">Minimum Rank</label>
+        <div id="minimumRankControls" class="col-sm-10">
+        <select id="minimumRank" name="minimumRank" class="form-control" ng-model="edgeDescription.minimumRank" ng-options="m for m in minimumRankList"  >
+            <option value="">Choose a Minimum Rank</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EdgeDescriptionForm.requiredType.$invalid}">
+        <label for="requiredType" class="col-sm-2 control-label">Required Type</label>
+        <div id="requiredTypeControls" class="col-sm-10">
+        <select id="requiredType" name="requiredType" class="form-control" ng-model="edgeDescription.requiredType" ng-options="r for r in requiredTypeList"  >
+            <option value="">Choose a Required Type</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EdgeDescriptionForm.minimumSkills.$invalid}">
+        <label for="minimumSkills" class="col-sm-2 control-label">Minimum Skills</label>
+        <div id="minimumSkillsControls" class="col-sm-10">
+            <select id="minimumSkills" name="minimumSkills" multiple class="form-control" ng-model="minimumSkillsSelection" ng-options="m.text for m in minimumSkillsSelectionList">
+                <option value="">Choose a Minimum Skills</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EdgeDescriptionForm.requiredEdges.$invalid}">
+        <label for="requiredEdges" class="col-sm-2 control-label">Required Edges</label>
+        <div id="requiredEdgesControls" class="col-sm-10">
+            <select id="requiredEdges" name="requiredEdges" multiple class="form-control" ng-model="requiredEdgesSelection" ng-options="r.text for r in requiredEdgesSelectionList">
+                <option value="">Choose a Required Edges</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EdgeDescriptionForm.edgeType.$invalid}">
+        <label for="edgeType" class="col-sm-2 control-label">Edge Type</label>
+        <div id="edgeTypeControls" class="col-sm-10">
+        <select id="edgeType" name="edgeType" class="form-control" ng-model="edgeTypeSelection" ng-options="e.text for e in edgeTypeSelectionList" required >
+            <option value="">Choose a Edge Type</option>
+        </select>
+        <span class="help-block error" ng-show="EdgeDescriptionForm.edgeType.$error.required">required</span> 
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveEdgeDescription" name="saveEdgeDescription" class="btn btn-primary" ng-disabled="isClean() || EdgeDescriptionForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteEdgeDescription" name="deleteEdgeDescription" class="btn btn-danger" ng-show="edgeDescription.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

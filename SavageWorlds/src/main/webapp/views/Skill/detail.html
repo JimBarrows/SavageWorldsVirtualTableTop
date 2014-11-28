@@ -1,0 +1,47 @@
+<header ng-switch on="$location.path().indexOf('/Skills/new') > -1">
+    <h3 ng-switch-when="true">Create a new Skill</h3>
+    <h3 ng-switch-when="false">View or edit Skill</h3>
+</header>
+<form id="SkillForm" name="SkillForm" class="form-horizontal" role="form">
+    <div ng-show="displayError" class="alert alert-danger">
+        <strong>Error!</strong> Something broke. Retry, or cancel and start afresh.
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': SkillForm.skill.$invalid}">
+        <label for="skill" class="col-sm-2 control-label">Skill</label>
+        <div id="skillControls" class="col-sm-10">
+        <select id="skill" name="skill" class="form-control" ng-model="skillSelection" ng-options="s.text for s in skillSelectionList" required >
+            <option value="">Choose a Skill</option>
+        </select>
+        <span class="help-block error" ng-show="SkillForm.skill.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SkillForm.dice.$invalid}">
+        <label for="dice" class="col-sm-2 control-label">Dice</label>
+        <div id="diceControls" class="col-sm-10">
+        <select id="dice" name="dice" class="form-control" ng-model="skill.dice" ng-options="d for d in diceList" required >
+            <option value="">Choose a Dice</option>
+        </select>
+        <span class="help-block error" ng-show="SkillForm.dice.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SkillForm.bonus.$invalid}">
+        <label for="bonus" class="col-sm-2 control-label">Bonus</label>
+        <div id="bonusControls" class="col-sm-10">
+            <input id="bonus" name="bonus" type="number" min="0" class="form-control" ng-model="skill.bonus" placeholder="Enter the Skill Bonus"></input>
+            <span class="help-block error" ng-show="SkillForm.bonus.$error.number">not a number</span>
+            <span class="help-block error" ng-show="SkillForm.bonus.$error.min">minimum allowed is 0</span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveSkill" name="saveSkill" class="btn btn-primary" ng-disabled="isClean() || SkillForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteSkill" name="deleteSkill" class="btn btn-danger" ng-show="skill.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
