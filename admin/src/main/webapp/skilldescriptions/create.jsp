@@ -1,22 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://javadomainobjects.org/tags/ember" prefix="ember"%>
 <div class="container">
 	<div class="page-header">
 		<h1>Create Skill</h1>
 	</div>
 	<form class="form-horizontal" role="form">
-		<div {{bind-attr class=":form-group model.errors.name:has-error"}}>
-			<label for="name" class="col-sm-2 control-label">Name</label>
-			<div class="col-sm-10">
-				{{input type="text" value=model.name class="form-control" placeholder="Skill Name"}} 
-				{{#if model.errors.name}} 
-					<span class="glyphicon glyphicon-remove form-control-feedback"></span> 
-					<span class="help-block">
-						<ul>
-							<li>{{#each model.errors.name}} {{message}} {{/each}}</li>
-						</ul>
-					</span> 
-				{{/if}}
-			</div>
-		</div>
+	
+		<ember:TextField label="Name" field="name" placeHolder="Skill Name"/>
 
 		<div {{bind-attr class=":form-group model.errors.attribute:has-error"}}>
 			<label for="attribute" class="col-sm-2 control-label">Attribute</label>
