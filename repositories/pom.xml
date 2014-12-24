@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.savageworlds</groupId>
-		<artifactId>VirtualTableTop</artifactId>	
+		<artifactId>VirtualTableTop</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
-	</parent>	
+	</parent>
 	<artifactId>repositories</artifactId>
 	<packaging>ejb</packaging>
 	<name>Repositories</name>
-	<build>		
+	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-ejb-plugin</artifactId>
@@ -18,6 +18,35 @@
 				<configuration>
 					<ejbVersion>3.2</ejbVersion>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>de.juplo</groupId>
+				<artifactId>hibernate4-maven-plugin</artifactId>
+				<version>1.0.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>export</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<driverClassName>org.postgresql.Driver</driverClassName>
+					<hibernateDialect>org.hibernate.dialect.PostgresPlusDialect</hibernateDialect>
+					<username>jdodev</username>
+					<password>jdodev</password>
+					<url>jdbc:postgresql://localhost:5432/jdodev</url>
+					<target>BOTH</target>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${postgres-driver.version}</version>
+					</dependency>
+				</dependencies>
+
 			</plugin>
 		</plugins>
 	</build>

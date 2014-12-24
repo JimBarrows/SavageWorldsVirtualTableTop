@@ -18,6 +18,21 @@ App.AlertController = Ember.Controller.extend({
 
 App.SkilldescriptionsCreateController = Ember.Controller.extend({
 	needs : [ 'alert' ],
+	attributeTypes : ["Agility", "Smarts", "Strength", "Spirit", "Vigor"],
+	actions : {
+		save : function() {
+			return this.model.save().then(function(){
+				  route.transitionTo('skilldescriptions');
+			}, function() {
+			  // Couldn't save, do nothing about it.
+			});
+		}
+	}
+});
+
+App.SkilldescriptionsEditController = Ember.Controller.extend({
+	needs : [ 'alert' ],
+	attributeTypes : ["Agility", "Smarts", "Strength", "Spirit", "Vigor"],
 	actions : {
 		save : function() {
 			return this.model.save().then(function(){

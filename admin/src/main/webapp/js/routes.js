@@ -13,3 +13,9 @@ App.SkilldescriptionsCreateRoute = Ember.Route.extend({
 		return this.store.createRecord('SkillDescription');
 	}
 });
+
+App.SkilldescriptionsEditRoute = Ember.Route.extend({
+	model : function(params) {
+		return this.store.find('skillDescription', params.skill_description_id)
+	}	
+});

@@ -36,6 +36,10 @@
 	<script type="text/x-handlebars" id="skilldescriptions/create">
 		<%@ include file="skilldescriptions/create.jsp"%>		
 	</script>
+	
+	<script type="text/x-handlebars" id="skilldescriptions/edit">
+		<%@ include file="skilldescriptions/edit.jsp"%>		
+	</script>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="js/libs/handlebars-v2.0.0.js"></script>

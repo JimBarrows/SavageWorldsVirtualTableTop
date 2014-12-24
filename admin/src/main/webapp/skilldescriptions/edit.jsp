@@ -2,7 +2,7 @@
 <%@ taglib uri="http://javadomainobjects.org/tags/ember" prefix="ember"%>
 <div class="container">
 	<div class="page-header">
-		<h1>Create Skill</h1>
+		<h1>Edit Skill Description</h1>
 	</div>
 	<form class="form-horizontal" role="form">
 	

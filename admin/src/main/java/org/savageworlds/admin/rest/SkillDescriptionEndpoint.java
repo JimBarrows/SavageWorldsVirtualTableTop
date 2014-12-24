@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -41,9 +42,9 @@ public class SkillDescriptionEndpoint {
 	 */
 	@POST
 	@Consumes("application/json")
-	public Response create( SkillDescription skilldescription) {
+	public SkillDescription create( SkillDescription skilldescription) {
 		skilldescription = sdRepo.create(skilldescription); 
-		return Response.created(UriBuilder.fromResource(SkillDescription.class).path(String.valueOf(skilldescription.getId())).build()).build();
+		return skilldescription;
 	}
 
 	/**
@@ -53,13 +54,12 @@ public class SkillDescriptionEndpoint {
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
-	public Response findById(@PathParam("id") final Long id) {
-		//TODO: retrieve the skilldescription 
-		SkillDescription skilldescription = null;
-		if (skilldescription == null) {
-			return Response.status(Status.NOT_FOUND).build();
+	public SkillDescription findById(@PathParam("id") final Long id) {
+		SkillDescription skill = sdRepo.findById( id);
+		if( skill == null) {
+			throw new NotFoundException();
 		}
-		return Response.ok(skilldescription).build();
+		return skill;
 	}
 
 	/**
@@ -70,15 +70,8 @@ public class SkillDescriptionEndpoint {
 	@GET
 	@Produces("application/json")
 	public SkillDescriptionList listAll(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult) {
-		//TODO: retrieve the skilldescriptions 
-		final SkillDescriptionList skilldescriptions = new SkillDescriptionList();
-		SkillDescription sd =  new SkillDescription();
-		sd.setName("Test");
-		sd.setId(1l);
-		sd.setAttribute(AttributeTypes.Agility);
-		sd.setDescription("Blah blah");
-		skilldescriptions.add(sd );
-		return skilldescriptions;
+		
+		return new SkillDescriptionList( sdRepo.all());
 	}
 
 	/**

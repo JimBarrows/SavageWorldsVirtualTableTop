@@ -35,7 +35,7 @@ App.Router.map(function() {
 			path : "/new"
 		});
 		this.route('edit', {
-			path : "/:skill_id"
+			path : "/:skill_description_id"
 		});
 	});
 });

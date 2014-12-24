@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -23,6 +24,9 @@ public class SkillDescription implements Serializable{
 	@Id
 	@GeneratedValue
 	private Long	id;
+	
+	@Version
+	private Long version;
 
 	@NotEmpty
 	private String	name;
@@ -62,5 +66,13 @@ public class SkillDescription implements Serializable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }
