@@ -3,19 +3,18 @@ package org.savageworlds.game.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
-@XmlRootElement
-public class GearDescription implements Serializable {	
+import jdo.model.BasePersistentModel;
 
-	@Id
-	@GeneratedValue
-	private Long	id;
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@XmlRootElement
+public class GearDescription extends BasePersistentModel implements Serializable {	
 
 	@NotNull
 	private String	name;
@@ -31,19 +30,6 @@ public class GearDescription implements Serializable {
 	private String	notes;
 	
 	private EraType era;
-	
-	/**
-	 * 
-	 */
-	private static final long	serialVersionUID	= 1L;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -87,8 +73,7 @@ public class GearDescription implements Serializable {
 	}
 
 	public GearDescription() {
-		super();
-		// TODO Auto-generated constructor stub
+		super();		
 	}
 
 	public EraType getEra() {
@@ -98,4 +83,9 @@ public class GearDescription implements Serializable {
 	public void setEra(EraType era) {
 		this.era = era;
 	}
+	
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= 1L;
 }

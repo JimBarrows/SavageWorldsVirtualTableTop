@@ -3,30 +3,25 @@ package org.savageworlds.game.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
+
+import jdo.model.BasePersistentModel;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @JsonRootName("skillDescription")
-public class SkillDescription implements Serializable{
+public class SkillDescription extends BasePersistentModel implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long	serialVersionUID	= 1L;
-
-	@Id
-	@GeneratedValue
-	private Long	id;
-	
-	@Version
-	private Long version;
 
 	@NotEmpty
 	private String	name;
@@ -34,15 +29,7 @@ public class SkillDescription implements Serializable{
 	@NotNull
 	private AttributeTypes attribute;
 	
-	private String description;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private String description;	
 
 	public String getName() {
 		return name;
@@ -67,12 +54,5 @@ public class SkillDescription implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
+	
 }

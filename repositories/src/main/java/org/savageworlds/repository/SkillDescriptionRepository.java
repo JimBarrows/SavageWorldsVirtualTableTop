@@ -1,33 +1,29 @@
 package org.savageworlds.repository;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.validation.Valid;
+import javax.persistence.PersistenceContextType;
+
+import jdo.core.repository.RepositoryTemplate;
 
 import org.savageworlds.game.model.SkillDescription;
 
 @Stateless
-public class SkillDescriptionRepository {
+public class SkillDescriptionRepository extends RepositoryTemplate<SkillDescription, Long>{
 
-	@PersistenceContext(name="SavageWorlds")
-	private EntityManager em ;
+	@PersistenceContext(name = "SavageWorlds", type = PersistenceContextType.EXTENDED)
+	protected EntityManager em;
 	
-	public SkillDescription create(@Valid SkillDescription sd) {
-		em.persist(sd);
-		return sd;
+	public SkillDescriptionRepository() {
+		super(SkillDescription.class);
 	}
 
-	public SkillDescription findById(Long id) {		
-		return em.find( SkillDescription.class, id);
+	@Override
+	protected EntityManager em() {
+		return em;
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<SkillDescription> all() {
-		Query query = em.createQuery("SELECT e FROM SkillDescription e");
-	    return (List<SkillDescription>) query.getResultList();
-	}
+	
+	
+	
 }
