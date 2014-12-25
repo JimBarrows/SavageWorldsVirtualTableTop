@@ -7,13 +7,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import jdo.model.BasePersistentModel;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@XmlRootElement
 public class GearDescription extends BasePersistentModel implements Serializable {	
 
 	@NotNull
@@ -65,7 +63,7 @@ public class GearDescription extends BasePersistentModel implements Serializable
 
 	public GearDescription(Long id, String name, Long weight, Long cost, String notes) {
 		super();
-		this.id = id;
+		this.setId(id);
 		this.name = name;
 		this.weight = weight;
 		this.cost = cost;

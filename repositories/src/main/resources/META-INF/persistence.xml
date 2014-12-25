@@ -5,6 +5,7 @@
 	<persistence-unit name="SavageWorlds">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>SavageWorlds</jta-data-source>
+		<class>jdo.model.BasePersistentModel</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />

@@ -1,29 +1,25 @@
 package org.savageworlds.repository;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
+import org.savageworlds.game.model.ArmorDescription;
+
 import jdo.core.repository.RepositoryTemplate;
 
-import org.savageworlds.game.model.SkillDescription;
+public class ArmorDescriptionRepository extends RepositoryTemplate<ArmorDescription, Long> {
 
-@Stateless
-public class SkillDescriptionRepository extends RepositoryTemplate<SkillDescription, Long>{
+	public ArmorDescriptionRepository() {
+		super(ArmorDescription.class);		
+	}
 
 	@PersistenceContext(name = "SavageWorlds")
 	protected EntityManager em;
 	
-	public SkillDescriptionRepository() {
-		super(SkillDescription.class);
-	}
-
 	@Override
 	protected EntityManager em() {
 		return em;
 	}
-	
-	
-	
+
 }
