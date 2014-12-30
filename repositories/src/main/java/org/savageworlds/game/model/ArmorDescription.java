@@ -5,12 +5,15 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 /**
  * Entity implementation class for Entity: ArmorDescription
  *
  */
-@XmlRootElement
 @Entity
+@XmlRootElement
+@JsonRootName("armorDescription")
 public class ArmorDescription extends GearDescription implements Serializable {
 
 	private Integer				armor;

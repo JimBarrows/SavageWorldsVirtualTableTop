@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,13 +11,14 @@
 <meta name="author" content="">
 <link rel="icon" href="../../favicon.ico">
 <link rel="stylesheet" href="css/normalize.css">
-<link rel="stylesheet" href="css/style.css">
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body role="document">
 	<script type="text/x-handlebars">
@@ -29,27 +31,49 @@
 		</div>
 	</script>
 
+	<script type="text/x-handlebars" id="components/field-editor">
+    	<textarea class="form-control">{{value}}</textarea>
+  	</script>
+
 	<script type="text/x-handlebars" id="skilldescriptions/index">
 		<%@ include file="skilldescriptions/index.jsp"%>		
 	</script>
-	
+
 	<script type="text/x-handlebars" id="skilldescriptions/create">
 		<%@ include file="skilldescriptions/create.jsp"%>		
 	</script>
-	
+
 	<script type="text/x-handlebars" id="skilldescriptions/edit">
 		<%@ include file="skilldescriptions/edit.jsp"%>		
 	</script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/x-handlebars" id="armordescriptions/index">
+		<%@ include file="armordescriptions/index.jsp"%>		
+	</script>
+
+	<script type="text/x-handlebars" id="armordescriptions/create">
+		<%@ include file="armordescriptions/create.jsp"%>		
+	</script>
+
+	<script type="text/x-handlebars" id="armordescriptions/edit">
+		<%@ include file="armordescriptions/edit.jsp"%>		
+	</script>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="js/libs/handlebars-v2.0.0.js"></script>
 	<script src="js/libs/ember-1.9.0.js"></script>
 	<script src="js/libs/ember-data-1.0.0-beta.11.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="//cdn.ckeditor.com/4.4.6/full-all/ckeditor.js"></script>
+	<script src="//cdn-source.ckeditor.com/4.4.6/full-all/adapters/jquery.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/controllers.js"></script>
+	<script src="js/armorDescription.js"></script>
 	<script src="js/routes.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

@@ -1,5 +1,26 @@
 App = Ember.Application.create();
 
+App.HtmlTextAreaComponent = Ember.TextArea.extend({
+    didInsertElement: function() {
+        this._super();
+        var self = this;
+        var elementId = self.get('elementId');
+
+        var edit = CKEDITOR.replace( elementId, {
+            extraPlugins : 'autogrow',
+            autoGrow_maxHeight : 800,
+            // Remove the Resize plugin as it does not make sense to use it in conjunction with the AutoGrow plugin.
+            removePlugins : 'resize'
+        });
+
+        edit.on('blur', function(e) {
+                if (e.editor.checkDirty()) {
+                        self.set('value', edit.getData() );
+                }
+        });
+    }
+});
+
 App.ApplicationAdapter = DS.RESTAdapter.extend({
 	namespace : 'admin/api',
 	ajaxError : function(jqXHR) {
@@ -36,6 +57,14 @@ App.Router.map(function() {
 		});
 		this.route('edit', {
 			path : "/:skill_description_id"
+		});
+	});
+	this.resource('armordescriptions', function() {
+		this.route('create', {
+			path : "/new"
+		});
+		this.route('edit', {
+			path : "/:armor_description_id"
 		});
 	});
 });

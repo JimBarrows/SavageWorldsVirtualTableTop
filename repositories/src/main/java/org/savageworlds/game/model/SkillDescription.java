@@ -3,8 +3,12 @@ package org.savageworlds.game.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import jdo.model.BasePersistentModel;
@@ -22,7 +26,7 @@ public class SkillDescription extends BasePersistentModel implements Serializabl
 	 * 
 	 */
 	private static final long	serialVersionUID	= 1L;
-
+	
 	@NotEmpty
 	private String	name;
 	

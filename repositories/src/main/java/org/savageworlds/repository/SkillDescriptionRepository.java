@@ -3,7 +3,6 @@ package org.savageworlds.repository;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import jdo.core.repository.RepositoryTemplate;
 
