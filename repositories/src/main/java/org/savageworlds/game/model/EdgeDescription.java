@@ -12,43 +12,35 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import jdo.model.BasePersistentModel;
+
 @Entity
 @XmlRootElement
-public class EdgeDescription implements Serializable {
+public class EdgeDescription extends BasePersistentModel {
 
 	/**
 	 * 
 	 */
-	private static final long		serialVersionUID	= 1L;
-
-	@Id
-	@GeneratedValue
-	private Long					id;
+	private static final long			serialVersionUID	= 1L;
 
 	@ManyToOne
 	@NotNull
-	private EdgeType				edgeType;
+	private EdgeType							edgeType;
 
-	@NotNull
-	private String					name;
+	@NotEmpty
+	private String								name;
 
-	private RankType				minimumRank			= RankType.Novice;
+	private RankType							minimumRank				= RankType.Novice;
 
-	private CharacterType			requiredType		= null;
-
-	@OneToMany
-	private Set<Skill>				minimumSkills		= new HashSet<Skill>();
+	private CharacterType					requiredType			= CharacterType.Extra;
 
 	@OneToMany
-	private Set<EdgeDescription>	requiredEdges		= new HashSet<EdgeDescription>();
+	private Set<Skill>						minimumSkills			= new HashSet<Skill>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@OneToMany
+	private Set<EdgeDescription>	requiredEdges			= new HashSet<EdgeDescription>();
 
 	public String getName() {
 		return name;

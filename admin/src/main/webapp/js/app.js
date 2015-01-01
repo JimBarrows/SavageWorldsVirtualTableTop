@@ -67,4 +67,12 @@ App.Router.map(function() {
 			path : "/:armor_description_id"
 		});
 	});
+	this.resource('edgetypes', function() {
+		this.route('create', {
+			path : "/new"
+		});
+		this.route('edit', {
+			path : "/:edge_type_id"
+		});
+	});
 });

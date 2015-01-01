@@ -1,37 +1,42 @@
 package org.savageworlds.game.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import jdo.model.BasePersistentModel;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Entity
 @XmlRootElement
-public class EdgeType implements Serializable {
+@JsonRootName("edgeType")
+public class EdgeType extends BasePersistentModel {
 
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long	serialVersionUID	= 1L;	
 
-	@Id
-	@GeneratedValue
-	private Long				id;
-
-	@NotNull
+	@NotEmpty
 	private String				name;
 
 	private String				description;
-
-	public Long getId() {
-		return id;
+	
+	@OneToMany
+	private List<EdgeDescription> edges = new ArrayList<EdgeDescription>();
+	
+	public List<EdgeDescription> getEdges() {
+		return edges;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEdges(List<EdgeDescription> edges) {
+		this.edges = edges;
 	}
 
 	public String getName() {
