@@ -71,6 +71,7 @@
 	<script src="js/app.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/controllers.js"></script>
+	<script src="js/skillDescription.js"></script>
 	<script src="js/armorDescription.js"></script>
 	<script src="js/routes.js"></script>
 
