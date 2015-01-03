@@ -1,20 +1,17 @@
 package org.savageworlds.game.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import jdo.model.BasePersistentModel;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @XmlRootElement

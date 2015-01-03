@@ -75,4 +75,12 @@ App.Router.map(function() {
 			path : "/:edge_type_id"
 		});
 	});
+	this.resource('edgedescriptions', function() {
+		this.route('create', {
+			path : "/new"
+		});
+		this.route('edit', {
+			path : "/:edge_description_id"
+		});
+	});
 });

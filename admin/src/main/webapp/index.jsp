@@ -70,6 +70,18 @@
 	<script type="text/x-handlebars" id="edgetypes/edit">
 		<%@ include file="edgetypes/edit.jsp"%>		
 	</script>
+	
+	<script type="text/x-handlebars" id="edgedescriptions/index">
+		<%@ include file="edgedescriptions/index.jsp"%>		
+	</script>
+
+	<script type="text/x-handlebars" id="edgedescriptions/create">
+		<%@ include file="edgedescriptions/create.jsp"%>		
+	</script>
+
+	<script type="text/x-handlebars" id="edgedescriptions/edit">
+		<%@ include file="edgedescriptions/edit.jsp"%>		
+	</script>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -86,6 +98,7 @@
 	<script src="js/skillDescription.js"></script>
 	<script src="js/armorDescription.js"></script>
 	<script src="js/edgeType.js"></script>
+	<script src="js/edgeDescription.js"></script>
 	<script src="js/routes.js"></script>
 
 

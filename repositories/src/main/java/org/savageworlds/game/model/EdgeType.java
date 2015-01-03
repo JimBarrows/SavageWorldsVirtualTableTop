@@ -1,10 +1,6 @@
 package org.savageworlds.game.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import jdo.model.BasePersistentModel;
@@ -21,23 +17,12 @@ public class EdgeType extends BasePersistentModel {
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;	
+	private static final long	serialVersionUID	= 1L;
 
 	@NotEmpty
-	private String				name;
+	private String						name;
 
-	private String				description;
-	
-	@OneToMany
-	private List<EdgeDescription> edges = new ArrayList<EdgeDescription>();
-	
-	public List<EdgeDescription> getEdges() {
-		return edges;
-	}
-
-	public void setEdges(List<EdgeDescription> edges) {
-		this.edges = edges;
-	}
+	private String						description;
 
 	public String getName() {
 		return name;

@@ -23,6 +23,7 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Edges <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li>{{#link-to 'edgetypes'}}Edge Types{{/link-to}}</li>
+						<li>{{#link-to 'edgedescriptions'}}Edge Descriptions{{/link-to}}</li>
 					</ul>
 				</li>
 			</ul>
