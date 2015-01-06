@@ -1,6 +1,8 @@
 package org.savageworlds.game.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.OrderBy;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import jdo.model.BasePersistentModel;
@@ -20,8 +22,10 @@ public class EdgeType extends BasePersistentModel {
 	private static final long	serialVersionUID	= 1L;
 
 	@NotEmpty
+	@OrderBy
 	private String						name;
 
+	@Lob
 	private String						description;
 
 	public String getName() {

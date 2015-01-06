@@ -3,6 +3,7 @@ package org.savageworlds.game.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -33,10 +34,10 @@ public class EdgeDescription extends BasePersistentModel {
 
 	private CharacterType					requiredType			= CharacterType.Extra;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private Set<Skill>						minimumSkills			= new HashSet<Skill>();
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.MERGE)
 	private Set<EdgeDescription>	requiredEdges			= new HashSet<EdgeDescription>();
 
 	public String getName() {

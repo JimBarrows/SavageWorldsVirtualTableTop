@@ -1,14 +1,14 @@
 package org.savageworlds.game.model;
 
-import java.io.Serializable;
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.String;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import jdo.model.BasePersistentModel;
 
 /**
  * Entity implementation class for Entity: Power
@@ -16,11 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-public class Power implements Serializable {
+public class Power extends BasePersistentModel {
 
-	@Id
-	@GeneratedValue
-	private Long				id;
 	private String				name;
 	@Lob
 	private String				description;
@@ -32,9 +29,6 @@ public class Power implements Serializable {
 	private Set<Trapping>		trappings			= new HashSet<Trapping>();
 	private static final long	serialVersionUID	= 1L;
 
-	public Power() {
-		super();
-	}
 
 	public String getName() {
 		return this.name;
@@ -42,14 +36,6 @@ public class Power implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getDescription() {

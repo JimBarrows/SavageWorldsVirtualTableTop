@@ -1,25 +1,19 @@
 package org.savageworlds.game.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import jdo.model.BasePersistentModel;
+
 @Entity
 @XmlRootElement
-public class HindranceDescription implements Serializable{
+public class HindranceDescription extends BasePersistentModel{
 
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;
-
-	@Id
-	@GeneratedValue
-	private Long	id;
+	private static final long	serialVersionUID	= 1L;	
 
 	@NotNull
 	private String	name;
@@ -28,15 +22,7 @@ public class HindranceDescription implements Serializable{
 	private HindranceSeverity severity;
 	
 	@NotNull
-	private String effects;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private String effects;	
 
 	public String getName() {
 		return name;

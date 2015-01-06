@@ -4,11 +4,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import jdo.model.BasePersistentModel_;
 
-@Generated(value="Dali", date="2014-12-18T06:47:28.019-0700")
+@Generated(value="Dali", date="2015-01-03T15:02:32.764-0700")
 @StaticMetamodel(Power.class)
-public class Power_ {
-	public static volatile SingularAttribute<Power, Long> id;
+public class Power_ extends BasePersistentModel_ {
 	public static volatile SingularAttribute<Power, String> name;
 	public static volatile SingularAttribute<Power, String> description;
 	public static volatile SingularAttribute<Power, RankType> rank;

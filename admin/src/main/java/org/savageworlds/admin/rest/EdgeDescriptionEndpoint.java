@@ -99,6 +99,7 @@ public class EdgeDescriptionEndpoint {
 		entity.setName(dto.getName());
 		entity.setRequiredEdges(dto.getRequiredEdges());
 		entity.setRequiredType(dto.getRequiredType());
+		entity.setVersion( dto.getVersion());
 		return entity;
 	}
 

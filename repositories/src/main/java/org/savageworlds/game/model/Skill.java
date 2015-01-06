@@ -1,20 +1,21 @@
 package org.savageworlds.game.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import jdo.model.BasePersistentModel;
+
 @Entity
 @XmlRootElement
-public class Skill {
+public class Skill extends BasePersistentModel{	
 
-	@Id
-	@GeneratedValue
-	private Long				id;
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= 1L;
 
 	@NotNull
 	@ManyToOne
@@ -26,13 +27,6 @@ public class Skill {
 	@Min(0)
 	private Integer				bonus	= 0;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public SkillDescription getSkill() {
 		return skill;

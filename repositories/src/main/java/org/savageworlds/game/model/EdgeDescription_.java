@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import jdo.model.BasePersistentModel_;
 
-@Generated(value="Dali", date="2015-01-01T08:37:56.091-0700")
+@Generated(value="Dali", date="2015-01-03T15:02:32.721-0700")
 @StaticMetamodel(EdgeDescription.class)
 public class EdgeDescription_ extends BasePersistentModel_ {
 	public static volatile SingularAttribute<EdgeDescription, EdgeType> edgeType;
