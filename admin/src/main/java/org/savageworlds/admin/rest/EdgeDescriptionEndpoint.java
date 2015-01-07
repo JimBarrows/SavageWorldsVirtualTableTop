@@ -99,7 +99,7 @@ public class EdgeDescriptionEndpoint {
 		entity.setName(dto.getName());
 		entity.setRequiredEdges(dto.getRequiredEdges());
 		entity.setRequiredType(dto.getRequiredType());
-		entity.setVersion( dto.getVersion());
+		entity.setVersion(dto.getVersion());
 		return entity;
 	}
 
@@ -118,12 +118,20 @@ public class EdgeDescriptionEndpoint {
 		EdgeDescriptionDto dto = new EdgeDescriptionDto();
 		dto.setId(entity.getId());
 		dto.setVersion(entity.getVersion());
-		dto.setEdgeType(entity.getEdgeType().getId());
 		dto.setName(entity.getName());
+		dto.setEdgeType(entity.getEdgeType().getId());
 		dto.setMinimumRank(entity.getMinimumRank());
 		dto.setRequiredType(entity.getRequiredType());
-		dto.setRequiredEdges(entity.getRequiredEdges());
+		if ((entity.getMinimumSkills() == null) || (entity.getMinimumSkills().isEmpty())) {
+			dto.setMinimumSkills(null);
+		} else {
+			dto.setMinimumSkills(entity.getMinimumSkills());
+		}
+		if ((entity.getRequiredEdges() == null) || (entity.getRequiredEdges().isEmpty())) {
+			dto.setRequiredEdges(null);
+		} else {
+			dto.setRequiredEdges(entity.getRequiredEdges());
+		}
 		return dto;
 	}
-
 }

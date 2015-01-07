@@ -1,10 +1,10 @@
 package org.savageworlds.admin.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.savageworlds.game.model.CharacterType;
@@ -20,29 +20,29 @@ public class EdgeDescriptionDto implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
 	private Long									id;
 
-	private Long									version				= 0l;
+	private Long									version						= 0l;
 
-	private Long									edgeType			= null;
+	@NotNull
+	private Long									edgeType					= null;
 
 	@NotEmpty
 	private String								name;
 
-	private RankType							minimumRank		= RankType.Novice;
+	private RankType							minimumRank				= RankType.Novice;
 
-	private CharacterType					requiredType	= CharacterType.Extra;
+	@NotNull
+	private CharacterType					requiredType			= CharacterType.Extra;
 
-	@OneToMany
-	private Set<Skill>						minimumSkills	= new HashSet<Skill>();
+	private List<Skill>						minimumSkills			= null;
 
-	@OneToMany
-	private Set<EdgeDescription>	requiredEdges	= new HashSet<EdgeDescription>();
-	
+	private List<EdgeDescription>	requiredEdges			= null;
+
 	public EdgeDescriptionDto() {
-		super();		
+		super();
 	}
 
 	public Long getId() {
@@ -93,19 +93,19 @@ public class EdgeDescriptionDto implements Serializable {
 		this.requiredType = requiredType;
 	}
 
-	public Set<Skill> getMinimumSkills() {
+	public List<Skill> getMinimumSkills() {
 		return minimumSkills;
 	}
 
-	public void setMinimumSkills(Set<Skill> minimumSkills) {
+	public void setMinimumSkills(List<Skill> minimumSkills) {
 		this.minimumSkills = minimumSkills;
 	}
 
-	public Set<EdgeDescription> getRequiredEdges() {
+	public List<EdgeDescription> getRequiredEdges() {
 		return requiredEdges;
 	}
 
-	public void setRequiredEdges(Set<EdgeDescription> requiredEdges) {
+	public void setRequiredEdges(List<EdgeDescription> requiredEdges) {
 		this.requiredEdges = requiredEdges;
 	}
 

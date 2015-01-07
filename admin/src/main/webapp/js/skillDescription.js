@@ -2,10 +2,12 @@
  * 
  */
 App.SkillDescription = DS.Model.extend({
-	version:DS.attr('number', {defaultValue: 0}),
-	name:DS.attr('string'),
-	attribute:DS.attr('string'),
-	description:DS.attr('string')
+	version : DS.attr('number', {
+		defaultValue : 0
+	}),
+	name : DS.attr('string'),
+	attribute : DS.attr('string'),
+	description : DS.attr('string')
 });
 
 App.SkilldescriptionsIndexRoute = Ember.Route.extend({
@@ -23,7 +25,7 @@ App.SkilldescriptionsCreateRoute = Ember.Route.extend({
 App.SkilldescriptionsEditRoute = Ember.Route.extend({
 	model : function(params) {
 		return this.store.find('skillDescription', params.skill_description_id)
-	}	
+	}
 });
 
 App.SkilldescriptionsIndexController = Ember.Controller.extend({
@@ -37,30 +39,34 @@ App.SkilldescriptionsIndexController = Ember.Controller.extend({
 
 App.SkilldescriptionsCreateController = Ember.Controller.extend({
 	needs : [ 'alert' ],
-	attributeTypes : ["Agility", "Smarts", "Strength", "Spirit", "Vigor"],
+	attributeTypes : [ "Agility", "Smarts", "Strength", "Spirit", "Vigor" ],
 	actions : {
 		save : function() {
 			var skillDescriptionsCreateController = this;
-			return this.model.save().then(function(){
-				skillDescriptionsCreateController.transitionToRoute('skilldescriptions.index');
-			}, function() {
-			  // Couldn't save, do nothing about it.
-			});
+			return this.model.save().then(
+					function() {
+						skillDescriptionsCreateController
+								.transitionToRoute('skilldescriptions.index');
+					}, function() {
+						// Couldn't save, do nothing about it.
+					});
 		}
 	}
 });
 
 App.SkilldescriptionsEditController = Ember.Controller.extend({
 	needs : [ 'alert' ],
-	attributeTypes : ["Agility", "Smarts", "Strength", "Spirit", "Vigor"],
+	attributeTypes : [ "Agility", "Smarts", "Strength", "Spirit", "Vigor" ],
 	actions : {
 		save : function() {
 			var skillDescriptionsCreateController = this;
-			return this.model.save().then(function(){
-				skillDescriptionsCreateController.transitionToRoute('skilldescriptions.index');
-			}, function() {
-			  // Couldn't save, do nothing about it.
-			});
+			return this.model.save().then(
+					function() {
+						skillDescriptionsCreateController
+								.transitionToRoute('skilldescriptions.index');
+					}, function() {
+						// Couldn't save, do nothing about it.
+					});
 		}
 	}
 });

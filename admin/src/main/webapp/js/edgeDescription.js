@@ -31,8 +31,10 @@ App.EdgeDescription = DS.Model.extend({
 	requiredType :  DS.belongsTo('characterType', {
 		async : true
 	}),
-//	minimumSkills : DS.belongsTo('skill'),
-//	requiredEdges : DS.belongsTo('edgeDescription'),
+	minimumSkills : DS.belongsTo('skill', {
+		async : true
+	}),	
+
 	version : DS.attr('number', {
 		defaultValue : 0
 	}),

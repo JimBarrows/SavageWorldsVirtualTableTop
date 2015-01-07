@@ -1,7 +1,7 @@
 package org.savageworlds.game.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,11 +34,11 @@ public class EdgeDescription extends BasePersistentModel {
 
 	private CharacterType					requiredType			= CharacterType.Extra;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	private Set<Skill>						minimumSkills			= new HashSet<Skill>();
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Skill>						minimumSkills			= new ArrayList<Skill>();
 
-	@OneToMany(cascade=CascadeType.MERGE)
-	private Set<EdgeDescription>	requiredEdges			= new HashSet<EdgeDescription>();
+	@OneToMany(cascade = CascadeType.MERGE)
+	private List<EdgeDescription>	requiredEdges			= new ArrayList<EdgeDescription>();
 
 	public String getName() {
 		return name;
@@ -64,19 +64,19 @@ public class EdgeDescription extends BasePersistentModel {
 		this.requiredType = requiredType;
 	}
 
-	public Set<Skill> getMinimumSkills() {
+	public List<Skill> getMinimumSkills() {
 		return minimumSkills;
 	}
 
-	public void setMinimumSkills(Set<Skill> minimumSkills) {
+	public void setMinimumSkills(List<Skill> minimumSkills) {
 		this.minimumSkills = minimumSkills;
 	}
 
-	public Set<EdgeDescription> getRequiredEdges() {
+	public List<EdgeDescription> getRequiredEdges() {
 		return requiredEdges;
 	}
 
-	public void setRequiredEdges(Set<EdgeDescription> requiredEdges) {
+	public void setRequiredEdges(List<EdgeDescription> requiredEdges) {
 		this.requiredEdges = requiredEdges;
 	}
 
