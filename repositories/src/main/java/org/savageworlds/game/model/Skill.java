@@ -10,23 +10,42 @@ import jdo.model.BasePersistentModel;
 
 @Entity
 @XmlRootElement
-public class Skill extends BasePersistentModel{	
+public class Skill extends BasePersistentModel {
 
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@ManyToOne
-	private SkillDescription	skill;
+	private SkillDescription skill;
 
 	@NotNull
-	private DiceType			dice;
+	private DiceType dice;
 
 	@Min(0)
-	private Integer				bonus	= 0;
+	private Integer bonus = 0;
 
+	@ManyToOne
+	private EdgeDescription edgeDescription;
+
+	public Skill(SkillDescription skillDescription, DiceType diceType) {
+		skill = skillDescription;
+		dice = diceType;
+	}
+
+	public Skill() {
+		super();
+	}
+
+	public EdgeDescription getEdgeDescription() {
+		return edgeDescription;
+	}
+
+	public void setEdgeDescription(EdgeDescription edgeDescription) {
+		this.edgeDescription = edgeDescription;
+	}
 
 	public SkillDescription getSkill() {
 		return skill;
@@ -51,4 +70,5 @@ public class Skill extends BasePersistentModel{
 	public void setBonus(Integer bonus) {
 		this.bonus = bonus;
 	}
+
 }

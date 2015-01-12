@@ -1,7 +1,13 @@
 package org.savageworlds.admin.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,6 +22,8 @@ import javax.ws.rs.QueryParam;
 import org.savageworlds.admin.dto.EdgeDescriptionDto;
 import org.savageworlds.admin.dto.EdgeDescriptionList;
 import org.savageworlds.game.model.EdgeDescription;
+import org.savageworlds.game.model.Skill;
+import org.savageworlds.game.model.SkillDescription;
 import org.savageworlds.repository.EdgeDescriptionRepository;
 import org.savageworlds.repository.EdgeTypeRepository;
 
@@ -24,10 +32,13 @@ import org.savageworlds.repository.EdgeTypeRepository;
 public class EdgeDescriptionEndpoint {
 
 	@EJB
-	private EdgeDescriptionRepository	repo;
+	private EdgeDescriptionRepository repo;
 
 	@EJB
-	private EdgeTypeRepository				edgeTypeRepo;
+	private EdgeTypeRepository edgeTypeRepo;
+
+	@PersistenceContext(name = "SavageWorlds", type = PersistenceContextType.EXTENDED)
+	private EntityManager em;
 
 	protected EdgeDescriptionRepository repo() {
 		return repo;
@@ -66,7 +77,9 @@ public class EdgeDescriptionEndpoint {
 	 */
 	@GET
 	@Produces("application/json")
-	public EdgeDescriptionList listAll(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult) {
+	public EdgeDescriptionList listAll(
+			@QueryParam("start") final Integer startPosition,
+			@QueryParam("max") final Integer maxResult) {
 		EdgeDescriptionList list = new EdgeDescriptionList();
 		repo().findAll().forEach(ed -> list.add(convertTo(ed)));
 		return list;
@@ -80,9 +93,11 @@ public class EdgeDescriptionEndpoint {
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
-	public EdgeDescriptionDto update(@PathParam("id") Long id, final EdgeDescriptionDto dto) {
+	public EdgeDescriptionDto update(@PathParam("id") Long id,
+			final EdgeDescriptionDto dto) {
 		if ((id == null) || (id < 0)) {
-			throw new IllegalArgumentException("Id must be part of path, and greater than 0.");
+			throw new IllegalArgumentException(
+					"Id must be part of path, and greater than 0.");
 		}
 		EdgeDescription entity = convertTo(dto);
 		entity.setId(id);
@@ -90,16 +105,22 @@ public class EdgeDescriptionEndpoint {
 	}
 
 	protected EdgeDescription convertTo(EdgeDescriptionDto dto) {
-		EdgeDescription entity = new EdgeDescription();
+		EdgeDescription entity =  (dto.getId() == null) ? new EdgeDescription() : repo.findById(dto.getId());
+		
 		entity.setMinimumRank(dto.getMinimumRank());
 		if (dto.getEdgeType() != null) {
 			entity.setEdgeType(edgeTypeRepo.findById(dto.getEdgeType()));
 		}
-		entity.setMinimumSkills(dto.getMinimumSkills());
+		if (dto.getMinimumSkills() == null || dto.getMinimumSkills().isEmpty()) {
+			entity.setMinimumSkills(new ArrayList<Skill>());
+		} else {
+			entity.setMinimumSkills(new ArrayList<Skill>());
+			dto.getMinimumSkills().forEach(
+					skillId -> entity.addSkill(em.find(Skill.class, skillId)));
+		}
 		entity.setName(dto.getName());
 		entity.setRequiredEdges(dto.getRequiredEdges());
 		entity.setRequiredType(dto.getRequiredType());
-		entity.setVersion(dto.getVersion());
 		return entity;
 	}
 
@@ -122,12 +143,17 @@ public class EdgeDescriptionEndpoint {
 		dto.setEdgeType(entity.getEdgeType().getId());
 		dto.setMinimumRank(entity.getMinimumRank());
 		dto.setRequiredType(entity.getRequiredType());
-		if ((entity.getMinimumSkills() == null) || (entity.getMinimumSkills().isEmpty())) {
+		if ((entity.getMinimumSkills() == null)
+				|| (entity.getMinimumSkills().isEmpty())) {
 			dto.setMinimumSkills(null);
 		} else {
-			dto.setMinimumSkills(entity.getMinimumSkills());
+			List<Long> skillIdList = new ArrayList<Long>();
+			entity.getMinimumSkills().forEach(
+					skill -> skillIdList.add(skill.getId()));
+			dto.setMinimumSkills(skillIdList);
 		}
-		if ((entity.getRequiredEdges() == null) || (entity.getRequiredEdges().isEmpty())) {
+		if ((entity.getRequiredEdges() == null)
+				|| (entity.getRequiredEdges().isEmpty())) {
 			dto.setRequiredEdges(null);
 		} else {
 			dto.setRequiredEdges(entity.getRequiredEdges());

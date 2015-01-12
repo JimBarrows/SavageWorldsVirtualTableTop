@@ -1,10 +1,14 @@
 App.Skill = DS.Model.extend({
 
+	edge : DS.belongsTo('edgeDescription', {
+		async : true
+	}),
+	
 	description : DS.belongsTo('skillDescription', {
 		async : true
 	}),
-	dice : DS.attr('string', {
-		defaultValue : 'd4'
+	dice : DS.belongsTo('diceType', {
+		async : true
 	}),
 	bonus : DS.attr('number', {
 		defaultValue : 0
@@ -13,11 +17,18 @@ App.Skill = DS.Model.extend({
 });
 
 App.RankType = DS.Model.extend({
-	name: DS.attr('string')
+	name : DS.attr('string'),
+	sequence : DS.attr('number')
 });
 
 App.CharacterType = DS.Model.extend({
-	name: DS.attr('string')
+	name : DS.attr('string'),
+	sequence : DS.attr('number')
+});
+
+App.DiceType = DS.Model.extend({
+	name : DS.attr('string'),
+	sequence : DS.attr('number')
 })
 
 App.EdgeDescription = DS.Model.extend({
@@ -28,12 +39,12 @@ App.EdgeDescription = DS.Model.extend({
 	minimumRank : DS.belongsTo('rankType', {
 		async : true
 	}),
-	requiredType :  DS.belongsTo('characterType', {
+	requiredType : DS.belongsTo('characterType', {
 		async : true
 	}),
-	minimumSkills : DS.belongsTo('skill', {
+	minimumSkills : DS.hasMany('skill', {
 		async : true
-	}),	
+	}),
 
 	version : DS.attr('number', {
 		defaultValue : 0
@@ -103,9 +114,17 @@ App.EdgedescriptionsEditController = Ember.Controller.extend({
 	requiredTypeList : function() {
 		return this.store.find('characterType');
 	}.property(),
+	skillDescriptionList : function() {
+		return this.store.find('skillDescription');
+	}.property(),
+	diceTypeList : function() {
+		return this.store.find('diceType');
+	}.property(),
+	skillDescription : null,
+	diceType : null,
 	actions : {
 		save : function() {
-			var edgeDescriptionsCreateController = this;
+			var edgeDescriptionsEditController = this;
 			return this.model.save().then(
 					function() {
 						edgeDescriptionsCreateController
@@ -113,6 +132,20 @@ App.EdgedescriptionsEditController = Ember.Controller.extend({
 					}, function() {
 						// Couldn't save, do nothing about it.
 					});
+		},
+		addSkillDescription : function() {
+			var controller = this;
+			var model = this.get('model');
+			var newSkill = this.store.createRecord('Skill', {
+				edge : this.get('model'),
+				description : this.get('skillDescription'),
+				dice : this.get('diceType'),
+				bonus : 0
+			});
+			newSkill.save().then(function(savedSkill) {
+				model.get('minimumSkills').addObject(newSkill);
+				model.save();
+			});
 		}
 	}
 });

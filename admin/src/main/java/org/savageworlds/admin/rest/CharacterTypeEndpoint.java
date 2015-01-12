@@ -19,7 +19,7 @@ public class CharacterTypeEndpoint {
 	public CharacterTypeList listAll() {
 		CharacterTypeList list = new CharacterTypeList();
 		for( CharacterType val : CharacterType.values()) {
-			list.add( new CharacterTypeDto( val.name(), val.name()));
+			list.add( new CharacterTypeDto( val.name(), val.name(), val.ordinal()));
 		}
 		return list;
 	}
@@ -29,7 +29,7 @@ public class CharacterTypeEndpoint {
 	@Produces("application/json")
 	public CharacterTypeDto findById(@PathParam("id") final String id) {
 		CharacterType characterType = CharacterType.valueOf(id);
-		return new CharacterTypeDto( characterType.name(), characterType.name());
+		return new CharacterTypeDto( characterType.name(), characterType.name(), characterType.ordinal());
 	}
 
 }

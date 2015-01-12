@@ -88,4 +88,16 @@ public class EdgeDescription extends BasePersistentModel {
 		this.edgeType = edgeType;
 	}
 
+	public Skill addSkill(SkillDescription skillDescription, DiceType diceType) {
+		Skill skill = new Skill( skillDescription, diceType);
+		skill.setEdgeDescription( this);
+		minimumSkills.add(skill);
+		return skill;
+		
+	}
+	
+	public void addSkill( Skill newSkill) {
+		minimumSkills.add(newSkill);
+	}
+
 }

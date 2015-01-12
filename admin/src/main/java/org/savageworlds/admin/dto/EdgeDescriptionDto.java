@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.savageworlds.game.model.CharacterType;
 import org.savageworlds.game.model.EdgeDescription;
 import org.savageworlds.game.model.RankType;
-import org.savageworlds.game.model.Skill;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
@@ -19,26 +18,26 @@ public class EdgeDescriptionDto implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long			serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Long									id;
+	private Long id;
 
-	private Long									version						= 0l;
+	private Long version = 0l;
 
 	@NotNull
-	private Long									edgeType					= null;
+	private Long edgeType = null;
 
 	@NotEmpty
-	private String								name;
+	private String name;
 
-	private RankType							minimumRank				= RankType.Novice;
+	private RankType minimumRank = RankType.Novice;
 
 	@NotNull
-	private CharacterType					requiredType			= CharacterType.Extra;
+	private CharacterType requiredType = CharacterType.Extra;
 
-	private List<Skill>						minimumSkills			= null;
+	private List<Long> minimumSkills = null;
 
-	private List<EdgeDescription>	requiredEdges			= null;
+	private List<EdgeDescription> requiredEdges = null;
 
 	public EdgeDescriptionDto() {
 		super();
@@ -92,11 +91,11 @@ public class EdgeDescriptionDto implements Serializable {
 		this.requiredType = requiredType;
 	}
 
-	public List<Skill> getMinimumSkills() {
+	public List<Long> getMinimumSkills() {
 		return minimumSkills;
 	}
 
-	public void setMinimumSkills(List<Skill> minimumSkills) {
+	public void setMinimumSkills(List<Long> minimumSkills) {
 		this.minimumSkills = minimumSkills;
 	}
 

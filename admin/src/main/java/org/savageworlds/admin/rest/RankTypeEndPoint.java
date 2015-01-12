@@ -6,7 +6,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.savageworlds.admin.dto.CharacterTypeDto;
 import org.savageworlds.admin.dto.RankTypeDto;
 import org.savageworlds.admin.dto.RankTypeList;
 import org.savageworlds.game.model.RankType;
@@ -20,7 +19,7 @@ public class RankTypeEndPoint {
 	public RankTypeList listAll() {
 		RankTypeList list = new RankTypeList();
 		for( RankType rankType : RankType.values()) {
-			list.add( new RankTypeDto( rankType.name(), rankType.name()));
+			list.add( new RankTypeDto( rankType.name(), rankType.name(), rankType.ordinal()));
 		}
 		return list;
 	}
@@ -28,8 +27,8 @@ public class RankTypeEndPoint {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public CharacterTypeDto findById(@PathParam("id") final String id) {
+	public RankTypeDto findById(@PathParam("id") final String id) {
 		RankType type = RankType.valueOf(id);
-		return new CharacterTypeDto( type.name(), type.name());
+		return new RankTypeDto( type.name(), type.name(), type.ordinal());
 	}
 }
