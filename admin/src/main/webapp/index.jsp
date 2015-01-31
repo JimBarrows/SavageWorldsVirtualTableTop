@@ -11,19 +11,25 @@
 <meta name="author" content="">
 <link rel="icon" href="../../favicon.ico">
 <link rel="stylesheet" href="css/normalize.css">
-<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-
-<!-- Optional theme -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/summernote.css">
+<link rel="stylesheet" href="css/summernote-bs3.css">
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 </head>
 <body role="document">
 	<script type="text/x-handlebars">
 		<%@ include file="template.jsp"%>		
 	</script>
+
+	<script type="text/x-handlebars"
+		data-template-name="components/wysiwyg-editor">
+    {{textarea classNames='wysiwyg-textarea form-control' value=content}}
+  </script>
 
 	<script type="text/x-handlebars" id="index">
 		<div class="page-header">
@@ -58,7 +64,7 @@
 	<script type="text/x-handlebars" id="armordescriptions/edit">
 		<%@ include file="armordescriptions/edit.jsp"%>		
 	</script>
-	
+
 	<script type="text/x-handlebars" id="edgetypes/index">
 		<%@ include file="edgetypes/index.jsp"%>		
 	</script>
@@ -70,7 +76,7 @@
 	<script type="text/x-handlebars" id="edgetypes/edit">
 		<%@ include file="edgetypes/edit.jsp"%>		
 	</script>
-	
+
 	<script type="text/x-handlebars" id="edgedescriptions/index">
 		<%@ include file="edgedescriptions/index.jsp"%>		
 	</script>
@@ -90,9 +96,9 @@
 	<script src="js/libs/ember-data-1.0.0-beta.11.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="//cdn.ckeditor.com/4.4.6/full-all/ckeditor.js"></script>
-	<script src="//cdn-source.ckeditor.com/4.4.6/full-all/adapters/jquery.js"></script>
+	<script src="js/libs/summernote.js"></script>
 	<script src="js/app.js"></script>
+	<script src="js/libs/WysiwygEditorComponent.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/controllers.js"></script>
 	<script src="js/skillDescription.js"></script>

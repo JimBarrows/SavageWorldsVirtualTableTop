@@ -23,20 +23,8 @@
 			</div>
 		</div>
 
-		<div {{bind-attr class=":form-group model.errors.description:has-error"}}>
-			<label for="description" class="col-sm-2 control-label">Description</label>
-			<div class="col-sm-10">
-				{{textarea value=model.description class="form-control" placeholder="Description of Skill"}} 
-				{{#if model.errors.description}} 
-					<span class="glyphicon glyphicon-remove form-control-feedback"></span> 
-					<span class="help-block">
-						<ul>
-							<li>{{#each model.errors.description}} {{message}} {{/each}}</li>
-						</ul>
-					</span> 
-				{{/if}}
-			</div>
-		</div>
+		<ember:TextAreaField label="Description" field="description" />
+		
 		<button {{action 'save'}} class="btn btn-sm btn-primary" role="button">Save</button>
 	</form>
 </div>
