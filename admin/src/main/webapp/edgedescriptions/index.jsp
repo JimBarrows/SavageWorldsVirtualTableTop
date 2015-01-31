@@ -2,15 +2,16 @@
 <h1>Edge Description</h1>
 </div>
 {{#link-to "edgedescriptions.create" class="btn btn-default"}}Add{{/link-to}}
-<ul>
+<dl>
 	{{#each record in model}}
-	<li>
+	<dt>
 		{{#link-to 'edgedescriptions.edit' record}}{{record.name}}{{/link-to}}
 		<button type="button" class="btn btn-default" aria-label="Left Align" {{action "remove" record}}>
   			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 		</button> 
-	</li> 
+	</dt>
+	<dd> {{record.description}}</dd> 
 	{{else}}
 	<li>You have no edge descriptions!</li>
 	{{/each}}
-</ul>
+</dl>
