@@ -31,6 +31,7 @@
 						optionValuePath="content.id"
 						optionLabelPath="content.name" 
 						selectionBinding="skillDescription"
+						prompt="Pick a Skill"
 						class="form-control" }}
 				</td>
 				<td>{{view "select" 
@@ -38,6 +39,7 @@
 						optionValuePath="content.id"
 						optionLabelPath="content.name" 
 						selectionBinding="diceType"
+						prompt="Pick a Dice"
 						class="form-control" }}</td>
 				<td><button {{action 'addSkillDescription'}} class="btn btn-xs btn-success" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></td>
 			</tr>
@@ -46,7 +48,7 @@
 					<td>{{skill.description.name}}</td>
 					<td>{{skill.dice.name}}</td>
 					<td>
-						<button class="btn btn-xs btn-success" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+						<button {{action 'removeSkillDescription' skill}} class="btn btn-xs btn-success" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 					</td>
 				</tr>
 			{{else}}

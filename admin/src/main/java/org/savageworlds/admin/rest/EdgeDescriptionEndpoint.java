@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -93,15 +94,22 @@ public class EdgeDescriptionEndpoint {
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
+	@Transactional
 	public EdgeDescriptionDto update(@PathParam("id") Long id,
 			final EdgeDescriptionDto dto) {
 		if ((id == null) || (id < 0)) {
 			throw new IllegalArgumentException(
 					"Id must be part of path, and greater than 0.");
 		}
-		EdgeDescription entity = convertTo(dto);
-		entity.setId(id);
-		return convertTo(repo().update(entity));
+		EdgeDescription newEntity = convertTo(dto);
+		EdgeDescription originalEntity = em.find(EdgeDescription.class, id);
+		originalEntity.setEdgeType(newEntity.getEdgeType());
+		originalEntity.setMinimumRank(newEntity.getMinimumRank());
+		originalEntity.setMinimumSkills(newEntity.getMinimumSkills());
+		originalEntity.setName(newEntity.getName());
+		originalEntity.setRequiredEdges(newEntity.getRequiredEdges());
+		originalEntity = em.merge(originalEntity);
+		return convertTo(originalEntity);
 	}
 
 	protected EdgeDescription convertTo(EdgeDescriptionDto dto) {

@@ -41,13 +41,14 @@ public class SkillEndpoint  {
 	 */
 	@POST
 	@Consumes("application/json")
+	@Transactional
 	public SkillDto create( SkillDto dto) { 
-		EdgeDescription edgeDescription = edgeDescriptionRepo.findById(dto.getEdge());
-		SkillDescription skillDescription = skillDescriptionRepo.findById(dto.getDescription());
+		EdgeDescription edgeDescription = em.find(EdgeDescription.class, dto.getEdge());
+		SkillDescription skillDescription = em.find(SkillDescription.class, dto.getDescription());
 		DiceType diceType = DiceType.valueOf(dto.getDice());
 		Skill skill = edgeDescription.addSkill( skillDescription, diceType);
 		em.persist(skill);
-		edgeDescriptionRepo.update(edgeDescription);
+		em.merge(edgeDescription);		
 		dto.setId( skill.getId());
 		dto.setVersion( skill.getVersion());
 		return dto;
