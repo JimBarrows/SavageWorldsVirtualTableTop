@@ -1,0 +1,9 @@
+{{#link-to 'plot-point'}}New Plot Point{{/link-to}}	
+<table class="table">
+{{#each plot-point in model}}
+<tr>
+	<td>{{plot-point.name}}</td>
+	<td>{{{plot-point.description}}}</td>
+</tr>
+{{/each}}
+</table>
