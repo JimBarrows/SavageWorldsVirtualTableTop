@@ -2,5 +2,8 @@
 	<div class="page-header">
 		<h1 id="title">Savage Worlds</h1>
 	</div>	
+	{{#each flash in flashes.queue}}
+  		{{flash-message flash=flash}}
+	{{/each}}
 	{{outlet}}
 </div>
