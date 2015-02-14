@@ -1,0 +1,70 @@
+<h2>Plot Point</h2>
+<form class="form-horizontal" role="form">
+	{{error}}
+	<div class="row">
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="name">Name</label>
+		<div class="col-sm-10">
+			{{input class="form-control" placeholder="Name" name="name" value=model.name}}
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="description">Description</label>
+		<div class="col-sm-10">
+			{{summer-note content=model.description }}
+		</div>
+	</div>
+	<div class="col-sm-offset-5 col-sm-2">
+		<button {{action 'save'}} class="btn btn-primary">Save</button>
+		<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
+	</div>
+	</div>
+	<div class="row">
+	<div role="tabpanel">
+		<ul class="nav nav-tabs role="tablist">
+			<li role="presentation" class="active"><a href="#rules" aria-controls="rules" role="tab" data-toggle="tab">Rules</a></li>
+			<li role="presentation"><a href="#races" aria-controls="races" role="tab" data-toggle="tab">Races</a></li>
+			<li role="presentation"><a href="#skills" aria-controls="skills" role="tab" data-toggle="tab">Skills</a></li>
+			<li role="presentation"><a href="#edges" aria-controls="edges" role="tab" data-toggle="tab">Edges</a></li>
+			<li role="presentation"><a href="#hindrances" aria-controls="hindrances" role="tab" data-toggle="tab">Hindrances</a></li>
+			<li role="presentation"><a href="#gear" aria-controls="gear" role="tab" data-toggle="tab">Gear</a></li>
+			<li role="presentation"><a href="#places" aria-controls="places" role="tab" data-toggle="tab">Places</a></li>
+			<li role="presentation"><a href="#archetypes" aria-controls="characters" role="tab" data-toggle="tab">Archetypes</a></li>
+			<li role="presentation"><a href="#characters" aria-controls="characters" role="tab" data-toggle="tab">Characters</a></li>
+			<li role="presentation"><a href="#extras" aria-controls="extras" role="tab" data-toggle="tab">Extras</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="rules">
+				<h2>Rules</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="races">
+				<h2>Races</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="skills">
+				<h2>Skills</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="edges">
+				<h2>Edges</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="hindrances">
+				<h2>Hindrances</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="gear">
+				<h2>Gear</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="places">
+				<h2>Places</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="archetypes"
+				<h2>Archetypes</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="characters">
+				<h2>Characters</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="extras">
+				<h2>Extras</h2>
+			</div>
+		</div>
+	</div>	
+	</div>
+</form

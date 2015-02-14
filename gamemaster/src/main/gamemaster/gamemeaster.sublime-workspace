@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"plo",
+				"plotPoint"
+			],
+			[
+				"plot",
+				"plotPoints"
+			],
+			[
 				"softwa",
 				"softwareSystem"
 			],
@@ -63,6 +71,73 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "app/controllers/plot-point.js",
+			"settings":
+			{
+				"buffer_size": 229,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/templates/index.hbs",
+			"settings":
+			{
+				"buffer_size": 699,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/routes/plot-point.js",
+			"settings":
+			{
+				"buffer_size": 262,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/routes/plot-point/edit.js",
+			"settings":
+			{
+				"buffer_size": 260,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/router.js",
+			"settings":
+			{
+				"buffer_size": 319,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/controllers/index.js",
+			"settings":
+			{
+				"buffer_size": 75,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<h2>Plot Point</h2>\n<form class=\"form-horizontal\" role=\"form\">\n	{{error}}\n	<div class=\"row\">\n	<div class=\"form-group\">\n		<label class=\"col-sm-2 control-label\" for=\"name\">Name</label>\n		<div class=\"col-sm-10\">\n			{{input class=\"form-control\" placeholder=\"Name\" name=\"name\" value=name}}\n		</div>\n	</div>\n	<div class=\"form-group\">\n		<label class=\"col-sm-2 control-label\" for=\"description\">Description</label>\n		<div class=\"col-sm-10\">\n			{{summer-note content=model.description }}\n		</div>\n	</div>\n	<div class=\"col-sm-offset-5 col-sm-2\">\n		<button {{action 'save'}} class=\"btn btn-primary\">Save</button>\n		<button {{action 'cancel'}} class=\"btn btn-default\">Cancel</button>\n	</div>\n	</div>\n	<div class=\"row\">\n	<div role=\"tabpanel\">\n		<ul class=\"nav nav-tabs role=\"tablist\">\n			<li role=\"presentation\" class=\"active\"><a href=\"#rules\" aria-controls=\"rules\" role=\"tab\" data-toggle=\"tab\">Rules</a></li>\n			<li role=\"presentation\"><a href=\"#races\" aria-controls=\"races\" role=\"tab\" data-toggle=\"tab\">Races</a></li>\n			<li role=\"presentation\"><a href=\"#skills\" aria-controls=\"skills\" role=\"tab\" data-toggle=\"tab\">Skills</a></li>\n			<li role=\"presentation\"><a href=\"#edges\" aria-controls=\"edges\" role=\"tab\" data-toggle=\"tab\">Edges</a></li>\n			<li role=\"presentation\"><a href=\"#hindrances\" aria-controls=\"hindrances\" role=\"tab\" data-toggle=\"tab\">Hindrances</a></li>\n			<li role=\"presentation\"><a href=\"#gear\" aria-controls=\"gear\" role=\"tab\" data-toggle=\"tab\">Gear</a></li>\n			<li role=\"presentation\"><a href=\"#places\" aria-controls=\"places\" role=\"tab\" data-toggle=\"tab\">Places</a></li>\n			<li role=\"presentation\"><a href=\"#archetypes\" aria-controls=\"characters\" role=\"tab\" data-toggle=\"tab\">Archetypes</a></li>\n			<li role=\"presentation\"><a href=\"#characters\" aria-controls=\"characters\" role=\"tab\" data-toggle=\"tab\">Characters</a></li>\n			<li role=\"presentation\"><a href=\"#extras\" aria-controls=\"extras\" role=\"tab\" data-toggle=\"tab\">Extras</a></li>\n		</ul>\n		<div class=\"tab-content\">\n			<div role=\"tabpanel\" class=\"tab-pane active\" id=\"rules\">\n				<h2>Rules</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"races\">\n				<h2>Races</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"skills\">\n				<h2>Skills</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"edges\">\n				<h2>Edges</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"hindrances\">\n				<h2>Hindrances</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"gear\">\n				<h2>Gear</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"places\">\n				<h2>Places</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"archetypes\"\n				<h2>Archetypes</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"characters\">\n				<h2>Characters</h2>\n			</div>\n			<div role=\"tabpanel\" class=\"tab-pane\" id=\"extras\">\n				<h2>Extras</h2>\n			</div>\n		</div>\n	</div>	\n	</div>\n</form",
+			"file": "app/templates/plot-point.hbs",
+			"file_size": 2865,
+			"file_write_time": 130683122882751520,
+			"settings":
+			{
+				"buffer_size": 2865,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/templates/plot-point/edit.hbs",
+			"settings":
+			{
+				"buffer_size": 11,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -140,7 +215,16 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/routes/edit.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/router.js",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/package.json",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/index.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/package.json",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/mocks/softwareSystems.js",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/server/mocks/plot-points.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/bower.json",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/bower.json",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/Brocfile.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/models/software-system.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/templates/add.hbs",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/templates/feature/add.hbs",
@@ -154,13 +238,10 @@
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/controllers/add.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/templates/index.hbs",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/Brocfile.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/bower.json",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/index.html",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/mocks/softwareSystems.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/controllers/index.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/routes/add.js",
 		"/C/Users/Jim/Documents/GitHub/JavaDomainObjects/ember-tags/src/main/resources/META-INF/tags/selectobjectfield.tag",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/routes/edit.js",
 		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/routes/index.js",
 		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/admin/src/main/webapp/edgedescriptions/form.jsp",
 		"/C/Users/barrowsj/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/models/software-system.js",
@@ -261,13 +342,7 @@
 		"/C/Users/barrowsj/Documents/GitHub/EnterpiriseKanban/ItemfileReadStore.js",
 		"/C/Users/barrowsj/Documents/GitHub/JavaDomainObjects/all-models/pom.xml",
 		"/C/Program Files (x86)/IGC/Brava!/Brava! Server/server.properties",
-		"/C/cygwin/home/barrowsj/deploy.sh",
-		"/C/Users/barrowsj/AppData/Local/Temp/build.gradle-revHEAD.svn001.tmp.gradle",
-		"/C/Users/barrowsj/Documents/GitHub/JavaDomainObjects/all-models/src/main/java/jdo/workeffort/WorkEffort.java",
-		"/C/Users/barrowsj/Documents/GitHub/JavaDomainObjects/all-models/src/main/java/jdo/workeffort/Project.java",
-		"/C/Users/barrowsj/Documents/GitHub/JavaDomainObjects/all-models/src/main/java/jdo/workeffort/WorkFlow.java",
-		"/C/Users/barrowsj/Documents/GitHub/JavaDomainObjects/all-models/src/main/java/jdo/workeffort/Purpose.java",
-		"/C/Users/barrowsj/Documents/GitHub/JavaDomainObjects/all-models/src/main/java/jdo/product/model/feature/SoftwareFeature.java"
+		"/C/cygwin/home/barrowsj/deploy.sh"
 	],
 	"find":
 	{
@@ -285,6 +360,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"system",
 			"software-system",
 			"8500",
 			"8400",
@@ -388,8 +464,219 @@
 	"groups":
 	[
 		{
+			"selected": 6,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "app/controllers/plot-point.js",
+					"settings":
+					{
+						"buffer_size": 229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/templates/index.hbs",
+					"settings":
+					{
+						"buffer_size": 699,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								699,
+								699
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/routes/plot-point.js",
+					"settings":
+					{
+						"buffer_size": 262,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								66,
+								257
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/routes/plot-point/edit.js",
+					"settings":
+					{
+						"buffer_size": 260,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								146,
+								146
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/router.js",
+					"settings":
+					{
+						"buffer_size": 319,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								266,
+								266
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/controllers/index.js",
+					"settings":
+					{
+						"buffer_size": 75,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								70,
+								70
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/templates/plot-point.hbs",
+					"settings":
+					{
+						"buffer_size": 2865,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								278,
+								278
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/templates/plot-point/edit.hbs",
+					"settings":
+					{
+						"buffer_size": 11,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
