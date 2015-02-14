@@ -36,6 +36,7 @@ module.exports = function(app) {
   });
 
   plotPointsRouter.delete('/:id', function(req, res) {
+    data.splice(req.params.id - 1, 1);
     res.status(204).end();
   });
 
