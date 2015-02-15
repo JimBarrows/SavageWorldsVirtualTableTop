@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+
+	standardRaces:[],
+
 	actions: {
 		save:function() {			
 			var controller = this;
@@ -11,6 +14,18 @@ export default Ember.Controller.extend({
 		cancel: function() {
 			this.model.rollback();
 			this.transitionToRoute('index');
+		},
+		addRace: function( race, ops) {
+			var newRace = this.store.createRecord('race',{
+				name: race.get('name'),
+				description: race.get('description'),
+			});
+			var controller = this;
+			newRace.save(). then(function(res){
+				controller.model.get('races').addRecord(newRace);
+				controller.model.save();
+			});
+			
 		}
 	}
 });

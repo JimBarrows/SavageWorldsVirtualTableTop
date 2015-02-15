@@ -2,7 +2,7 @@ module.exports = function(app) {
   var express = require('express');
   var plotPointsRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'First Plot Point', description:'<p>Test Me!</p>'}]
+  var data = [{id:1, name:'The Fires of Escalon', description:'<p>The ravaging hordes are coming and a party of elven scouts must deny them sustenance.</p>'}]
 
   plotPointsRouter.get('/', function(req, res) {
     res.send({
@@ -11,11 +11,8 @@ module.exports = function(app) {
   });
 
   plotPointsRouter.post('/', function(req, res) {
-    var newRec = {
-      id: data.length + 1,
-      name: req.body.plotPoint.name,
-      description: req.body.plotPoint.description
-    };
+    var newRec = eq.body.plotPoint;
+    newRec.id = data.length + 1,      
     data.push( newRec);
     res.status(201).send({ plotPoint: newRec}).end();
   });
@@ -27,11 +24,11 @@ module.exports = function(app) {
   });
 
   plotPointsRouter.put('/:id', function(req, res) {
-    var plotPoint = data[req.params.id -1];
-    plotPoint.name = req.body.plotPoint.name;
-    plotPoint.description = req.body.plotPoint.description;
+    var existingRecord = data[req.params.id -1];
+    existingRecord = req.body.plotPoint;    
+    existingRecord.id = req.params.id;
     res.send({
-      'plot-points': plotPoint
+      'plot-points': existingRecord
     });
   });
 
