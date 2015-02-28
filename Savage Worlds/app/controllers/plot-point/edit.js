@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
 	standardRaces:[],
+	standardSkills: [],
 
 	actions: {
 		save:function() {			
@@ -22,11 +23,27 @@ export default Ember.Controller.extend({
 				description: race.get('description'),
 			});
 			var controller = this;
-			newRace.save(). then(function(res){
-				controller.model.get('races').addRecord(newRace);
-				controller.model.save();
+			newRace.save().then(function(res){
+				controller.model.get('races').then(function(races){
+					races.addRecord(newRace);
+					controller.model.save();
+				});
 			});
 			
+		},
+		addSkill: function( skillDescription, ops) {
+			var newSkill = this.store.createRecord('skill-description',{
+				name: skillDescription.get('name'),
+				description: skillDescription.get('description'),
+				attribute: skillDescription.get('attribute')
+			});
+			var controller = this;
+			newSkill.save().then(function(res){
+				controller.model.get('skills').then(function( skills){
+					skills.addRecord(newSkill);
+					controller.model.save();
+				});
+			});
 		}
 	}
 });

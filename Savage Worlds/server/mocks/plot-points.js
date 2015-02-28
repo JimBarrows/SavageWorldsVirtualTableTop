@@ -25,7 +25,8 @@ module.exports = function(app) {
 
   plotPointsRouter.put('/:id', function(req, res) {
     var existingRecord = data[req.params.id -1];
-    existingRecord = req.body.plotPoint;    
+    existingRecord = req.body.plotPoint;  
+    data[req.params.id - 1] = existingRecord;  
     existingRecord.id = req.params.id;
     res.send({
       'plot-points': existingRecord

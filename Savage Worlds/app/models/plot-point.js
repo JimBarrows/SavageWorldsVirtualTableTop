@@ -14,5 +14,6 @@ export default DS.Model.extend({
   multipleLanguages: DS.attr('boolean'),
   noPowerPoints: DS.attr('boolean'),
   skillSpecialization: DS.attr('boolean'),
-  races: DS.hasMany('race')
+  races: DS.hasMany('race', {async:true}),
+  skills: DS.hasMany('skill-description', {async:true})
 });

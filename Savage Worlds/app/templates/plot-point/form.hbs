@@ -98,7 +98,10 @@
     				action="addRace"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="skills">
-				<h2>Skills</h2>
+				{{two-column-picker 
+    				available=controller.standardSkills 
+    				selected=controller.model.skills
+    				action="addSkill"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="edges">
 				<h2>Edges</h2>
