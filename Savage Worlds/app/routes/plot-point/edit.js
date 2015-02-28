@@ -6,6 +6,7 @@ export default Ember.Route.extend({
 		controller.set('standardSkills', this.store.find('standard-skill-description'));
 		controller.set('standardEdges', this.store.find('standard-edge'));
 		controller.set('standardHindrances', this.store.find('standard-hindrance'));
+		controller.set('standardGear', this.store.find('standard-gear'));
     	controller.set('model', model);
   	},
 	model: function(params) {

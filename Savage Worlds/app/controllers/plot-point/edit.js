@@ -71,6 +71,19 @@ export default Ember.Controller.extend({
 					controller.model.save();
 				});
 			});
+		},
+		addGear: function( gear, ops) {
+			var newRecord = this.store.createRecord('gear',{
+				name: gear.get('name'),
+				description: gear.get('description')
+			});
+			var controller = this;
+			newRecord.save().then(function(res){
+				controller.model.get('gear').then(function( gear){
+					gear.addRecord(newRecord);
+					controller.model.save();
+				});
+			});
 		}
 	}
 });

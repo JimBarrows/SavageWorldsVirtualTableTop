@@ -17,5 +17,6 @@ export default DS.Model.extend({
   races: DS.hasMany('race', {async:true}),
   skills: DS.hasMany('skill-description', {async:true}),
   edges: DS.hasMany('edge', {async:true}),
-  hindrances: DS.hasMany('hindrance', {async:true})
+  hindrances: DS.hasMany('hindrance', {async:true}),
+  gear: DS.hasMany('gear', {async:true})
 });
