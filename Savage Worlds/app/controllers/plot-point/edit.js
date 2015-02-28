@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
 
 	standardRaces:[],
 	standardSkills: [],
+	standardEdges: [],
 
 	actions: {
 		save:function() {			
@@ -18,29 +19,55 @@ export default Ember.Controller.extend({
 			this.transitionToRoute('index');
 		},
 		addRace: function( race, ops) {
-			var newRace = this.store.createRecord('race',{
+			var newRecord = this.store.createRecord('race',{
 				name: race.get('name'),
 				description: race.get('description'),
 			});
 			var controller = this;
-			newRace.save().then(function(res){
+			newRecord.save().then(function(res){
 				controller.model.get('races').then(function(races){
-					races.addRecord(newRace);
+					races.addRecord(newRecord);
 					controller.model.save();
 				});
 			});
 			
 		},
 		addSkill: function( skillDescription, ops) {
-			var newSkill = this.store.createRecord('skill-description',{
+			var newRecord = this.store.createRecord('skill-description',{
 				name: skillDescription.get('name'),
 				description: skillDescription.get('description'),
 				attribute: skillDescription.get('attribute')
 			});
 			var controller = this;
-			newSkill.save().then(function(res){
+			newRecord.save().then(function(res){
 				controller.model.get('skills').then(function( skills){
-					skills.addRecord(newSkill);
+					skills.addRecord(newRecord);
+					controller.model.save();
+				});
+			});
+		},
+		addEdge: function( edge, ops) {
+			var newRecord = this.store.createRecord('edge',{
+				name: edge.get('name'),
+				description: edge.get('description')
+			});
+			var controller = this;
+			newRecord.save().then(function(res){
+				controller.model.get('edges').then(function( edges){
+					edges.addRecord(newRecord);
+					controller.model.save();
+				});
+			});
+		},
+		addHindrance: function( hindrance, ops) {
+			var newRecord = this.store.createRecord('hindrance',{
+				name: hindrance.get('name'),
+				description: hindrance.get('description')
+			});
+			var controller = this;
+			newRecord.save().then(function(res){
+				controller.model.get('hindrances').then(function( hindrances){
+					hindrances.addRecord(newRecord);
 					controller.model.save();
 				});
 			});

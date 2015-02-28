@@ -104,10 +104,16 @@
     				action="addSkill"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="edges">
-				<h2>Edges</h2>
+				{{two-column-picker 
+    				available=controller.standardEdges 
+    				selected=controller.model.edges
+    				action="addEdge"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="hindrances">
-				<h2>Hindrances</h2>
+				{{two-column-picker 
+    				available=controller.standardHindrances 
+    				selected=controller.model.hindrances
+    				action="addHindrance"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="gear">
 				<h2>Gear</h2>
