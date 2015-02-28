@@ -1,0 +1,29 @@
+<div class="col-sm-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">Available</div>
+      <div class="panel-body">
+        <ul class="list-group">
+          {{#each rule in available}}
+            {{#draggable-object content=rule}}
+              <li class="list-group-item" {{action add rule}}>{{rule.name}}</li>
+            {{/draggable-object}}
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-6">
+  {{#draggable-object-target action="selected"}}
+    <div class="panel panel-default">
+      <div class="panel-heading">In Setting</div>
+      <div class="panel-body">
+        <ul class="list-group">
+          {{#each rule in selected}}
+            <li class="list-group-item" {{action remove rule}}>{{rule.name}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  {{/draggable-object-target}}
+</div>
