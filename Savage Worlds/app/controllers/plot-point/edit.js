@@ -25,10 +25,8 @@ export default Ember.Controller.extend({
 			});
 			var controller = this;
 			newRecord.save().then(function(res){
-				controller.model.get('races').then(function(races){
-					races.addRecord(newRecord);
-					controller.model.save();
-				});
+				controller.model.get('races').addRecord(newRecord);
+				controller.model.save();
 			});
 			
 		},
@@ -40,10 +38,8 @@ export default Ember.Controller.extend({
 			});
 			var controller = this;
 			newRecord.save().then(function(res){
-				controller.model.get('skills').then(function( skills){
-					skills.addRecord(newRecord);
-					controller.model.save();
-				});
+				controller.model.get('skills').addRecord(newRecord);
+				controller.model.save();
 			});
 		},
 		addEdge: function( edge, ops) {
@@ -53,10 +49,8 @@ export default Ember.Controller.extend({
 			});
 			var controller = this;
 			newRecord.save().then(function(res){
-				controller.model.get('edges').then(function( edges){
-					edges.addRecord(newRecord);
-					controller.model.save();
-				});
+				controller.model.get('edges').addRecord(newRecord);
+				controller.model.save();
 			});
 		},
 		addHindrance: function( hindrance, ops) {
@@ -66,10 +60,8 @@ export default Ember.Controller.extend({
 			});
 			var controller = this;
 			newRecord.save().then(function(res){
-				controller.model.get('hindrances').then(function( hindrances){
-					hindrances.addRecord(newRecord);
-					controller.model.save();
-				});
+				controller.model.get('hindrances').addRecord(newRecord);
+				controller.model.save();
 			});
 		},
 		addGear: function( gear, ops) {
@@ -79,10 +71,8 @@ export default Ember.Controller.extend({
 			});
 			var controller = this;
 			newRecord.save().then(function(res){
-				controller.model.get('gear').then(function( gear){
-					gear.addRecord(newRecord);
-					controller.model.save();
-				});
+				controller.model.get('gear').addRecord(newRecord);
+				controller.model.save();
 			});
 		}
 	}
