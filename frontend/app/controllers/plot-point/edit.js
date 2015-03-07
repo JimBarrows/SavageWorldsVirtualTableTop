@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
 	standardHindrances: [],
 	standardGear: [],
 	standardPlaces: [],
+	standardArchetypes: [],
 
 	actions: {
 		save:function() {			
@@ -86,6 +87,16 @@ export default Ember.Controller.extend({
 				description: place.get('description')
 			});
 			controller.model.get('places').addRecord(newRecord);
+			controller.model.save();
+		},
+		addArchetype: function( archetype, ops) {
+			var controller = this;
+			var newRecord = this.store.createRecord('archetype',{
+				id: controller.model.get('archetypes').length + 1,
+				name: archetype.get('name'),
+				description: archetype.get('description')
+			});
+			controller.model.get('archetypes').addRecord(newRecord);
 			controller.model.save();
 		}
 	}

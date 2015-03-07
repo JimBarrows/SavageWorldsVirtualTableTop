@@ -146,8 +146,11 @@
     				selected=controller.model.places
     				action="addPlace"}}
 			</div>
-			<div role="tabpanel" class="tab-pane" id="archetypes"
-				<h2>Archetypes</h2>
+			<div role="tabpanel" class="tab-pane" id="archetypes">
+				{{two-column-picker 
+    				available=controller.standardArchetypes
+    				selected=controller.model.archetypes
+    				action="addArchetype"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="characters">
 				<h2>Characters</h2>

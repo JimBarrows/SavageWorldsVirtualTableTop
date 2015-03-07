@@ -19,5 +19,6 @@ export default DS.Model.extend({
   edges:      DS.hasMany('edge'),
   hindrances: DS.hasMany('hindrance'),
   gear:       DS.hasMany('gear'),
-  places:     DS.hasMany('place')
+  places:     DS.hasMany('place'),
+  archetypes:     DS.hasMany('archetype')
 });
