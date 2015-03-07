@@ -171,10 +171,16 @@
     				action="addExtra"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="powers">
-				<h2>Powers</h2>
+				{{two-column-picker 
+    				available=controller.standardPowers
+    				selected=controller.model.powers
+    				action="addPower"}}
 			</div>
-			<div role="tabpanel" class="tab-pane" id="Bestiary">
-				<h2>Bestiary</h2>
+			<div role="tabpanel" class="tab-pane" id="bestiary">
+				{{two-column-picker 
+    				available=controller.standardBeasts
+    				selected=controller.model.beasts
+    				action="addBeast"}}
 			</div>
 		</div>
 	</div>	

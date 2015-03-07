@@ -22,5 +22,7 @@ export default DS.Model.extend({
   places:       DS.hasMany('place'),
   archetypes:   DS.hasMany('archetype'),
   characters:   DS.hasMany('character'),
-  extras:       DS.hasMany('extra')
+  extras:       DS.hasMany('extra'),
+  powers:       DS.hasMany('power'),
+  beasts:       DS.hasMany('beast')
 });

@@ -14,7 +14,7 @@ module.exports =  {
 		archetypes: [],
 		characters: [],
 		extras: [],
-		bestiary: [],
+		beasts: [],
 		powers: [],
 		standardCharacters: [{ id:1,
 			name: "Standard Character 1",
@@ -27,7 +27,19 @@ module.exports =  {
 			description: "<p>Standard Extra 1 Description.</p>"},
 			{ id: 2,
 			name: "Standard Extra 2",
-			description: "<p>Standard Extra 2 Description.</p>"}]		
+			description: "<p>Standard Extra 2 Description.</p>"}],
+		standardPowers: [{ id:1,
+			name: "Standard Power 1",
+			description: "<p>Standard Power 1 Description.</p>"},
+			{ id: 2,
+			name: "Standard Power 2",
+			description: "<p>Standard Power 2 Description.</p>"}],
+		standardBeasts: [{ id:1,
+			name: "Standard Beast 1",
+			description: "<p>Standard Beast 1 Description.</p>"},
+			{ id: 2,
+			name: "Standard Beast 2",
+			description: "<p>Standard Beast 2 Description.</p>"}]
 	}
 	
 }

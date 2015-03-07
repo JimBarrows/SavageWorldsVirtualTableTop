@@ -18,7 +18,8 @@ module.exports = function(app) {
       'skill-descriptions': data.skills,
       'characters': data.characters,
       'extras': data.extras,
-      'bestiary': data.bestiary
+      'beasts': data.beasts,
+      'powers': data.powers
 
     });
   });
@@ -42,7 +43,8 @@ module.exports = function(app) {
       'skill-descriptions': data.skills,
       'characters': data.characters,
       'extras': data.extras,
-      'bestiary': data.bestiary
+      'beasts': data.beasts,
+      'powers': data.powers
     });
   });
 
@@ -63,7 +65,8 @@ module.exports = function(app) {
       'skill-descriptions': data.skills,
       'characters': data.characters,
       'extras': data.extras,
-      'bestiary': data.bestiary
+      'beasts': data.beasts,
+      'powers': data.powers
     });
   });
 

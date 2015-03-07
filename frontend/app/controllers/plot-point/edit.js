@@ -11,6 +11,8 @@ export default Ember.Controller.extend({
 	standardArchetypes: [],
 	standardCharacters: [],
 	standardExtras: [],
+	standardPowers: [],
+	standardBeasts: [],
 
 	actions: {
 		save:function() {			
@@ -124,6 +126,30 @@ export default Ember.Controller.extend({
 			});
 			newRecord.save().then( function( res){
 				controller.model.get('extras').addRecord(newRecord);
+				controller.model.save();				
+			});
+			
+		},
+		addPower: function( power, ops) {
+			var controller = this;
+			var newRecord = this.store.createRecord('power',{
+				name: power.get('name'),
+				description: power.get('description')
+			});
+			newRecord.save().then( function( res){
+				controller.model.get('powers').addRecord(newRecord);
+				controller.model.save();				
+			});
+			
+		},
+		addBeast: function( beast, ops) {
+			var controller = this;
+			var newRecord = this.store.createRecord('beast',{
+				name: beast.get('name'),
+				description: beast.get('description')
+			});
+			newRecord.save().then( function( res){
+				controller.model.get('beasts').addRecord(newRecord);
 				controller.model.save();				
 			});
 			

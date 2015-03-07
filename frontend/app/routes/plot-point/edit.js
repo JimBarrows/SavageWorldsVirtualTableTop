@@ -11,6 +11,8 @@ export default Ember.Route.extend({
 		controller.set('standardArchetypes', this.store.find('standard-archetype'));
 		controller.set('standardCharacters', this.store.find('standard-character'));
 		controller.set('standardExtras', this.store.find('standard-extra'));
+		controller.set('standardPowers', this.store.find('standard-power'));
+		controller.set('standardBeasts', this.store.find('standard-beast'));
     	controller.set('model', model);
   	},
 	model: function(params) {
