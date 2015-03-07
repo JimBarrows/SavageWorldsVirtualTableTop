@@ -1,26 +1,25 @@
 module.exports = function(app) {
+  var data = require('../data').data;
   var express = require('express');
   var edgeDescriptionRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'Edge 1', description:'<p>Edge 1 description goes here</p>'},
-              {id:2, name:'Edge 2', description:'<p>Edge 2 description goes here.</p>'}]
 
   edgeDescriptionRouter.get('/', function(req, res) {
     res.send({
-      'edge': data
+      'edge': data.edges
     });
   });
 
   edgeDescriptionRouter.post('/', function(req, res) {
     var newRec = req.body.edge;
-    newRec.id = data.length + 1,      
-    data.push( newRec);
+    newRec.id = data.edges.length + 1,      
+    data.edges.push( newRec);
     res.status(201).send({ edge: newRec}).end();
   });
 
   edgeDescriptionRouter.get('/:id', function(req, res) {
     res.send({
-      'edge':data[req.params.id -1]
+      'edge':data.edges[req.params.id -1]
     });
   });
 

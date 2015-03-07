@@ -86,7 +86,7 @@ export default Ember.Controller.extend({
 				description: place.get('description')
 			});
 			newRecord.save().then( function( res){
-				controller.model.get('place').addRecord(newRecord);
+				controller.model.get('places').addRecord(newRecord);
 				controller.model.save();
 			});
 		},

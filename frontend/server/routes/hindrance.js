@@ -1,30 +1,30 @@
 module.exports = function(app) {
+  var data = require('../data').data;
   var express = require('express');
   var hindranceDescriptionRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = []
 
   hindranceDescriptionRouter.get('/', function(req, res) {
     res.send({
-      'hindrance': data
+      'hindrance': data.hindrances
     });
   });
 
   hindranceDescriptionRouter.post('/', function(req, res) {
     var newRec = req.body.hindrance;
-    newRec.id = data.length + 1,      
-    data.push( newRec);
+    newRec.id = data.hindrances.length + 1,      
+    data.hindrances.push( newRec);
     res.status(201).send({ hindrance: newRec}).end();
   });
 
   hindranceDescriptionRouter.get('/:id', function(req, res) {
     res.send({
-      'hindrance':data[req.params.id -1]
+      'hindrance':data.hindrances[req.params.id -1]
     });
   });
 
   hindranceDescriptionRouter.put('/:id', function(req, res) {
-    var existingRecord = data[req.params.id -1];
+    var existingRecord = data.hindrances[req.params.id -1];
     existingRecord = req.body.hindranceDescription;  
     existingRecord.id = req.params.id;
     res.send({

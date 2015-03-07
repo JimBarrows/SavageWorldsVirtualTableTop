@@ -1,44 +1,65 @@
 module.exports = function(app) {
+  var data = require('../data').data;
   var express = require('express');
   var plotPointsRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{ id:1, 
-                name:'The Fires of Escalon', 
-                description:'<p>The ravaging hordes are coming and a party of elven scouts must deny them sustenance.</p>',
-                
-              }];
+
+  console.log('data: ' +data.plotPoints[0]);
 
   plotPointsRouter.get('/', function(req, res) {
     res.send({
-      'plotPoints': data
+      'plot-points': data.plotPoints,
+      'archetypes': data.archetypes,
+      'edges': data.edges,
+      'gear': data.gear,
+      'hindrances': data.hindrances,
+      'places': data.places,
+      'races': data.races,
+      'skill-descriptions': data.skills
+
     });
   });
 
   plotPointsRouter.post('/', function(req, res) {
     var newRec = eq.body.plotPoint;
-    newRec.id = data.length + 1,      
-    data.push( newRec);
+    newRec.id = data.plotPoints.length + 1,      
+    data.plotPoints.push( newRec);
     res.status(201).send({ plotPoint: newRec}).end();
   });
 
   plotPointsRouter.get('/:id', function(req, res) {
     res.send({
-      'plot-points': data[req.params.id -1]
+      'plot-points': data.plotPoints[req.params.id -1],
+      'archetypes': data.archetypes,
+      'edges': data.edges,
+      'gear': data.gear,
+      'hindrances': data.hindrances,
+      'places': data.places,
+      'races': data.races,
+      'skill-descriptions': data.skills
     });
   });
 
   plotPointsRouter.put('/:id', function(req, res) {
-    var existingRecord = data[req.params.id -1];
+    var existingRecord = data.plotPoints[req.params.id -1];
     existingRecord = req.body.plotPoint;  
-    data[req.params.id - 1] = existingRecord;  
+    data.plotPoints[req.params.id - 1] = existingRecord;  
     existingRecord.id = req.params.id;
+    data.plotPoints[req.params.id -1] = existingRecord;
     res.send({
-      'plot-points': existingRecord
+      'plot-points': existingRecord,
+      'archetypes': data.archetypes,
+      'edges': data.edges,
+      'gear': data.gear,
+      'hindrances': data.hindrances,
+      'places': data.places,
+      'races': data.races,
+      'skill-descriptions': data.skills
     });
   });
 
   plotPointsRouter.delete('/:id', function(req, res) {
-    data.splice(req.params.id - 1, 1);
+    data.plotPoints.splice(req.params.id - 1, 1);
     res.status(204).end();
   });
 
