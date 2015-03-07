@@ -21,5 +21,6 @@ export default DS.Model.extend({
   gear:         DS.hasMany('gear'),
   places:       DS.hasMany('place'),
   archetypes:   DS.hasMany('archetype'),
-  characters:   DS.hasMany('character')
+  characters:   DS.hasMany('character'),
+  extras:       DS.hasMany('extra')
 });

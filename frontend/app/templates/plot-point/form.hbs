@@ -165,7 +165,10 @@
     				action="addCharacter"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="extras">
-				<h2>Extras</h2>
+				{{two-column-picker 
+    				available=controller.standardExtras
+    				selected=controller.model.extras
+    				action="addExtra"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="powers">
 				<h2>Powers</h2>

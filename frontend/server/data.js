@@ -21,7 +21,13 @@ module.exports =  {
 			description: "<p>Standard Character 1 Description.</p>"},
 			{ id: 2,
 			name: "Standard Character 2",
-			description: "<p>Standard Character 2 Description.</p>"}]	
+			description: "<p>Standard Character 2 Description.</p>"}],
+		standardExtras: [{ id:1,
+			name: "Standard Extra 1",
+			description: "<p>Standard Extra 1 Description.</p>"},
+			{ id: 2,
+			name: "Standard Extra 2",
+			description: "<p>Standard Extra 2 Description.</p>"}]		
 	}
 	
 }

@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
 	standardPlaces: [],
 	standardArchetypes: [],
 	standardCharacters: [],
+	standardExtras: [],
 
 	actions: {
 		save:function() {			
@@ -111,6 +112,18 @@ export default Ember.Controller.extend({
 			});
 			newRecord.save().then( function( res){
 				controller.model.get('characters').addRecord(newRecord);
+				controller.model.save();				
+			});
+			
+		},
+		addExtra: function( extra, ops) {
+			var controller = this;
+			var newRecord = this.store.createRecord('extra',{
+				name: extra.get('name'),
+				description: extra.get('description')
+			});
+			newRecord.save().then( function( res){
+				controller.model.get('extras').addRecord(newRecord);
 				controller.model.save();				
 			});
 			
