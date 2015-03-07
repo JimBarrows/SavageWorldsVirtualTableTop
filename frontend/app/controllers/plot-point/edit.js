@@ -82,22 +82,25 @@ export default Ember.Controller.extend({
 		addPlace: function( place, ops) {
 			var controller = this;
 			var newRecord = this.store.createRecord('place',{
-				id: controller.model.get('places').length + 1,
 				name: place.get('name'),
 				description: place.get('description')
 			});
-			controller.model.get('places').addRecord(newRecord);
-			controller.model.save();
+			newRecord.save().then( function( res){
+				controller.model.get('place').addRecord(newRecord);
+				controller.model.save();
+			});
 		},
 		addArchetype: function( archetype, ops) {
 			var controller = this;
 			var newRecord = this.store.createRecord('archetype',{
-				id: controller.model.get('archetypes').length + 1,
 				name: archetype.get('name'),
 				description: archetype.get('description')
 			});
-			controller.model.get('archetypes').addRecord(newRecord);
-			controller.model.save();
+			newRecord.save().then( function( res){
+				controller.model.get('archetypes').addRecord(newRecord);
+				controller.model.save();				
+			});
+			
 		}
 	}
 });
