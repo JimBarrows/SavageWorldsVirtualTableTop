@@ -141,7 +141,10 @@
     				action="addGear"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="places">
-				<h2>Places</h2>
+				{{two-column-picker 
+    				available=controller.standardPlaces
+    				selected=controller.model.places
+    				action="addPlace"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="archetypes"
 				<h2>Archetypes</h2>

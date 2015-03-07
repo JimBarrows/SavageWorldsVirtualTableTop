@@ -14,10 +14,10 @@ export default DS.Model.extend({
   multipleLanguages: DS.attr('boolean'),
   noPowerPoints: DS.attr('boolean'),
   skillSpecialization: DS.attr('boolean'),
-  races: DS.hasMany('race'),
-  skills: DS.hasMany('skill-description'),
-  edges: DS.hasMany('edge'),
+  races:      DS.hasMany('race'),
+  skills:     DS.hasMany('skill-description'),
+  edges:      DS.hasMany('edge'),
   hindrances: DS.hasMany('hindrance'),
-  gear: DS.hasMany('gear'),
-  places: DS.hasMany('place')
+  gear:       DS.hasMany('gear'),
+  places:     DS.hasMany('place')
 });

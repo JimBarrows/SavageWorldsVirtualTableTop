@@ -2,7 +2,11 @@ module.exports = function(app) {
   var express = require('express');
   var plotPointsRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'The Fires of Escalon', description:'<p>The ravaging hordes are coming and a party of elven scouts must deny them sustenance.</p>'}]
+  var data = [{ id:1, 
+                name:'The Fires of Escalon', 
+                description:'<p>The ravaging hordes are coming and a party of elven scouts must deny them sustenance.</p>',
+                
+              }];
 
   plotPointsRouter.get('/', function(req, res) {
     res.send({

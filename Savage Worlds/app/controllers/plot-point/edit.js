@@ -5,6 +5,9 @@ export default Ember.Controller.extend({
 	standardRaces:[],
 	standardSkills: [],
 	standardEdges: [],
+	standardHindrances: [],
+	standardGear: [],
+	standardPlaces: [],
 
 	actions: {
 		save:function() {			
@@ -74,6 +77,16 @@ export default Ember.Controller.extend({
 				controller.model.get('gear').addRecord(newRecord);
 				controller.model.save();
 			});
+		},
+		addPlace: function( place, ops) {
+			var controller = this;
+			var newRecord = this.store.createRecord('place',{
+				id: controller.model.get('places').length + 1,
+				name: place.get('name'),
+				description: place.get('description')
+			});
+			controller.model.get('places').addRecord(newRecord);
+			controller.model.save();
 		}
 	}
 });
