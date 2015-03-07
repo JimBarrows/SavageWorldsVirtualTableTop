@@ -9,6 +9,7 @@ export default Ember.Route.extend({
 		controller.set('standardGear', this.store.find('standard-gear'));
 		controller.set('standardPlaces', this.store.find('standard-place'));
 		controller.set('standardArchetypes', this.store.find('standard-archetype'));
+		controller.set('standardCharacters', this.store.find('standard-character'));
     	controller.set('model', model);
   	},
 	model: function(params) {

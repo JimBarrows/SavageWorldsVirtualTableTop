@@ -51,6 +51,12 @@
 			<li role="presentation">
 				<a href="#extras" aria-controls="extras" role="tab" data-toggle="tab">Extras</a>
 			</li>
+			<li role="presentation">
+				<a href="#powers" aria-controls="powers" role="tab" data-toggle="tab">Powers</a>
+			</li>
+			<li role="presentation">
+				<a href="#bestiary" aria-controls="bestiary" role="tab" data-toggle="tab">Bestiary</a>
+			</li>
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="rules">
@@ -153,10 +159,19 @@
     				action="addArchetype"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="characters">
-				<h2>Characters</h2>
+				{{two-column-picker 
+    				available=controller.standardCharacters
+    				selected=controller.model.characters
+    				action="addCharacter"}}
 			</div>
 			<div role="tabpanel" class="tab-pane" id="extras">
 				<h2>Extras</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="powers">
+				<h2>Powers</h2>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="Bestiary">
+				<h2>Bestiary</h2>
 			</div>
 		</div>
 	</div>	

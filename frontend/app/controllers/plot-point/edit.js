@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
 	standardGear: [],
 	standardPlaces: [],
 	standardArchetypes: [],
+	standardCharacters: [],
 
 	actions: {
 		save:function() {			
@@ -98,6 +99,18 @@ export default Ember.Controller.extend({
 			});
 			newRecord.save().then( function( res){
 				controller.model.get('archetypes').addRecord(newRecord);
+				controller.model.save();				
+			});
+			
+		},
+		addCharacter: function( character, ops) {
+			var controller = this;
+			var newRecord = this.store.createRecord('character',{
+				name: character.get('name'),
+				description: character.get('description')
+			});
+			newRecord.save().then( function( res){
+				controller.model.get('characters').addRecord(newRecord);
 				controller.model.save();				
 			});
 			

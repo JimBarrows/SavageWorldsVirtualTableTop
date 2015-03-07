@@ -9,9 +9,19 @@ module.exports =  {
 		skills: [],
 		edges: [],
 		hindrances: [],
-		archetypes: [],
 		gear: [],
-		places:[]	
+		places:[],
+		archetypes: [],
+		characters: [],
+		extras: [],
+		bestiary: [],
+		powers: [],
+		standardCharacters: [{ id:1,
+			name: "Standard Character 1",
+			description: "<p>Standard Character 1 Description.</p>"},
+			{ id: 2,
+			name: "Standard Character 2",
+			description: "<p>Standard Character 2 Description.</p>"}]	
 	}
 	
 }

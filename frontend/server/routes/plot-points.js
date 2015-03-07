@@ -15,7 +15,10 @@ module.exports = function(app) {
       'hindrances': data.hindrances,
       'places': data.places,
       'races': data.races,
-      'skill-descriptions': data.skills
+      'skill-descriptions': data.skills,
+      'characters': data.characters,
+      'extras': data.extras,
+      'bestiary': data.bestiary
 
     });
   });
@@ -36,7 +39,10 @@ module.exports = function(app) {
       'hindrances': data.hindrances,
       'places': data.places,
       'races': data.races,
-      'skill-descriptions': data.skills
+      'skill-descriptions': data.skills,
+      'characters': data.characters,
+      'extras': data.extras,
+      'bestiary': data.bestiary
     });
   });
 
@@ -54,7 +60,10 @@ module.exports = function(app) {
       'hindrances': data.hindrances,
       'places': data.places,
       'races': data.races,
-      'skill-descriptions': data.skills
+      'skill-descriptions': data.skills,
+      'characters': data.characters,
+      'extras': data.extras,
+      'bestiary': data.bestiary
     });
   });
 
