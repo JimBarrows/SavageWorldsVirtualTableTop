@@ -2,8 +2,7 @@ module.exports = function(app) {
   var express = require('express');
   var standardArchetypeDescriptionRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'Archetype 1', description:'<p>Archetype 1 description goes here</p>'},
-              {id:2, name:'Archetype 2', description:'<p>Archetype 2 description goes here.</p>'}]
+  var data = require('../data').data.standardArchetypes;
 
   standardArchetypeDescriptionRouter.get('/', function(req, res) {
     res.send({
@@ -26,8 +25,9 @@ module.exports = function(app) {
 
   standardArchetypeDescriptionRouter.put('/:id', function(req, res) {
     var existingRecord = data[req.params.id -1];
-    existingRecord = req.body.standardArchetypeDescription;  
+    existingRecord = req.body.standardArchetype;  
     existingRecord.id = req.params.id;
+    data[req.params.id -1] = existingRecord;
     res.send({
       'standardArchetype': existingRecord
     });

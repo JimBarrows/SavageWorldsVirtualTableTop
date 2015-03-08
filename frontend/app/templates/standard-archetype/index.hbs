@@ -1,0 +1,80 @@
+<h1>{{model.name}}</h1>
+{{{model.description}}}
+<h2>Rules</h2>
+<h2>Races</h2>
+<dl>
+	{{#each race in model.races}}
+		<dt>{{race.name}}</dt>
+		<dd>{{{race.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Skills</h2>
+<dl>
+	{{#each item in model.skills}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Edges</h2>
+<dl>
+	{{#each item in model.edges}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Hindrances</h2>
+<dl>
+	{{#each item in model.hindrances}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Gear</h2>
+<dl>
+	{{#each item in model.gear}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Places</h2>
+<dl>
+	{{#each item in model.places}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Archetypes</h2>
+<dl>
+	{{#each item in model.archetypes}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Wild Cards</h2>
+<dl>
+	{{#each item in model.characters}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Extras</h2>
+<dl>
+	{{#each item in model.extras}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Beastiary</h2>
+<dl>
+	{{#each item in model.beast}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>
+<h2>Powers</h2>
+<dl>
+	{{#each item in model.powers}}
+		<dt>{{item.name}}</dt>
+		<dd>{{{item.description}}}</dd>
+	{{/each}}
+</dl>

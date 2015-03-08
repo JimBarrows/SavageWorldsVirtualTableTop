@@ -12,6 +12,12 @@ Router.map(function() {
 			this.route("edit");
 		});
     });
+    this.resource("standard-archetypes", function() {
+		this.route("add");
+		this.resource('standard-archetype', { path: '/:id'}, function(){
+			this.route('edit');
+		});
+	});
 	this.resource("standard-races", function() {
 		this.route("add");
 		this.resource('standard-race', { path: '/:id'}, function(){
