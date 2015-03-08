@@ -6,10 +6,12 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.resource("plot-point", function(){
-  	this.route("add", {path:"/add"});
-  	this.route("edit", {path:"/edit/:plot_point_id"});
-  });
+	this.resource("plot-points", function(){
+		this.route("add");
+		this.resource('plot-point', { path: '/:id' }, function() {
+			this.route("edit");
+		});
+	});
 });
 
 export default Router;

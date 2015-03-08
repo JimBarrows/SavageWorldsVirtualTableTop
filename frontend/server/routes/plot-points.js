@@ -25,7 +25,7 @@ module.exports = function(app) {
   });
 
   plotPointsRouter.post('/', function(req, res) {
-    var newRec = eq.body.plotPoint;
+    var newRec = req.body.plotPoint;
     newRec.id = data.plotPoints.length + 1,      
     data.plotPoints.push( newRec);
     res.status(201).send({ plotPoint: newRec}).end();
