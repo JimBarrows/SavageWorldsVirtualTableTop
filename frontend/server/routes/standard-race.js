@@ -1,9 +1,8 @@
 module.exports = function(app) {
+  var data = require('../data').data.standardRaces;
   var express = require('express');
   var standardRaceRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'Android', description:'<p>Androids are sentient machines with a variety of appearances depending on setting.</p>'},
-              {id:2, name:'Atlantaan', description:'<p>From the crushing depths come the mysterious folk known as Atlanteans.</p>'}]
 
   standardRaceRouter.get('/', function(req, res) {
     res.send({
@@ -12,7 +11,7 @@ module.exports = function(app) {
   });
 
   standardRaceRouter.post('/', function(req, res) {
-    var newRec = eq.body.standardRace;
+    var newRec = req.body.standardRace;
     newRec.id = data.length + 1,      
     data.push( newRec);
     res.status(201).send({ standardRace: newRec}).end();

@@ -11,6 +11,12 @@ Router.map(function() {
 		this.resource('plot-point', { path: '/:id' }, function() {
 			this.route("edit");
 		});
+    });
+	this.resource("standard-races", function() {
+		this.route("add");
+		this.resource('standard-race', { path: '/:id'}, function(){
+			this.route('edit');
+		});
 	});
 });
 
