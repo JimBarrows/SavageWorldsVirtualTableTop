@@ -18,14 +18,15 @@ module.exports =  {
 		powers: [],
 		standardArchetypes: [],
 		standardBeasts: [],
-
+		standardCharacters: [],
+		
 		standardRaces: [],
 		standardSkills: [],
 		standardEdges: [],
 		standardHindrances: [],
 		standardGear: [],
 		standardPlaces: [],
-		standardCharacters: [],
+		
 		standardExtras: [],
 		standardPowers: [],
 		

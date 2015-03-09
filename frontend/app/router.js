@@ -24,6 +24,12 @@ Router.map(function() {
 			this.route('edit');
 		});
 	});
+	this.resource("standard-characters", function() {
+		this.route("add");
+		this.resource('standard-character', { path: '/:id'}, function(){
+			this.route('edit');
+		});
+	});
 	this.resource("standard-races", function() {
 		this.route("add");
 		this.resource('standard-race', { path: '/:id'}, function(){
