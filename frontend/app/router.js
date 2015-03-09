@@ -42,6 +42,12 @@ Router.map(function() {
 			this.route('edit');
 		});
 	});
+	this.resource("standard-gears", function() {
+		this.route("add");
+		this.resource('standard-gear', { path: '/:id'}, function(){
+			this.route('edit');
+		});
+	});
 	this.resource("standard-races", function() {
 		this.route("add");
 		this.resource('standard-race', { path: '/:id'}, function(){
