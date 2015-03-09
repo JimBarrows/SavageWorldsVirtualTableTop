@@ -1,43 +1,43 @@
 module.exports = function(app) {
   var express = require('express');
-  var standardEdgeDescriptionRouter = express.Router();
+  var standardEdgeRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'Edge 1', description:'<p>Edge 1 description goes here</p>'},
-              {id:2, name:'Edge 2', description:'<p>Edge 2 description goes here.</p>'}]
+  var data = require('../data').data.standardEdges;
 
-  standardEdgeDescriptionRouter.get('/', function(req, res) {
+  standardEdgeRouter.get('/', function(req, res) {
     res.send({
       'standard-edge': data
     });
   });
 
-  standardEdgeDescriptionRouter.post('/', function(req, res) {
-    var newRec = req.body.standardEdgeDescription;
+  standardEdgeRouter.post('/', function(req, res) {
+    var newRec = req.body.standardEdge;
     newRec.id = data.length + 1,      
     data.push( newRec);
-    res.status(201).send({ standardEdgeDescription: newRec}).end();
+    res.status(201).send({ standardEdge: newRec}).end();
   });
 
-  standardEdgeDescriptionRouter.get('/:id', function(req, res) {
+  standardEdgeRouter.get('/:id', function(req, res) {
     res.send({
       'standard-edge':data[req.params.id -1]
     });
   });
 
-  standardEdgeDescriptionRouter.put('/:id', function(req, res) {
+  standardEdgeRouter.put('/:id', function(req, res) {
     var existingRecord = data[req.params.id -1];
-    existingRecord = req.body.standardEdgeDescription;  
+    existingRecord = req.body.standardEdge;  
     existingRecord.id = req.params.id;
+    data[req.params.id -1] = existingRecord;
     res.send({
       'standard-edge': existingRecord
     });
   });
 
-  standardEdgeDescriptionRouter.delete('/:id', function(req, res) {
+  standardEdgeRouter.delete('/:id', function(req, res) {
     data.splice(req.params.id - 1, 1);
     res.status(204).end();
   });
 
   app.use(bodyParser.json());
-  app.use('/api/standardEdges', standardEdgeDescriptionRouter);
+  app.use('/api/standardEdges', standardEdgeRouter);
 };
