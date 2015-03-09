@@ -24,11 +24,10 @@ module.exports =  {
 		standardGear: [],
 		standardHindrances: [],
 		standardPlaces: [],
+		standardPowers: [],
 
 		standardRaces: [],
 		standardSkills: [],
-		standardPowers: [],
-		
 	}
 	
 }

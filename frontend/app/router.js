@@ -60,6 +60,12 @@ Router.map(function() {
 			this.route('edit');
 		});
 	});
+	this.resource("standard-powers", function() {
+		this.route("add");
+		this.resource('standard-power', { path: '/:id'}, function(){
+			this.route('edit');
+		});
+	});
 	this.resource("standard-races", function() {
 		this.route("add");
 		this.resource('standard-race', { path: '/:id'}, function(){
