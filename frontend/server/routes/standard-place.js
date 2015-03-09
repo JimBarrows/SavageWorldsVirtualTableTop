@@ -2,8 +2,7 @@ module.exports = function(app) {
   var express = require('express');
   var standardPlaceDescriptionRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'StandardPlace 1', description:'<p>StandardPlace 1 description goes here</p>'},
-              {id:2, name:'StandardPlace 2', description:'<p>StandardPlace 2 description goes here.</p>'}]
+  var data = require('../data').data.standardPlaces;
 
   standardPlaceDescriptionRouter.get('/', function(req, res) {
     res.send({
@@ -26,8 +25,9 @@ module.exports = function(app) {
 
   standardPlaceDescriptionRouter.put('/:id', function(req, res) {
     var existingRecord = data[req.params.id -1];
-    existingRecord = req.body.standardPlaceDescription;  
+    existingRecord = req.body.standardPlace;  
     existingRecord.id = req.params.id;
+    data[req.params.id -1] = existingRecord;
     res.send({
       'standardPlace': existingRecord
     });
