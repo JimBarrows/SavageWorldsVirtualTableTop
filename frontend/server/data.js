@@ -22,11 +22,11 @@ module.exports =  {
 		standardEdges: [],		
 		standardExtras: [],
 		standardGear: [],
-		
-		standardRaces: [],
-		standardSkills: [],
 		standardHindrances: [],
 
+
+		standardRaces: [],
+		standardSkills: [],
 		standardPlaces: [],
 		standardPowers: [],
 		

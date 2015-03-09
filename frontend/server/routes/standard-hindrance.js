@@ -2,8 +2,7 @@ module.exports = function(app) {
   var express = require('express');
   var standardHindranceDescriptionRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'StandardStandardHindrance 1', description:'<p>StandardStandardHindrance 1 description goes here</p>'},
-              {id:2, name:'StandardStandardHindrance 2', description:'<p>StandardStandardHindrance 2 description goes here.</p>'}]
+  var data = require('../data').data.standardHindrances;
 
   standardHindranceDescriptionRouter.get('/', function(req, res) {
     res.send({
@@ -26,8 +25,9 @@ module.exports = function(app) {
 
   standardHindranceDescriptionRouter.put('/:id', function(req, res) {
     var existingRecord = data[req.params.id -1];
-    existingRecord = req.body.standardHindranceDescription;  
+    existingRecord = req.body.standardHindrance;  
     existingRecord.id = req.params.id;
+    data[req.params.id -1] = existingRecord;
     res.send({
       'standardHindrance': existingRecord
     });
