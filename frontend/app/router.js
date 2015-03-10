@@ -72,6 +72,12 @@ Router.map(function() {
 			this.route('edit');
 		});
 	});
+	this.resource("standard-skills", function() {
+		this.route("add");
+		this.resource('standard-skill', { path: '/:id'}, function(){
+			this.route('edit');
+		});
+	});
 });
 
 export default Router;

@@ -25,9 +25,8 @@ module.exports =  {
 		standardHindrances: [],
 		standardPlaces: [],
 		standardPowers: [],
-
 		standardRaces: [],
-		standardSkills: [],
+		standardSkills: []
 	}
 	
 }

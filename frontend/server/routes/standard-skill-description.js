@@ -2,12 +2,11 @@ module.exports = function(app) {
   var express = require('express');
   var standardSkillDescriptionRouter = express.Router();
   var bodyParser = require('body-parser');
-  var data = [{id:1, name:'Boating', description:'<p>Boating skill description goes here</p>', attribute:'Agility'},
-              {id:2, name:'Fighting', description:'<p>Fighting description goes here.</p>', attribute:'Strength'}]
+  var data = require('../data').data.standardSkills;
 
   standardSkillDescriptionRouter.get('/', function(req, res) {
     res.send({
-      'standard-skill-description': data
+      'standardSkillDescription': data
     });
   });
 
@@ -20,7 +19,7 @@ module.exports = function(app) {
 
   standardSkillDescriptionRouter.get('/:id', function(req, res) {
     res.send({
-      'standard-skill-description':data[req.params.id -1]
+      'standardSkillDescription':data[req.params.id -1]
     });
   });
 
@@ -28,8 +27,9 @@ module.exports = function(app) {
     var existingRecord = data[req.params.id -1];
     existingRecord = req.body.standardSkillDescription;  
     existingRecord.id = req.params.id;
+    data[req.params.id -1] = existingRecord;
     res.send({
-      'standard-skill-description': existingRecord
+      'standardSkillDescription': existingRecord
     });
   });
 
