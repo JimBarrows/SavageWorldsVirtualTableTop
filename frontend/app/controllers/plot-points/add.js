@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
 			var controller = this;
 			this.model.save().then(function( newPlotPoint) {
 				Ember.get(controller, 'flashes').success('Success!', 2000);
-				controller.transitionToRoute('plot-point.edit', newPlotPoint);
+				controller.transitionToRoute('plot-points', newPlotPoint);
 			});
 		},
 		cancel: function() {
