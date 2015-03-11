@@ -5,16 +5,16 @@ module.exports =  {
 				name:'The Fires of Escalon', 
 				description:'<p>The ravaging hordes are coming and a party of elven scouts must deny them sustenance.</p>'                
 			}],
+		archetypes: [],
+		beasts: [],
+		characters: [],
+		edges: [],
+		extras: [],
+		gear: [],
+		hindrances: [],
+		places:[],
 		races: [],
 		skills: [],
-		edges: [],
-		hindrances: [],
-		gear: [],
-		places:[],
-		archetypes: [],
-		characters: [],
-		extras: [],
-		beasts: [],
 		powers: [],
 		standardArchetypes: [],
 		standardBeasts: [],
@@ -27,7 +27,8 @@ module.exports =  {
 		standardPowers: [],
 		standardRaces: [],
 		standardSkills: [],
-		stories: []
+		stories: [],
+		characters: []
 	}
 	
 }
