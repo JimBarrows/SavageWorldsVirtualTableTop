@@ -84,6 +84,12 @@ Router.map(function() {
   		this.route('edit');
   	});
   });
+  this.resource("characters", function() {
+  	this.route("add");
+  	this.resource('character', { path: '/:id'}, function(){
+  		this.route('edit');
+  	});
+  });
 });
 
 export default Router;
