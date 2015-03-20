@@ -1,4 +1,15 @@
-{{#link-to 'characters.add' class="btn btn-default"}}New Character{{/link-to}}	
+<label class="col-sm-2 control-label">Plot Point</label>
+<div class="col-sm-7">
+  {{view "select" 
+    class="form-control"
+    content=plotPoints 
+    optionValuePath="content.id"
+    optionLabelPath="content.name"
+    selection=selectedPlotPoint}}
+</div>
+<div class="col-sm-3">
+  <button {{action 'add'}} class="btn btn-default"}}>New Character</button>
+</div>
 {{#each character in model}}
 	<div class="panel panel-default">
   		<div class="panel-heading clearfix">
@@ -6,17 +17,17 @@
     		<div class="btn-group pull-right">
     			{{#link-to 'character.edit' character class="btn btn-xs btn-primary"}}
     				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            	{{/link-to}}
-            	<button {{action "remove" character}} class="btn btn-danger btn-xs">
-            		<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-            	</button>
-        	</div>
+          {{/link-to}}
+          <button {{action "remove" character}} class="btn btn-danger btn-xs">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+          </button>
+        </div>
   		</div>
   		<div class="panel-body">
     		{{{character.description}}}
   		</div>
 	</div>
-	{{else}}
+{{else}}
 	<p>There are no characters</p>
 {{/each}}
 {{outlet}}

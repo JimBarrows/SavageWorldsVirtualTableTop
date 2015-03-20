@@ -6,12 +6,28 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.resource("plot-points", function(){
-      this.route("add");
+  this.resource('plot-points', function(){
+      this.route('add');
       this.resource('plot-point', { path: '/:id' }, function() {
-          this.route("edit");
+          this.route('edit');
+          this.resource('characters', function(){
+            this.route('add');
+          });
       });
   });
+  this.resource("characters", function() {
+    this.resource('character', { path: '/:characterId'}, function(){
+      this.route('edit');
+    });
+  });
+
+  this.resource("stories", function() {
+    this.route("add");
+    this.resource('story', { path: '/:id'}, function(){
+      this.route('edit');
+    });
+  });
+  
   this.resource("standard-archetypes", function() {
       this.route("add");
       this.resource('standard-archetype', { path: '/:id'}, function(){
@@ -78,18 +94,6 @@ Router.map(function() {
           this.route('edit');
       });
 	});
-  this.resource("stories", function() {
-  	this.route("add");
-  	this.resource('story', { path: '/:id'}, function(){
-  		this.route('edit');
-  	});
-  });
-  this.resource("characters", function() {
-  	this.route("add");
-  	this.resource('character', { path: '/:id'}, function(){
-  		this.route('edit');
-  	});
-  });
 });
 
 export default Router;

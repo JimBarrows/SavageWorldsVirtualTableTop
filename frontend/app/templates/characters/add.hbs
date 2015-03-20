@@ -1,26 +1,6 @@
 <form class="form-horizontal" role="form">
 	{{error}}
-		
 	{{text-field property=model.name placeholder="Character Name" label="Name"}}
-		
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Plot Point</label>
-		<div class="col-sm-10">
-			{{view "select" 
-					class="form-control"
-					content=plotPoints 
-					optionValuePath="content.id"
-					optionLabelPath="content.name"}}
-			{{#if errors }}
-				<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-				<span class="help-block">
-					{{#each errors }}
-						{{message}}
-					{{/each}}
-				</span>
-			{{/if}}
-		</div>
-	</div>
 	{{text-area property=model.description label="Description"}}
 	<h2>Attributes <small {{bind-attr class="hasAttributePoints:text-info:text-danger"}} >Points: <span class="badge">{{attributePoints}}</span></small></h2>
 	<div class="form-group">
@@ -64,6 +44,26 @@
 		</div>
 	</div>
 	<h2>Skills <small>Points: <span class="badge">{{skillPoints}}</span></small></h2>
+	{{#each skill in model.skills}}
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				<label>{{skill.description.name}} ({{skill.description.attribute}})</label>
+			</div>
+			<div class="col-sm-10">
+				<div class="col-sm-1">
+					<button {{action "decrement" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+				</div>
+				<div class="col-sm-1">
+					d{{skill.rating}}
+				</div>
+				<div class="col-sm-1">
+					<button {{action "increment" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+				</div>
+			</div>
+		</div>
+		{{else}}
+		<p>No skills chosen for the plot point</p>
+	{{/each}}
 	<h2>Hindrances <small>Major: <span class="badge">{{majorHindrances}}</span> Minor: <span class="badge">{{minorHindrances}}</span></small></h2>
 	<h2>Edges <small>Points: <span class="badge">{{edgePoints}}</span></small></h2>
 	<h2>Powers</h2>
