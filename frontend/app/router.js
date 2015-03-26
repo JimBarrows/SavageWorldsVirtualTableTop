@@ -15,6 +15,11 @@ Router.map(function() {
           });
       });
   });
+  this.resource("characters", function() {
+    this.resource('character', { path: '/:characterId'}, function(){
+      this.route('edit');
+    });
+  });
 
   this.resource("stories", function() {
     this.route("add");
