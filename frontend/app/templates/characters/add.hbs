@@ -50,18 +50,20 @@
 				<label>{{skill.description.name}} ({{skill.description.attribute}})</label>
 			</div>
 			<div class="col-sm-10">
-				<div class="col-sm-1">
-					<button {{action "decrement" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-				</div>
-				<div class="col-sm-1">
-					d{{skill.rating}}
-				</div>
+				{{#if skill.rating}}
+					<div class="col-sm-1">
+						<button {{action "decrement" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+					</div>
+					<div class="col-sm-1">
+						d{{skill.rating}}
+					</div>
+				{{/if}}
 				<div class="col-sm-1">
 					<button {{action "increment" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 				</div>
 			</div>
 		</div>
-		{{else}}
+	{{else}}
 		<p>No skills chosen for the plot point</p>
 	{{/each}}
 	<h2>Hindrances <small>Major: <span class="badge">{{majorHindrances}}</span> Minor: <span class="badge">{{minorHindrances}}</span></small></h2>
