@@ -18,7 +18,6 @@ module.exports =  {
 		powers: [],
 		standardArchetypes: [],
 		standardBeasts: [],
-		standardCharacters: [],
 		standardEdges: [],		
 		standardExtras: [],
 		standardGear: [],
