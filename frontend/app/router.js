@@ -15,7 +15,7 @@ Router.map(function() {
           });
       });
   });
-  
+
   this.resource("characters", function() {
     this.resource('character', { path: '/:characterId'}, function(){
       this.route('edit');
@@ -38,12 +38,6 @@ Router.map(function() {
   this.resource("standard-beasts", function() {
       this.route("add");
       this.resource('standard-beast', { path: '/:id'}, function(){
-          this.route('edit');
-      });
-	});
-  this.resource("standard-characters", function() {
-      this.route("add");
-      this.resource('standard-character', { path: '/:id'}, function(){
           this.route('edit');
       });
 	});
