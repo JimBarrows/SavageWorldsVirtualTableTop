@@ -1,79 +1,130 @@
-<form class="form-horizontal" role="form">
+{{#form-horizontal name="Create Character"}}
 	{{error}}
 	{{text-field property=model.name placeholder="Character Name" label="Name"}}
 	{{text-area property=model.description label="Description"}}
 	<h2>Attributes <small {{bind-attr class="hasAttributePoints:text-info:text-danger"}} >Points: <span class="badge">{{attributePoints}}</span></small></h2>
 	<div class="form-group">
-		<div class="col-sm-2 control-label">
+		<div class="col-md-2 control-label">
 			<label>Agility</label>
 		</div>
-		<div class="col-sm-10">
+		<div class="col-md-10">
 			{{attribute-field model=model attribute=model.agility attributeName="agility" onIncrease="attributeIncremented" onDecrease="attributeDecremented"}}
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-2 control-label">
+		<div class="col-md-2 control-label">
 			<label>Smarts</label>
 		</div>
-		<div class="col-sm-10">
+		<div class="col-md-10">
 			{{attribute-field model=model attribute=model.smarts attributeName="smarts" onIncrease="attributeIncremented" onDecrease="attributeDecremented"}}
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-2 control-label">
+		<div class="col-md-2 control-label">
 			<label>Strength</label>
 		</div>
-		<div class="col-sm-10">
+		<div class="col-md-10">
 			{{attribute-field model=model attribute=model.strength attributeName="strength" onIncrease="attributeIncremented" onDecrease="attributeDecremented"}}
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-2 control-label">
+		<div class="col-md-2 control-label">
 			<label>Spirit</label>
 		</div>
-		<div class="col-sm-10">
+		<div class="col-md-10">
 			{{attribute-field model=model attribute=model.spirit attributeName="spirit" onIncrease="attributeIncremented" onDecrease="attributeDecremented"}}
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-2 control-label">
+		<div class="col-md-2 control-label">
 			<label>Vigor</label>
 		</div>
-		<div class="col-sm-10">
+		<div class="col-md-10">
 			{{attribute-field model=model attribute=model.vigor attributeName="vigor" onIncrease="attributeIncremented" onDecrease="attributeDecremented"}}
 		</div>
 	</div>
 	<h2>Skills <small>Points: <span class="badge">{{skillPoints}}</span></small></h2>
 	{{#each skill in model.skills}}
+		<div class="row">
 		<div class="form-group">
-			<div class="col-sm-2 control-label">
+			<div class="col-md-2 control-label">
 				<label>{{skill.description.name}} ({{skill.description.attribute}})</label>
 			</div>
-			<div class="col-sm-10">
+			<div class="col-md-2">
 				{{#if skill.rating}}
-					<div class="col-sm-1">
 						<button {{action "decrement" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-					</div>
-					<div class="col-sm-1">
 						d{{skill.rating}}
-					</div>
 				{{/if}}
-				<div class="col-sm-1">
-					<button {{action "increment" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-				</div>
+				<button {{action "increment" skill}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 			</div>
 		</div>
+	</div>
 	{{else}}
 		<p>No skills chosen for the plot point</p>
 	{{/each}}
-	<h2>Hindrances <small>Major: <span class="badge">{{majorHindrances}}</span> Minor: <span class="badge">{{minorHindrances}}</span></small></h2>
+	<h2>Hindrances <small>Major: <span class="badge">{{majorHindrances}}</span> Minor: <span class="badge">{{minorHindrances}}</span> Points: <span class="badge">{{hindrancePoints}}</small></h2>
+	<div class="row">
+	{{#if has2OrMoreHindrancePoints}}
+		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Raise an Attribute 1 Die Type</button>
+		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Choose an Edge</button>
+	{{/if}}
+	{{#if has1OrMoreHindrancePoints}}
+		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Gain another skill point</button>
+		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Gain additional money equal to your starting funds</button>
+	{{/if}}
+	</div>
+	<div class="row">
+			<table class="table table-condensed table-striped">
+				<tbody>
+					{{#each hindrance in model.plotPoint.hindrances}}
+						<tr>
+							<td>{{hindrance.name}}</td>
+							<td>{{hindrance.severity}}</td>
+							<td>
+								{{#if hindrance.isMajor}}
+									<button {{action 'majorHindrance' hindrance}}class="btn btn-default">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
+									</button>
+								{{/if}}
+								{{#if hindrance.isMinor}}
+									<button {{action 'minorHindrance' hindrance}}class="btn btn-default">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
+									</button>
+								{{/if}}
+								{{#if hindrance.isMajorOrMinor}}
+									<button {{action 'majorHindrance' hindrance}} class="btn btn-default">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
+									</button>
+									<button {{action 'minorHindrance' hindrance}} class="btn btn-default">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
+									</button>
+								{{/if}}
+							</td>
+						</tr>
+						
+					{{/each}}
+				</tbody>
+			</table>	
+	</div>
+	<div class="row">
+		{{#each hindrance in model.hindrances}}
+			<div class="row">
+				<div class="col-md-2">
+					{{hindrance.name}}({{hindrance.severity}})
+				</div>
+				<div class="col-md-10">
+					{{text-area property=hindrance.description }}
+				</div>
+			</div>
+		{{/each}}
+	</div>
 	<h2>Edges <small>Points: <span class="badge">{{edgePoints}}</span></small></h2>
 	<h2>Powers</h2>
 	<h2>Equipment <small>Cash: <span class="badge">{{model.cash}}</span></small></h2>
 	<div class="row">
-		<div class="col-sm-offset-5 col-sm-2">
+		<div class="col-md-offset-5 col-md-2">
 			<button {{action 'save'}} class="btn btn-primary">Save</button>
 			<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
 		</div>
 	</div>
-</form>
+{{/form-horizontal}}

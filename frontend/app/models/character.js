@@ -12,5 +12,6 @@ export default DS.Model.extend({
     spirit: DS.attr('number', {defaultValue: 4}),
     vigor: DS.attr('number', {defaultValue: 4}),
     cash: DS.attr('number', {defaultValue: 500}),
-    skills: DS.hasMany('skill')
+    skills: DS.hasMany('skill'),
+    hindrances: DS.hasMany('hindrance')
 });

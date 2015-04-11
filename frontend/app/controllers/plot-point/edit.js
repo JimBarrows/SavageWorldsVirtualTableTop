@@ -64,6 +64,7 @@ export default Ember.Controller.extend({
 		addHindrance: function( hindrance, ops) {
 			var newRecord = this.store.createRecord('hindrance',{
 				name: hindrance.get('name'),
+				severity: hindrance.get('severity'),
 				description: hindrance.get('description')
 			});
 			var controller = this;
