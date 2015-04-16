@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
 	minorHindrances: 			2,
 	hindrancePoints:            0,
 	startingCash:               500,
+	availableHindrances:        [],
 	actions: {
 		save:function() {
 			var controller = this;
@@ -52,12 +53,31 @@ export default Ember.Controller.extend({
 			this.decrementProperty("majorHindrances");
 			this.incrementProperty("hindrancePoints");
 			this.incrementProperty("hindrancePoints");
+			this.filterHindrances();
 		},
 		minorHindrance: function( hindrance) {
 			this.model.get('hindrances').addRecord(hindrance);
 			this.decrementProperty("minorHindrances");
 			this.incrementProperty("hindrancePoints");
+			this.filterHindrances();
 		}
+	},
+	filterHindrances: function() {
+		var thisController = this;
+		var hasMajorHindrancesLeft = this.get('majorHindrances') > 1;
+		var hasMinorHindrancesLeft = this.get('minorHindrances') > 0;
+		var availableHindrances = [];
+		var model = this.get( 'model');
+		model.get( 'plotPoint').get( 'hindrances').forEach(function( hindrance){
+			if( hindrance.get('isMajor')  && hasMajorHindrancesLeft ) {
+				availableHindrances.push(hindrance);
+			} else if( hindrance.get('isMinor') && hasMinorHindrancesLeft) {
+				availableHindrances.push(hindrance);
+			} else if( hindrance.get('isMajorOrMinor') && ( hasMajorHindrancesLeft  || hasMinorHindrancesLeft)){
+				availableHindrances.push(hindrance);
+			}
+		});
+		this.set('availableHindrances', availableHindrances);
 	},
 	hasAttributePoints: function() {
 		if( this.get("attributePoints") < 0){
@@ -66,7 +86,6 @@ export default Ember.Controller.extend({
 			return true;
 		}
 	}.property("attributePoints"),
-
 	has2OrMoreHindrancePoints: function() {
 		return this.get('hindrancePoints') >= 2;
 	}.property("hindrancePoints"),

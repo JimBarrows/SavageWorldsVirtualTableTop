@@ -76,7 +76,7 @@
 	<div class="row">
 			<table class="table table-condensed table-striped">
 				<tbody>
-					{{#each hindrance in model.plotPoint.hindrances}}
+					{{#each hindrance in availableHindrances}}
 						<tr>
 							<td>{{hindrance.name}}</td>
 							<td>{{hindrance.severity}}</td>
@@ -92,16 +92,15 @@
 									</button>
 								{{/if}}
 								{{#if hindrance.isMajorOrMinor}}
-									<button {{action 'majorHindrance' hindrance}} class="btn btn-default">
+									<button {{action 'majorHindrance' hindrance}}class="btn btn-default">
 										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
 									</button>
-									<button {{action 'minorHindrance' hindrance}} class="btn btn-default">
+									<button {{action 'minorHindrance' hindrance}}class="btn btn-default">
 										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
 									</button>
 								{{/if}}
 							</td>
 						</tr>
-						
 					{{/each}}
 				</tbody>
 			</table>	
