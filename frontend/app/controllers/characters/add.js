@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
 	hindrancePoints:            0,
 	startingCash:               500,
 	availableHindrances:        [],
+	edgePoints: 				0,
 	actions: {
 		save:function() {
 			var controller = this;
@@ -51,8 +52,7 @@ export default Ember.Controller.extend({
 		majorHindrance: function( hindrance) {
 			this.model.get('hindrances').addRecord(hindrance);
 			this.decrementProperty("majorHindrances");
-			this.incrementProperty("hindrancePoints");
-			this.incrementProperty("hindrancePoints");
+			this.incrementProperty("hindrancePoints",2);
 			this.filterHindrances();
 		},
 		minorHindrance: function( hindrance) {
@@ -60,6 +60,22 @@ export default Ember.Controller.extend({
 			this.decrementProperty("minorHindrances");
 			this.incrementProperty("hindrancePoints");
 			this.filterHindrances();
+		},
+		raiseAttribute1DieType: function() {
+			this.incrementProperty('attributePoints');
+			this.decrementProperty('hindrancePoints',2);
+		},
+		chooseAnEdge: function() {
+			this.incrementProperty('edgePoints');
+			this.decrementProperty('hindrancePoints',2);
+		},
+		gainAnotherSkillPoint: function() {
+			this.incrementProperty('skillPoints');
+			this.decrementProperty('hindrancePoints');
+		},
+		gainAdditionalMoneyEqualToYourStartingFunds: function() {
+			this.model.incrementProperty('cash', this.get('startingCash'));
+			this.decrementProperty('hindrancePoints');
 		}
 	},
 	filterHindrances: function() {

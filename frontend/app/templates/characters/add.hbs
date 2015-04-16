@@ -65,12 +65,12 @@
 	<h2>Hindrances <small>Major: <span class="badge">{{majorHindrances}}</span> Minor: <span class="badge">{{minorHindrances}}</span> Points: <span class="badge">{{hindrancePoints}}</small></h2>
 	<div class="row">
 	{{#if has2OrMoreHindrancePoints}}
-		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Raise an Attribute 1 Die Type</button>
-		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Choose an Edge</button>
+		<button {{action 'raiseAttribute1DieType'}} class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Raise an Attribute 1 Die Type</button>
+		<button {{action 'chooseAnEdge'}} class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Choose an Edge</button>
 	{{/if}}
 	{{#if has1OrMoreHindrancePoints}}
-		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Gain another skill point</button>
-		<button class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Gain additional money equal to your starting funds</button>
+		<button {{action 'gainAnotherSkillPoint'}} class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Gain another skill point</button>
+		<button {{action 'gainAdditionalMoneyEqualToYourStartingFunds'}} class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Gain additional money equal to your starting funds</button>
 	{{/if}}
 	</div>
 	<div class="row">
