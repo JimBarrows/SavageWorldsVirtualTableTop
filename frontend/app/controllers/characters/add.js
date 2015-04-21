@@ -1,18 +1,18 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-	startingAttributePoints: 	5,
-	startingSkillPoints: 		15,
-	startingMajorHindrances: 	1,
-	startingMinorHindrances: 	2,
-	attributePoints: 			5,
-	skillPoints: 				15,
-	majorHindrances: 			1,
-	minorHindrances: 			2,
-	hindrancePoints:            0,
+	startingAttributePoints: 	  5,
+	startingSkillPoints: 		 15,
+	startingMajorHindrances: 	  1,
+	startingMinorHindrances: 	  2,
+	attributePoints: 			  5,
+	skillPoints: 				 15,
+	majorHindrances: 			  1,
+	minorHindrances: 			  2,
+	hindrancePoints:              0,
 	startingCash:               500,
-	availableHindrances:        [],
-	edgePoints: 				0,
+	availableHindrances:         [],
+	edgePoints: 				  0,
 	actions: {
 		save:function() {
 			var controller = this;

@@ -19,186 +19,136 @@
 			<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
 		</div>
 	</div>
-	<div class="row">
-	<div role="tabpanel">
-		<ul class="nav nav-tabs role="tablist">
-			<li role="presentation" class="active">
-				<a href="#rules" aria-controls="rules" role="tab" data-toggle="tab">Rules</a>
-			</li>
-			<li role="presentation">
-				<a href="#races" aria-controls="races" role="tab" data-toggle="tab">Races</a>
-			</li>
-			<li role="presentation">
-				<a href="#skills" aria-controls="skills" role="tab" data-toggle="tab">Skills</a>
-			</li>
-			<li role="presentation">
-				<a href="#edges" aria-controls="edges" role="tab" data-toggle="tab">Edges</a>
-			</li>
-			<li role="presentation">
-				<a href="#hindrances" aria-controls="hindrances" role="tab" data-toggle="tab">Hindrances</a>
-			</li>
-			<li role="presentation">
-				<a href="#gear" aria-controls="gear" role="tab" data-toggle="tab">Gear</a>
-			</li>
-			<li role="presentation">
-				<a href="#places" aria-controls="places" role="tab" data-toggle="tab">Places</a>
-			</li>
-			<li role="presentation">
-				<a href="#archetypes" aria-controls="archetypes" role="tab" data-toggle="tab">Archetypes</a>
-			</li>
-			<li role="presentation">
-				<a href="#characters" aria-controls="characters" role="tab" data-toggle="tab">Characters</a>
-			</li>
-			<li role="presentation">
-				<a href="#extras" aria-controls="extras" role="tab" data-toggle="tab">Extras</a>
-			</li>
-			<li role="presentation">
-				<a href="#powers" aria-controls="powers" role="tab" data-toggle="tab">Powers</a>
-			</li>
-			<li role="presentation">
-				<a href="#bestiary" aria-controls="bestiary" role="tab" data-toggle="tab">Bestiary</a>
-			</li>
-		</ul>
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="rules">
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.bloodAndGuts}} Blood & Guts
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.bornAhero}} Born a Hero
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.criticalFailures}} Critical Failures
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.fanatics}} Fanatics
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.grittyDamage}} Gritty Damage
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.heroesNeverDie}} Heroes Never Die
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.highAdventure}} High Adventure
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.jokersWild}} Joker's Wild
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.multipleLanguages}} Multiple Languages
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.noPowerPoints}} No Power Points
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						{{input type="checkbox" checked=model.skillSpecialization}} Skill Specialization
-					</label>
-				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane" id="races">
-				{{two-column-picker 
-    				available=controller.standardRaces 
-    				selected=controller.model.races 
-    				action="addRace"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="skills">
-				{{two-column-picker 
-    				available=controller.standardSkills 
-    				selected=controller.model.skills
-    				action="addSkill"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="edges">
-				{{two-column-picker 
-    				available=controller.standardEdges 
-    				selected=controller.model.edges
-    				action="addEdge"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="hindrances">
-				{{two-column-picker 
-    				available=controller.standardHindrances 
-    				selected=controller.model.hindrances
-    				action="addHindrance"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="gear">
-				{{two-column-picker 
-    				available=controller.standardGear
-    				selected=controller.model.gear
-    				action="addGear"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="places">
-				{{two-column-picker 
-    				available=controller.standardPlaces
-    				selected=controller.model.places
-    				action="addPlace"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="archetypes">
-				{{two-column-picker 
-    				available=controller.standardArchetypes
-    				selected=controller.model.archetypes
-    				action="addArchetype"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="characters">
-				{{#link-to 'characters.add' model class="btn btn-default"}}New Character{{/link-to}}
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Type</th>
-							<th>Name</th>
-							<th>Rank</th>
-						</tr>
-					</thead>
-					<tbody>
-						{{#each character in model.characters}}
-							<tr>
-								<td>{{character.type}}</td>
-								<td>{{character.name}}</td>
-								<td>{{character.rank}}</td>
-							</tr>
-						{{/each}}
-					</tbody>
-				</table>
-			</div>
-			<div role="tabpanel" class="tab-pane" id="extras">
-				{{two-column-picker 
-    				available=controller.standardExtras
-    				selected=controller.model.extras
-    				action="addExtra"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="powers">
-				{{two-column-picker 
-    				available=controller.standardPowers
-    				selected=controller.model.powers
-    				action="addPower"}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="bestiary">
-				{{two-column-picker 
-    				available=controller.standardBeasts
-    				selected=controller.model.beasts
-    				action="addBeast"}}
-			</div>
+	<h1>Rules</h1>
+		<h2>Setting Rules</h2>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.bloodAndGuts}} Blood & Guts
+			</label>
 		</div>
-	</div>	
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.bornAhero}} Born a Hero
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.criticalFailures}} Critical Failures
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.fanatics}} Fanatics
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.grittyDamage}} Gritty Damage
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.heroesNeverDie}} Heroes Never Die
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.highAdventure}} High Adventure
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.jokersWild}} Joker's Wild
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.multipleLanguages}} Multiple Languages
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.noPowerPoints}} No Power Points
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				{{input type="checkbox" checked=model.skillSpecialization}} Skill Specialization
+			</label>
+		</div>
+		<h2>Character Creation Rules</h2>
+	<h1>Races</h1>
+		{{two-column-picker 
+			available=controller.standardRaces 
+			selected=controller.model.races 
+			action="addRace"}}
+	<h1>Archetypes</h1>
+		{{two-column-picker 
+			available=controller.standardArchetypes
+			selected=controller.model.archetypes
+			action="addArchetype"}}
+	<h1>Skills</h1>
+		{{two-column-picker 
+			available=controller.standardSkills 
+			selected=controller.model.skills
+			action="addSkill"}}
+	<h1>Hindrances</h1>
+		{{two-column-picker 
+			available=controller.standardHindrances 
+			selected=controller.model.hindrances
+			action="addHindrance"}}
+	<h1>Edges</h1>
+		{{two-column-picker 
+			available=controller.standardEdges 
+			selected=controller.model.edges
+			action="addEdge"}}
+	<h1>Powers</h1>
+		{{two-column-picker 
+			available=controller.standardPowers
+			selected=controller.model.powers
+			action="addPower"}}
+	<h1>Gear</h1>
+		{{two-column-picker 
+			available=controller.standardGear
+			selected=controller.model.gear
+			action="addGear"}}
+	<h1>Places</h1>
+		{{two-column-picker 
+			available=controller.standardPlaces
+			selected=controller.model.places
+			action="addPlace"}}
+	<h1>NPC's</h1>
+		<h2>Wild Cards</h2>
+		{{#link-to 'characters.add' model class="btn btn-default"}}New Character{{/link-to}}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Name</th>
+					<th>Rank</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each character in model.characters}}
+					<tr>
+						<td>{{character.type}}</td>
+						<td>{{character.name}}</td>
+						<td>{{character.rank}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
 	</div>
+	<h2>Extras</h1>
+		{{two-column-picker 
+			available=controller.standardExtras
+			selected=controller.model.extras
+			action="addExtra"}}
+	
+	<h1>Bestiary</h1>
+		{{two-column-picker 
+			available=controller.standardBeasts
+			selected=controller.model.beasts
+			action="addBeast"}}
+			
 </form>
