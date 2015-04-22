@@ -1,0 +1,7 @@
+{{#link-to 'standard-archetypes.add' class="btn btn-default"}}New Archetype{{/link-to}}	
+{{#each archetype in model}}
+	{{render "standard-archetype/index" archetype}}
+	{{else}}
+	<p>There are no archetypes</p>
+{{/each}}
+{{outlet}}

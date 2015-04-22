@@ -1,0 +1,7 @@
+{{#link-to 'standard-beasts.add' class="btn btn-default"}}New Beast{{/link-to}}	
+{{#each beast in model}}
+	{{render "standard-beast.index" beast}}
+	{{else}}
+	<p>There are no beasts</p>
+{{/each}}
+{{outlet}}
