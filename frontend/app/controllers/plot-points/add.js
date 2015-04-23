@@ -1,13 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+	races:[],
+
 	actions: {
 		save:function() {
 			var controller = this;
-			// this.model.get('races').forEach( function( race) {
-			// 	race.save();
-			// });
-			this.model.save().then(function( newPlotPoint) {
+			var model = this.get('model');
+			model.save().then(function( newPlotPoint) {
 				Ember.get(controller, 'flashes').success('Success!', 2000);
 				controller.transitionToRoute('plot-point.edit', newPlotPoint);
 			});

@@ -4,17 +4,15 @@ module.exports = function(app) {
   var plotPointsRouter = express.Router();
   var bodyParser = require('body-parser');
 
-  console.log('data: ' +data.plotPoints[0]);
-
   plotPointsRouter.get('/', function(req, res) {
     res.send({
-      'plot-points': data.plotPoints
+      'plot-points': data.plotPoints,
       // 'archetypes': data.archetypes,
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
-      // 'races': data.races,
+      'races': data.races,
       // 'skill-descriptions': data.skills,
       // 'characters': data.characters,
       // 'extras': data.extras,
@@ -33,13 +31,13 @@ module.exports = function(app) {
 
   plotPointsRouter.get('/:id', function(req, res) {
     res.send({
-      'plot-points': data.plotPoints[req.params.id -1]//,
+      'plot-points': data.plotPoints[req.params.id -1],
       // 'archetypes': data.archetypes,
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
-      // 'races': data.races,
+      'races': data.races,
       // 'skill-descriptions': data.skills,
       // 'characters': data.characters,
       // 'extras': data.extras,
