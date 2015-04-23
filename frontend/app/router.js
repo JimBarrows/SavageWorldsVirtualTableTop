@@ -7,13 +7,19 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.resource('plot-points', function(){
-      this.route('add');
-      this.resource('plot-point', { path: '/:id' }, function() {
-          this.route('edit');
-          this.resource('characters', function(){
-            this.route('add');
-          });
+    this.route('add');
+    this.resource('plot-point', { path: '/:id' }, function() {
+      this.route('edit');
+      this.resource('characters', function(){
+        this.route('add');
       });
+      this.resource("races", function() {
+        this.route("add");
+        this.resource('race', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
+    });
   });
 
   this.resource("characters", function() {

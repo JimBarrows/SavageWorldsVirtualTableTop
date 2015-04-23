@@ -1,0 +1,7 @@
+{{#link-to 'races.add' class="btn btn-default"}}New Race{{/link-to}}	
+{{#each skill in model}}
+	{{render "race.index" skill}}
+	{{else}}
+	<p>There are no races.</p>
+{{/each}}
+{{outlet}}

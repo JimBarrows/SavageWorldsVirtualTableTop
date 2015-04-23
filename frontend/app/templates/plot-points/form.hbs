@@ -1,9 +1,8 @@
-<h2>Add Plot Point</h2>
-<form class="form-horizontal" role="form">
-	{{error}}
-	{{text-field property=model.name label="Name"}}
-	{{text-area property=model.description label="Description"}}
-	
+
+{{error}}
+{{text-field property=model.name label="Name"}}
+{{text-area property=model.description label="Description"}}
+
 	<h1>Rules</h1>
 	<h2>Setting Rules</h2>
 	<div class="checkbox">
@@ -68,7 +67,8 @@
 	{{numeric-field property=model.startingMinorHindrances label="Starting Minor Hindrances"}}
 	{{numeric-field property=model.startingCash label="Starting Cash"}}
 	<h1>Races</h1>
-	<p>Not Done Yet</p>
+		{{render "races.index" model.races}}
+
 	<h1>Archetypes</h1>
 	<p>Not Done Yet</p>
 	<h1>Skills</h1>
@@ -143,8 +143,8 @@
 	</div>
 	<h2>Extras</h1>
 	<h1>Bestiary</h1>
-	<div class="col-md-offset-5 col-sm-2">
-		<button {{action 'save'}} class="btn btn-primary">Save</button>
-		<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
-	</div>	
-</form>
+
+<div class="col-md-offset-5 col-sm-2">
+	<button {{action 'save'}} class="btn btn-primary">Save</button>
+	<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
+</div>	
