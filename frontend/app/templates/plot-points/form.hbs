@@ -5,61 +5,17 @@
 
 	<h1>Rules</h1>
 	<h2>Setting Rules</h2>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.bloodAndGuts}} Blood & Guts
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.bornAhero}} Born a Hero
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.criticalFailures}} Critical Failures
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.fanatics}} Fanatics
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.grittyDamage}} Gritty Damage
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.heroesNeverDie}} Heroes Never Die
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.highAdventure}} High Adventure
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.jokersWild}} Joker's Wild
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.multipleLanguages}} Multiple Languages
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.noPowerPoints}} No Power Points
-		</label>
-	</div>
-	<div class="checkbox">
-		<label>
-			{{input type="checkbox" checked=model.skillSpecialization}} Skill Specialization
-		</label>
-	</div>
+	{{boolean-field label="Blood & Guts" property=model.bloodAndGuts}}
+	{{boolean-field label="Born a Hero" property=model.bornAHero}}
+	{{boolean-field label="Critical Failures" property=model.criticalFailures}}
+	{{boolean-field label="Fanatics" property=model.fanatics}}
+	{{boolean-field label="Gritty Damage" property=model.grittyDamage}}
+	{{boolean-field label="Heroes Never Die" property=model.heroesNeverDie}}
+	{{boolean-field label="High Adventure" property=model.highAdventure}}
+	{{boolean-field label="Joker's Wild" property=model.jokersWild}}
+	{{boolean-field label="Multiple Languages" property=model.multipleLanguages}}
+	{{boolean-field label="No Power Points" property=model.noPowerPoints}}
+	{{boolean-field label="Skill Specialization" property=model.skillSpecialization}}
 	<h2>Character Creation Rules</h2>
 	{{numeric-field property=model.startingAttributePoints label="Starting Attribute Points"}}
 	{{numeric-field property=model.startingSkillPoints label="Starting Skill Points"}}
