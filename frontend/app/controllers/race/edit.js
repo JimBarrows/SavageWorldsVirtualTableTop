@@ -7,12 +7,12 @@ export default Ember.Controller.extend({
 			var controller = this;
 			this.model.save().then(function() {
 				Ember.get(controller, 'flashes').success('Success!', 2000);				
-				controller.transitionToRoute('plot-point.edit', plotPoint);
+				controller.transitionToRoute('plot-point.edit');
 			});
 		},
 		cancel: function() {
 			this.model.rollback();
-			controller.transitionToRoute('plot-point.edit', plotPoint);
+			this.transitionToRoute('plot-point.edit');
 		}
 	}
 });

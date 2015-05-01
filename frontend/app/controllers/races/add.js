@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
 		},
 		cancel: function() {
 			this.model.rollback();
-			this.transitionToRoute('plot-point.edit', this.get('plotPoint'));
+			this.transitionToRoute('plot-point.edit');
 		}
 	}
 });
