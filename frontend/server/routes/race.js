@@ -34,7 +34,7 @@ module.exports = function(app) {
   });
 
   raceRouter.delete('/:id', function(req, res) {
-    data.splice(req.params.id - 1, 1);
+    data.races.splice(req.params.id - 1, 1);
     res.status(204).end();
   });
 
