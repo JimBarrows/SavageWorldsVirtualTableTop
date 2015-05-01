@@ -22,83 +22,85 @@
 {{numeric-field property=model.startingMajorHindrances label="Starting Major Hindrances"}}
 {{numeric-field property=model.startingMinorHindrances label="Starting Minor Hindrances"}}
 {{numeric-field property=model.startingCash label="Starting Cash"}}
-<h1>Races</h1>
-{{render "races.index" model.races}}
-<h1>Archetypes</h1>
-<p>Not Done Yet</p>
-<h1>Skills</h1>
-<dl>
-	{{#each skill in model.skills}}
-		<dt>{{skill.name}} ({{skill.attribute}})</dt>
-		<dd>{{{skill.description}}}</dd>
-	{{/each}}
-</dl>
-<h1>Hindrances</h1>
-<dl>
-	{{#each hindrance in model.hindrances}}
-		<dt>{{hindrance.name}} ({{hindrance.severity}})</dt>
-		<dd>{{{hindrance.description}}}</dd>
-	{{/each}}
-</dl>
-<h1>Edges</h1>
-<h2>Categories</h2>
-<h2>Descriptions</h2>
-<dl>
-	{{#each edge in model.edges}}
-		<dt>{{edge.name}}</dt>
-		<dd>{{{edge.description}}}</dd>
-	{{/each}}
-</dl>
-<h1>Arcane Backgrounds</h1>
-<h2>Magic</h2>
-<h3>Trappings &amp; Effects</h3>
-<h3>Powers</h3>
-<h2>Miracles</h2>
-<h3>Trappings &amp; Effects</h3>
-<h3>Powers</h3>
-<h2>Psionics</h2>
-<h3>Trappings &amp; Effects</h3>
-<h3>Powers</h3>
-<h2>Super Powers</h2>
-<h3>Trappings &amp; Effects</h3>
-<h3>Powers</h3>
-<h2>Weird Science</h2>
-<h3>Trappings &amp; Effects</h3>
-<h3>Powers</h3>
-<h1>Gear</h1>
-<h2>Armor</h2>
-<h2>Hand Weapons</h2>
-<h2>Ranged Weaspon</h2>
-<h2>Vehicle & AT Guns</h2>
-<h2>Special Weapons</h2>
-<h2>Mundane Items</h2>
-<h2>Ammuniction</h2>
-<h1>Places</h1>
-<h1>NPC's</h1>
-<h2>Wild Cards</h2>
-{{#link-to 'characters.add' model class="btn btn-default"}}New Character{{/link-to}}
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Type</th>
-			<th>Name</th>
-			<th>Rank</th>
-		</tr>
-	</thead>
-	<tbody>
-		{{#each character in model.characters}}
-			<tr>
-				<td>{{character.type}}</td>
-				<td>{{character.name}}</td>
-				<td>{{character.rank}}</td>
-			</tr>
-		{{/each}}
-	</tbody>
-</table>
-</div>
-<h2>Extras</h1>
-<h1>Bestiary</h1>
 
+{{#unless model.isNew}}
+	<h1>Races</h1>
+	{{render "races.index" model.races}}
+	<h1>Archetypes</h1>
+	<p>Not Done Yet</p>
+	<h1>Skills</h1>
+	<dl>
+		{{#each skill in model.skills}}
+			<dt>{{skill.name}} ({{skill.attribute}})</dt>
+			<dd>{{{skill.description}}}</dd>
+		{{/each}}
+	</dl>
+	<h1>Hindrances</h1>
+	<dl>
+		{{#each hindrance in model.hindrances}}
+			<dt>{{hindrance.name}} ({{hindrance.severity}})</dt>
+			<dd>{{{hindrance.description}}}</dd>
+		{{/each}}
+	</dl>
+	<h1>Edges</h1>
+	<h2>Categories</h2>
+	<h2>Descriptions</h2>
+	<dl>
+		{{#each edge in model.edges}}
+			<dt>{{edge.name}}</dt>
+			<dd>{{{edge.description}}}</dd>
+		{{/each}}
+	</dl>
+	<h1>Arcane Backgrounds</h1>
+	<h2>Magic</h2>
+	<h3>Trappings &amp; Effects</h3>
+	<h3>Powers</h3>
+	<h2>Miracles</h2>
+	<h3>Trappings &amp; Effects</h3>
+	<h3>Powers</h3>
+	<h2>Psionics</h2>
+	<h3>Trappings &amp; Effects</h3>
+	<h3>Powers</h3>
+	<h2>Super Powers</h2>
+	<h3>Trappings &amp; Effects</h3>
+	<h3>Powers</h3>
+	<h2>Weird Science</h2>
+	<h3>Trappings &amp; Effects</h3>
+	<h3>Powers</h3>
+	<h1>Gear</h1>
+	<h2>Armor</h2>
+	<h2>Hand Weapons</h2>
+	<h2>Ranged Weaspon</h2>
+	<h2>Vehicle & AT Guns</h2>
+	<h2>Special Weapons</h2>
+	<h2>Mundane Items</h2>
+	<h2>Ammuniction</h2>
+	<h1>Places</h1>
+	<h1>NPC's</h1>
+	<h2>Wild Cards</h2>
+	{{#link-to 'characters.add' model class="btn btn-default"}}New Character{{/link-to}}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Name</th>
+				<th>Rank</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each character in model.characters}}
+				<tr>
+					<td>{{character.type}}</td>
+					<td>{{character.name}}</td>
+					<td>{{character.rank}}</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	</div>
+	<h2>Extras</h1>
+	<h1>Bestiary</h1>
+{{/unless}}
 <div class="col-md-offset-5 col-sm-2">
 <button {{action 'save'}} class="btn btn-primary">Save</button>
 <button {{action 'cancel'}} class="btn btn-default">Cancel</button>
