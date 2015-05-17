@@ -25,6 +25,12 @@ Router.map(function() {
           this.route('edit');
         });
       });
+      this.resource("skills", function() {
+        this.route("add");
+        this.resource('skill', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 

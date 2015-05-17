@@ -20,7 +20,7 @@ export default DS.Model.extend({
   startingMinorHindrances: DS.attr('number', {defaultValue:2}),
   startingCash: DS.attr('number', {defaultValue: 500}),
   races:        DS.hasMany('race'),
-  skills:       DS.hasMany('skill-description'),
+  skillDescriptions:       DS.hasMany('skill-description'),
   edges:        DS.hasMany('edge'),
   hindrances:   DS.hasMany('hindrance'),
   gear:         DS.hasMany('gear'),

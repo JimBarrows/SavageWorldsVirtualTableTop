@@ -9,12 +9,13 @@ module.exports = function(app) {
       'plot-points': data.plotPoints,
       'races': data.races,
       'archetypes': data.archetypes,
+      'skill-descriptions': data.skills,
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
       
-      // 'skill-descriptions': data.skills,
+      
       // 'characters': data.characters,
       // 'extras': data.extras,
       // 'beasts': data.beasts,
@@ -33,14 +34,13 @@ module.exports = function(app) {
   plotPointsRouter.get('/:id', function(req, res) {
     res.send({
       'plot-points': data.plotPoints[req.params.id -1],
-      'archetypes': data.archetypes,
       'races': data.races,
+      'archetypes': data.archetypes,
+      'skill-descriptions': data.skills
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
-      
-      // 'skill-descriptions': data.skills,
       // 'characters': data.characters,
       // 'extras': data.extras,
       // 'beasts': data.beasts,
@@ -58,12 +58,13 @@ module.exports = function(app) {
       'plot-points': existingRecord,
       'races': data.races,
       'archetypes': data.archetypes,
+      'skill-descriptions': data.skills
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
       
-      // 'skill-descriptions': data.skills,
+      
       // 'characters': data.characters,
       // 'extras': data.extras,
       // 'beasts': data.beasts,

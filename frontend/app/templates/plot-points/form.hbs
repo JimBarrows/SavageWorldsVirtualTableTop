@@ -28,12 +28,7 @@
 	<h1>Archetypes</h1>
 	{{render "archetypes.index" model.archetypes}}
 	<h1>Skills</h1>
-	<dl>
-		{{#each skill in model.skills}}
-			<dt>{{skill.name}} ({{skill.attribute}})</dt>
-			<dd>{{{skill.description}}}</dd>
-		{{/each}}
-	</dl>
+	{{render "skills.index" model.skillDescriptions}}
 	<h1>Hindrances</h1>
 	<dl>
 		{{#each hindrance in model.hindrances}}

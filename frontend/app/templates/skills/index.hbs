@@ -1,0 +1,7 @@
+{{#link-to 'skills.add' class="btn btn-default"}}New Skill{{/link-to}}	
+{{#each skill in model}}
+	{{render "skill.index" skill}}
+	{{else}}
+	<p>There are no skills.</p>
+{{/each}}
+{{outlet}}
