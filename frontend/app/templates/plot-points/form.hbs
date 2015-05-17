@@ -30,12 +30,7 @@
 	<h1>Skills</h1>
 	{{render "skills.index" model.skillDescriptions}}
 	<h1>Hindrances</h1>
-	<dl>
-		{{#each hindrance in model.hindrances}}
-			<dt>{{hindrance.name}} ({{hindrance.severity}})</dt>
-			<dd>{{{hindrance.description}}}</dd>
-		{{/each}}
-	</dl>
+	{{render "hindrances.index" model.hindrances}}
 	<h1>Edges</h1>
 	<h2>Categories</h2>
 	<h2>Descriptions</h2>

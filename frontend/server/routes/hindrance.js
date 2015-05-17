@@ -25,8 +25,9 @@ module.exports = function(app) {
 
   hindranceDescriptionRouter.put('/:id', function(req, res) {
     var existingRecord = data.hindrances[req.params.id -1];
-    existingRecord = req.body.hindranceDescription;  
+    existingRecord = req.body.hindrance;  
     existingRecord.id = req.params.id;
+    data.hindrances[req.params.id - 1] = existingRecord;
     res.send({
       'hindrance': existingRecord
     });

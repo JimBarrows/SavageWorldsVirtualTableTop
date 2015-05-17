@@ -31,6 +31,12 @@ Router.map(function() {
           this.route('edit');
         });
       });
+      this.resource("hindrances", function() {
+        this.route("add");
+        this.resource('hindrance', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 

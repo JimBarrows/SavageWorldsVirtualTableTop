@@ -12,7 +12,7 @@ module.exports = function(app) {
       'skill-descriptions': data.skills,
       // 'edges': data.edges,
       // 'gear': data.gear,
-      // 'hindrances': data.hindrances,
+      'hindrances': data.hindrances,
       // 'places': data.places,
       
       
@@ -36,10 +36,10 @@ module.exports = function(app) {
       'plot-points': data.plotPoints[req.params.id -1],
       'races': data.races,
       'archetypes': data.archetypes,
-      'skill-descriptions': data.skills
+      'skill-descriptions': data.skills,
       // 'edges': data.edges,
       // 'gear': data.gear,
-      // 'hindrances': data.hindrances,
+      'hindrances': data.hindrances,
       // 'places': data.places,
       // 'characters': data.characters,
       // 'extras': data.extras,
@@ -58,10 +58,10 @@ module.exports = function(app) {
       'plot-points': existingRecord,
       'races': data.races,
       'archetypes': data.archetypes,
-      'skill-descriptions': data.skills
+      'skill-descriptions': data.skills,
       // 'edges': data.edges,
       // 'gear': data.gear,
-      // 'hindrances': data.hindrances,
+      'hindrances': data.hindrances,
       // 'places': data.places,
       
       
