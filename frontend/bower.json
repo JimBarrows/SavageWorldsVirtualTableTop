@@ -14,6 +14,6 @@
     "ember-qunit-notifications": "0.0.5",
     "qunit": "~1.17.1",
     "bootstrap": "~3.3.2",
-    "summernote": "~0.5.10"
+    "summernote": "~0.6.1"
   }
 }
