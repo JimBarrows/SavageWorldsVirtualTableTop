@@ -1,0 +1,37 @@
+{{error}}
+{{#if model.isNew}}
+	<div class="row">
+		<div class="form-group">
+			<label class="col-md-2 control-label">Copy Standard Archetype</label>
+			<div class="col-md-6">
+				{{view "select" content=standards
+					optionValuePath="content.id"
+					optionLabelPath="content.name"
+					selection=selected
+					class="form-control"}} 
+				{{#if errors}}
+					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+					<span class="help-block">
+						{{#each errors.description}}
+							{{message}}
+						{{/each}}
+					</span>
+				{{/if}}
+			</div>
+			<div class="col-md-4">
+				<button {{action 'addStandard'}} class="btn btn-default">
+					<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
+					Copy
+				</button>
+			</div>
+		</div>
+	</div>
+{{/if}}
+<div class="row">
+	{{text-field property=model.name label="Name"}}
+	{{text-area property=model.description label="Description"}}
+	<div class="col-sm-offset-5 col-sm-2">
+		<button {{action 'save'}} class="btn btn-primary">Save</button>
+		<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
+	</div>
+</div>

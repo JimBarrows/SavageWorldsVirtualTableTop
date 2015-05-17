@@ -19,6 +19,12 @@ Router.map(function() {
           this.route('edit');
         });
       });
+      this.resource("archetypes", function() {
+        this.route("add");
+        this.resource('archetype', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 

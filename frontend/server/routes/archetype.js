@@ -25,15 +25,16 @@ module.exports = function(app) {
 
   archetypeDescriptionRouter.put('/:id', function(req, res) {
     var existingRecord = data.archetypes[req.params.id -1];
-    existingRecord = req.body.archetypeDescription;  
+    existingRecord = req.body.archetype;  
     existingRecord.id = req.params.id;
+    data[req.params.id -1] = existingRecord;
     res.send({
       'archetype': existingRecord
     });
   });
 
   archetypeDescriptionRouter.delete('/:id', function(req, res) {
-    data.splice(req.params.id - 1, 1);
+    data.archetypes.splice(req.params.id - 1, 1);
     res.status(204).end();
   });
 

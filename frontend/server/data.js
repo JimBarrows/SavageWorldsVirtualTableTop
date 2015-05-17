@@ -16,7 +16,7 @@ module.exports =  {
 		races: [],
 		skills: [],
 		powers: [],
-		standardArchetypes: [],
+		standardArchetypes: [{id:1, name:"Arche 1", description: 'arche 1'},{id:2, name:"Arche 2", description: 'arche 2'}],
 		standardBeasts: [],
 		standardEdges: [],		
 		standardExtras: [],

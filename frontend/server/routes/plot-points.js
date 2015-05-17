@@ -7,12 +7,13 @@ module.exports = function(app) {
   plotPointsRouter.get('/', function(req, res) {
     res.send({
       'plot-points': data.plotPoints,
-      // 'archetypes': data.archetypes,
+      'races': data.races,
+      'archetypes': data.archetypes,
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
-      'races': data.races,
+      
       // 'skill-descriptions': data.skills,
       // 'characters': data.characters,
       // 'extras': data.extras,
@@ -32,12 +33,13 @@ module.exports = function(app) {
   plotPointsRouter.get('/:id', function(req, res) {
     res.send({
       'plot-points': data.plotPoints[req.params.id -1],
-      // 'archetypes': data.archetypes,
+      'archetypes': data.archetypes,
+      'races': data.races,
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
-      'races': data.races,
+      
       // 'skill-descriptions': data.skills,
       // 'characters': data.characters,
       // 'extras': data.extras,
@@ -53,13 +55,14 @@ module.exports = function(app) {
     existingRecord.id = req.params.id;
     data.plotPoints[req.params.id -1] = existingRecord;
     res.send({
-      'plot-points': existingRecord//,
-      // 'archetypes': data.archetypes,
+      'plot-points': existingRecord,
+      'races': data.races,
+      'archetypes': data.archetypes,
       // 'edges': data.edges,
       // 'gear': data.gear,
       // 'hindrances': data.hindrances,
       // 'places': data.places,
-      // 'races': data.races,
+      
       // 'skill-descriptions': data.skills,
       // 'characters': data.characters,
       // 'extras': data.extras,
