@@ -1,0 +1,14 @@
+<template name="storyList">
+	<div class="container">
+		<div class="page-header">
+			<h1>Stories
+				<button class="btn btn-default btn-xs">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				</button>
+			</h1>
+		</div>
+		{{#each stories}}
+			{{> story}}
+		{{/each}}
+	</div>	
+</template>

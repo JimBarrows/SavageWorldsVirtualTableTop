@@ -1,0 +1,493 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"desc",
+				"description"
+			],
+			[
+				"plo",
+				"plotPoint"
+			],
+			[
+				"plot",
+				"plotPoints"
+			],
+			[
+				"softwa",
+				"softwareSystem"
+			],
+			[
+				"th",
+				"thead	Tag"
+			],
+			[
+				"share",
+				"shareAmp"
+			],
+			[
+				"tomc",
+				"tomcatTemp"
+			],
+			[
+				"alf",
+				"alfresco"
+			],
+			[
+				"repo",
+				"repoAmp"
+			],
+			[
+				"tomcat",
+				"tomcatWebApp"
+			],
+			[
+				"alfresco",
+				"alfresco-mmt"
+			],
+			[
+				"lott",
+				"lotto_json"
+			],
+			[
+				"mediu",
+				"medium-task"
+			],
+			[
+				"task-",
+				"task-sizes"
+			],
+			[
+				"user",
+				"user-id"
+			],
+			[
+				"find",
+				"find-task-by-id"
+			],
+			[
+				"JAVA",
+				"JAVA_OPTS"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 347.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"run",
+				"SBT: Run"
+			],
+			[
+				"ki",
+				"SBT: Kill SBT"
+			],
+			[
+				"sbt run",
+				"SBT: Run"
+			],
+			[
+				"sbt kil",
+				"SBT: Kill SBT"
+			],
+			[
+				"sbt kill",
+				"SBT: Kill SBT"
+			],
+			[
+				"sbt ",
+				"SBT: Kill SBT"
+			],
+			[
+				"sbt",
+				"SBT: Run"
+			],
+			[
+				"sbt compile",
+				"SBT: Compile"
+			],
+			[
+				"sbt ru",
+				"SBT: Run"
+			],
+			[
+				"sbt comp",
+				"SBT: Start Continuous Compiling"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Indent XML"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 63.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/custom.bootstrap.json",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.css",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/FlashCards.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/FlashCards.html",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/app-not-found.html",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/app-body.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/app-body.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/app-body.html",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/lib/router.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/lib/collections.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/server/publish.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/server/bootstrap.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/lib/custom.bootstrap.mixins.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/lib/custom.bootstrap.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/auth.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/lib/custom.bootstrap.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/lib/custom.bootstrap.json",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/app-not-found.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/vendor/custom.bootstrap.json",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/style.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/lists-show.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/lists-show.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/lists-show.html",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/README.md",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/auth-join.html",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/main.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/base.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/button.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/form.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/icon.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/layout.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/link.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/list-items.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/menu.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/message.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/nav.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/stylesheets/globals/notification.import.less",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/todos-item.js",
+		"/Users/JimBarrows/Desktop/FlashCards/Flashcards/client/templates/todos-item.html",
+		"/Users/JimBarrows/Desktop/FlashCards/todos/server/bootstrap.js",
+		"/Users/JimBarrows/Desktop/FlashCards/todos/server/publish.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/lib/collections.js",
+		"/Users/JimBarrows/Desktop/FlashCards/todos/client/head.html",
+		"/Users/JimBarrows/Desktop/FlashCards/todos/client/templates/app-body.html",
+		"/Users/JimBarrows/Desktop/FlashCards/todos/lib/router.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/server/DeckList.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/server/FlashCards.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.html",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/DeckList.html",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/collections.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/DeckList.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.js",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/loggedIn.html",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/FlashCards.css",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/server/routes/skill-description.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/plot-point/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/hindrances.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/hindrances/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/hindrances/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/hindrances/index.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/hindrance/edit.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/hindrances.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/hindrances/add.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/hindrances/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/hindrances/form.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/skills/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/skill/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/skills/form.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/skills.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/archetypes.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/archetype/edit.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/archetype/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/archetypes/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/archetypes/form.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/archetypes/add.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/skills/index.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/plot-points/form.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/router.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/server/data.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/server/routes/plot-points.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/archetypes/index.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/models/plot-point.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/models/skill-description.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/skills/add.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/skill/edit.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/skills/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/skills.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/skills/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/skill/edit.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/archetypes/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/server/routes/archetype.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/archetypes/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/archetypes.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/archetype/edit.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/server/routes/race.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/races/index.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/races/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/races.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/routes/races/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/controllers/races/add.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/races/form.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/components/text-area.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/components/form-group.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/Brocfile.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/app/templates/plot-point/edit.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/frontend/gamemeaster.sublime-project",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/gamemeaster.sublime-project",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/templates/plot-point/edit.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/templates/plot-point.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/controllers/index.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/router.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/routes/plot-point/edit.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/routes/plot-point.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/templates/index.hbs",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/controllers/plot-point.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/routes/edit.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/router.js",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/package.json",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/index.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/package.json",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/mocks/softwareSystems.js",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/server/mocks/plot-points.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/bower.json",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/bower.json",
+		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/Brocfile.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/models/software-system.js",
+		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/templates/add.hbs"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"false",
+			"skill",
+			"Skill",
+			"skillDescription",
+			"archetype",
+			"Archetype",
+			"Race",
+			"race",
+			"ace",
+			"race",
+			"system",
+			"software-system",
+			"8500",
+			"8400",
+			"8300",
+			"8100",
+			"portNumber",
+			"!1 !== l.args.ioPublish",
+			";",
+			"0e24b99c-41f0-43e1-a55e-fb9f50d73820",
+			"8f2105b4-daaf-4874-9e8a-2152569d109b",
+			"059c5bc7-2d38-4dc5-96b8-d09cd3c69b4c",
+			"64f69e69-f61e-42a3-8697-95eea1f2bda2",
+			"8f2105b4-daaf-4874-9e8a-2152569d109b",
+			"441436c8-8b95-4473-9af5-668276375d39",
+			"5c776cb0-9e39-4a84-9c65-8f543820a257",
+			"a4fc443a-2b0e-4ff5-a73a-7def2c8c6ccd",
+			"5821f6a0-4270-4495-8bba-1d5642136136",
+			"441436c8-8b95-4473-9af5-668276375d39",
+			"JavaDomainObjects",
+			"root",
+			"8f2105b4-daaf-4874-9e8a-2152569d109b",
+			"8443",
+			"http://",
+			"8080",
+			"c625c012-35bc-4e68-9a78-9308825fd039",
+			"01c78c09-9fa6-48ec-aa8b-0d8b5f9bb2e5",
+			"76cf3c9f-2834-4714-88a4-f5956b784ccb",
+			"c625c012-35bc-4e68-9a78-9308825fd039",
+			"Creating distributio",
+			"Creating distributionCreating distribution",
+			"${PROTOCOL}",
+			"${APP_SERVER}:${APP_PORT}",
+			"\"C:\\Alfresco\\tomcat\\temp\"",
+			"\"C:\\Alfresco\\tomcat\\webapps\"",
+			"recursiveHunt",
+			"task",
+			"user",
+			"entity",
+			")))",
+			"entity",
+			"task-data.data",
+			"(repo task-repository)",
+			"data repo",
+			"))",
+			",classname",
+			",repo-name",
+			"X",
+			"X X X",
+			"\\Chapter",
+			"&",
+			"\\",
+			"c:",
+			"\\",
+			"C:",
+			"JAVA_OPTS",
+			"ERROR",
+			"AlfrescoRhinoScriptDebugger",
+			"ScriptDebugger",
+			"Alfresco-ent42-Informative Graphics Corporation (IGC)",
+			"options",
+			"signedConfigUrl",
+			"htmlClient",
+			"\\\""
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"true",
+			"hindrance",
+			"Hindrance",
+			"hindrance",
+			"skill",
+			"Skill",
+			"Archetype",
+			"archetype",
+			"softwareSystems",
+			"8600",
+			"8500",
+			"8400",
+			"8300",
+			";\n",
+			"EnterpriseKanban",
+			"http",
+			"localhost:8080",
+			"$tomcatTemp",
+			"$tomcatWebApp",
+			"task-repository.data",
+			"",
+			"data *task-repository*",
+			"task",
+			"task-repository",
+			"& X",
+			"& X & X & X &",
+			"/",
+			"/cygdrive/c",
+			"/",
+			"/cygdrive/c",
+			"\""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sbt":
+	{
+		"height": 100.0
+	},
+	"output.sbt_error":
+	{
+		"height": 0.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 370.0,
+	"status_bar_visible": true
+}
