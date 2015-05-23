@@ -75,6 +75,58 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "SavageWorlds/client/storyList.html",
+			"settings":
+			{
+				"buffer_size": 284,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SavageWorlds/client/storyForm.html",
+			"settings":
+			{
+				"buffer_size": 421,
+				"line_ending": "Unix",
+				"name": "<template name=\"storyForm\">"
+			}
+		},
+		{
+			"file": "SavageWorlds/client/router.js",
+			"settings":
+			{
+				"buffer_size": 504,
+				"line_ending": "Unix",
+				"name": "Router.route('/storyForm');"
+			}
+		},
+		{
+			"file": "SavageWorlds/client/storyList.js",
+			"settings":
+			{
+				"buffer_size": 192,
+				"line_ending": "Unix",
+				"name": "Template.storyList.helpers({"
+			}
+		},
+		{
+			"file": "SavageWorlds/client/storyForm.js",
+			"settings":
+			{
+				"buffer_size": 449,
+				"line_ending": "Unix",
+				"name": "Template.storyForm.events({"
+			}
+		},
+		{
+			"file": "SavageWorlds/collections.js",
+			"settings":
+			{
+				"buffer_size": 164,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -152,6 +204,21 @@
 	},
 	"file_history":
 	[
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/SavageWorlds.html",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/collections.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/story.html",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/SavageWorlds.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/subscribe.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/server/publish.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/storyList.html",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/marketing.html",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/client/SavageWorlds.less",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/SavageWorlds.html",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/SavageWorlds.js",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/storyList.html",
+		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.html",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds/SavageWorlds.css",
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/SavageWorlds.sublime-project",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.import.less",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/custom.bootstrap.json",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.css",
@@ -200,7 +267,6 @@
 		"/Users/JimBarrows/Desktop/FlashCards/todos/lib/router.js",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/server/DeckList.js",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/server/FlashCards.js",
-		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/FlashCards.html",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/DeckList.html",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/collections.js",
 		"/Users/JimBarrows/Desktop/FlashCards/FlashCards/client/DeckList.js",
@@ -265,21 +331,7 @@
 		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/controllers/index.js",
 		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/router.js",
 		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/routes/plot-point/edit.js",
-		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/routes/plot-point.js",
-		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/templates/index.hbs",
-		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/controllers/plot-point.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/routes/edit.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/router.js",
-		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/package.json",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/index.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/package.json",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/server/mocks/softwareSystems.js",
-		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/server/mocks/plot-points.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/bower.json",
-		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/bower.json",
-		"/C/Users/Jim/Documents/GitHub/SavageWorldsVirtualTableTop/gamemaster/src/main/gamemaster/Brocfile.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/models/software-system.js",
-		"/C/Users/Jim/Documents/GitHub/EnterpiriseKanban/software-system/src/main/webapp/app/templates/add.hbs"
+		"/Users/JimBarrows/Desktop/SavageWorldsVirtualTableTop/Savage Worlds/app/routes/plot-point.js"
 	],
 	"find":
 	{
@@ -419,8 +471,178 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "SavageWorlds/client/storyList.html",
+					"settings":
+					{
+						"buffer_size": 284,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								243,
+								243
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "SavageWorlds/client/storyForm.html",
+					"settings":
+					{
+						"buffer_size": 421,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								347,
+								347
+							]
+						],
+						"settings":
+						{
+							"auto_name": "<template name=\"storyForm\">",
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "SavageWorlds/client/router.js",
+					"settings":
+					{
+						"buffer_size": 504,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								252,
+								252
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Router.route('/storyForm');",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "SavageWorlds/client/storyList.js",
+					"settings":
+					{
+						"buffer_size": 192,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22,
+								22
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Template.storyList.helpers({",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "SavageWorlds/client/storyForm.js",
+					"settings":
+					{
+						"buffer_size": 449,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								216,
+								231
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Template.storyForm.events({",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "SavageWorlds/collections.js",
+					"settings":
+					{
+						"buffer_size": 164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								27,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -441,11 +663,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.49027261159,
 			1.0
 		],
 		"rows":
@@ -487,7 +716,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
-	"side_bar_width": 370.0,
+	"side_bar_visible": true,
+	"side_bar_width": 163.0,
 	"status_bar_visible": true
 }
