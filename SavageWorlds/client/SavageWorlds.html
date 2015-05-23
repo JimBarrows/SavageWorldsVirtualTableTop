@@ -13,13 +13,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Savage Worlds</a>
+          {{#linkTo route="home" class="navbar-brand"}}Savage Worlds{{/linkTo}}
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Stories</a></li>
-            <li><a href="#plotPoints">Plot Points</a></li>
-            <li><a href="#characters">Characters</a></li>
+            {{#if currentUser}}
+              <li class="active">
+                {{#linkTo route="story.list" }}
+                  Stories
+                {{/linkTo}}
+              </li>
+              <li><a href="#plotPoints">Plot Points</a></li>
+              <li><a href="#characters">Characters</a></li>
+            {{/if}}
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>

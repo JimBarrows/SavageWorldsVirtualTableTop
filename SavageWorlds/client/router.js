@@ -2,9 +2,23 @@ Router.configure({
 	layoutTemplate: 'SavageWorlds'
 });
 
+Router.onBeforeAction(function() {
+	if (!Meteor.userId()) {
+    	this.render('marketing');
+  	} else {
+    	this.next();
+	}
+}, {
+	except: ['home']
+});
+
+Router.route("/", {
+	name: 'home',
+	template: "marketing"
+});
+
 Router.route('/stories', {
-	name: 'story.list',
-	path: '/'
+	name: 'story.list'
 });
 
 Router.route('/stories/add',{
