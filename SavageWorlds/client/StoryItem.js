@@ -4,5 +4,8 @@ Template.StoryItem.events({
 	},
 	"click #editStory": function( event) {
 		Router.go('story.edit', {_id: this._id});
+	},
+	"click #viewStory": function( event) {
+		Router.go('story.view', {_id: this._id});
 	}
 });
