@@ -11,7 +11,8 @@ Template.StoryForm.events({
       
     } else {
       Stories.insert({
-        title: title
+        title: title,
+        owner: Meteor.userId(),
       });
     }
 

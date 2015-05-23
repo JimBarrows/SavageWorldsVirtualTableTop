@@ -1,5 +1,7 @@
 Template.StoryList.helpers({
-	stories: Stories.find({})
+	stories: Stories.find({
+		owner: Meteor.userId()
+	})
 });
 
 Template.StoryList.events({
