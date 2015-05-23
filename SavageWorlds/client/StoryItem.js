@@ -1,4 +1,4 @@
-Template.Story.events({
+Template.StoryItem.events({
 	"click #deleteStory": function (event) {
 		Stories.remove(this._id);
 	},

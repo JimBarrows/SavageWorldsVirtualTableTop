@@ -15,7 +15,7 @@ Template.StoryForm.events({
       });
     }
 
-    Router.go('/');
+    Router.go('story.list');
     // Prevent default form submit
     return false;
   }

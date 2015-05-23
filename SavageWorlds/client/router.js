@@ -2,16 +2,17 @@ Router.configure({
 	layoutTemplate: 'SavageWorlds'
 });
 
-Router.route('/storyList', {
+Router.route('/stories', {
+	name: 'story.list',
 	path: '/'
 });
 
-Router.route('/storyAdd',{
+Router.route('/stories/add',{
 	name: 'story.add',
 	template: 'StoryForm'
 });
 
-Router.route('/storyEdit/:_id', {
+Router.route('/stories/:_id/edit', {
 	name: 'story.edit',
 	template: 'StoryForm',
 	data: function () {

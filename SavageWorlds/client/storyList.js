@@ -1,9 +1,9 @@
-Template.storyList.helpers({
+Template.StoryList.helpers({
 	stories: Stories.find({})
 });
 
-Template.storyList.events({
+Template.StoryList.events({
 	'click #addStory': function () {
-		Router.go('/storyForm');
+		Router.go('story.add');
  	}
 });
