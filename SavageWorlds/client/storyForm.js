@@ -3,7 +3,7 @@ Template.StoryForm.events({
     // This function is called when the new task form is submitted
 
     var title = event.target.title.value;
-console.log("title: " + title);
+    
     Stories.insert({
       title: title
     })
