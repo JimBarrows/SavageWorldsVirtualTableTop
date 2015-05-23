@@ -25,6 +25,7 @@ dist
 *.rtf#
 *.ser
 *.sqlite3
+*.sublime-workspace
 *.swp
 *tar.gz
 *.war
