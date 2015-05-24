@@ -41,3 +41,19 @@ Router.route('/stories/:_id', {
     	return Stories.findOne({_id: this.params._id});
   	}
   });
+
+Router.route('/plotPoints',{
+	name: 'plotPoint.list'
+});
+
+Router.route('/plotPoints/add',{
+	name: 'plotPoint.add'
+});
+
+Router.route('/plotPoints/:_id/edit',{
+	name: 'plotPoint.edit',
+	template: 'PlotPointForm',
+	data: function () {
+    	return PlotPoints.findOne({_id: this.params._id});
+  	}
+})
