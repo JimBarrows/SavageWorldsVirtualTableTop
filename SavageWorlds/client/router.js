@@ -14,7 +14,7 @@ Router.onBeforeAction(function() {
 
 Router.route("/", {
 	name: 'home',
-	template: "marketing"
+	template: "Marketing"
 });
 
 Router.route('/stories', {
