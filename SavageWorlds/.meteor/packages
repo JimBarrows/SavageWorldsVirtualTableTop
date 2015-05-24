@@ -12,3 +12,5 @@ less
 iron:router
 autopublish
 insecure
+natestrauser:font-awesome
+summernote:standalone

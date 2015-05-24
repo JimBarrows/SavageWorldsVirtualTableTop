@@ -4,7 +4,7 @@ Template.StoryForm.events({
 
     var id = event.target.id.value;
     var title = event.target.title.value;
-    var description = event.target.description.value;
+    var description = $('#description').code();
 
     var storyRecord = {
       title: title,
@@ -23,3 +23,10 @@ Template.StoryForm.events({
     return false;
   }
 }); 
+
+Template.StoryForm.rendered = function() {
+     $('#description').summernote({
+        height: 200,   // set editable area's height
+        //focus: true    // set focus editable area after Initialize summernote
+     });
+}
