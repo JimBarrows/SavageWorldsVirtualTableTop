@@ -7,6 +7,17 @@ Template.StoryForm.helpers({
         { return "selected";}
     else 
         { return "";}
+  },
+  showSceneForm: function () {
+    return Session.get("showSceneForm");
+  },
+  scenes: function() {
+    return Scenes.find({
+      story: this._id
+    });
+  },
+  foo: function() { 
+    return this._id;
   }
 });
 
@@ -33,6 +44,10 @@ Template.StoryForm.events({
 
     Router.go('story.list');
     // Prevent default form submit
+    return false;
+  },
+  "click #addScene": function( event) {
+    Session.set("showSceneForm", true);
     return false;
   }
 }); 
