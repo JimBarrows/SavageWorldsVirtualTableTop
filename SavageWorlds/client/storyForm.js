@@ -1,15 +1,27 @@
+Template.StoryForm.helpers({
+  plotPointList: PlotPoints.find({
+    owner: Meteor.userId()
+  }),
+  plotPointSelected: function(plotPointId) {
+    if (plotPointId == this._id)
+        { return "selected";}
+    else 
+        { return "";}
+  }
+});
+
 Template.StoryForm.events({
   "submit #storyForm": function (event) {
-    // This function is called when the new task form is submitted
 
     var id = event.target.id.value;
-    var title = event.target.title.value;
-    var description = $('#description').code();
+    var target = event.target;
+    var plotPointId = target.plotPointId;
 
     var storyRecord = {
-      title: title,
+      title: event.target.title.value,
       owner: Meteor.userId(),
-      description: description
+      description: $('#description').code(),
+      plotPointId: event.target.plotPointId.value
     };
 
     if( id) {
@@ -29,4 +41,4 @@ Template.StoryForm.rendered = function() {
         height: 200,   // set editable area's height
         //focus: true    // set focus editable area after Initialize summernote
      });
-}
+};
