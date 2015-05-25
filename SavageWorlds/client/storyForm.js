@@ -15,9 +15,6 @@ Template.StoryForm.helpers({
     return Scenes.find({
       story: this._id
     });
-  },
-  foo: function() { 
-    return this._id;
   }
 });
 
