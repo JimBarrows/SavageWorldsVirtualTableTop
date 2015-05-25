@@ -21,7 +21,8 @@ Template.StoryForm.events({
       title: event.target.title.value,
       owner: Meteor.userId(),
       description: $('#description').code(),
-      plotPointId: event.target.plotPointId.value
+      plotPointId: event.target.plotPointId.value,
+      plotPointName: event.target.plotPointId.options[event.target.plotPointId.selectedIndex].text
     };
 
     if( id) {
