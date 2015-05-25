@@ -47,7 +47,8 @@ Router.route('/plotPoints',{
 });
 
 Router.route('/plotPoints/add',{
-	name: 'plotPoint.add'
+	name: 'plotPoint.add',
+	template: 'PlotPointForm'
 });
 
 Router.route('/plotPoints/:_id/edit',{
