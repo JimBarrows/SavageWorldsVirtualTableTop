@@ -42,6 +42,14 @@ Router.route('/stories/:_id', {
   	}
   });
 
+Router.route('/stories/scenes/:_id/edit', {
+	name: 'scene.edit',
+	template: 'SceneForm',
+	data: function () {
+    	return Scenes.findOne({_id: this.params._id});
+  	}
+  });
+
 Router.route('/plotPoints',{
 	name: 'plotPoint.list'
 });
