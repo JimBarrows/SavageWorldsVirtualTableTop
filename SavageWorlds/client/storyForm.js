@@ -1,7 +1,10 @@
 Template.StoryForm.helpers({
-  plotPointList: PlotPoints.find({
-    owner: Meteor.userId()
-  }),
+
+  plotPointList: function() {
+    return PlotPoints.find({
+      owner: Meteor.userId()
+    })
+  },
   plotPointSelected: function(plotPointId) {
     if (plotPointId == this._id)
         { return "selected";}
