@@ -54,7 +54,6 @@ Template.StoryForm.events({
 
 Template.StoryForm.rendered = function() {
      $('#description').summernote({
-        height: 200,   // set editable area's height
-        //focus: true    // set focus editable area after Initialize summernote
+        height: 200
      });
 };

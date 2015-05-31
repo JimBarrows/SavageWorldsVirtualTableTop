@@ -65,4 +65,16 @@ Router.route('/plotPoints/:_id/edit',{
 	data: function () {
     	return PlotPoints.findOne({_id: this.params._id});
   	}
-})
+});
+
+Router.route('/plotPoints/:plotPointId/races/add', {
+	name: 'race.add',
+	template: "RaceForm",
+	data: function () {
+    	return {
+    		plotPoint: PlotPoints.findOne({
+    			_id: this.params.plotPointId
+    		})
+    	}
+  	}
+});

@@ -14,6 +14,12 @@ Template.PlotPointForm.events({
 		}
 		Router.go('plotPoint.list');
 		return false;
+	},
+	"click #addRace": function( event, template) {
+		Router.go('race.add', { 
+			plotPointId: this._id
+		});
+		return false;
 	}
 });
 

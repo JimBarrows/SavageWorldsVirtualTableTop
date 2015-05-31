@@ -38,12 +38,16 @@
 			{{/if}}
 			<ul>
 				{{#each dramatisPersonae}}
-					<li>
-						{{name}}
-						<button id="deleteCharacter" class="btn btn-danger btn-xs">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</button>
-					</li>
+					<dl>
+						<dt>
+							{{index}}) {{name}}
+							<button id="deleteCharacter" class="btn btn-danger btn-xs">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true">
+								</span>
+							</button>
+						</dt>
+						<dd>{{{description}}}</dd>
+					</dl>
 				{{/each}}
 			</ul>
 			<div class="row">
