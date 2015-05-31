@@ -4,7 +4,7 @@ Router.configure({
 
 Router.onBeforeAction(function() {
 	if (!Meteor.userId()) {
-    	this.render('marketing');
+    	this.render('Marketing');
   	} else {
     	this.next();
 	}
