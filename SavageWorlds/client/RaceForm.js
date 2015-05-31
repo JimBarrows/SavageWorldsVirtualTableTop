@@ -16,7 +16,6 @@ Template.RaceForm.events({
         Router.go('plotPoint.edit', {_id: plotPoint._id});
         return false;
 	}
-
 });
 
 Template.RaceForm.rendered = function() {

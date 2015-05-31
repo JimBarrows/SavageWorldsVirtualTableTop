@@ -24,7 +24,13 @@
 			</button>
 		</h1>
 		{{#each races}}
-			{{> RaceItem}}
+			<h2>
+				{{name}}
+				<button id="deleteRace" class="btn btn-danger btn-xs">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+			</h2>
+			{{{description}}}
 		{{/each}}
 		<div class="row">
 			<div class="col-sm-12 text-center"> 

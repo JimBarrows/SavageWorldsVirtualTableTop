@@ -4,7 +4,8 @@ Template.PlotPointForm.events({
 		var plotPointRecord = {
 			name: event.target.name.value,
 			owner: Meteor.userId(),
-			description: $('#description').code()
+			description: $('#description').code(),
+			races: this.races
 		};
 
 		if( id) {
@@ -20,7 +21,19 @@ Template.PlotPointForm.events({
 			plotPointId: this._id
 		});
 		return false;
-	}
+	},
+	"click #deleteRace": function( event, template) {
+		var raceToBeDeleted = this.index;
+        var races = template.data.races.filter(function( race) {
+        	return raceToBeDeleted != race.index;
+        });
+        PlotPoints.update( template.data._id, {
+	  		$set: {
+	  			races: races
+	  		}
+	  	});
+	  	return false;
+    }
 });
 
 Template.PlotPointForm.rendered = function() {
