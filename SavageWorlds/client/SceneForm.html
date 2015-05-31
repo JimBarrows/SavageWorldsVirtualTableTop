@@ -19,28 +19,33 @@
 					</div>
 				</div>
 			</div>
-			<h4>Rolls</h4>
-			<table class="table table-striped">
-				<caption>Notice Roll - Target 4</caption>
-				<thead>
-					<tr>
-						<th>Result</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Failure</td>
-						<td>Flat Footed</td>
-					</tr>
-					<tr>
-						<td>Success</td>
-						<td>Normal Initiative</td>
-					</tr>
-				</tbody>
-			</table>
-			<h4>Events</h4>
-			<h4>Exits</h4>
+			<h1>
+				Dramatis Personae 
+				<button id="addCharacter" class="btn btn-default btn-xs">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true">
+					</span>
+				</button>
+			</h1>
+			{{#if showSelectionForm}}
+				<input id="characterName" type="text" class="form-control" name="characterName" placeholder="Character Name" />
+				<div class="row">
+					<div class="col-sm-12 text-center"> 
+						<button id="addPersonaeDramatis" class="btn btn-default">
+							Add
+						</button>
+					</div>
+				</div>
+			{{/if}}
+			<ul>
+				{{#each dramatisPersonae}}
+					<li>
+						{{name}}
+						<button id="deleteCharacter" class="btn btn-danger btn-xs">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+					</li>
+				{{/each}}
+			</ul>
 			<div class="row">
 				<div class="col-sm-12 text-center"> 
 					<button id="saveScene" type="submit" class="btn btn-default">Save Scene</button>
