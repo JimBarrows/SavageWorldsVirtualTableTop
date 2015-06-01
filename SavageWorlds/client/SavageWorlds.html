@@ -18,14 +18,14 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             {{#if currentUser}}
-              <li class="{{activeIfTemplateIs 'StoryList'}}">
-                {{#linkTo route="story.list" }}
-                  Stories
-                {{/linkTo}}
-              </li>
               <li class="{{activeIfTemplateIs 'PlotPointList'}}">
                 {{#linkTo route="plotPoint.list" }}
                   Plot Points
+                {{/linkTo}}
+              </li>
+              <li class="{{activeIfTemplateIs 'StoryList'}}">
+                {{#linkTo route="story.list" }}
+                  Stories
                 {{/linkTo}}
               </li>
               <li class="{{activeIfTemplateIs 'CharacterList'}}">
