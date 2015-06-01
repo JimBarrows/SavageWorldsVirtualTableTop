@@ -1,6 +1,11 @@
 Template.StoryList.helpers({
 	stories: Stories.find({
 		owner: Meteor.userId()
+	}, {
+		sort: {
+			plotPointName: 1
+			name: 1
+		}
 	})
 });
 

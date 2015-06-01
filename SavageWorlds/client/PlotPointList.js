@@ -1,6 +1,10 @@
 Template.PlotPointList.helpers({
 	plotPoints: PlotPoints.find({
 		owner: Meteor.userId()
+	}, {
+		sort: {
+			name: 1
+		}
 	})
 });
 
