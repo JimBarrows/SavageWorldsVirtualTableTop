@@ -7,7 +7,8 @@ Template.PlotPointForm.events({
 			name: name,
 			owner: Meteor.userId(),
 			description: description,
-			races: this.races
+			races: this.races,
+			skills: this.skills
 		};
 
 		if( id) {

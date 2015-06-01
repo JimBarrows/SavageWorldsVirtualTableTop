@@ -56,7 +56,27 @@ Router.route('/plotPoints',{
 
 Router.route('/plotPoints/add',{
 	name: 'plotPoint.add',
-	template: 'PlotPointForm'
+	template: 'PlotPointForm',
+	data: function() {
+		var skillList = [];
+		var skillCollection = Skills.find({}, {
+			sort: {
+				name: 1
+			}
+		});
+		skillCollection.forEach(function(skill){
+			skillList.push({
+				name: skill.name,
+				attribute: skill.attribute,
+				description: skill.description
+			});
+		});
+		return {
+			name: 'New Plot Point',
+			description: 'Describe it here.',
+			skills: skillList
+		}
+	}
 });
 
 Router.route('/plotPoints/:_id/edit',{
