@@ -78,3 +78,13 @@ Router.route('/plotPoints/:plotPointId/races/add', {
     	}
   	}
 });
+
+Router.route("/admin/skills",{
+	name: 'skill.list',
+	template: 'SkillList'
+});
+
+Router.route("/admin/skills/add",{
+	name: 'skill.add',
+	template: 'SkillForm'
+});
