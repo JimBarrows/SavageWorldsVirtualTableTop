@@ -88,3 +88,13 @@ Router.route("/admin/skills/add",{
 	name: 'skill.add',
 	template: 'SkillForm'
 });
+
+Router.route("/admin/skills/:_id/edit",{
+	name: 'skill.edit',
+	template: 'SkillForm',
+	data: function () {
+    	return Skills.findOne({
+    		_id: this.params._id
+    	});
+    }
+});

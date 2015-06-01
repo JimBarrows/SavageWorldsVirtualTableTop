@@ -11,5 +11,8 @@ Template.SkillList.helpers({
 Template.SkillList.events({
 	'click #add': function() {
 		Router.go('skill.add');
+	},
+	'click #editSkill': function() {
+		Router.go('skill.edit', {_id: this._id});
 	}
 })
