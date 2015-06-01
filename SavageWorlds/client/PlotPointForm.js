@@ -1,10 +1,12 @@
 Template.PlotPointForm.events({
 	"submit #plotPointForm": function( event){
 		var id = event.target.id.value;
+		var name = event.target.name.value;
+		var description = $('#description').code();
 		var plotPointRecord = {
-			name: event.target.name.value,
+			name: name,
 			owner: Meteor.userId(),
-			description: $('#description').code(),
+			description: description,
 			races: this.races
 		};
 
