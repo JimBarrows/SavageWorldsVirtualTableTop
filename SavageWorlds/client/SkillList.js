@@ -14,5 +14,9 @@ Template.SkillList.events({
 	},
 	'click #editSkill': function() {
 		Router.go('skill.edit', {_id: this._id});
+	},
+	'click #deleteSkill': function() {
+		Skills.remove( this._id);
+		return false;
 	}
 })
