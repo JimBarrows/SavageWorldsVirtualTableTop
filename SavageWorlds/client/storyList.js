@@ -3,7 +3,7 @@ Template.StoryList.helpers({
 		owner: Meteor.userId()
 	}, {
 		sort: {
-			plotPointName: 1
+			plotPointName: 1,
 			name: 1
 		}
 	})
