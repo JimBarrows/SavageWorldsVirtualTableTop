@@ -1,7 +1,12 @@
 {{error}}
 <div class="row">
-	{{text-field property=model.name placeholder="Name of Race" label="Name"}}
+	{{text-field property=model.name placeholder="Name of Power" label="Name"}}
 	{{text-area property=model.description label="Description"}}
+	{{rank-selector property=model.rank label="Rank"}}
+	{{integer-field property=model.powerPoints label="Power Points"}}
+	{{text-field property=model.range placeholder="Touch or s/m/l or attribute" label="Range"}}
+	{{integer-field property=model.duration label="Duration"}}
+	{{integer-field property=model.maintenanceCost label="Cost to Maintain per Round"}}
 	<div class="col-sm-offset-5 col-sm-2">
 		<button {{action 'save'}} class="btn btn-primary">Save</button>
 		<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
