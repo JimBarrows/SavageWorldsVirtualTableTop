@@ -28,6 +28,7 @@ var StandardHindrances = require('./routes/standard-hindrance')(sequelize);
 var StandardEdges = require('./routes/standard-edges')(sequelize);
 var StandardPowers = require('./routes/standard-powers')(sequelize);
 var StandardSkills = require('./routes/standard-skills')(sequelize);
+var StandardPowerTrappings = require('./routes/standard-power-trappings')(sequelize);
 
 sequelize.sync();
 
@@ -51,6 +52,7 @@ app.use('/api/standardHindrances', StandardHindrances);
 app.use('/api/standardEdges', StandardEdges);
 app.use('/api/standardPowers', StandardPowers);
 app.use('/api/standardSkillDescriptions', StandardSkills);
+app.use('/api/standardPowerTrappings', StandardPowerTrappings);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

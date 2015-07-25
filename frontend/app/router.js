@@ -101,6 +101,12 @@ Router.map(function() {
           this.route('edit');
       });
     });
+  this.resource("standard-power-trappings", function() {
+      this.route("add");
+      this.resource('standard-power-trapping', { path: '/:id'}, function(){
+          this.route('edit');
+      });
+    });
   this.resource("standard-races", function() {
       this.route("add");
       this.resource('standard-race', { path: '/:id'}, function(){
