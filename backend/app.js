@@ -27,6 +27,7 @@ var sequelize = new sequelize('database', 'username', 'password', {
 var StandardHindrances = require('./routes/standard-hindrance')(sequelize);
 var StandardEdges = require('./routes/standard-edges')(sequelize);
 var StandardPowers = require('./routes/standard-powers')(sequelize);
+var StandardSkills = require('./routes/standard-skills')(sequelize);
 
 sequelize.sync();
 
@@ -49,6 +50,7 @@ app.use('/users', users);
 app.use('/api/standardHindrances', StandardHindrances);
 app.use('/api/standardEdges', StandardEdges);
 app.use('/api/standardPowers', StandardPowers);
+app.use('/api/standardSkillDescriptions', StandardSkills);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
