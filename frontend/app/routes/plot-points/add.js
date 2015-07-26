@@ -5,14 +5,15 @@ export default Ember.Route.extend({
 	model: function(params) {	 	
 		var store = this.store;
 		var newCharacter = store.createRecord('plot-point');
-	 	store.find('standard-race').then(function(list){
+	 	store.find('standard-skill-description').then(function(list){
 	 		list.forEach(function( item){
-	 			var newRace = store.createRecord('race',{
+	 			var newRec = store.createRecord('skill-description',{
 	 				name: item.get('name'),
-	 				description: item.get('description')
+	 				description: item.get('description'),
+	 				attribute: item.get('attribute')
 	 			});
-	 			newRace.save().then(function( savedRace){
-	 				newCharacter.get('races').addObject(savedRace);	
+	 			newRec.save().then(function( savedRec){
+	 				newCharacter.get('skillDescriptions').addObject(savedRec);	
 	 			});
 	 		});	
 	 	});
