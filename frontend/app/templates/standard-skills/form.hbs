@@ -2,7 +2,7 @@
 <div class="row">
 	{{text-field property=model.name placeholder="Name of Skill" label="Name"}}
 	{{#form-group label="Attribute"}}
-		{{attribute-selector selection=model.attribute}}
+		{{attribute-selector property=model.attribute}}
 	{{/form-group}}
 	{{text-area property=model.description label="Description"}}
 	<div class="col-sm-offset-5 col-sm-2">
