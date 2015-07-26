@@ -107,18 +107,6 @@ Router.map(function() {
           this.route('edit');
       });
     });
-  this.resource("standard-races", function() {
-      this.route("add");
-      this.resource('standard-race', { path: '/:id'}, function(){
-          this.route('edit');
-      });
-    });
-  this.resource("standard-racial-abilities", function() {
-      this.route("add");
-      this.resource('standard-racial-ability', { path: '/:id'}, function(){
-          this.route('edit');
-      });
-    });
   this.resource("standard-skills", function() {
       this.route("add");
       this.resource('standard-skill', { path: '/:id'}, function(){
