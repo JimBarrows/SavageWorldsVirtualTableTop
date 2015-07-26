@@ -64,28 +64,35 @@ module.exports = function(db) {
 			res.send({
 				'standardGear': data
 			});
+		}).catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
 	router.post('/', function(req, res) {
 		var newRec = req.body.standardGear;
 		standardGear.create(newRec)
-			.then( function(data) {
-				console.log("before");
-				res.status(201).send({ standardGear: data}).end();	
-				console.log("after");
-			})
-			.catch( function(error){
-				console.log("error: " + error);
-				res.status(400, error).end();
-			});
+		.then( function(data) {
+			console.log("before");
+			res.status(201).send({ standardGear: data}).end();	
+			console.log("after");
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
+		});
 	});
 
 	router.get('/:id', function(req, res) {
 		standardGear.findById( req.params.id).then(function(data){
 			res.send({
 				'standardGear':data
-			});	
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400, error).end();
+			});
 		})
 		
 	});
@@ -97,6 +104,10 @@ module.exports = function(db) {
 					'standardGear': data
 				});
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -105,6 +116,10 @@ module.exports = function(db) {
 			data.destroy().then(function(){
 				res.status(204).end();	
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 

@@ -35,6 +35,10 @@ module.exports = function(db) {
 			res.send({
 				'standardPowerTrapping': data
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -42,14 +46,14 @@ module.exports = function(db) {
 		var newRec = req.body.standardPowerTrapping;
 		console.log("name: " + newRec.name);
 		standardPowerTrapping.create(newRec)
-			.then( function(data) {
-				console.log("before");
-				res.status(201).send({ standardPowerTrapping: data}).end();	
-				console.log("after");
-			})
-			.catch( function(error){
-				res.status(400, error);
-			});
+		.then( function(data) {
+			console.log("before");
+			res.status(201).send({ standardPowerTrapping: data}).end();	
+			console.log("after");
+		})
+		.catch( function(error){
+			res.status(400, error).end();
+		});
 	});
 
 	router.get('/:id', function(req, res) {
@@ -58,7 +62,10 @@ module.exports = function(db) {
 				'standardPowerTrapping':data
 			});	
 		})
-		
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
+		});
 	});
 
 	router.put('/:id', function(req, res) {
@@ -68,6 +75,10 @@ module.exports = function(db) {
 					'standardPowerTrapping': data
 				});
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -76,6 +87,10 @@ module.exports = function(db) {
 			data.destroy().then(function(){
 				res.status(204).end();	
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 

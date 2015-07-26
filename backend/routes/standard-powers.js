@@ -65,18 +65,22 @@ module.exports = function(db) {
 			res.send({
 				'standardPower': data
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
 	router.post('/', function(req, res) {
 		var newRec = req.body.standardPower;
 		standardPower.create(newRec)
-			.then( function(data) {
-				res.status(201).send({ standardPower: data}).end();	
-			})
-			.catch( function(error){
-				res.status(400, error);
-			});
+		.then( function(data) {
+			res.status(201).send({ standardPower: data}).end();	
+		})
+		.catch( function(error){
+			res.status(400, error).end();
+		});
 	});
 
 	router.get('/:id', function(req, res) {
@@ -85,7 +89,10 @@ module.exports = function(db) {
 				'standardPower':data
 			});	
 		})
-		
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
+		});
 	});
 
 	router.put('/:id', function(req, res) {
@@ -95,6 +102,10 @@ module.exports = function(db) {
 					'standardPower': data
 				});
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -103,6 +114,10 @@ module.exports = function(db) {
 			data.destroy().then(function(){
 				res.status(204).end();	
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 

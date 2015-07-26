@@ -4,20 +4,20 @@ module.exports = function(db) {
 	var sequelize = require('sequelize');
 
 	var standardEdge = db.define('StandardEdge', {
-  		name: {
-    		type: sequelize.STRING,
-    		allowNull: false,
-    		validate: {
-    			notEmpty: true,
-    		}
-  		},
+		name: {
+			type: sequelize.STRING,
+			allowNull: false,
+			validate: {
+				notEmpty: true,
+			}
+		},
 		description: {
-    		type: sequelize.STRING,
-    		allowNull: false,
-    		validate: {
-    			notEmpty: true
-    		}
-  		}
+			type: sequelize.STRING,
+			allowNull: false,
+			validate: {
+				notEmpty: true
+			}
+		}
 	}, {
 		freezeTableName: true // Model tableName will be the same as the model name
 	});
@@ -27,6 +27,10 @@ module.exports = function(db) {
 			res.send({
 				'standardEdge': data
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -34,6 +38,10 @@ module.exports = function(db) {
 		var newRec = req.body.standardEdge;
 		standardEdge.create(newRec).then( function(data) {
 			res.status(201).send({ standardEdge: data}).end();	
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -43,7 +51,10 @@ module.exports = function(db) {
 				'standardEdge':data
 			});	
 		})
-		
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
+		});
 	});
 
 	router.put('/:id', function(req, res) {
@@ -53,6 +64,10 @@ module.exports = function(db) {
 					'standardEdge': data
 				});
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 
@@ -61,6 +76,10 @@ module.exports = function(db) {
 			data.destroy().then(function(){
 				res.status(204).end();	
 			});
+		})
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
 

@@ -86,52 +86,69 @@ module.exports = function(db) {
 		freezeTableName: true // Model tableName will be the same as the model name
 	});
 
-	router.get('/', function(req, res) {
-		plotPoint.findAll({order: 'name ASC'}).then(function(data) {
+router.get('/', function(req, res) {
+	plotPoint.findAll({order: 'name ASC'})
+	.then(function(data) {
+		res.send({
+			'plotPoint': data
+		});
+	})
+	.catch( function(error){
+		console.log("error: " + error);
+		res.status(400, error).end();
+	});
+});
+
+router.post('/', function(req, res) {
+	var newRec = req.body.plotPoint;
+	plotPoint.create(newRec)
+	.then( function(data) {
+		res.status(201).send({ plotPoint: data}).end();	
+	})
+	.catch( function(error){
+		console.log("error: " + error);
+		res.status(400, error).end();
+	});
+});
+
+router.get('/:id', function(req, res) {
+	plotPoint.findById( req.params.id).then(function(data){
+		res.send({
+			'plotPoint':data
+		});	
+	})
+	.catch( function(error){
+		console.log("error: " + error);
+		res.status(400, error).end();
+	});
+	
+});
+
+router.put('/:id', function(req, res) {
+	plotPoint.findById( req.params.id).then(function(data){
+		data.updateAttributes(req.body.plotPoint).then(function(data) {
 			res.send({
 				'plotPoint': data
 			});
-		});
-	});
-
-	router.post('/', function(req, res) {
-		var newRec = req.body.plotPoint;
-		plotPoint.create(newRec)
-			.then( function(data) {
-				res.status(201).send({ plotPoint: data}).end();	
-			})
-			.catch( function(error){
-				console.log("error: " + error);
-				res.status(400, error).end();
-			});
-	});
-
-	router.get('/:id', function(req, res) {
-		plotPoint.findById( req.params.id).then(function(data){
-			res.send({
-				'plotPoint':data
-			});	
 		})
-		
-	});
-
-	router.put('/:id', function(req, res) {
-		plotPoint.findById( req.params.id).then(function(data){
-			data.updateAttributes(req.body.plotPoint).then(function(data) {
-				res.send({
-					'plotPoint': data
-				});
-			});
+		.catch( function(error){
+			console.log("error: " + error);
+			res.status(400, error).end();
 		});
 	});
+});
 
-	router.delete('/:id', function(req, res) {
-		plotPoint.findById( req.params.id).then(function(data) {
-			data.destroy().then(function(){
-				res.status(204).end();	
-			});
+router.delete('/:id', function(req, res) {
+	plotPoint.findById( req.params.id).then(function(data) {
+		data.destroy().then(function(){
+			res.status(204).end();	
 		});
+	})
+	.catch( function(error){
+		console.log("error: " + error);
+		res.status(400, error).end();
 	});
+});
 
-	return router;
+return router;
 }
