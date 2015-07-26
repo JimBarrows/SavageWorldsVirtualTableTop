@@ -30,6 +30,7 @@ var StandardPowers = require('./routes/standard-powers')(sequelize);
 var StandardSkills = require('./routes/standard-skills')(sequelize);
 var StandardPowerTrappings = require('./routes/standard-power-trappings')(sequelize);
 var StandardGear = require('./routes/standard-gear')(sequelize);
+var PlotPoints = require('./routes/plot-points')(sequelize);
 
 sequelize.sync();
 
@@ -55,6 +56,7 @@ app.use('/api/standardPowers', StandardPowers);
 app.use('/api/standardSkillDescriptions', StandardSkills);
 app.use('/api/standardPowerTrappings', StandardPowerTrappings);
 app.use('/api/standardGears', StandardGear);
+app.use('/api/plotPoints', PlotPoints);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
