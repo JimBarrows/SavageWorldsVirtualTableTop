@@ -37,8 +37,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -47,12 +46,10 @@ module.exports = function(db) {
 		console.log("name: " + newRec.name);
 		standardPowerTrapping.create(newRec)
 		.then( function(data) {
-			console.log("before");
 			res.status(201).send({ standardPowerTrapping: data}).end();	
-			console.log("after");
 		})
 		.catch( function(error){
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -63,8 +60,7 @@ module.exports = function(db) {
 			});	
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -77,8 +73,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -89,8 +84,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 

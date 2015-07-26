@@ -94,8 +94,7 @@ router.get('/', function(req, res) {
 		});
 	})
 	.catch( function(error){
-		console.log("error: " + error);
-		res.status(400, error).end();
+		res.status(400).send( {"errors": error}).end();
 	});
 });
 
@@ -106,8 +105,7 @@ router.post('/', function(req, res) {
 		res.status(201).send({ plotPoint: data}).end();	
 	})
 	.catch( function(error){
-		console.log("error: " + error);
-		res.status(400, error).end();
+		res.status(400).send( {"errors": error}).end();
 	});
 });
 
@@ -118,8 +116,7 @@ router.get('/:id', function(req, res) {
 		});	
 	})
 	.catch( function(error){
-		console.log("error: " + error);
-		res.status(400, error).end();
+		res.status(400).send( {"errors": error}).end();
 	});
 	
 });
@@ -132,8 +129,7 @@ router.put('/:id', function(req, res) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 });
@@ -145,8 +141,7 @@ router.delete('/:id', function(req, res) {
 		});
 	})
 	.catch( function(error){
-		console.log("error: " + error);
-		res.status(400, error).end();
+		res.status(400).send( {"errors": error}).end();
 	});
 });
 

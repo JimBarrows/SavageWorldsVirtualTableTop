@@ -65,8 +65,7 @@ module.exports = function(db) {
 				'standardGear': data
 			});
 		}).catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -74,13 +73,10 @@ module.exports = function(db) {
 		var newRec = req.body.standardGear;
 		standardGear.create(newRec)
 		.then( function(data) {
-			console.log("before");
 			res.status(201).send({ standardGear: data}).end();	
-			console.log("after");
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -90,8 +86,7 @@ module.exports = function(db) {
 				'standardGear':data
 			})
 			.catch( function(error){
-				console.log("error: " + error);
-				res.status(400, error).end();
+				res.status(400).send( {"errors": error}).end();
 			});
 		})
 		
@@ -106,8 +101,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -118,8 +112,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 

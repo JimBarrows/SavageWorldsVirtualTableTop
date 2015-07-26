@@ -29,8 +29,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -40,8 +39,7 @@ module.exports = function(db) {
 			res.status(201).send({ standardEdge: data}).end();	
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -52,8 +50,7 @@ module.exports = function(db) {
 			});	
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -66,8 +63,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
@@ -78,8 +74,7 @@ module.exports = function(db) {
 			});
 		})
 		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400, error).end();
+			res.status(400).send( {"errors": error}).end();
 		});
 	});
 
