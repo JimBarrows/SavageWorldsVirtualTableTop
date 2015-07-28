@@ -9,7 +9,7 @@ var sequelize = require('sequelize');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var sequelize = new sequelize('database', 'username', 'password', {
+var db = new sequelize('database', 'username', 'password', {
   host: 'localhost',
   //dialect: 'mysql'|'mariadb'|'sqlite'|'postgres'|'mssql',
   dialect: 'sqlite',
@@ -24,16 +24,16 @@ var sequelize = new sequelize('database', 'username', 'password', {
   storage: '../temp/database.sqlite'
 });
 
-var StandardHindrances = require('./routes/standard-hindrance')(sequelize);
-var StandardEdges = require('./routes/standard-edges')(sequelize);
-var StandardPowers = require('./routes/standard-powers')(sequelize);
-var StandardSkills = require('./routes/standard-skills')(sequelize);
-var StandardPowerTrappings = require('./routes/standard-power-trappings')(sequelize);
-var StandardGear = require('./routes/standard-gear')(sequelize);
-var PlotPoints = require('./routes/plot-points')(sequelize);
-var SkillDescriptions = require('./routes/skill-descriptions')(sequelize);
+var StandardHindrances = require('./routes/standard-hindrance')(db);
+var StandardEdges = require('./routes/standard-edges')(db);
+var StandardPowers = require('./routes/standard-powers')(db);
+var StandardSkills = require('./routes/standard-skills')(db);
+var StandardPowerTrappings = require('./routes/standard-power-trappings')(db);
+var StandardGear = require('./routes/standard-gear')(db);
+var SkillDescriptions = require('./routes/skill-descriptions')(db);
+var PlotPoints = require('./routes/plot-points')(db);
 
-sequelize.sync();
+db.sync();
 
 var app = express();
 

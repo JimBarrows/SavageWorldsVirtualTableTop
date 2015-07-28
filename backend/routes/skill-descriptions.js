@@ -67,17 +67,19 @@ module.exports = function(db) {
 	});
 
 	router.put('/:id', function(req, res) {
-		SkillDescription.findById( req.params.id).then(function(data){
-			data.updateAttributes(req.body.SkillDescription).then(function(data) {
-				res.send({
-					'skillDescription': data
-				});
+		SkillDescription.findById( req.params.id)
+			.then(function(data){
+				data.updateAttributes(req.body.skillDescription)
+					.then(function(data) {
+						res.send({
+							'skillDescription': data
+						});
+					});
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400).send( {"errors": error}).end();
 			});
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {"errors": error}).end();
-		});
 	});
 
 	router.delete('/:id', function(req, res) {
