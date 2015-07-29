@@ -31,6 +31,7 @@ var StandardSkills = require('./routes/standard-skills')(db);
 var StandardPowerTrappings = require('./routes/standard-power-trappings')(db);
 var StandardGear = require('./routes/standard-gear')(db);
 var SkillDescriptions = require('./routes/skill-descriptions')(db);
+var Hindrances = require('./routes/hindrances')(db);
 var PlotPoints = require('./routes/plot-points')(db);
 
 db.sync();
@@ -59,6 +60,7 @@ app.use('/api/standardPowerTrappings', StandardPowerTrappings);
 app.use('/api/standardGears', StandardGear);
 app.use('/api/plotPoints', PlotPoints);
 app.use('/api/skillDescriptions', SkillDescriptions);
+app.use('/api/hindrances', Hindrances);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

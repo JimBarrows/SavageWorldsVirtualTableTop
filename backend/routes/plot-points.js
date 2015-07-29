@@ -88,18 +88,23 @@ module.exports = function(db) {
 	});
 
 var SkillDescription = db.models.SkillDescription;
+var Hindrance = db.models.Hindrance;
 
 PlotPoint.hasMany(SkillDescription);
+PlotPoint.hasMany(Hindrance);
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
 		include: [{
 			model: SkillDescription
+		}, {
+			model: Hindrance
 		}]
 	})
 	.then(function(plotPointList) {
 		var plotPoints =[];
 		var skillDescriptions=[];
+		var hindrances=[];
 		_.each(plotPointList, function(plotPoint) {
 			var jsonPlotPoint = {
 				"id": plotPoint.id,
@@ -121,17 +126,23 @@ router.get('/', function(req, res) {
 				"startingMajorHindrances": plotPoint.startingMajorHindrances,
 				"startingMinorHindrances": plotPoint.startingMinorHindrances,
 				"startingCash": plotPoint.startingCash,
-				"skillDescriptions": []
+				"skillDescriptions": [],
+				"hindrances": []
 			};
 			_.each(plotPoint.SkillDescriptions, function(skill){
 				jsonPlotPoint.skillDescriptions.push(skill.id);
 				skillDescriptions.push( skill);
 			});
+			_.each(plotPoint.Hindrances, function(hindrance){
+				jsonPlotPoint.hindrances.push(hindrance.id);
+				hindrances.push(hindrance);
+			});
 			plotPoints.push(jsonPlotPoint);
 		});
 		res.send({
 			'PlotPoint': plotPoints,
-			'SkillDescriptions': skillDescriptions
+			'SkillDescriptions': skillDescriptions,
+			'Hindrances' : hindrances
 		});
 	})
 	.catch( function(error){
@@ -142,19 +153,20 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
 	var newRec = req.body.plotPoint;
 	var skillIds = newRec.skillDescriptions;
-
+	var hindranceIds = newRec.hindrances;
 	PlotPoint.create(newRec)
 	.then( function(data) {
 		updateSkillDesciription( skillIds, data);
+		updateHindrances( hindranceIds, data);
 		res.status(201).send({ PlotPoint: data}).end();	
 	})
 	.catch( function(error){
+		console.log("Error creating new record: " + error);
 		res.status(400).send( {"errors": error}).end();
 	});
 });
 
 var updateSkillDesciription = function( skillIds, plotPoint) {
-	debugger;
 	for( i=0; i< skillIds.length; i++) {
 		SkillDescription.findById(skillIds[i])
 		.then( function( skill){
@@ -168,6 +180,22 @@ var updateSkillDesciription = function( skillIds, plotPoint) {
 	}
 };
 
+var updateHindrances = function( hindranceIds, plotPoint) {
+	console.log("Updating Hindrances!");
+	for( i=0; i< hindranceIds.length; i++) {
+		Hindrance.findById(hindranceIds[i])
+		.then( function( hindrance){
+			console.log("Found: " + hindrance.id);
+			hindrance.updateAttributes({
+				PlotPointId: plotPoint.id
+			})
+		})
+		.catch( function(error) {
+			console.log("Whoops: " + error);
+			console.log(error);
+		})
+	}
+};
 router.get('/:id', function(req, res) {
 	PlotPoint.findById( req.params.id)
 	.then(function(data){

@@ -17,6 +17,18 @@ export default Ember.Route.extend({
 	 			});
 	 		});	
 	 	});
+	 	store.find('standard-hindrance').then(function(list){
+	 		list.forEach(function( item){
+	 			var newRec = store.createRecord('hindrance',{
+	 				name: item.get('name'),
+	 				description: item.get('description'),
+	 				severity: item.get('severity')
+	 			});
+	 			newRec.save().then(function( savedRec){
+	 				newCharacter.get('hindrances').addObject(savedRec);
+	 			});
+	 		});	
+	 	});
 	 	return newCharacter;
 	 }
 });

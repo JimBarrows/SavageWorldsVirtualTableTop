@@ -3,12 +3,20 @@ module.exports = function(db) {
 	var router = express.Router();
 	var sequelize = require('sequelize');
 
-	var SkillDescription = db.define('SkillDescription', {
+	var Hindrance = db.define('Hindrance', {
 		name: {
 			type: sequelize.STRING,
 			allowNull: false,
 			validate: {
 				notEmpty: true,
+			}
+		},
+		severity: {
+			type: sequelize.ENUM,
+			values: ['Major', 'Minor', 'Major or Minor'],
+			allowNull: false,
+			validate: {
+				notEmpty: true
 			}
 		},
 		description: {
@@ -17,23 +25,15 @@ module.exports = function(db) {
 			validate: {
 				notEmpty: true
 			}
-		},
-		attribute: {
-			type: sequelize.STRING,
-			allowNull:false,
-			validate: {
-				notEmpty: true
-			},
-			values: ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor']
 		}
 	}, {
 		freezeTableName: true // Model tableName will be the same as the model name
 	});
 
 	router.get('/', function(req, res) {
-		SkillDescription.findAll({order: 'name ASC'}).then(function(data) {
+		Hindrance.findAll({order: 'name ASC'}).then(function(data) {
 			res.send({
-				'skillDescription': data
+				'hindrance': data
 			});
 		})
 		.catch( function(error){
@@ -43,10 +43,10 @@ module.exports = function(db) {
 	});
 
 	router.post('/', function(req, res) {
-		var newRec = req.body.skillDescription;
-		SkillDescription.create(newRec)
+		var newRec = req.body.hindrance;
+		Hindrance.create(newRec)
 		.then( function(data) {
-			res.status(201).send({ skillDescription: data}).end();	
+			res.status(201).send({ hindrance: data}).end();	
 		})
 		.catch( function(error){
 			res.status(400).send( {"errors": error}).end();
@@ -54,9 +54,9 @@ module.exports = function(db) {
 	});
 
 	router.get('/:id', function(req, res) {
-		SkillDescription.findById( req.params.id).then(function(data){
+		Hindrance.findById( req.params.id).then(function(data){
 			res.send({
-				'skillDescription':data
+				'hindrance':data
 			});	
 		})
 		.catch( function(error){
@@ -66,12 +66,12 @@ module.exports = function(db) {
 	});
 
 	router.put('/:id', function(req, res) {
-		SkillDescription.findById( req.params.id)
+		Hindrance.findById( req.params.id)
 			.then(function(data){
-				data.updateAttributes(req.body.skillDescription)
+				data.updateAttributes(req.body.hindrance)
 					.then(function(data) {
 						res.send({
-							'skillDescription': data
+							'hindrance': data
 						});
 					});
 			})
@@ -82,7 +82,7 @@ module.exports = function(db) {
 	});
 
 	router.delete('/:id', function(req, res) {
-		SkillDescription.findById( req.params.id).then(function(data) {
+		Hindrance.findById( req.params.id).then(function(data) {
 			data.destroy().then(function(){
 				res.status(204).end();	
 			});

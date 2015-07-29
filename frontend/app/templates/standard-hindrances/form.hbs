@@ -2,7 +2,7 @@
 <div class="row">
 	{{text-field property=model.name placeholder="Name of Hindrance" label="Name"}}
 	{{#form-group label="Severity"}}
-		{{hindrance-severity selection=model.severity}}
+		{{hindrance-severity property=model.severity}}
 	{{/form-group}}
 	{{text-area property=model.description label="Description"}}
 	<div class="col-sm-offset-5 col-sm-2">
