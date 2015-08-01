@@ -40,6 +40,21 @@ export default Ember.Route.extend({
 	 			});
 	 		});	
 	 	});
+	 	store.find('standard-power').then(function(list){
+	 		list.forEach(function( item){
+	 			var newRec = store.createRecord('power',{
+	 				name: item.get('name'),
+	 				description: item.get('description'),
+	 				powerPoints: item.get('powerPoints'),
+	 				rank: item.get('rank'),
+	 				range: item.get('range'),
+	 				duration: item.get('range')
+	 			});
+	 			newRec.save().then(function( savedRec){
+	 				newPlotPoint.get('powers').addObject(savedRec);
+	 			});
+	 		});	
+	 	});
 	 	return newPlotPoint;
 	 }
 });

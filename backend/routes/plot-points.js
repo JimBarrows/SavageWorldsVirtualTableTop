@@ -90,10 +90,12 @@ module.exports = function(db) {
 var SkillDescription = db.models.SkillDescription;
 var Hindrance = db.models.Hindrance;
 var Edge = db.models.Edge;
+var Power = db.models.Power;
 
 PlotPoint.hasMany(SkillDescription);
 PlotPoint.hasMany(Hindrance);
 PlotPoint.hasMany(Edge);
+PlotPoint.hasMany(Power);
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
@@ -103,6 +105,8 @@ router.get('/', function(req, res) {
 			model: Hindrance
 		},{
 			model: Edge
+		},{
+			model: Power
 		}]
 	})
 	.then(function(plotPointList) {
@@ -110,6 +114,7 @@ router.get('/', function(req, res) {
 		var skillDescriptions=[];
 		var hindrances=[];
 		var edges=[];
+		var powers =  [];
 		_.each(plotPointList, function(plotPoint) {
 			var jsonPlotPoint = {
 				"id": plotPoint.id,
@@ -134,6 +139,7 @@ router.get('/', function(req, res) {
 				"skillDescriptions": [],
 				"hindrances": [],
 				"edges": [],
+				"powers":[]
 			};
 			_.each(plotPoint.SkillDescriptions, function(skill){
 				jsonPlotPoint.skillDescriptions.push(skill.id);
@@ -147,13 +153,18 @@ router.get('/', function(req, res) {
 				jsonPlotPoint.edges.push(edge.id);
 				edges.push(edge);
 			});
+			_.each(plotPoint.Powers, function(power){
+				jsonPlotPoint.powers.push(power.id);
+				powers.push(power);
+			});
 			plotPoints.push(jsonPlotPoint);
 		});
 		res.send({
 			'PlotPoint': plotPoints,
 			'SkillDescriptions': skillDescriptions,
 			'Hindrances' : hindrances,
-			'Edges' : edges
+			'Edges' : edges,
+			'Powers' : powers
 		});
 	})
 	.catch( function(error){
@@ -163,13 +174,19 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-	var newRec = req.body.plotPoint;
-	PlotPoint.create(newRec)
-			.then( function(data) {
-				updateSkillDesciription( newRec.skillDescriptions, data);
-				updateHindrances( newRec.hindrances, data);
-				addPlotPointIdToRecord( Edge, newRec.edges, data);
-				res.status(201).send({ PlotPoint: data}).end();	
+	var plotPointJson = req.body.plotPoint;
+	PlotPoint.create(plotPointJson)
+			.then( function(plotPointRecord) {
+				console.log("plot point created");
+				updateSkillDesciription( plotPointJson.skillDescriptions, plotPointRecord);
+				console.log("skill description done");
+				updateHindrances( plotPointJson.hindrances, plotPointRecord);
+				console.log("hindrances");
+				addPlotPointIdToRecord( Edge, plotPointJson.edges, plotPointRecord);
+				console.log("Edge");
+				addPlotPointIdToRecord( Power, plotPointJson.powers, plotPointRecord);
+				console.log("Power");
+				res.status(201).send({ PlotPoint: plotPointRecord}).end();	
 			})
 			.catch( function(error){
 				console.log("Error creating new plot point: " + error);
@@ -218,6 +235,7 @@ var addPlotPointIdToRecord = function( dbRecord, ids, plotPoint) {
 			})
 	}
 };
+
 router.get('/:id', function(req, res) {
 	PlotPoint.findById( req.params.id)
 	.then(function(data){
@@ -233,17 +251,18 @@ router.get('/:id', function(req, res) {
 
 router.put('/:id', function(req, res) {
 	var plotPointId = req.params.id;
-	var modifiedPlotPoint = req.body.plotPoint;
+	var plotPointJson = req.body.plotPoint;
 
 	PlotPoint.findById( plotPointId)
-		.then(function(originalPlotPoint){
-			updateSkillDesciription( modifiedPlotPoint.skillDescriptions, originalPlotPoint);
-			updateHindrances( modifiedPlotPoint.hindrances, originalPlotPoint);
-			addPlotPointIdToRecord( Edge, modifiedPlotPoint.edges, originalPlotPoint);
-			originalPlotPoint.updateAttributes(modifiedPlotPoint)
-				.then(function(newPlotPoint) {
+		.then(function( plotPointRecord){
+			updateSkillDesciription(       plotPointJson.skillDescriptions, plotPointRecord);
+			updateHindrances(              plotPointJson.hindrances,        plotPointRecord);
+			addPlotPointIdToRecord( Edge,  plotPointJson.edges,             plotPointRecord);
+			addPlotPointIdToRecord( Power, plotPointJson.powers,            plotPointRecord);
+			plotPointRecord.updateAttributes( plotPointJson)
+				.then(function( modifiedPlotPointRecord) {
 					res.send({
-						'PlotPoint': newPlotPoint
+						'PlotPoint': modifiedPlotPointRecord
 					});
 				})
 				.catch( function(error){

@@ -33,6 +33,7 @@ var StandardGear = require('./routes/standard-gear')(db);
 var SkillDescriptions = require('./routes/skill-descriptions')(db);
 var Hindrances = require('./routes/hindrances')(db);
 var Edges = require('./routes/edges')(db);
+var Powers = require('./routes/powers')(db);
 var PlotPoints = require('./routes/plot-points')(db);
 
 db.sync();
@@ -63,6 +64,7 @@ app.use('/api/plotPoints', PlotPoints);
 app.use('/api/skillDescriptions', SkillDescriptions);
 app.use('/api/hindrances', Hindrances);
 app.use('/api/edges', Edges);
+app.use('/api/powers', Powers);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

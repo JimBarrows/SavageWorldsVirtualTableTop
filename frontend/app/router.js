@@ -43,6 +43,12 @@ Router.map(function() {
           this.route('edit');
         });
       });
+      this.resource("powers", function() {
+        this.route("add");
+        this.resource('power', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 
