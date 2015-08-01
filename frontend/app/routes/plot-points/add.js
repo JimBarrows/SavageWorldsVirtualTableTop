@@ -4,7 +4,7 @@ export default Ember.Route.extend({
 	
 	model: function(params) {	 	
 		var store = this.store;
-		var newCharacter = store.createRecord('plot-point');
+		var newPlotPoint = store.createRecord('plot-point');
 	 	store.find('standard-skill-description').then(function(list){
 	 		list.forEach(function( item){
 	 			var newRec = store.createRecord('skill-description',{
@@ -13,7 +13,7 @@ export default Ember.Route.extend({
 	 				attribute: item.get('attribute')
 	 			});
 	 			newRec.save().then(function( savedRec){
-	 				newCharacter.get('skillDescriptions').addObject(savedRec);	
+	 				newPlotPoint.get('skillDescriptions').addObject(savedRec);	
 	 			});
 	 		});	
 	 	});
@@ -25,10 +25,21 @@ export default Ember.Route.extend({
 	 				severity: item.get('severity')
 	 			});
 	 			newRec.save().then(function( savedRec){
-	 				newCharacter.get('hindrances').addObject(savedRec);
+	 				newPlotPoint.get('hindrances').addObject(savedRec);
 	 			});
 	 		});	
 	 	});
-	 	return newCharacter;
+	 	store.find('standard-edge').then(function(list){
+	 		list.forEach(function( item){
+	 			var newRec = store.createRecord('edge',{
+	 				name: item.get('name'),
+	 				description: item.get('description')
+	 			});
+	 			newRec.save().then(function( savedRec){
+	 				newPlotPoint.get('edges').addObject(savedRec);
+	 			});
+	 		});	
+	 	});
+	 	return newPlotPoint;
 	 }
 });

@@ -37,6 +37,12 @@ Router.map(function() {
           this.route('edit');
         });
       });
+      this.resource("edges", function() {
+        this.route("add");
+        this.resource('edge', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 

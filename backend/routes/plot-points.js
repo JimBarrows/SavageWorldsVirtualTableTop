@@ -89,9 +89,11 @@ module.exports = function(db) {
 
 var SkillDescription = db.models.SkillDescription;
 var Hindrance = db.models.Hindrance;
+var Edge = db.models.Edge;
 
 PlotPoint.hasMany(SkillDescription);
 PlotPoint.hasMany(Hindrance);
+PlotPoint.hasMany(Edge);
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
@@ -99,12 +101,15 @@ router.get('/', function(req, res) {
 			model: SkillDescription
 		}, {
 			model: Hindrance
+		},{
+			model: Edge
 		}]
 	})
 	.then(function(plotPointList) {
 		var plotPoints =[];
 		var skillDescriptions=[];
 		var hindrances=[];
+		var edges=[];
 		_.each(plotPointList, function(plotPoint) {
 			var jsonPlotPoint = {
 				"id": plotPoint.id,
@@ -127,7 +132,8 @@ router.get('/', function(req, res) {
 				"startingMinorHindrances": plotPoint.startingMinorHindrances,
 				"startingCash": plotPoint.startingCash,
 				"skillDescriptions": [],
-				"hindrances": []
+				"hindrances": [],
+				"edges": [],
 			};
 			_.each(plotPoint.SkillDescriptions, function(skill){
 				jsonPlotPoint.skillDescriptions.push(skill.id);
@@ -137,64 +143,78 @@ router.get('/', function(req, res) {
 				jsonPlotPoint.hindrances.push(hindrance.id);
 				hindrances.push(hindrance);
 			});
+			_.each(plotPoint.Edges, function(edge){
+				jsonPlotPoint.edges.push(edge.id);
+				edges.push(edge);
+			});
 			plotPoints.push(jsonPlotPoint);
 		});
 		res.send({
 			'PlotPoint': plotPoints,
 			'SkillDescriptions': skillDescriptions,
-			'Hindrances' : hindrances
+			'Hindrances' : hindrances,
+			'Edges' : edges
 		});
 	})
 	.catch( function(error){
+		console.log("Error getting plot point. " + error)
 		res.status(400).send( {"errors": error}).end();
 	});
 });
 
 router.post('/', function(req, res) {
 	var newRec = req.body.plotPoint;
-	var skillIds = newRec.skillDescriptions;
-	var hindranceIds = newRec.hindrances;
 	PlotPoint.create(newRec)
 			.then( function(data) {
-				console.log("pre update skill");
-				updateSkillDesciription( skillIds, data);
-				console.log("pre update hindrance");
-				updateHindrances( hindranceIds, data);
+				updateSkillDesciription( newRec.skillDescriptions, data);
+				updateHindrances( newRec.hindrances, data);
+				addPlotPointIdToRecord( Edge, newRec.edges, data);
 				res.status(201).send({ PlotPoint: data}).end();	
 			})
 			.catch( function(error){
-				console.log("Error creating new record: " + error);
+				console.log("Error creating new plot point: " + error);
 				res.status(400).send( {"errors": error}).end();
 			});
 });
 
-var updateSkillDesciription = function( skillIds, plotPoint) {
-	for( i=0; i< skillIds.length; i++) {
-		SkillDescription.findById(skillIds[i])
-			.then( function( skill){
-				skill.updateAttributes({
+var updateSkillDesciription = function( ids, plotPoint) {
+	for( i=0; i< ids.length; i++) {
+		SkillDescription.findById(ids[i])
+			.then( function( record){
+				record.updateAttributes({
 					PlotPointId: plotPoint.id
 				})
 			})
 			.catch( function(error) {
-				console.log(error);
+				console.log("Error updating skill description" + error);
 			})
 	}
 };
 
-var updateHindrances = function( hindranceIds, plotPoint) {
-	console.log("Updating Hindrances!");
-	for( i=0; i< hindranceIds.length; i++) {
-		Hindrance.findById(hindranceIds[i])
-			.then( function( hindrance){
-				console.log("Found: " + hindrance.id);
-				hindrance.updateAttributes({
+var updateHindrances = function( ids, plotPoint) {
+	for( i=0; i< ids.length; i++) {
+		Hindrance.findById(ids[i])
+			.then( function( record){
+				record.updateAttributes({
 					PlotPointId: plotPoint.id
 				})
 			})
 			.catch( function(error) {
-				console.log("Whoops: " + error);
-				console.log(error);
+				console.log("Error updating hindrances."+ error);
+			})
+	}
+};
+
+var addPlotPointIdToRecord = function( dbRecord, ids, plotPoint) {
+	for( i=0; i< ids.length; i++) {
+		dbRecord.findById( ids[i])
+			.then( function( foundRecord){
+				foundRecord.updateAttributes({
+					PlotPointId: plotPoint.id
+				})
+			})
+			.catch( function(error) {
+				console.log("Error adding plot point id to record."+ error);
 			})
 	}
 };
@@ -206,45 +226,48 @@ router.get('/:id', function(req, res) {
 		});	
 	})
 	.catch( function(error){
+		console.log("Error getting plot point" + error);
 		res.status(400).send( {"errors": error}).end();
 	});
 });
 
 router.put('/:id', function(req, res) {
 	var plotPointId = req.params.id;
-	var updatePlotPoint = req.body.plotPoint;
-	var skillIds = updatePlotPoint.skillDescriptions;
-	var hindranceIds = updatePlotPoint.hindrances;
-	debugger;
+	var modifiedPlotPoint = req.body.plotPoint;
+
 	PlotPoint.findById( plotPointId)
-		.then(function(data){
-			updateSkillDesciription(skillIds, data);
-			updateHindrances( hindranceIds, data);
-			data.updateAttributes(updatePlotPoint)
-				.then(function(data) {
+		.then(function(originalPlotPoint){
+			updateSkillDesciription( modifiedPlotPoint.skillDescriptions, originalPlotPoint);
+			updateHindrances( modifiedPlotPoint.hindrances, originalPlotPoint);
+			addPlotPointIdToRecord( Edge, modifiedPlotPoint.edges, originalPlotPoint);
+			originalPlotPoint.updateAttributes(modifiedPlotPoint)
+				.then(function(newPlotPoint) {
 					res.send({
-						'PlotPoint': data
+						'PlotPoint': newPlotPoint
 					});
 				})
 				.catch( function(error){
+					console.log("Error updating plot point.  " + error);
 					res.status(400).send( {"errors": error}).end();
 				});
 		})
 		.catch( function( error){
+			console.log("Error finding plot point for updating.  " + error);
 			res.status(400).send( {'errors':error}).end();
 		});
 });
 
 router.delete('/:id', function(req, res) {
 	PlotPoint.findById( req.params.id)
-	.then(function(data) {
-		data.destroy().then(function(){
-			res.status(204).end();	
+		.then(function(data) {
+			data.destroy().then(function(){
+				res.status(204).end();	
+			});
+		})
+		.catch( function(error){
+			console.log("Error deleting plot point" + error);
+			res.status(400).send( {"errors": error}).end();
 		});
-	})
-	.catch( function(error){
-		res.status(400).send( {"errors": error}).end();
-	});
 });
 
 return router;

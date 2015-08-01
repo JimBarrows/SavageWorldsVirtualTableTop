@@ -34,12 +34,7 @@
 	<h1>Edges</h1>
 	<h2>Categories</h2>
 	<h2>Descriptions</h2>
-	<dl>
-		{{#each edge in model.edges}}
-			<dt>{{edge.name}}</dt>
-			<dd>{{{edge.description}}}</dd>
-		{{/each}}
-	</dl>
+	{{render "edges.index" model.edges}}
 	<h1>Arcane Backgrounds</h1>
 	<h2>Magic</h2>
 	<h3>Trappings &amp; Effects</h3>
