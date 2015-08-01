@@ -24,10 +24,10 @@ export default Ember.Controller.extend({
 			this.set('selected', null);
 		},
 		addStandard: function() {
-			var selRace = this.get('selected');
+			var selected = this.get('selected');
 			var model = this.get('model');
-			model.set('name', selRace.get('name'));
-			model.set('description', selRace.get('description'));
+			model.set('name', selected.get('name'));
+			model.set('description', selected.get('description'));
 
 		}
 	}
