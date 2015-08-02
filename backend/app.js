@@ -35,6 +35,7 @@ var Hindrances = require('./routes/hindrances')(db);
 var Edges = require('./routes/edges')(db);
 var Powers = require('./routes/powers')(db);
 var Gear = require('./routes/gear')(db);
+var Races = require('./routes/races')(db);
 var PlotPoints = require('./routes/plot-points')(db);
 
 db.sync();
@@ -67,6 +68,7 @@ app.use('/api/hindrances', Hindrances);
 app.use('/api/edges', Edges);
 app.use('/api/powers', Powers);
 app.use('/api/gears', Gear);
+app.use('/api/races', Races);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

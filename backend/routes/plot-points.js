@@ -92,12 +92,14 @@ var Hindrance = db.models.Hindrance;
 var Edge = db.models.Edge;
 var Power = db.models.Power;
 var Gear = db.models.Gear;
+var Race = db.models.Race;
 
 PlotPoint.hasMany(SkillDescription);
 PlotPoint.hasMany(Hindrance);
 PlotPoint.hasMany(Edge);
 PlotPoint.hasMany(Power);
 PlotPoint.hasMany(Gear);
+PlotPoint.hasMany(Race);
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
@@ -120,6 +122,7 @@ router.get('/', function(req, res) {
 		var edges=[];
 		var powers =  [];
 		var gears = [];
+		var races = [];
 		_.each(plotPointList, function(plotPoint) {
 			var jsonPlotPoint = {
 				"id": plotPoint.id,
@@ -145,7 +148,8 @@ router.get('/', function(req, res) {
 				"hindrances": [],
 				"edges": [],
 				"powers":[],
-				"gears": []
+				"gears": [],
+				"races":[]
 			};
 			_.each(plotPoint.SkillDescriptions, function(skill){
 				jsonPlotPoint.skillDescriptions.push(skill.id);
@@ -167,6 +171,10 @@ router.get('/', function(req, res) {
 				jsonPlotPoint.gears.push(gear.id);
 				gears.push(gear);
 			});
+			_.each(plotPoint.Races, function(race){
+				jsonPlotPoint.race.push(race.id);
+				races.push(race);
+			});
 			plotPoints.push(jsonPlotPoint);
 		});
 		res.send({
@@ -175,7 +183,8 @@ router.get('/', function(req, res) {
 			'Hindrances' : hindrances,
 			'Edges' : edges,
 			'Powers' : powers,
-			'Gears' : gears
+			'Gears' : gears,
+			'Races' : races
 		});
 	})
 	.catch( function(error){
@@ -193,6 +202,7 @@ router.post('/', function(req, res) {
 				addPlotPointIdToRecord( Edge, plotPointJson.edges, plotPointRecord);
 				addPlotPointIdToRecord( Power, plotPointJson.powers, plotPointRecord);
 				addPlotPointIdToRecord( Gear, plotPointJson.gears, plotPointRecord);
+				addPlotPointIdToRecord( Race, plotPointJson.races, plotPointRecord);
 				res.status(201).send({ PlotPoint: plotPointRecord}).end();	
 			})
 			.catch( function(error){
@@ -267,6 +277,7 @@ router.put('/:id', function(req, res) {
 			addPlotPointIdToRecord( Edge,  plotPointJson.edges,             plotPointRecord);
 			addPlotPointIdToRecord( Power, plotPointJson.powers,            plotPointRecord);
 			addPlotPointIdToRecord( Gear,  plotPointJson.gears,             plotPointRecord);
+			addPlotPointIdToRecord( Race, plotPointJson.races, plotPointRecord);
 			plotPointRecord.updateAttributes( plotPointJson)
 				.then(function( modifiedPlotPointRecord) {
 					res.send({
