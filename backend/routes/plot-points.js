@@ -91,11 +91,13 @@ var SkillDescription = db.models.SkillDescription;
 var Hindrance = db.models.Hindrance;
 var Edge = db.models.Edge;
 var Power = db.models.Power;
+var Gear = db.models.Gear;
 
 PlotPoint.hasMany(SkillDescription);
 PlotPoint.hasMany(Hindrance);
 PlotPoint.hasMany(Edge);
 PlotPoint.hasMany(Power);
+PlotPoint.hasMany(Gear);
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
@@ -107,6 +109,8 @@ router.get('/', function(req, res) {
 			model: Edge
 		},{
 			model: Power
+		},{
+			model: Gear
 		}]
 	})
 	.then(function(plotPointList) {
@@ -115,6 +119,7 @@ router.get('/', function(req, res) {
 		var hindrances=[];
 		var edges=[];
 		var powers =  [];
+		var gears = [];
 		_.each(plotPointList, function(plotPoint) {
 			var jsonPlotPoint = {
 				"id": plotPoint.id,
@@ -139,7 +144,8 @@ router.get('/', function(req, res) {
 				"skillDescriptions": [],
 				"hindrances": [],
 				"edges": [],
-				"powers":[]
+				"powers":[],
+				"gears": []
 			};
 			_.each(plotPoint.SkillDescriptions, function(skill){
 				jsonPlotPoint.skillDescriptions.push(skill.id);
@@ -157,6 +163,10 @@ router.get('/', function(req, res) {
 				jsonPlotPoint.powers.push(power.id);
 				powers.push(power);
 			});
+			_.each(plotPoint.Gears, function(gear){
+				jsonPlotPoint.gears.push(gear.id);
+				gears.push(gear);
+			});
 			plotPoints.push(jsonPlotPoint);
 		});
 		res.send({
@@ -164,7 +174,8 @@ router.get('/', function(req, res) {
 			'SkillDescriptions': skillDescriptions,
 			'Hindrances' : hindrances,
 			'Edges' : edges,
-			'Powers' : powers
+			'Powers' : powers,
+			'Gears' : gears
 		});
 	})
 	.catch( function(error){
@@ -177,15 +188,11 @@ router.post('/', function(req, res) {
 	var plotPointJson = req.body.plotPoint;
 	PlotPoint.create(plotPointJson)
 			.then( function(plotPointRecord) {
-				console.log("plot point created");
 				updateSkillDesciription( plotPointJson.skillDescriptions, plotPointRecord);
-				console.log("skill description done");
 				updateHindrances( plotPointJson.hindrances, plotPointRecord);
-				console.log("hindrances");
 				addPlotPointIdToRecord( Edge, plotPointJson.edges, plotPointRecord);
-				console.log("Edge");
 				addPlotPointIdToRecord( Power, plotPointJson.powers, plotPointRecord);
-				console.log("Power");
+				addPlotPointIdToRecord( Gear, plotPointJson.gears, plotPointRecord);
 				res.status(201).send({ PlotPoint: plotPointRecord}).end();	
 			})
 			.catch( function(error){
@@ -259,6 +266,7 @@ router.put('/:id', function(req, res) {
 			updateHindrances(              plotPointJson.hindrances,        plotPointRecord);
 			addPlotPointIdToRecord( Edge,  plotPointJson.edges,             plotPointRecord);
 			addPlotPointIdToRecord( Power, plotPointJson.powers,            plotPointRecord);
+			addPlotPointIdToRecord( Gear,  plotPointJson.gears,             plotPointRecord);
 			plotPointRecord.updateAttributes( plotPointJson)
 				.then(function( modifiedPlotPointRecord) {
 					res.send({

@@ -55,6 +55,22 @@ export default Ember.Route.extend({
 	 			});
 	 		});	
 	 	});
+	 	store.find('standard-gear').then(function(list){
+	 		list.forEach(function( item){
+	 			var newRec = store.createRecord('gear',{
+	 				name: item.get('name'),
+	 				description: item.get('description'),
+	 				era: item.get('era'),
+	 				weight: item.get('weight'),
+	 				cost: item.get('cost'),
+	 				subType: item.get('subType'),
+	 				notes: item.get('notes')
+	 			});
+	 			newRec.save().then(function( savedRec){
+	 				newPlotPoint.get('gears').addObject(savedRec);
+	 			});
+	 		});	
+	 	});
 	 	return newPlotPoint;
 	 }
 });

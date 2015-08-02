@@ -49,6 +49,12 @@ Router.map(function() {
           this.route('edit');
         });
       });
+      this.resource("gears", function() {
+        this.route("add");
+        this.resource('gear', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 

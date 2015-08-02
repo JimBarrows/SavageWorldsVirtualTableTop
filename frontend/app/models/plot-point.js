@@ -23,7 +23,7 @@ export default DS.Model.extend({
   skillDescriptions:       DS.hasMany('skill-description'),
   edges:        DS.hasMany('edge'),
   hindrances:   DS.hasMany('hindrance'),
-  gear:         DS.hasMany('gear'),
+  gears:         DS.hasMany('gear'),
   places:       DS.hasMany('place'),
   archetypes:   DS.hasMany('archetype'),
   characters:   DS.hasMany('character'),
