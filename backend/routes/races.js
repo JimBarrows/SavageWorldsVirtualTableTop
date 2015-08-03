@@ -2,6 +2,7 @@ module.exports = function(db) {
 	var express = require('express');
 	var router = express.Router();
 	var sequelize = require('sequelize');
+	var _ = require('underscore');
 
 	var Race = db.define('Race', {
 		name: {
@@ -22,6 +23,10 @@ module.exports = function(db) {
 		freezeTableName: true // Model tableName will be the same as the model name
 	});
 
+	var RacialAbility = db.models.RacialAbility;
+
+	Race.hasMany(RacialAbility);
+
 	router.get('/', function(req, res) {
 		Race.findAll({order: 'name ASC'}).then(function(data) {
 			res.send({
@@ -38,6 +43,7 @@ module.exports = function(db) {
 		var newRec = req.body.race;
 		Race.create(newRec)
 		.then( function(data) {
+			addAbilityToRace( newRec.racialAbilities, data);
 			res.status(201).send({ race: data}).end();	
 		})
 		.catch( function(error){
@@ -59,12 +65,15 @@ module.exports = function(db) {
 	});
 
 	router.put('/:id', function(req, res) {
-		Race.findById( req.params.id)
-			.then(function(data){
-				data.updateAttributes(req.body.race)
-					.then(function(data) {
+		var jsonRace = req.body.race;
+		var raceId = req.params.id;
+		Race.findById( raceId)
+			.then(function(race){
+				addAbilityToRace( jsonRace.racialAbilities, race);
+				race.updateAttributes(jsonRace)
+					.then(function(updatedRace) {
 						res.send({
-							'race': data
+							'race': updatedRace
 						});
 					});
 			})
@@ -85,6 +94,20 @@ module.exports = function(db) {
 			res.status(400).send( {"errors": error}).end();
 		});
 	});
+
+	var addAbilityToRace = function(  racialAbilityIds, race) {
+		_.each(racialAbilityIds, function( racialAbilityId){
+			RacialAbility.findById( racialAbilityId)
+				.then( function( racialAbility){
+					racialAbility.updateAttributes({
+						RaceId: race.id
+					})
+				})
+				.catch( function(error) {
+					console.log("Error adding racialAbility id to race."+ error);
+				});
+		});
+	};
 
 	return router;
 }

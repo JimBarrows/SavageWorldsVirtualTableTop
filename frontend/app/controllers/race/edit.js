@@ -13,6 +13,22 @@ export default Ember.Controller.extend({
 		cancel: function() {
 			this.model.rollback();
 			this.transitionToRoute('plot-point.edit');
+		},
+		addAbility: function() {
+			var controller = this;
+			var newRacialAbility = this.store.createRecord('RacialAbility', {
+				cost: controller.get('newCost'),
+				description: controller.get('newDescription')
+			});
+			newRacialAbility.save().then(function( savedRacialAbility){
+				controller.model.get('racialAbilities').addObject(savedRacialAbility);
+				controller.model.save();
+			});
+			return false;
+		},
+		removeAbility: function( ability) {
+			ability.destroyRecord();
+
 		}
 	}
 });

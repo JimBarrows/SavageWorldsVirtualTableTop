@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 	needs: "plotPoint",
 	plotPoint: Ember.computed.alias("controllers.plotPoint"),
+	newCost: 0,
+	newDescription: '',
 	actions: {
 		save: function() {
 			var controller = this;
@@ -19,6 +21,22 @@ export default Ember.Controller.extend({
 			this.model.rollback();
 			this.transitionToRoute('plot-point.edit');
 			this.set('selectedRace', null);
+		},
+		addAbility: function() {
+			var controller = this;
+			var newRacialAbility = this.store.createRecord('RacialAbility', {
+				cost: controller.get('newCost'),
+				description: controller.get('newDescription')
+			});
+			newRacialAbility.save().then(function( savedRacialAbility){
+				controller.model.get('racialAbilities').addObject(savedRacialAbility);
+				controller.model.save();
+			});
+			return false;
+		},
+		removeAbility: function( ability) {
+			ability.destroy();
+
 		}
 	}
 });
