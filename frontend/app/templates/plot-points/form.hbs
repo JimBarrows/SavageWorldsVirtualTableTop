@@ -37,31 +37,6 @@
 	{{render "powers.index" model.powers}}
 	<h1>Gear</h1>
 	{{render "gears.index" model.gears}}
-	<h1>Places</h1>
-	<h1>NPC's</h1>
-	<h2>Wild Cards</h2>
-	{{#link-to 'characters.add' model class="btn btn-default"}}New Character{{/link-to}}
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Type</th>
-				<th>Name</th>
-				<th>Rank</th>
-			</tr>
-		</thead>
-		<tbody>
-			{{#each character in model.characters}}
-				<tr>
-					<td>{{character.type}}</td>
-					<td>{{character.name}}</td>
-					<td>{{character.rank}}</td>
-				</tr>
-			{{/each}}
-		</tbody>
-	</table>
-	</div>
-	<h2>Extras</h1>
-	<h1>Bestiary</h1>
 {{/unless}}
 <div class="col-md-offset-5 col-sm-2">
 <button {{action 'save'}} class="btn btn-primary">Save</button>

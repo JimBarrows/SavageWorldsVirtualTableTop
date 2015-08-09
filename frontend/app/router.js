@@ -10,9 +10,6 @@ Router.map(function() {
     this.route('add');
     this.resource('plot-point', { path: '/:id' }, function() {
       this.route('edit');
-      this.resource('characters', function(){
-        this.route('add');
-      });
       this.resource("races", function() {
         this.route("add");
         this.resource('race', { path: '/:id'}, function(){
@@ -59,6 +56,7 @@ Router.map(function() {
   });
 
   this.resource("characters", function() {
+    this.route("add");
     this.resource('character', { path: '/:characterId'}, function(){
       this.route('edit');
     });

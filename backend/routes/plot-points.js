@@ -136,7 +136,7 @@ router.post('/', function(req, res) {
 	PlotPoint.create(plotPointJson)
 			.then( function(plotPointRecord) {
 				addPlotPointIdsToAllChildren( plotPointJson, plotPointRecord);
-				res.status(201).send(convertToEmberJson(plotPointRecord)).end();	
+				res.status(201).send(plotPointRecordToJson( plotPointRecord)).end();	
 			})
 			.catch( function(error){
 				console.log("Error creating new plot point: " + error);
@@ -228,11 +228,11 @@ var buildSideLoadedResponse = function( plotPointList) {
 
 		addPlotPointIdsToAllChildren( jsonPlotPoint, plotPoint);
 		jsonPlotPoint.skillDescriptions = extractIdList(plotPoint.SkillDescriptions);
-		jsonPlotPoint.hindrances= extractIdList(plotPoint.Hindrances);
-		jsonPlotPoint.edges= extractIdList(plotPoint.Edges);
-		jsonPlotPoint.powers= extractIdList(plotPoint.Powers);
-		jsonPlotPoint.gear= extractIdList(plotPoint.Gears);
-		jsonPlotPoint.races= extractIdList(plotPoint.Races);
+		jsonPlotPoint.hindrances = extractIdList(plotPoint.Hindrances);
+		jsonPlotPoint.edges = extractIdList(plotPoint.Edges);
+		jsonPlotPoint.powers = extractIdList(plotPoint.Powers);
+		jsonPlotPoint.gears = extractIdList(plotPoint.Gears);
+		jsonPlotPoint.races = extractIdList(plotPoint.Races);
 		
 		sideLoadedResponse.PlotPoint.push(jsonPlotPoint);
 		sideLoadedResponse.SkillDescriptions = sideLoadedResponse.SkillDescriptions.concat( plotPoint.SkillDescriptions);

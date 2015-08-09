@@ -1,3 +1,4 @@
+<div class="row">
 <label class="col-sm-2 control-label">Plot Point</label>
 <div class="col-sm-7">
   {{view "select" 
@@ -10,6 +11,8 @@
 <div class="col-sm-3">
   <button {{action 'add'}} class="btn btn-default"}}>New Character</button>
 </div>
+</div>
+<div class="row">
 {{#each character in model}}
 	<div class="panel panel-default">
   		<div class="panel-heading clearfix">
@@ -30,4 +33,5 @@
 {{else}}
 	<p>There are no characters</p>
 {{/each}}
+</div>
 {{outlet}}

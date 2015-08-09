@@ -2,20 +2,31 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	setupController: function( controller, model){
-		controller.set('availableHindrances', model.get('plotPoint').get('hindrances'));
+		var plotPoint = model.get('plotPoint');
+		controller.set('startingAttributePoints', plotPoint.get('startingAttributePoints'));
+		controller.set('startingSkillPoints', plotPoint.get('startingSkillPoints'));
+		controller.set('startingMajorHindrances', plotPoint.get('startingMajorHindrances'));
+		controller.set('startingSkillPoints', plotPoint.get('startingMinorHindrances'));
+		controller.set('startingCash', plotPoint.get('startingCash'));
+		controller.set('availableHindrances', plotPoint.get('hindrances'));
+		controller.set('availableRaces', plotPoint.get('races'));
+		controller.set('availableEdges', plotPoint.get('edges'));
+		controller.set('availableGears', plotPoint.get('gears'));
+		controller.set('availablePowers', plotPoint.get('powers'));
 		controller.set('model', model);
 	},
 	model: function(params) {	 	
-		var newCharacter = this.store.createRecord('character');
-		var plotPoint = this.modelFor('plot-point');
-		var skills = [];
 		var route = this;
-		plotPoint.get('skills').forEach(function( skill){
-			newCharacter.get('skills').addRecord(route.store.createRecord('skill', {
-				description: skill
+		var newCharacter = this.store.createRecord('character');
+		var plotPointController = this.controllerFor('characters.index');
+		var selectedPlotPoint = plotPointController.get("selectedPlotPoint");
+		newCharacter.set('plotPoint', selectedPlotPoint);
+		selectedPlotPoint.get('skillDescriptions').forEach(function( skillDescription){
+			newCharacter.get('skills').addRecord(route.store.createRecord('skill',{
+				description: skillDescription
 			}));
 		});
-		newCharacter.set('plotPoint', plotPoint);
+		newCharacter.set('cash', selectedPlotPoint.get('startingCash'));
 	 	return newCharacter;
 	}
 });

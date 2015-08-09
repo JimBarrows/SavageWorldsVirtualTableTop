@@ -13,6 +13,7 @@ export default Ember.Controller.extend({
 	startingCash:               500,
 	availableHindrances:         [],
 	edgePoints: 				  0,
+	// availableGears: [],
 	actions: {
 		save:function() {
 			var controller = this;
