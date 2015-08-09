@@ -4,10 +4,15 @@ export default Ember.Route.extend({
 	setupController: function( controller, model){
 		var plotPoint = model.get('plotPoint');
 		controller.set('startingAttributePoints', plotPoint.get('startingAttributePoints'));
+		controller.set('attributePoints', plotPoint.get('startingAttributePoints'));
 		controller.set('startingSkillPoints', plotPoint.get('startingSkillPoints'));
+		controller.set('skillPoints', plotPoint.get('startingSkillPoints'));
 		controller.set('startingMajorHindrances', plotPoint.get('startingMajorHindrances'));
-		controller.set('startingSkillPoints', plotPoint.get('startingMinorHindrances'));
+		controller.set('majorHindrances', plotPoint.get('startingMajorHindrances'));
+		controller.set('startingMinorHindrances', plotPoint.get('startingMinorHindrances'));
+		controller.set('minorHindrances', plotPoint.get('startingMinorHindrances'));
 		controller.set('startingCash', plotPoint.get('startingCash'));
+		controller.set('cash', plotPoint.get('startingCash'));
 		controller.set('availableHindrances', plotPoint.get('hindrances'));
 		controller.set('availableRaces', plotPoint.get('races'));
 		controller.set('availableEdges', plotPoint.get('edges'));

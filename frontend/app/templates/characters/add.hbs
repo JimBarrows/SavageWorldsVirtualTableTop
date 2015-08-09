@@ -75,59 +75,67 @@
 	{{/if}}
 	</div>
 	<div class="row">
-			<table class="table table-condensed table-striped">
-				<tbody>
-					{{#each hindrance in availableHindrances}}
-						<tr>
-							<td>{{hindrance.name}}</td>
-							<td>{{hindrance.severity}}</td>
-							<td>
-								{{#if hindrance.isMajor}}
-									<button {{action 'majorHindrance' hindrance}}class="btn btn-default">
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
-									</button>
-								{{/if}}
-								{{#if hindrance.isMinor}}
-									<button {{action 'minorHindrance' hindrance}}class="btn btn-default">
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
-									</button>
-								{{/if}}
-								{{#if hindrance.isMajorOrMinor}}
-									<button {{action 'majorHindrance' hindrance}}class="btn btn-default">
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
-									</button>
-									<button {{action 'minorHindrance' hindrance}}class="btn btn-default">
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
-									</button>
-								{{/if}}
-							</td>
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>	
+		<table class="table table-condensed table-striped">
+			<tbody>
+				{{#each hindrance in availableHindrances}}
+					<tr>
+						<td>{{hindrance.name}}</td>
+						<td>{{hindrance.severity}}</td>
+						<td>
+							{{#if hindrance.isMajor}}
+								<button {{action 'majorHindrance' hindrance}}class="btn btn-default">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
+								</button>
+							{{/if}}
+							{{#if hindrance.isMinor}}
+								<button {{action 'minorHindrance' hindrance}}class="btn btn-default">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
+								</button>
+							{{/if}}
+							{{#if hindrance.isMajorOrMinor}}
+								<button {{action 'majorHindrance' hindrance}}class="btn btn-default">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Major
+								</button>
+								<button {{action 'minorHindrance' hindrance}}class="btn btn-default">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Minor
+								</button>
+							{{/if}}
+						</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>	
 	</div>
 	<div class="row">
+		<dl>
 		{{#each hindrance in model.hindrances}}
-			<div class="row">
-				<div class="col-md-2">
-					{{hindrance.name}}({{hindrance.severity}})
-				</div>
-				<div class="col-md-10">
-					{{text-area property=hindrance.description }}
-				</div>
-			</div>
+			<dt>{{hindrance.name}}({{hindrance.severity}})</dt>
+			<dd>{{hindrance.description}}</dd>
+			{{else}}
+			You have no hindrances
 		{{/each}}
+		</dl>
 	</div>
 	<h2>Edges <small>Points: <span class="badge">{{edgePoints}}</span></small></h2>
+	<dl>
+		{{#each edge in model.edges}}
+		<dt>{{edge.name}}</dt>
+		<dd>{{edge.description}}</dd>
+		{{else}}
+			<dt> You have no edges.</dt>
+		{{/each}}
+	</dl>
+	{{#if hasEdgePoints}}
 	<table class="table table-condensed table-striped">
 		<tbody>
 			{{#each edge in availableEdges}}
 				<tr>
-					<td>{{edge.name}}
+					<td>{{edge.name}}</td>
 				</tr>
 			{{/each}}
-		<tbody>
+		</tbody>
 	</table>
+	{{/if}}
 	<h2>Powers</h2>
 	<table class="table table-condensed table-striped">
 		<tbody>
