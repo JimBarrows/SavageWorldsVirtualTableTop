@@ -7,6 +7,8 @@ module.exports = function(db) {
 	var levels = ['Novice','Seasoned', 'Veteran', 'Heroic', 'Legendary']
 
 	var PlotPoint = db.models.PlotPoint;
+	var Edge = db.models.Edge;
+	var Skill = db.models.Skill;
 
 	var Character = db.define('Character', {
 		name: {
@@ -82,6 +84,9 @@ module.exports = function(db) {
 	});
 
 	Character.belongsTo( PlotPoint);
+	Character.belongsToMany( Edge, {through: 'characters_edges'});
+	Edge.belongsToMany( Character, {through: 'characters_edges'});
+	Character.hasMany( Skill);
 
 	router.get('/', function(req, res) {
 		Character.findAll({order: 'name ASC'}).then(function(data) {
@@ -98,13 +103,13 @@ module.exports = function(db) {
 	router.post('/', function(req, res) {
 		var newRec = req.body.character;
 		Character.create(newRec)
-		.then( function(data) {
-			res.status(201).send({ character: data}).end();	
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {"errors": error}).end();
-		});
+			.then( function(data) {
+				res.status(201).send({ character: data}).end();	
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400).send( {"errors": error}).end();
+			});
 	});
 
 	router.get('/:id', function(req, res) {
