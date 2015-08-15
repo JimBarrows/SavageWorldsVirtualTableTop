@@ -1,10 +1,16 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
+    "username": "username",
+    "password": "passowrd,
     "database": "database_development",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
+    },
+    storage: '../temp/database.sqlite'
   },
   "test": {
     "username": "root",
