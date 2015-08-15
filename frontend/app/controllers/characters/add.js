@@ -77,6 +77,14 @@ export default Ember.Controller.extend({
 		gainAdditionalMoneyEqualToYourStartingFunds: function() {
 			this.model.incrementProperty('cash', this.get('startingCash'));
 			this.decrementProperty('hindrancePoints');
+		},
+		addEdge: function( edge) {
+			this.model.get('edges').addRecord(edge);
+			this.decrementProperty('edgePoints');
+		},
+		removeEdge: function( edge) {
+			this.model.get('edges').removeRecord(edge);
+			this.incrementProperty('edgePoints');
 		}
 	},
 	filterHindrances: function() {
@@ -108,5 +116,8 @@ export default Ember.Controller.extend({
 	}.property("hindrancePoints"),
 	has1OrMoreHindrancePoints: function(){
 		return this.get('hindrancePoints') >= 1;
-	}.property("hindrancePoints")
+	}.property("hindrancePoints"),
+	hasEdgePoints: function() {
+		return this.get('edgePoints') > 0;
+	}.property('edgePoints')
 });

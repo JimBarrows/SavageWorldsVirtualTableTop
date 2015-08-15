@@ -13,5 +13,8 @@ export default DS.Model.extend({
     vigor: DS.attr('number', {defaultValue: 4}),
     cash: DS.attr('number', {defaultValue: 500}),
     skills: DS.hasMany('skill'),
-    hindrances: DS.hasMany('hindrance')
+    hindrances: DS.hasMany('hindrance'),
+    edges: DS.hasMany('edge'),
+    powers: DS.hasMany('power'),
+    gear: DS.hasMany('gear')
 });

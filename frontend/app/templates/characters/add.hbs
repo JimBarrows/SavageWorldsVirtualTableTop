@@ -75,7 +75,18 @@
 	{{/if}}
 	</div>
 	<div class="row">
+		<dl>
+		{{#each hindrance in model.hindrances}}
+			<dt>{{hindrance.name}}({{hindrance.severity}})</dt>
+			<dd>{{hindrance.description}}</dd>
+			{{else}}
+			You have no hindrances
+		{{/each}}
+		</dl>
+	</div>
+	<div class="row">
 		<table class="table table-condensed table-striped">
+			<caption>Hindrances to choose from:</caption>
 			<tbody>
 				{{#each hindrance in availableHindrances}}
 					<tr>
@@ -106,31 +117,32 @@
 			</tbody>
 		</table>	
 	</div>
-	<div class="row">
-		<dl>
-		{{#each hindrance in model.hindrances}}
-			<dt>{{hindrance.name}}({{hindrance.severity}})</dt>
-			<dd>{{hindrance.description}}</dd>
-			{{else}}
-			You have no hindrances
-		{{/each}}
-		</dl>
-	</div>
 	<h2>Edges <small>Points: <span class="badge">{{edgePoints}}</span></small></h2>
 	<dl>
 		{{#each edge in model.edges}}
-		<dt>{{edge.name}}</dt>
+		<dt><button {{action 'removeEdge' edge}}class="btn btn-default btn-xs">
+				<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+			</button>
+			{{edge.name}}
+		</dt>
 		<dd>{{edge.description}}</dd>
 		{{else}}
-			<dt> You have no edges.</dt>
+			<dt>You have no edges.  Use Hindrances to buy edge points,then you can buy edges.</dt>
 		{{/each}}
 	</dl>
 	{{#if hasEdgePoints}}
 	<table class="table table-condensed table-striped">
+		<caption>Edges to choose from</caption>
 		<tbody>
 			{{#each edge in availableEdges}}
 				<tr>
 					<td>{{edge.name}}</td>
+					<td>{{edge.description}}</td>
+					<td>
+						<button {{action 'addEdge' edge}}class="btn btn-default">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						</button>
+					</td>
 				</tr>
 			{{/each}}
 		</tbody>
@@ -138,16 +150,60 @@
 	{{/if}}
 	<h2>Powers</h2>
 	<table class="table table-condensed table-striped">
+		<caption>Powers</catption>
+		<thead>
+			<tr>
+				<th>Power/Trapping</th>
+				<th>Cost</th>
+				<th>Range</th>
+				<th>Damage/Effect</th>
+				<th>Duration</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each power in model.powers}}
+				<tr>
+					<td>{{power.name}}</td>
+					<td>{{power.powerPoints}}</td>
+					<td>{{power.range}}</td>
+					<td>{{{power.description}}}</td>
+					<td>{{power.duration}} ({{power.maintenceCost}})</td>
+				</tr>
+			{{else}}
+				<tr>
+					<td colspan="5">
+					You have no powers
+					</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	<table class="table table-striped">
+		<caption>Available Powers</caption>
+		<thead>
+			<tr>
+				<th>Power/Trapping</th>
+				<th>Cost</th>
+				<th>Range</th>
+				<th>Damage/Effect</th>
+				<th>Duration</th>
+			</tr>
+		</thead>
 		<tbody>
 			{{#each power in availablePowers}}
 				<tr>
-					<td>{{power.name}}
+					<td>{{power.name}}</td>
+					<td>{{power.powerPoints}}</td>
+					<td>{{power.range}}</td>
+					<td>{{{power.description}}}</td>
+					<td>{{power.duration}} ({{power.maintenceCost}})</td>
 				</tr>
 			{{/each}}
-		<tbody>
+		</tbody>
 	</table>
 	<h2>Equipment <small>Cash: <span class="badge">{{model.cash}}</span></small></h2>
 	<table class="table table-condensed table-striped">
+		<caption>Available Equipment</caption>
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -156,6 +212,7 @@
 				<th>Cost</th>
 				<th>Notes</th>
 			</tr>
+		</thead>
 		<tbody>
 			{{#each gear in availableGears}}
 				<tr>

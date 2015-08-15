@@ -37,6 +37,7 @@ var Powers = require('./routes/powers')(db);
 var Gear = require('./routes/gear')(db);
 var RacialAbilities = require('./routes/racial-ability')(db);
 var Races = require('./routes/races')(db);
+var Skills = require('./routes/skills')(db);
 var PlotPoints = require('./routes/plot-points')(db);
 var Characters = require('./routes/characters')(db);
 
@@ -73,6 +74,7 @@ app.use('/api/gears', Gear);
 app.use('/api/races', Races);
 app.use('/api/racialAbilities', RacialAbilities);
 app.use('/api/characters', Characters);
+app.use('/api/skills', Skills);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,6 +87,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
+console.log("env:  " + app.get('env'));
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
