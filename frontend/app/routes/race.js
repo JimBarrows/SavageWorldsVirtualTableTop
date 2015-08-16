@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({	
 	model: function(params) {
-	 	return this.modelFor("plot-point");
+	 
+	 	return this.store.find('race', params.id);	 
 	 }
 });

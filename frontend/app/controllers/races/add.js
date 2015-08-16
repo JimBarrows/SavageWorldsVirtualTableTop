@@ -5,6 +5,7 @@ export default Ember.Controller.extend({
 	plotPoint: Ember.computed.alias("controllers.plotPoint"),
 	newCost: 0,
 	newDescription: '',
+	totalCost: -1,
 	actions: {
 		save: function() {
 			var controller = this;
@@ -30,13 +31,17 @@ export default Ember.Controller.extend({
 			});
 			newRacialAbility.save().then(function( savedRacialAbility){
 				controller.model.get('racialAbilities').addObject(savedRacialAbility);
+				controller.incrementProperty( 'totalCost', savedRacialAbility.get('cost'));
 				controller.model.save();
 			});
+
 			return false;
 		},
 		removeAbility: function( ability) {
-			ability.destroy();
-
+			var controller = this;
+			ability.destroyRecord().then( function(){
+				controller.decrementProperty( 'totalCost', ability.get('cost'));
+			});
 		}
 	}
 });
