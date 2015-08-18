@@ -40,6 +40,9 @@ var Races = require('./routes/races')(db);
 var Skills = require('./routes/skills')(db);
 var PlotPoints = require('./routes/plot-points')(db);
 var Characters = require('./routes/characters')(db);
+var Chapters = require('./routes/chapters')(db);
+var Stories = require('./routes/stories')(db);
+
 
 db.sync();
 
@@ -75,6 +78,8 @@ app.use('/api/races', Races);
 app.use('/api/racialAbilities', RacialAbilities);
 app.use('/api/characters', Characters);
 app.use('/api/skills', Skills);
+app.use('/api/stories', Stories);
+app.use('/api/chapters', Chapters);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

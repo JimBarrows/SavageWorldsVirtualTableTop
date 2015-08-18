@@ -66,6 +66,12 @@ Router.map(function() {
     this.route("add");
     this.resource('story', { path: '/:id'}, function(){
       this.route('edit');
+      this.resource("chapters", function() {
+        this.route("add");
+        this.resource('chapter', { path: '/:id'}, function(){
+          this.route('edit');
+        });
+      });
     });
   });
 

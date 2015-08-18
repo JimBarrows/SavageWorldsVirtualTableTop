@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
 	actions: {
 		save: function() {
 			var controller = this;
-			this.model.save().then(function( newModel){
+			this.get('model').save().then(function( newModel){
 				Ember.get(controller, 'flashes').success('Success!', 2000);	
 				controller.transitionToRoute('stories');
 			});

@@ -5,12 +5,12 @@ export default Ember.Controller.extend({
 	actions: {
 		save:function() {			
 			var controller = this;
-			this.get('model').save().then(function() {
+			this.model.save().then(function() {
 				Ember.get(controller, 'flashes').success('Success!', 2000);				
-				controller.transitionToRoute('stories');
 			});
 		},
 		cancel: function() {
+			console.log("cancel");
 			this.model.rollback();
 			this.transitionToRoute('stories');
 		}
