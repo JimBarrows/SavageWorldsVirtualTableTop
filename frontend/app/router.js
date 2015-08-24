@@ -70,6 +70,12 @@ Router.map(function() {
         this.route("add");
         this.resource('chapter', { path: '/:id'}, function(){
           this.route('edit');
+          this.resource("scenes", function() {
+            this.route("add");
+            this.resource('scene', { path: '/:id'}, function(){
+              this.route('edit');
+            });
+          });
         });
       });
     });

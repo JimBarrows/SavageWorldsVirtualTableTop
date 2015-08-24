@@ -3,7 +3,7 @@ module.exports = function(db) {
 	var router = express.Router();
 	var sequelize = require('sequelize');
 
-	var Chapter = db.define('Chapter', {
+	var Scene = db.define('Scene', {
 		name: {
 			type: sequelize.STRING,
 			allowNull: false,
@@ -19,19 +19,12 @@ module.exports = function(db) {
 		freezeTableName: true // Model tableName will be the same as the model name
 	});
 
-	var Scene = db.models.Scene;
-
-	Chapter.hasMany( Scene);
-	
 	router.get('/', function(req, res) {
-		Chapter.findAll({
-			order: 'Chapter.name ASC',
-			include: [{
-				model: Scene
-			}]
+		Scene.findAll({
+			order: 'Scene.name ASC'
 		}).then(function(data) {
 			res.send({
-				'chapter': data
+				'scene': data
 			});
 		})
 		.catch( function(error){
@@ -41,10 +34,10 @@ module.exports = function(db) {
 	});
 
 	router.post('/', function(req, res) {
-		var newRec = req.body.chapter;
-		Chapter.create(newRec)
+		var newRec = req.body.scene;
+		Scene.create(newRec)
 			.then( function(data) {
-				res.status(201).send({ chapter: data}).end();	
+				res.status(201).send({ scene: data}).end();	
 			})
 			.catch( function(error){
 				console.log("error: " + error);
@@ -53,9 +46,9 @@ module.exports = function(db) {
 	});
 
 	router.get('/:id', function(req, res) {
-		Chapter.findById( req.params.id).then(function(data){
+		Scene.findById( req.params.id).then(function(data){
 			res.send({
-				'chapter':data
+				'scene':data
 			});	
 		})
 		.catch( function(error){
@@ -65,17 +58,12 @@ module.exports = function(db) {
 	});
 
 	router.put('/:id', function(req, res) {
-		Chapter.findById( req.params.id)
+		Scene.findById( req.params.id)
 			.then(function(data){
-				data.updateAttributes(req.body.chapter)
+				data.updateAttributes(req.body.scene)
 					.then(function(data) {
-						Scene.update({
-							ChapterId: data.id
-						}, {
-							where: { id : req.body.chapter.scenes} 
-						});
 						res.send({
-							'chapter': data
+							'scene': data
 						});
 					});
 			})
@@ -86,7 +74,7 @@ module.exports = function(db) {
 	});
 
 	router.delete('/:id', function(req, res) {
-		Chapter.findById( req.params.id).then(function(data) {
+		Scene.findById( req.params.id).then(function(data) {
 			data.destroy().then(function(){
 				res.status(204).end();	
 			});

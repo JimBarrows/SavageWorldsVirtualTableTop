@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
 			this.model.save().then(function( newChapter) {
 				Ember.get(controller, 'flashes').success('Success!', 2000);
 				var story = controller.get('story');
-				story.get('chapters').addObject( newChapter);
+				story.model.get('chapters').addObject( newChapter);
 				story.model.save().then( function( savedStory){
 					controller.transitionToRoute('chapter.edit', newChapter);
 				});

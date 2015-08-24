@@ -3,6 +3,8 @@ module.exports = function(db) {
 	var router = express.Router();
 	var sequelize = require('sequelize');
 	var _ = require('underscore');
+	var Promise = require("bluebird");
+
 
 	var Story = db.define('Story', {
 		name: {
@@ -22,22 +24,51 @@ module.exports = function(db) {
 
 	var PlotPoint = db.models.PlotPoint;
 	var Chapter = db.models.Chapter;
+	var Scene = db.models.Scene;
 
-	// Story.belongsTo( PlotPoint);
 	Story.hasMany(Chapter);
 
 	router.get('/', function(req, res) {
-		Story.findAll({
-			order: 'Story.name ASC',
-			include:[{
-				model: Chapter
-			}]
-		}).then(function(storyList) {
-			res.send(buildSideLoadedResponse(storyList));
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {"errors": error}).end();
+		Promise.props({
+			stories: Story.findAll({
+					order: 'Story.name ASC',
+					include:[{
+						model: Chapter
+					}]
+				}),
+			chapters: Chapter.findAll({
+					order: 'Chapter.name ASC',
+					include: [{
+						model: Scene
+					}]
+				}),
+			scenes: Scene.findAll()
+		}).then(function( props){
+			res.send({
+				'Story': _.map( props.stories, function(story){
+							return {
+								id: story.id,
+								name: story.name,
+								description: story.description,
+								chapters: _.pluck(story.Chapters,'id')
+							};
+						}),
+				'Chapter': _.map( props.chapters, function( chapter) {
+					return {
+						id: chapter.id,
+						name: chapter.name,
+						description: chapter.description,
+						scenes: _.pluck( chapter.Scenes, 'id')
+					}
+				}),
+				'Scene': _.map( props.scenes, function( scene) {
+					return {
+						id: scene.id,
+						name: scene.name,
+						description: scene.description
+					}
+				})
+			})
 		});
 	});
 
@@ -94,38 +125,6 @@ module.exports = function(db) {
 			res.status(400).send( {"errors": error}).end();
 		});
 	});
-
-	buildSideLoadedResponse = function( storyList) {
-		var sideLoadedResponse ={
-			'Story':[],
-			'Chapters':[]
-		};
-		console.log("storyList; " + storyList);
-		_.each(storyList, function(story){
-			console.log("story: " + story.id);
-			var storyJson = storyRecordToJson( story);	
-			storyJson.chapters = extractIdList(story.Chapters);
-			sideLoadedResponse.Story.push( storyJson);
-			sideLoadedResponse.Chapters = sideLoadedResponse.Chapters.concat(story.Chapters);
-		});
-		return sideLoadedResponse;
-	};
-
-	storyRecordToJson = function(story) {
-		return { 
-			"id": story.id,
-			"name": story.name,
-			"description": story.description,
-			"chapters": []
-		}
-	};
-	var extractIdList = function( record) {
-		var idList = []
-		_.each(record, function( rec){
-			idList.push(rec.id);
-		});
-		return idList;
-	};
 
 	var addStoryIdToRecord = function( dbRecord, ids, plotPoint) {
 		for( i=0; i< ids.length; i++) {

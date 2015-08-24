@@ -40,6 +40,7 @@ var Races = require('./routes/races')(db);
 var Skills = require('./routes/skills')(db);
 var PlotPoints = require('./routes/plot-points')(db);
 var Characters = require('./routes/characters')(db);
+var Scenes = require('./routes/scenes')(db);
 var Chapters = require('./routes/chapters')(db);
 var Stories = require('./routes/stories')(db);
 
@@ -80,6 +81,7 @@ app.use('/api/characters', Characters);
 app.use('/api/skills', Skills);
 app.use('/api/stories', Stories);
 app.use('/api/chapters', Chapters);
+app.use('/api/scenes', Scenes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -92,7 +94,6 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-console.log("env:  " + app.get('env'));
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);

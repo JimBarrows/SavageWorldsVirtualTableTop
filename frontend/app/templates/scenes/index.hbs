@@ -1,0 +1,7 @@
+{{#link-to 'scenes.add' class="btn btn-default"}}New Scene{{/link-to}}	
+{{#each scene in model}}
+	{{render "scene.index" scene}}
+	{{else}}
+	<p>There are no scenes.</p>
+{{/each}}
+{{outlet}}
