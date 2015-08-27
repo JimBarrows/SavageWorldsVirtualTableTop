@@ -27,6 +27,7 @@ module.exports = function(db) {
 	var Scene = db.models.Scene;
 
 	Story.hasMany(Chapter);
+	Story.belongsTo(PlotPoint);
 
 	router.get('/', function(req, res) {
 		Promise.props({

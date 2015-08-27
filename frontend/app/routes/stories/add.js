@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	model: function() {
-		return this.store.createRecord('story');
+		var storyIndexController = this.controllerFor('stories.index');
+		var selectedPlotPoint = storyIndexController.get("selectedPlotPoint");
+		var newStory = this.store.createRecord('story');
+		newStory.set('plotPoint', selectedPlotPoint);
+		return newStory;
 	}
 });
