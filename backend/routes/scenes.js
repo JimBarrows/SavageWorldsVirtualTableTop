@@ -19,6 +19,11 @@ module.exports = function(db) {
 		freezeTableName: true // Model tableName will be the same as the model name
 	});
 
+	var Character = db.models.Character;
+
+	Character.belongsToMany( Scene, {through: "scene_character"});
+	Scene.belongsToMany( Character, {through: 'scene_character'});
+
 	router.get('/', function(req, res) {
 		Scene.findAll({
 			order: 'Scene.name ASC'

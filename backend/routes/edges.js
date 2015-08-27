@@ -23,39 +23,41 @@ module.exports = function(db) {
 	});
 
 	router.get('/', function(req, res) {
-		Edge.findAll({order: 'name ASC'}).then(function(data) {
-			res.send({
-				'edge': data
+		Edge.findAll({order: 'name ASC'})
+			.then(function(data) {
+				res.send({
+					'edge': data
+				});
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400).send( {"errors": error}).end();
 			});
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {"errors": error}).end();
-		});
 	});
 
 	router.post('/', function(req, res) {
 		var newRec = req.body.edge;
 		Edge.create(newRec)
-		.then( function(data) {
-			res.status(201).send({ edge: data}).end();	
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {"errors": error}).end();
-		});
+			.then( function(data) {
+				res.status(201).send({ edge: data}).end();	
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400).send( {"errors": error}).end();
+			});
 	});
 
 	router.get('/:id', function(req, res) {
-		Edge.findById( req.params.id).then(function(data){
-			res.send({
-				'edge':data
-			});	
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {error: error}).end();
-		});
+		Edge.findById( req.params.id)
+			.then(function(data){
+				res.send({
+					'edge':data
+				});	
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400).send( {error: error}).end();
+			});
 	});
 
 	router.put('/:id', function(req, res) {
@@ -75,15 +77,16 @@ module.exports = function(db) {
 	});
 
 	router.delete('/:id', function(req, res) {
-		Edge.findById( req.params.id).then(function(data) {
-			data.destroy().then(function(){
-				res.status(204).end();	
+		Edge.findById( req.params.id)
+			.then(function(data) {
+				data.destroy().then(function(){
+					res.status(204).end();	
+				});
+			})
+			.catch( function(error){
+				console.log("error: " + error);
+				res.status(400).send( {"errors": error}).end();
 			});
-		})
-		.catch( function(error){
-			console.log("error: " + error);
-			res.status(400).send( {"errors": error}).end();
-		});
 	});
 
 	return router;
