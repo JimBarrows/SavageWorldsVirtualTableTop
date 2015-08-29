@@ -16,5 +16,19 @@ export default DS.Model.extend({
     hindrances: DS.hasMany('hindrance'),
     edges: DS.hasMany('edge'),
     powers: DS.hasMany('power'),
-    gear: DS.hasMany('gear')
+    gear: DS.hasMany('gear'),
+
+    addPlotPoint: function(plotPoint) {
+        var disCharacter = this;
+        plotPoint.get('skillDescriptions').forEach(function( skillDescription){
+            var newSkill = route.store.createRecord('skill',{
+                description: skillDescription
+            });
+            newSkill.save().then(function(savedSkill){
+                disCharacter.get('skills').addRecord(savedSkill);
+            });
+            
+        });
+        disCharacter.set('plotPoint', plotPoint);
+    }
 });

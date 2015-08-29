@@ -95,6 +95,7 @@ var Power = db.models.Power;
 var Gear = db.models.Gear;
 var Race = db.models.Race;
 var RacialAbility = db.models.RacialAbility;
+var Story = db.models.Story;
 
 PlotPoint.hasMany(SkillDescription);
 PlotPoint.hasMany(Hindrance);
@@ -102,6 +103,7 @@ PlotPoint.hasMany(Edge);
 PlotPoint.hasMany(Power);
 PlotPoint.hasMany(Gear);
 PlotPoint.hasMany(Race);
+PlotPoint.hasMany(Story);
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
@@ -120,6 +122,8 @@ router.get('/', function(req, res) {
 			include: [{
 				model: RacialAbility
 			}]
+		},{
+			model: Story
 		}]
 	})
 	.then(function(plotPointList) {
@@ -220,7 +224,8 @@ var buildSideLoadedResponse = function( plotPointList) {
 		'Powers' : [],
 		'Gears' : [],
 		'Races' : [],
-		'RacialAbilities' : []
+		'RacialAbilities' : [],
+		'Stories' : []
 	}
 	_.each(plotPointList, function(plotPoint) {
 
@@ -233,6 +238,7 @@ var buildSideLoadedResponse = function( plotPointList) {
 		jsonPlotPoint.powers = extractIdList(plotPoint.Powers);
 		jsonPlotPoint.gears = extractIdList(plotPoint.Gears);
 		jsonPlotPoint.races = extractIdList(plotPoint.Races);
+		jsonPlotPoint.stories = extractIdList(plotPoint.Stories);
 		
 		sideLoadedResponse.PlotPoint.push(jsonPlotPoint);
 		sideLoadedResponse.SkillDescriptions = sideLoadedResponse.SkillDescriptions.concat( plotPoint.SkillDescriptions);
@@ -240,6 +246,7 @@ var buildSideLoadedResponse = function( plotPointList) {
 		sideLoadedResponse.Edges = sideLoadedResponse.Edges.concat( plotPoint.Edges);
 		sideLoadedResponse.Powers = sideLoadedResponse.Powers.concat( plotPoint.Powers);
 		sideLoadedResponse.Gears = sideLoadedResponse.Gears.concat( plotPoint.Gears);
+		sideLoadedResponse.Stories = sideLoadedResponse.Stories.concat( plotPoint.Stories);
 		_.each( plotPoint.Races, function( race){			
 			var jsonRace ={
 				id: race.id,
@@ -261,6 +268,7 @@ var addPlotPointIdsToAllChildren = function( toJsonRecord, fromDatabaseRecord) {
 	addPlotPointIdToRecord( Power, 					toJsonRecord.powers,            fromDatabaseRecord);
 	addPlotPointIdToRecord( Gear,  					toJsonRecord.gears,             fromDatabaseRecord);
 	addPlotPointIdToRecord( Race, 					toJsonRecord.races, 			fromDatabaseRecord);
+	addPlotPointIdToRecord( Story, 					toJsonRecord.stories, 			fromDatabaseRecord);
 }
 
 var addPlotPointIdToRecord = function( dbRecord, ids, plotPoint) {

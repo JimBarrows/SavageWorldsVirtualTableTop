@@ -38,11 +38,11 @@ var Gear = require('./routes/gear')(db);
 var RacialAbilities = require('./routes/racial-ability')(db);
 var Races = require('./routes/races')(db);
 var Skills = require('./routes/skills')(db);
-var PlotPoints = require('./routes/plot-points')(db);
-var Characters = require('./routes/characters')(db);
 var Scenes = require('./routes/scenes')(db);
 var Chapters = require('./routes/chapters')(db);
 var Stories = require('./routes/stories')(db);
+var PlotPoints = require('./routes/plot-points')(db);
+var Characters = require('./routes/characters')(db);
 
 
 db.sync();

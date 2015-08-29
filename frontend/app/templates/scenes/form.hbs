@@ -7,3 +7,25 @@
 		<button {{action 'cancel'}} class="btn btn-default">Cancel</button>
 	</div>
 </div>
+<div class="row">
+	{{text-field property=characterName label="Character Name"}} <button {{action 'addCharacter'}} class="btn btn-default">Add</button>
+	<table class="table table-striped">
+		<caption>Personae Dramatis</caption>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Wild Card/Extra</th>
+				<th>Level</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Bob</td>
+				<td>WC</td>
+				<td>Novice</td>
+				<td>Bob is a skull</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

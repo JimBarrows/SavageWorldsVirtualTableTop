@@ -25,16 +25,7 @@ export default Ember.Route.extend({
 		var newCharacter = this.store.createRecord('character');
 		var plotPointController = this.controllerFor('characters.index');
 		var selectedPlotPoint = plotPointController.get("selectedPlotPoint");
-		newCharacter.set('plotPoint', selectedPlotPoint);
-		selectedPlotPoint.get('skillDescriptions').forEach(function( skillDescription){
-			var newSkill = route.store.createRecord('skill',{
-				description: skillDescription
-			});
-			newSkill.save().then(function(savedSkill){
-				newCharacter.get('skills').addRecord(savedSkill);
-			});
-			
-		});
+		newCharacter.addPlotPoint( selectedPlotPoint);
 		newCharacter.set('cash', selectedPlotPoint.get('startingCash'));
 	 	return newCharacter;
 	}
