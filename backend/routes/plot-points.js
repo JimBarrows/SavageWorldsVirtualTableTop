@@ -1,109 +1,22 @@
-module.exports = function(db) {
-	var express = require('express');
-	var router = express.Router();
-	var sequelize = require('sequelize');
-	var _ = require('underscore');
-	var bluebird = require('bluebird');
+var express = require('express');
+var router = express.Router();
+var sequelize = require('sequelize');
+var _ = require('underscore');
+var bluebird = require('bluebird');
 
-	var PlotPoint = db.define('PlotPoint', {
-		name: {
-			type: sequelize.STRING,
-			allowNull: false,
-			validate: {
-				notEmpty: true,
-			}
-		},
-		description: {
-			type: sequelize.STRING,
-			allowNull: false,
-			validate: {
-				notEmpty: true
-			}
-		},
-		bloodAndGuts: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		bornAHero: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		criticalFailures: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		fantatics: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		grittyDamage: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		heroesNeverDie: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		highAdventure: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		jokersWild: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		multipleLanguages: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		noPowerPoints: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		skillSpecialization: {
-			type: sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		startingAttributePoints: {
-			type: sequelize.INTEGER,
-			defaultValue: 5
-		},
-		startingSkillPoints: {
-			type: sequelize.INTEGER,
-			defaultValue: 15
-		},
-		startingMajorHindrances: {
-			type: sequelize.INTEGER,
-			defaultValue: 1
-		},
-		startingMinorHindrances: {
-			type: sequelize.INTEGER,
-			defaultValue: 2
-		},
-		startingCash: {
-			type: sequelize.INTEGER,
-			defaultValue: 500
-		}
-	}, {
-		freezeTableName: true
-	});
-
-var SkillDescription = db.models.SkillDescription;
-var Hindrance = db.models.Hindrance;
-var Edge = db.models.Edge;
-var Power = db.models.Power;
-var Gear = db.models.Gear;
-var Race = db.models.Race;
-var RacialAbility = db.models.RacialAbility;
-var Story = db.models.Story;
-
-PlotPoint.hasMany(SkillDescription);
-PlotPoint.hasMany(Hindrance);
-PlotPoint.hasMany(Edge);
-PlotPoint.hasMany(Power);
-PlotPoint.hasMany(Gear);
-PlotPoint.hasMany(Race);
-PlotPoint.hasMany(Story);
+var db = require("../models");
+var Character = db.Character;
+var Edge = db.Edge;
+var Gear = db.Gear;
+var Hindrance = db.Hindrance;
+var PlotPoint = db.PlotPoint;
+var Power = db.Power;
+var Race = db.Race;
+var RacialAbility = db.RacialAbility;
+var SkillDescription = db.SkillDescription;
+var Story = db.Story;
+	
+console.log("Building plot-point routes.");
 
 router.get('/', function(req, res) {
 	PlotPoint.findAll({
@@ -322,5 +235,4 @@ var extractIdList = function( record) {
 	});
 	return idList;
 }
-return router;
-}
+module.exports = router;

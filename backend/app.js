@@ -4,48 +4,32 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var sequelize = require('sequelize');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var environment = process.env.NODE_ENV || 'development'
+var config = require('./config/config.json')[environment];
 
-var db = new sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  //dialect: 'mysql'|'mariadb'|'sqlite'|'postgres'|'mssql',
-  dialect: 'sqlite',
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-
-  // SQLite only
-  storage: '../temp/database.sqlite'
-});
-
-var StandardHindrances = require('./routes/standard-hindrance')(db);
-var StandardEdges = require('./routes/standard-edges')(db);
-var StandardPowers = require('./routes/standard-powers')(db);
-var StandardSkills = require('./routes/standard-skills')(db);
-var StandardPowerTrappings = require('./routes/standard-power-trappings')(db);
-var StandardGear = require('./routes/standard-gear')(db);
-var SkillDescriptions = require('./routes/skill-descriptions')(db);
-var Hindrances = require('./routes/hindrances')(db);
-var Edges = require('./routes/edges')(db);
-var Powers = require('./routes/powers')(db);
-var Gear = require('./routes/gear')(db);
-var RacialAbilities = require('./routes/racial-ability')(db);
-var Races = require('./routes/races')(db);
-var Skills = require('./routes/skills')(db);
-var Scenes = require('./routes/scenes')(db);
-var Chapters = require('./routes/chapters')(db);
-var Stories = require('./routes/stories')(db);
-var PlotPoints = require('./routes/plot-points')(db);
-var Characters = require('./routes/characters')(db);
-
-
-db.sync();
+console.log('Build route objects');
+var Chapters = require('./routes/chapters');
+var Characters = require('./routes/characters');
+var Edges = require('./routes/edges');
+var Gear = require('./routes/gear');
+var Hindrances = require('./routes/hindrances');
+var PlotPoints = require('./routes/plot-points');
+var Powers = require('./routes/powers');
+var Races = require('./routes/races');
+var RacialAbilities = require('./routes/racial-ability');
+var Routes = require('./routes/index');
+var Scenes = require('./routes/scenes');
+var SkillDescriptions = require('./routes/skill-descriptions');
+var Skills = require('./routes/skills');
+var StandardEdges = require('./routes/standard-edges');
+var StandardGear = require('./routes/standard-gear');
+var StandardHindrances = require('./routes/standard-hindrance');
+var StandardPowerTrappings = require('./routes/standard-power-trappings');
+var StandardPowers = require('./routes/standard-powers');
+var StandardSkills = require('./routes/standard-skills');
+var Stories = require('./routes/stories');
+var Users = require('./routes/users');
 
 var app = express();
 
@@ -61,27 +45,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/api/standardHindrances', StandardHindrances);
-app.use('/api/standardEdges', StandardEdges);
-app.use('/api/standardPowers', StandardPowers);
-app.use('/api/standardSkillDescriptions', StandardSkills);
-app.use('/api/standardPowerTrappings', StandardPowerTrappings);
-app.use('/api/standardGears', StandardGear);
-app.use('/api/plotPoints', PlotPoints);
-app.use('/api/skillDescriptions', SkillDescriptions);
-app.use('/api/hindrances', Hindrances);
+console.log("Building Routes");
+app.use('/', Routes);
+app.use('/api/chapters', Chapters);
+app.use('/api/characters', Characters);
 app.use('/api/edges', Edges);
-app.use('/api/powers', Powers);
 app.use('/api/gears', Gear);
+app.use('/api/hindrances', Hindrances);
+app.use('/api/plotPoints', PlotPoints);
+app.use('/api/powers', Powers);
 app.use('/api/races', Races);
 app.use('/api/racialAbilities', RacialAbilities);
-app.use('/api/characters', Characters);
-app.use('/api/skills', Skills);
-app.use('/api/stories', Stories);
-app.use('/api/chapters', Chapters);
 app.use('/api/scenes', Scenes);
+app.use('/api/skillDescriptions', SkillDescriptions);
+app.use('/api/skills', Skills);
+app.use('/api/standardEdges', StandardEdges);
+app.use('/api/standardGears', StandardGear);
+app.use('/api/standardHindrances', StandardHindrances);
+app.use('/api/standardPowerTrappings', StandardPowerTrappings);
+app.use('/api/standardPowers', StandardPowers);
+app.use('/api/standardSkillDescriptions', StandardSkills);
+app.use('/api/stories', Stories);
+app.use('/users', Users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
