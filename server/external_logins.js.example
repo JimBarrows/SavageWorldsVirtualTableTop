@@ -1,9 +1,0 @@
-var ids = {
-	facebook: {
-		clientID: '',
-		clientSecret: '',
-		callbackURL: ''
-	}
-};
-
-module.exports = ids;

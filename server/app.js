@@ -1,31 +1,25 @@
-const express      = require('express');
-const path         = require('path');
-const favicon      = require('serve-favicon');
-const logger       = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser   = require('body-parser');
-const passport     = require('./passport.config.js');
-const mongoose     = require('./mongoose.config.js');
-const index        = require('./routes/index');
-const users        = require('./routes/users');
-const auth         = require('./routes/auth');
-const plotPoints   = require('./routes/PlotPoints');
-const app          = express();
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import config from "./config";
+import express from "express";
+import logger from "morgan";
+import "./mongoose.config";
+import passport from "./passport.config";
+import path from "path";
+import index from "./routes/index";
+import users from "./routes/users";
+import auth from "./routes/auth";
+import plotPoints from "./routes/plotPoints";
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+const app = express();
 
-app.use(logger('dev'));
+
+app.use(logger(config.server.logLevel));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(require("less-middleware")(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(require('express-session')({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: false
-}));
 app.use(passport.initialize());
 app.use(passport.session());
 

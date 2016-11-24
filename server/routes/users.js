@@ -1,6 +1,6 @@
 var express  = require('express');
 var passport = require('passport');
-var Account  = require('../models/account');
+var Account = require('../models/Account');
 var router   = express.Router();
 
 /* GET users listing. */
