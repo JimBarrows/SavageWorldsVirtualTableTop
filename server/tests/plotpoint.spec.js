@@ -1,5 +1,7 @@
 import {client, expect, Promise, plotPoint as createPlotPoint, startTestHouseKeeping} from "./support/fixtures";
 import PlotPoint from "../models/PlotPoint";
+import Immutable from "immutable";
+const {Map} = Immutable;
 
 describe("The plot points API", function () {
 
@@ -65,6 +67,32 @@ describe("The plot points API", function () {
 						})
 						.then((data) => {
 							expect(data).to.deep.equal({"error": {"validation": {"name": "is required"}}});
+						});
+			});
+		});
+		describe("PUT method", function () {
+			let beforePut = createPlotPoint("original plot point", currentUser._id);
+			beforeEach(() => PlotPoint.create(beforePut)
+					.then((created) => {
+						beforePut = created;
+					}));
+			it("should update a plot point", function () {
+				beforePut.name = "This is a changed name";
+				return client.put(`${url}/${beforePut.get("_id")}`, beforePut)
+						.then((response) => {
+							expect(response.status).to.be.equal(200);
+							return PlotPoint.findById(beforePut._id).exec();
+						})
+						.then((data) => {
+							expect(data.name).to.be.equal("This is a changed name");
+						});
+			});
+			it("should reject a plot point update with no name", function () {
+				beforePut.name = "";
+				return client.put(`${url}/${beforePut.get("_id")}`, beforePut)
+						.then((response) => {
+							expect(response.status).to.be.equal(400);
+
 						});
 			});
 		});

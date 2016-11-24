@@ -13,10 +13,14 @@ router.get("/", isAuthenticated, function (req, res) {
 
 });
 
+function isValid(plotPoint) {
+	return plotPoint.name;
+}
+
 router.post("/", isAuthenticated, function (req, res) {
 	let plotPoint  = req.body;
 	plotPoint.user = req.user._id;
-	if (plotPoint.name) {
+	if (isValid(plotPoint)) {
 		PlotPoint.create(plotPoint)
 				.then((plotPoint) => res.status(201).json(plotPoint).end())
 				.catch((error) => {
@@ -32,12 +36,16 @@ router.put("/:plotPointId", isAuthenticated, function (req, res) {
 	let plotPoint     = req.body;
 	let {plotPointId} = req.params;
 	plotPoint.user = req.user._id;
-	PlotPoint.findOneAndUpdate({_id: plotPointId}, plotPoint)
-			.exec()
-			.then((updated) => res.status(200).end())
-			.catch((error) => {
-				res.status(400).end();
-			});
+	if (isValid(plotPoint)) {
+		PlotPoint.findOneAndUpdate({_id: plotPointId}, plotPoint)
+				.exec()
+				.then((updated) => res.status(200).end())
+				.catch((error) => {
+					res.status(400).json(error).end();
+				});
+	} else {
+		res.status(400).json({"error": {"validation": {"name": "is required"}}}).end();
+	}
 });
 
 router.delete("/:plotPointId", isAuthenticated, function (req, res) {
