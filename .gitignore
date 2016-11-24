@@ -45,6 +45,7 @@ desktop.ini
 dist
 lib_managed
 lift_example
+**/node_modules
 null
 project/boot
 project/build/target

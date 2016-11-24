@@ -1,7 +1,0 @@
-{{#link-to 'chapters.add' class="btn btn-default"}}New Chapter{{/link-to}}	
-{{#each chapter in model}}
-	{{render "chapter.index" chapter}}
-	{{else}}
-	<p>There are no chapters.</p>
-{{/each}}
-{{outlet}}
