@@ -24,7 +24,7 @@ describe("The plot points API", function () {
 						plotPoint("second  unowned")]
 							.map((pp) => PlotPoint.create(pp)))
 					.then((responses) => responses.forEach((pp) => pp.user ? plotPoints.push(pp) : unownedPlotPoints.push(pp)))
-			);;;;;;;;;;;;;;;;;;;;;;;;;;;
+			);
 			it("returns a list of plot points for the user", function () {
 				return client.get(url)
 						.then((response) => {
