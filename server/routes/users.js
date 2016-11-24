@@ -1,40 +1,35 @@
-var express  = require('express');
-var passport = require('passport');
-var Account = require('../models/Account');
-var router   = express.Router();
+import Account from "../models/Account";
+import config from "../config";
+import express from "express";
+import jwt from "jsonwebtoken";
+import passport from "passport";
 
-/* GET users listing. */
-router.get('/', function (req, res) {
-	res.send('respond with a resource. Foo.');
-});
-
-router.post('/register', function (req, res) {
-	Account.register(new Account({username: req.body.username}), req.body.password, function (err, account) {
-		if (err) {
-			return res.json({error: err.message});
-		}
-
-		passport.authenticate('local')(req, res, function () {
-			req.session.save(function (err) {
+const router     = express.Router();
+const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+router.post("/", function (req, res) {
+	let {username, password} = req.body;
+	if (!emailRegex.test(username)) {
+		console.log(`User registration failed with username: ${username} because username is not a valid email address.`);
+		res.status(400).json({error: "Username must be an email"});
+	}
+	Account.register(
+			new Account({username}),
+			password,
+			function (err, user) {
 				if (err) {
-					return next(err);
+					console.log(`User registration failed with username: ${username} because ${err}`);
+					res.status(400).json({error: err.message}).end();
+				} else {
+					var token = jwt.sign(user, config.jwt.secret);
+					res.status(200).json({token: token});
 				}
-				res.json({id: account._id, username: account.username});
 			});
-		});
-	});
 });
 
-router.post('/login', passport.authenticate('local'), function (req, res) {
-	res.json({
-		username: req.user.username
-		, id: req.user._id
-	})
+router.post('/authenticate', passport.authenticate('local'), function (req, res) {
+	var token = jwt.sign(req.user, config.jwt.secret);
+	res.status(200).json({token: token});
 });
 
-router.get('/logout', function (req, res) {
-	req.logout();
-	res.status(200).end();
-});
 
-module.exports = router;
+export default router;

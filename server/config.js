@@ -3,7 +3,7 @@ import fs from "fs";
 class Config {
 
 	constructor() {
-		this._currentEnvironment = process.env.ENV || defaultEnvironment();
+		this._currentEnvironment = process.env.ENV || defaultEnvironment;
 		this._config             = {
 			server: {
 				port: 3000,
@@ -12,14 +12,14 @@ class Config {
 				logLevel: "dev"
 			},
 			mongoose: {
-				url: "mongodb://localhost/FlashCards"
+				url: "mongodb://localhost/swvtt"
 			},
 			jwt: {
-				secret: "this is an incredible secret.  the best secret in the world",
+				secret: "this is an incredible secret.  a big league secret. big league",
 				header: "x-access-token"
 			}
 		};
-		if (this._currentEnvironment !== defaultEnvironment()) {
+		if (this._currentEnvironment !== defaultEnvironment) {
 			_config = JSON.parse(fs.readFileSync(`config.${this.currentEnvironment}.json`, "utf8"));
 		}
 	}
@@ -45,30 +45,16 @@ class Config {
 const config = new Config();
 export default config;
 
-export function defaultEnvironment() {
-	return "default";
-}
+export const defaultEnvironment = "default";
 
-export function developmentEnvironment() {
-	return "dev";
-}
+export const developmentEnvironment = "dev";
 
-export function environments() {
-	return [Config.defaultEnvironment(), Config.localEnvironment(), Config.developmentEnvironment(), Config.qaEnvironment(), Config.qaEnvironment(), Config.stagingEnvironment(), Config.prodEnvironment()];
-}
+export const environments = [Config.defaultEnvironment, Config.localEnvironment, Config.developmentEnvironment, Config.qaEnvironment, Config.qaEnvironment, Config.stagingEnvironment, Config.prodEnvironment];
 
-export function localEnvironment() {
-	return "local";
-}
+export const localEnvironment = "local";
 
-export function prodEnvironment() {
-	return "prod";
-}
+export const prodEnvironment = "prod";
 
-export function qaEnvironment() {
-	return "qa";
-}
+export const qaEnvironment = "qa";
 
-export function stagingEnvironment() {
-	return "staging";
-}
+export const stagingEnvironment = "staging";

@@ -1,6 +1,6 @@
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import config from "./config";
+import config, {defaultEnvironment, developmentEnvironment, localEnvironment} from "./config";
 import express from "express";
 import logger from "morgan";
 import "./mongoose.config";
@@ -10,6 +10,8 @@ import index from "./routes/index";
 import users from "./routes/users";
 import auth from "./routes/auth";
 import plotPoints from "./routes/plotPoints";
+
+const environmentsToProduceStackTraceIn = [defaultEnvironment, developmentEnvironment, localEnvironment];
 
 const app = express();
 
@@ -25,7 +27,7 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/api/user', users);
-app.use('/auth', auth);
+app.use('/api/auth', auth);
 app.use('/api/plotPoints', plotPoints);
 
 app.use(function (req, res, next) {
@@ -34,7 +36,7 @@ app.use(function (req, res, next) {
 	next(err);
 });
 
-if (app.get('env') === 'development') {
+if (environmentsToProduceStackTraceIn.includes(config.currentEnvironment)) {
 	app.use(function (err, req, res) {
 		res.status(err.status || 500);
 		res.render('error', {
@@ -42,17 +44,15 @@ if (app.get('env') === 'development') {
 			error: err
 		});
 	});
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res) {
-	res.status(err.status || 500);
-	res.render('error', {
-		message: err.message,
-		error: {}
+} else {
+	app.use(function (err, req, res) {
+		res.status(err.status || 500);
+		res.render('error', {
+			message: err.message,
+			error: {}
+		});
 	});
-});
+}
 
 
 module.exports = app;
