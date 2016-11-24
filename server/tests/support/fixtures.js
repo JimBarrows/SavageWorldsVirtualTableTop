@@ -4,6 +4,8 @@ import bluebird from "bluebird";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiThings from "chai-things";
+import "../../mongoose.config";
+import PlotPoint from "../../models/PlotPoint";
 
 
 chai.use(chaiAsPromised);
@@ -24,7 +26,7 @@ export const hash = "0933f0cfbd7916d673c9d88ca9b1bd31c41705f7b22bf475bbebc178feb
 export const salt = "585f093614aabe59a9e418fa39d29f87069e6e1522ac0170762e4884717032fa";
 
 export function cleanDatabase() {
-	return Account.remove({});
+	return Promise.all([Account.remove({}), PlotPoint.remove({})]);
 }
 
 export function createAccount() {
@@ -46,12 +48,35 @@ export function authenticate(username, password) {
 				username, password
 			})
 			.then((response) => {
-
 				client.defaults.headers = {
-					cookie: response.headers['set-cookie'],
 					"x-access-token": response.data.token
 				};
 				return response;
 			});
 
+}
+
+export function startTestHouseKeeping() {
+	return cleanDatabase()
+			.then(() => createAccount())
+			.then(() => authenticate(user.username, user.password));
+}
+
+export function plotPoint(identifier) {
+	return {
+		name: `${identifier} Name`,
+		description: `${identifier} description`,
+		races: [],
+		skillDescriptions: [],
+		hindrances: [],
+		edges: [],
+		startingFund: [],
+		mundaneItems: [],
+		handWeapons: [],
+		armor: [],
+		rangedWeapons: [],
+		vehicleMountedAndAtGuns: [],
+		ammunition: [],
+		specialWeapons: []
+	}
 }

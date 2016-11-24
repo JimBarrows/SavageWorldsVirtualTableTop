@@ -8,7 +8,6 @@ import passport from "./passport.config";
 import path from "path";
 import index from "./routes/index";
 import users from "./routes/users";
-import auth from "./routes/auth";
 import plotPoints from "./routes/plotPoints";
 
 const environmentsToProduceStackTraceIn = [defaultEnvironment, developmentEnvironment, localEnvironment];
@@ -27,7 +26,6 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/api/user', users);
-app.use('/api/auth', auth);
 app.use('/api/plotPoints', plotPoints);
 
 app.use(function (req, res, next) {

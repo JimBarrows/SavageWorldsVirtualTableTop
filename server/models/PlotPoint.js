@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const Types  = mongoose.Schema.Types;
 
-const ranks = ['d4', 'd6', 'd8', 'd10', 'd12'];
+export const ranks = ['d4', 'd6', 'd8', 'd10', 'd12'];
 
-const attributes = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor'];
+export const attributes = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor'];
 
 const RaceAbility = new Schema({
 	name: Types.String,
