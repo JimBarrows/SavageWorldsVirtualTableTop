@@ -1,11 +1,13 @@
 import Account from "../../models/account";
+import config from "../../config";
 import axios from "axios";
 import bluebird from "bluebird";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiThings from "chai-things";
-import "../../mongoose.config";
+import jwt from "jsonwebtoken";
 import PlotPoint from "../../models/PlotPoint";
+import "../../mongoose.config";
 
 
 chai.use(chaiAsPromised);
@@ -51,18 +53,30 @@ export function authenticate(username, password) {
 				client.defaults.headers = {
 					"x-access-token": response.data.token
 				};
-				return response;
+				return response.data;
 			});
 
 }
 
-export function startTestHouseKeeping() {
-	return cleanDatabase()
-			.then(() => createAccount())
-			.then(() => authenticate(user.username, user.password));
-}
+export const startTestHouseKeeping = () => cleanDatabase()
+		.then(() => createAccount())
+		.then(() => authenticate(user.username, user.password))
+		.then((data) => decodeToken(data.token));
 
-export function plotPoint(identifier) {
+
+export function decodeToken(token) {
+	return new Promise(function (resolve, reject) {
+		jwt.verify(token, config.jwt.secret, function (err, decoded) {
+			if (err) {
+				reject(err);
+			} else {
+				// console.log(`token: ${token} user: ${decoded._doc}`);
+				resolve(decoded._doc);
+			}
+		});
+	});
+}
+export function plotPoint(identifier, id = null) {
 	return {
 		name: `${identifier} Name`,
 		description: `${identifier} description`,
@@ -70,13 +84,14 @@ export function plotPoint(identifier) {
 		skillDescriptions: [],
 		hindrances: [],
 		edges: [],
-		startingFund: [],
+		startingFund: 100,
 		mundaneItems: [],
 		handWeapons: [],
 		armor: [],
 		rangedWeapons: [],
 		vehicleMountedAndAtGuns: [],
 		ammunition: [],
-		specialWeapons: []
+		specialWeapons: [],
+		user: id
 	}
 }

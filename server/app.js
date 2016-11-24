@@ -6,9 +6,8 @@ import logger from "morgan";
 import "./mongoose.config";
 import passport from "./passport.config";
 import path from "path";
-import index from "./routes/index";
 import users from "./routes/users";
-import plotPoints from "./routes/plotPoints";
+import PlotPoints from "./routes/PlotPoints";
 
 const environmentsToProduceStackTraceIn = [defaultEnvironment, developmentEnvironment, localEnvironment];
 
@@ -24,15 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', index);
 app.use('/api/user', users);
-app.use('/api/plotPoints', plotPoints);
-
-app.use(function (req, res, next) {
-	const err  = new Error('Not Found');
-	err.status = 404;
-	next(err);
-});
+app.use('/api/plotpoints', PlotPoints);
 
 if (environmentsToProduceStackTraceIn.includes(config.currentEnvironment)) {
 	app.use(function (err, req, res) {
@@ -43,6 +35,12 @@ if (environmentsToProduceStackTraceIn.includes(config.currentEnvironment)) {
 		});
 	});
 } else {
+	app.use(function (req, res, next) {
+
+		const err  = new Error('Not Found');
+		err.status = 404;
+		next(err);
+	});
 	app.use(function (err, req, res) {
 		res.status(err.status || 500);
 		res.render('error', {

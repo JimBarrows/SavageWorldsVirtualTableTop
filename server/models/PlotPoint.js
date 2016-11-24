@@ -157,7 +157,7 @@ const PlotPoint      = new Schema({
 	handWeapons: [HandWeapon],
 	armor: [Armor],
 	rangedWeapons: [RangedWeapon],
-	creator: Types.ObjectId,
+	user: Types.ObjectId,
 	vehicleMountedAndAtGuns: [VehicleMountedAndAtGuns],
 	ammunition: [Ammo],
 	specialWeapons: [SpecialWeapons]

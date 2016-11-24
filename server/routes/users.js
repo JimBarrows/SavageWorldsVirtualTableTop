@@ -29,7 +29,6 @@ router.post("/", function (req, res) {
 });
 
 router.post('/authenticate', passport.authenticate('local'), function (req, res) {
-	console.log("authenticate");
 	var token = jwt.sign(req.user, config.jwt.secret);
 	res.status(200).json({token: token});
 });
