@@ -1,6 +1,7 @@
 import App from "./containers/layout";
 import axios from "axios";
 import {browserHistory, IndexRoute, Route, Router} from "react-router";
+import Login from "./containers/Login";
 import PlotPoints from "./containers/PlotPoints";
 import {Provider} from "react-redux";
 import React from "react";
@@ -27,6 +28,7 @@ ReactDOM.render(
 				<Route path="/" component={App}>
 					<IndexRoute component={PlotPoints}></IndexRoute>
 					<Route path="register" component={Register}/>
+					<Route path="login" component={Login}/>
 				</Route>
 			</Router>
 		</Provider>
