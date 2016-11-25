@@ -15,7 +15,7 @@ const initialState = {
 		name: "",
 		description: ""
 	}
-};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+};
 
 function app(state = initialState.app, action) {
 	switch (action.type) {
