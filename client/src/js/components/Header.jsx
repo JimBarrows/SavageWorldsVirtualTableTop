@@ -1,41 +1,20 @@
 import React from "react";
 import {Link} from "react-router";
-import UserStore from "../stores/UserStore";
-import {UserEventNames} from "../constants";
-import * as UserActions from "../actions/UserActions";
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 
 	constructor() {
 		super();
-		this.state         = {
+		this.state = {
 			collapsed: true
 			, username: null
 		};
-		this.userLoggedIn  = this.userLoggedIn.bind(this);
-		this.userLoggedOut = this.userLoggedOut.bind(this);
 	}
 
 	componentWillMount() {
-		UserStore.on(UserEventNames.USER_LOGGED_IN, this.userLoggedIn);
-		UserStore.on(UserEventNames.USER_LOGGED_OUT, this.userLoggedOut);
 	}
 
 	componentWillUnmount() {
-		UserStore.removeListener(UserEventNames.USER_LOGGED_IN, this.userLoggedIn);
-		UserStore.removeListener(UserEventNames.USER_LOGGED_OUT, this.userLoggedOut);
-	}
-
-	userLoggedIn() {
-		this.setState({
-			username: UserStore.user()
-		})
-	}
-
-	userLoggedOut() {
-		this.setState({
-			username: null
-		})
 	}
 
 	toggleCollapse() {
@@ -44,7 +23,6 @@ export default class Header extends React.Component {
 	}
 
 	logout() {
-		UserActions.logout();
 	}
 
 	render() {
@@ -98,3 +76,4 @@ export default class Header extends React.Component {
 		);
 	}
 }
+export default Header;

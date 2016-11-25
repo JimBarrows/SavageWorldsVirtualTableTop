@@ -1,7 +1,17 @@
-import React from "react";
+import Footer from "./Footer";
+import Header from "./Header";
 import {MESSAGE_CONTEXT} from "../constants";
+import React from "react";
+import {withRouter} from "react-router";
 
 class Layout extends React.Component {
+
+	constructor() {
+		super();
+		this.state = {
+			title: "Savage World Virtual Table Top"
+		};
+	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -33,13 +43,20 @@ class Layout extends React.Component {
 			message = <div class={`alert ${contextClass}`} role="alert">{app.message.message}</div>
 		}
 
+		const containerStyle = {
+			marginTop: "60px"
+		};
+		const {location}     = this.props;
+
 		return (
-				<div id="layout">
+				<div id="layout" class="container theme-showcase" role="main" style={containerStyle}>
+					<Header location={location} title={this.state.title}/>
 					{message}
 					{this.props.children}
+					<Footer/>
 				</div>
 		);
 	}
 }
 
-export default Layout;
+export default withRouter(Layout);
