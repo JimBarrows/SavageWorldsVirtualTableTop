@@ -6,8 +6,9 @@ import logger from "morgan";
 import "./mongoose.config";
 import passport from "./passport.config";
 import path from "path";
-import users from "./routes/users";
+import PlotPoint from "./routes/PlotPoint";
 import PlotPoints from "./routes/PlotPoints";
+import users from "./routes/users";
 
 const environmentsToProduceStackTraceIn = [defaultEnvironment, developmentEnvironment, localEnvironment];
 
@@ -24,6 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/user', users);
+app.use('/api/plotpoint', PlotPoint);
 app.use('/api/plotpoints', PlotPoints);
 
 if (environmentsToProduceStackTraceIn.includes(config.currentEnvironment)) {
