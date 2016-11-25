@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {API_RESULT, API_STATUS} from "../constants";
+import {API_RESULT, API_STATUS, DISPLAY_MESSAGE} from "../constants";
 
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
 		name: "",
 		description: ""
 	}
-};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+};
 
 function app(state = initialState.app, action) {
 	switch (action.type) {
