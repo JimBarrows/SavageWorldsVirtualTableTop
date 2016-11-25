@@ -14,7 +14,6 @@ const environmentsToProduceStackTraceIn = [defaultEnvironment, developmentEnviro
 
 const app = express();
 
-
 app.use(logger(config.server.logLevel));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -51,6 +50,5 @@ if (environmentsToProduceStackTraceIn.includes(config.currentEnvironment)) {
 		});
 	});
 }
-
 
 module.exports = app;

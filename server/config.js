@@ -20,7 +20,7 @@ class Config {
 			}
 		};
 		if (this._currentEnvironment !== defaultEnvironment) {
-			_config = JSON.parse(fs.readFileSync(`config.${this.currentEnvironment}.json`, "utf8"));
+			this._config = JSON.parse(fs.readFileSync(`config.${this.currentEnvironment}.json`, "utf8"));
 		}
 	}
 

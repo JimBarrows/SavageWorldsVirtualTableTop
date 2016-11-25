@@ -17,7 +17,8 @@
     "url" : "https://github.com/JimBarrows/SavageWorldsVirtualTableTop"
   },
   "scripts" : {
-    "start" : "nodemon --exec ./node_modules/.bin/babel-node --presets es2015,stage-2 ./bin/www",
+    "build:server" : "docker build -t swvtt_api .",
+    "start:server" : "docker run -d --name swvtt_api --link mongo:mongo -v \"$PWD\":/usr/src/app -p 3000:3000 swvtt_api",
     "test" : "mocha --compilers js:babel-core/register tests/*.spec.js"
   },
   "dependencies" : {
@@ -36,6 +37,7 @@
     "less-middleware" : "^2.2.0",
     "mongoose" : "^4.5.3",
     "morgan" : "~1.7.0",
+    "nodemon" : "^1.11.0",
     "passport" : "^0.3.2",
     "passport-local" : "^1.0.0",
     "passport-local-mongoose" : "^4.0.0",

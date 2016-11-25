@@ -1,0 +1,19 @@
+{
+ "server" : {
+	"port" : 3000,
+	"sessionKeys" : [
+	 "superDoubleSecretKey1",
+	 "superTripleSecrektKey2",
+	 "supercalifragilisticexpialidocious"
+	],
+	"viewEngine" : "pug",
+	"logLevel" : "dev"
+ },
+ "mongoose" : {
+	"url" : "mongodb://mongo/swvtt"
+ },
+ "jwt" : {
+	"secret" : "this is an incredible secret.  a big league secret. big league",
+	"header" : "x-access-token"
+ }
+}
