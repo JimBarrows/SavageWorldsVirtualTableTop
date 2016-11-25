@@ -67,7 +67,7 @@ export default class RaceEditor extends React.Component {
 									<small>
 										<bold>Cost:</bold>
 										<NumberFormGroup error={costError} id={"abilityCost" + index} onChange={this.onChange.bind(this)}
-										                 value={ability.cost}</NumberFormGroup>
+										                 value={ability.cost}/>
 								</small>
 							</h4>
 						{ability.description}

@@ -1,4 +1,3 @@
-'use strict';
 import {EventEmitter} from "events";
 import dispatcher from "../Dispatcher";
 import {PlotPointEvent} from "../constants";

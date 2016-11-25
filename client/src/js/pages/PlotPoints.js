@@ -5,7 +5,7 @@ import {PageHeader} from "bootstrap-react-components";
 import PlotPointStore from "../stores/PlotPointStore";
 import {PlotPointEvent} from "../constants";
 import * as Action from "../actions/PlotPointActions";
-import PlotPointTable from "../components/PlotPointTable";
+import PlotPointTable from "../components/PlotPointListPanel";
 
 
 class PlotPoints extends React.Component {

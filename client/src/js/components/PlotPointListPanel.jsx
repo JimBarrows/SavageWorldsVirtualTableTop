@@ -1,14 +1,12 @@
-'use strict';
 import React from "react";
 import {withRouter} from "react-router";
-import * as Action from "../actions/PlotPointActions";
 import {ListTablePanel, RowControlButtons} from "bootstrap-react-components";
 
 
-class PlotPointTable extends React.Component {
+class PlotPointListPanel extends React.Component {
 
 	add() {
-		Action.newPlotPoint();
+
 	}
 
 	constructor(props) {
@@ -16,11 +14,11 @@ class PlotPointTable extends React.Component {
 	}
 
 	edit(id) {
-		Action.editPlotPoint(id);
+
 	}
 
 	remove(plotPoint) {
-		Action.remove(plotPoint);
+
 	}
 
 	render() {
@@ -49,4 +47,4 @@ class PlotPointTable extends React.Component {
 		);
 	}
 }
-export default withRouter(PlotPointTable);
+export default withRouter(PlotPointListPanel);
