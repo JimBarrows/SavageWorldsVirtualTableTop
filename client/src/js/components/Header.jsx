@@ -11,12 +11,6 @@ class Header extends React.Component {
 		};
 	}
 
-	componentWillMount() {
-	}
-
-	componentWillUnmount() {
-	}
-
 	toggleCollapse() {
 		let collapsed = !this.state.collapsed;
 		this.setState({collapsed});

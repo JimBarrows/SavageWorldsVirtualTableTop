@@ -5,7 +5,9 @@ import PlotPoints from "./containers/PlotPoints";
 import {Provider} from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
+import Register from "./containers/Register";
 import store from "./Store";
+import {syncHistoryWithStore} from "react-router-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 
@@ -15,13 +17,16 @@ axios.create({
 	}
 });
 
+const history = syncHistoryWithStore(browserHistory, store);
+
 const app = document.getElementById('app');
 
 ReactDOM.render(
 		<Provider store={store}>
-			<Router history={browserHistory}>
+			<Router history={history}>
 				<Route path="/" component={App}>
 					<IndexRoute component={PlotPoints}></IndexRoute>
+					<Route path="register" component={Register}/>
 				</Route>
 			</Router>
 		</Provider>

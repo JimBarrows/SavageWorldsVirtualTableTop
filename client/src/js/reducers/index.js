@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
 import {API_RESULT, API_STATUS, DISPLAY_MESSAGE} from "../constants";
-
+import {routerReducer} from "react-router-redux";
 
 const initialState = {
 	app: {
@@ -10,10 +10,6 @@ const initialState = {
 			context: "",
 			message: ""
 		}
-	},
-	plotPoint: {
-		name: "",
-		description: ""
 	}
 };
 
@@ -68,7 +64,8 @@ function app(state = initialState.app, action) {
 }
 
 const reducer = combineReducers({
-	app
+	app,
+	routing: routerReducer
 });
 
 export default reducer;

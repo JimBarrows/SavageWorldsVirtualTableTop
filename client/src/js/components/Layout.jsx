@@ -2,7 +2,6 @@ import Footer from "./Footer";
 import Header from "./Header";
 import {MESSAGE_CONTEXT} from "../constants";
 import React from "react";
-import {withRouter} from "react-router";
 
 class Layout extends React.Component {
 
@@ -47,7 +46,6 @@ class Layout extends React.Component {
 			marginTop: "60px"
 		};
 		const {location}     = this.props;
-
 		return (
 				<div id="layout" class="container theme-showcase" role="main" style={containerStyle}>
 					<Header location={location} title={this.state.title}/>
@@ -59,4 +57,4 @@ class Layout extends React.Component {
 	}
 }
 
-export default withRouter(Layout);
+export default Layout;
