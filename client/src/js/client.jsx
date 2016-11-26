@@ -1,16 +1,16 @@
-import App from "./containers/layout";
 import axios from "axios";
+import {loginUserSuccess} from "./actions";
+import {requireAuthentication} from "./components/AuthenticationComponent";
+import Layout from "./components/layout";
+import Login from "./pages/Login";
+import PlotPoints from "./pages/PlotPointList";
+import Register from "./pages/Register";
+import store from "./Store";
 import {browserHistory, IndexRoute, Route, Router} from "react-router";
-import Login from "./containers/Login";
-import PlotPoints from "./containers/PlotPoints";
 import {Provider} from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import Register from "./containers/Register";
-import store from "./Store";
 import {syncHistoryWithStore} from "react-router-redux";
-import {loginUserSuccess} from "./actions";
-import {requireAuthentication} from "./components/AuthenticationComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 
@@ -27,7 +27,7 @@ const app = document.getElementById("app");
 ReactDOM.render(
 		<Provider store={store}>
 			<Router history={history}>
-				<Route path="/" component={App}>
+				<Route path="/" component={Layout}>
 					<IndexRoute component={requireAuthentication(PlotPoints)}></IndexRoute>
 					<Route path="register" component={Register}/>
 					<Route path="login" component={Login}/>

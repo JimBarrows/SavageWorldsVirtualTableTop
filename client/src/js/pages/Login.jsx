@@ -1,12 +1,14 @@
 import {PageHeader} from "bootstrap-react-components";
 import React from "react";
 import {push} from "react-router-redux";
+import {connect} from "react-redux";
 
 class Login extends React.Component {
 
 	login() {
 		this.props.dispatch(push("/register"));
 	}
+
 	render() {
 		return (
 				<div id="LoginPage">
@@ -18,5 +20,14 @@ class Login extends React.Component {
 		);
 	}
 }
+const mapStateToProps = (state) => {
+	return {};
+};
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		dispatch
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

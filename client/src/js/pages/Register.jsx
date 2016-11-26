@@ -1,5 +1,6 @@
 import {PageHeader} from "bootstrap-react-components";
 import React from "react";
+import {connect} from "react-redux";
 
 class Register extends React.Component {
 
@@ -14,4 +15,12 @@ class Register extends React.Component {
 	}
 }
 
-export default Register;
+const mapStateToProps = (state) => {
+	return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -1,9 +1,10 @@
 import React from "react";
 import {withRouter} from "react-router";
 import {ListTablePanel, RowControlButtons} from "bootstrap-react-components";
+import {connect} from "react-redux";
 
 
-class PlotPointListPanel extends React.Component {
+class PlotPointListPanelPanel extends React.Component {
 
 	add() {
 
@@ -47,4 +48,18 @@ class PlotPointListPanel extends React.Component {
 		);
 	}
 }
-export default withRouter(PlotPointListPanel);
+const mapStateToProps = (state) => {
+	return {
+		plotPoints: state.deckList ? state.deckList : []
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		add: (deck) => {
+			dispatch(deckAdd(deck));
+		}
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PlotPointListPanelPanel));

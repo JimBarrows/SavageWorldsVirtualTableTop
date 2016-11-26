@@ -2,6 +2,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import {MESSAGE_CONTEXT} from "../constants";
 import React from "react";
+import {connect} from "react-redux";
 
 class Layout extends React.Component {
 
@@ -57,4 +58,20 @@ class Layout extends React.Component {
 	}
 }
 
-export default Layout;
+const mapStateToProps = (state, ownProps) => {
+	return {
+		app: state.app,
+		location: ownProps.location,
+		isAuthenticated: state.user.isAuthenticated
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		registerRoute: () => {
+			dispatch(push("/register"));
+		}
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
