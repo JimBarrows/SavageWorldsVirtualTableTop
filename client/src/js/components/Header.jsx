@@ -20,17 +20,17 @@ class Header extends React.Component {
 	}
 
 	render() {
-		let {collapsed, username} = this.state;
-		const navClass            = collapsed ? "collapse" : "";
-		const {location}          = this.props;
-		const plotPointClass      = location.pathname === "/" ? "active" : "";
-		const registerClass       = location.pathname.match(/^\/register/) ? "active" : "";
-		const loginClass          = location.pathname.match(/^\/login/) ? "active" : "";
-		let UserComponent         = null;
-		if (username) {
+		let {collapsed}                 = this.state;
+		const navClass                  = collapsed ? "collapse" : "";
+		const {location, user}          = this.props;
+		const plotPointClass            = location.pathname === "/" ? "active" : "";
+		const registerClass             = location.pathname.match(/^\/register/) ? "active" : "";
+		const loginClass                = location.pathname.match(/^\/login/) ? "active" : "";
+		let UserComponent               = null;
+		if (user.isAuthenticated) {
 			UserComponent = (
 					<ul class="nav navbar-nav navbar-right">
-						<li><p class="navbar-text">{username}</p></li>
+						<li><p class="navbar-text">{user.username}</p></li>
 						<li><Link to="settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></Link></li>
 						<li>
 							<a onClick={this.logout.bind(this)}>
@@ -61,7 +61,8 @@ class Header extends React.Component {
 						</div>
 						<div id="navbar" class={"navbar-collapse " + navClass}>
 							<ul class="nav navbar-nav">
-								<li class={plotPointClass}><Link to="/">PlotPoints</Link></li>
+								{user.isAuthenticated ? <li class={plotPointClass}><Link to="/">PlotPoints</Link></li> : ""}
+
 							</ul>
 							{UserComponent}
 						</div>

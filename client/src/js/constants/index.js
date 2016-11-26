@@ -1,3 +1,3 @@
-export Application from "./Application";
-export PlotPoint from "./PlotPoint";
-export User from "./User";
+export * from "./Application";
+export * from "./PlotPoint";
+export * from "./User";

@@ -46,10 +46,10 @@ class Layout extends React.Component {
 		const containerStyle = {
 			marginTop: "60px"
 		};
-		const {location}     = this.props;
+		const {location, user}     = this.props;
 		return (
 				<div id="layout" class="container theme-showcase" role="main" style={containerStyle}>
-					<Header location={location} title={this.state.title}/>
+					<Header location={location} title={this.state.title} user={user}/>
 					{message}
 					{this.props.children}
 					<Footer/>
@@ -62,7 +62,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		app: state.app,
 		location: ownProps.location,
-		isAuthenticated: state.user.isAuthenticated
+		user: state.user
 	};
 };
 

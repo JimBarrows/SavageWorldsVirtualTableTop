@@ -1,7 +1,7 @@
 /**
  * Created by JimBarrows on 11/26/16.
  */
-import * as ActionTypes from "../constants";
+import {DISPLAY_MESSAGE, API_STATUS, API_RESULT} from "../constants";
 
 const initialState = {
 	isLoading: false,
@@ -13,9 +13,9 @@ const initialState = {
 };
 
 
-export function app(state = initialState.app, action) {
+export default function app(state = initialState, action) {
 	switch (action.type) {
-		case ActionTypes.Application.DISPLAY_MESSAGE :
+		case DISPLAY_MESSAGE :
 			return Object.assign({}, state, {
 				message: {
 					show: true,
@@ -56,7 +56,13 @@ export function app(state = initialState.app, action) {
 							}
 
 						});
+						break;
+					default:
+						return state;
 				}
+				break;
+			default:
+				return state;
 		}
 	} else {
 		return state;
