@@ -1,6 +1,7 @@
 import {combineReducers} from "redux";
 import {API_RESULT, API_STATUS, DISPLAY_MESSAGE} from "../constants";
-import {routerReducer} from "react-router-redux";
+import {routerReducer, LOCATION_CHANGE} from "react-router-redux";
+import User from "./User";
 
 const initialState = {
 	app: {
@@ -23,6 +24,9 @@ function app(state = initialState.app, action) {
 					message: action.message
 				}
 			});
+		case LOCATION_CHANGE:
+			console.log("Location change");
+			return state
 	}
 	if (action.status && action.result) {
 		switch (action.status) {
@@ -65,7 +69,8 @@ function app(state = initialState.app, action) {
 
 const reducer = combineReducers({
 	app,
-	routing: routerReducer
+	routing: routerReducer,
+	user: User
 });
 
 export default reducer;

@@ -6,7 +6,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-	return {};
+	return {
+		dispatch
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

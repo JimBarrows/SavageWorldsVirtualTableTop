@@ -1,4 +1,5 @@
 import * as PlotPoint from "./PlotPoint";
+import * as User from "./User";
 
 const API_RESULT = {
 	success: "SUCCESS",
@@ -25,5 +26,6 @@ export {
 	API_STATUS,
 	DISPLAY_MESSAGE,
 	MESSAGE_CONTEXT,
-	PlotPoint
+	PlotPoint,
+	User
 };

@@ -9,6 +9,8 @@ import ReactDOM from "react-dom";
 import Register from "./containers/Register";
 import store from "./Store";
 import {syncHistoryWithStore} from "react-router-redux";
+import {loginUserSuccess} from "./actions";
+import {requireAuthentication} from "./components/AuthenticationComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 
@@ -20,16 +22,21 @@ axios.create({
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const app = document.getElementById('app');
+const app = document.getElementById("app");
 
 ReactDOM.render(
 		<Provider store={store}>
 			<Router history={history}>
 				<Route path="/" component={App}>
-					<IndexRoute component={PlotPoints}></IndexRoute>
+					<IndexRoute component={requireAuthentication(PlotPoints)}></IndexRoute>
 					<Route path="register" component={Register}/>
 					<Route path="login" component={Login}/>
 				</Route>
 			</Router>
 		</Provider>
 		, app);
+
+let token = localStorage.getItem("token");
+if (token !== null) {
+	store.dispatch(loginUserSuccess(token));
+}

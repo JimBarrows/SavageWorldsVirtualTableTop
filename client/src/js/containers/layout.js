@@ -4,7 +4,8 @@ import Layout from "../components/Layout";
 const mapStateToProps = (state, ownProps) => {
 	return {
 		app: state.app,
-		location: ownProps.location
+		location: ownProps.location,
+		isAuthenticated: state.user.isAuthenticated
 	};
 };
 
