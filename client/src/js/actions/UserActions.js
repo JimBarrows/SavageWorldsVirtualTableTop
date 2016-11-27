@@ -1,47 +1,69 @@
 import axios from "axios";
-import {UserEventNames} from "../constants";
+import constants from "../constants";
+import {checkHttpStatus, parseJSON, convertErrorToString} from "../utils";
+import {push} from "react-router-redux";
 
-export function loginUserRequest() {
-	return {
-		type: LOGIN_USER_REQUEST
-	}
-}
+console.log("constants: ", constants);
+let {
+		    API_RESULT_SUCCESS,
+		    API_RESULT_FAILURE,
+		    API_STATUS_FINISHED,
+		    API_STATUS_STARTED,
+		    REGISTER_USER_BEGINS,
+		    REGISTER_USER_FAILURE,
+		    LOGIN_USER_SUCCESS
+    } = constants;
 
-export function registerUser(username, password) {
 
-	dispatcher.dispatch({
-		type: UserEventNames.REGISTER_USER_BEGINS
-		, username
-	});
+export function userRegister(username, password) {
+	return function (dispatch) {
 
-	axios.post("/api/user/register", {
-				username
-				, password
-			})
-			.then(function (response) {
-				if (response.data.error) {
-					dispatcher.dispatch({
-						type: UserEventNames.REGISTER_USER_FAILURE
-						, username
-						, error: {
-							data: response.data.error
-						}
-					})
-				} else {
-					dispatcher.dispatch({
-						type: UserEventNames.USER_LOGGED_IN
-						, username: response.data.username
-						, id: response.data.id
-					})
-				}
-			})
-			.catch(function (error) {
-				dispatcher.dispatch({
-					type: UserEventNames.REGISTER_USER_FAILURE
-					, username
-					, error
+		dispatch({
+			type: REGISTER_USER_BEGINS
+			, payload: {
+				status: API_STATUS_STARTED
+			}
+		});
+
+		axios.post("/api/user", {
+					username
+					, password
 				})
-			})
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then((data) => {
+					if (data.error) {
+						dispatch({
+							type: REGISTER_USER_FAILURE
+							, payload: {
+								status: API_STATUS_FINISHED,
+								result: API_RESULT_FAILURE,
+								error: convertErrorToString(response.data.error)
+							}
+						});
+					} else {
+						dispatch({
+							type: LOGIN_USER_SUCCESS,
+							payload: {
+								token: data.token,
+								status: API_STATUS_FINISHED,
+								result: API_RESULT_SUCCESS,
+							}
+						});
+						dispatch(push("/"));
+					}
+				})
+				.catch(function (error) {
+					dispatch({
+						type: REGISTER_USER_FAILURE
+						, payload: {
+							status: API_STATUS_FINISHED,
+							result: API_RESULT_FAILURE,
+							error: convertErrorToString(error)
+						}
+					});
+				})
+	}
 }
 
 export function login(username, password, redirect = "/") {

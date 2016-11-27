@@ -1,23 +1,16 @@
 /**
  * Created by JimBarrows on 11/26/16.
  */
+import {createConstants} from "../utils";
 
-export const API_RESULT = {
-	success: "SUCCESS",
-	error: "ERROR",
-	timeout: "TIMEOUT"
-};
-
-export const API_STATUS = {
-	started: "STARTED",
-	finished: "FINISHED"
-};
-
-export const MESSAGE_CONTEXT = {
-	danger: "DANGER",
-	info: "INFO",
-	success: "SUCCESS",
-	warning: "WARNING"
-};
-
-export const DISPLAY_MESSAGE = "DISPLAY_MESSAGE";
+export default createConstants(
+		"API_RESULT_SUCCESS",
+		"API_RESULT_FAILURE",
+		"API_STATUS_STARTED",
+		"API_STATUS_FINISHED",
+		"DISPLAY_MESSAGE",
+		"MESSAGE_CONTEXT_DANGER",
+		"MESSAGE_CONTEXT_INFO",
+		"MESSAGE_CONTEXT_SUCCESS",
+		"MESSAGE_CONTEXT_WARNING"
+);

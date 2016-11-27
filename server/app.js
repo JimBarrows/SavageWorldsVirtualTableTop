@@ -27,28 +27,5 @@ app.use('/api/user', users);
 app.use('/api/plotpoint', PlotPoint);
 app.use('/api/plotpoints', PlotPoints);
 
-if (environmentsToProduceStackTraceIn.includes(config.currentEnvironment)) {
-	app.use(function (err, req, res) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
-		});
-	});
-} else {
-	app.use(function (req, res, next) {
-
-		const err  = new Error('Not Found');
-		err.status = 404;
-		next(err);
-	});
-	app.use(function (err, req, res) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: {}
-		});
-	});
-}
 
 module.exports = app;

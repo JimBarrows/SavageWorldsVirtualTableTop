@@ -11,7 +11,7 @@ router.post("/", function (req, res) {
 	let {username, password} = req.body;
 	if (!emailRegex.test(username)) {
 		console.log(`User registration failed with username: ${username} because username is not a valid email address.`);
-		res.status(400).json({error: "Username must be an email"});
+		res.status(400).json({error: {"username": "Username must be an email"}});
 		return;
 	}
 	Account.register(
@@ -20,7 +20,7 @@ router.post("/", function (req, res) {
 			function (err, user) {
 				if (err) {
 					console.log(`User registration failed with username: ${username} because ${err}`);
-					res.status(400).json({error: err.message}).end();
+					res.status(400).json({error: {"username": err.message}}).end();
 				} else {
 					var token = jwt.sign(user, config.jwt.secret);
 					res.status(200).json({token: token});

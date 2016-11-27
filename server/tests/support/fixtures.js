@@ -1,4 +1,5 @@
 import Account from "../../models/account";
+import PlotPoint from "../../models/PlotPoint";
 import config from "../../config";
 import axios from "axios";
 import bluebird from "bluebird";
@@ -6,7 +7,6 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiThings from "chai-things";
 import jwt from "jsonwebtoken";
-import PlotPoint from "../../models/PlotPoint";
 import "../../mongoose.config";
 
 

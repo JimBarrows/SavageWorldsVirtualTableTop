@@ -1,7 +1,7 @@
 /**
  * Created by JimBarrows on 11/26/16.
  */
-import {DISPLAY_MESSAGE, API_STATUS, API_RESULT} from "../constants";
+import constants from "../constants";
 
 const initialState = {
 	isLoading: false,
@@ -12,6 +12,14 @@ const initialState = {
 	}
 };
 
+let {
+		    API_RESULT_FAILURE,
+		    API_RESULT_SUCCESS,
+		    API_STATUS_FINISHED,
+		    API_STATUS_STARTED,
+		    DISPLAY_MESSAGE,
+		    MESSAGE_CONTEXT_DANGER
+    } = constants;
 
 export default function app(state = initialState, action) {
 	switch (action.type) {
@@ -19,52 +27,45 @@ export default function app(state = initialState, action) {
 			return Object.assign({}, state, {
 				message: {
 					show: true,
-					context: action.context,
-					message: action.message
+					context: action.payload.context,
+					message: action.payload.message
 				}
 			});
-	}
-	if (action.status && action.result) {
-		switch (action.status) {
-			case API_STATUS.started :
-				return Object.assign({}, state, {
-					isLoading: true
-				});
-			case API_STATUS.finished:
-				switch (action.result) {
-					case API_RESULT.success :
+		default:
+			if (action.payload && action.payload.status && action.payload.result) {
+				switch (action.payload.status) {
+					case API_STATUS_STARTED :
 						return Object.assign({}, state, {
-							isLoading: false,
-							message: initialState.app.message
+							isLoading: true
 						});
-					case API_RESULT.error:
-						return Object.assign({}, state, {
-							isLoading: false,
-							message: {
-								show: true,
-								context: MESSAGE_CONTEXT.danger,
-								message: action.error
-							}
-						});
-					case API_RESULT.timeout:
-						return Object.assign({}, state, {
-							isLoading: false,
-							message: {
-								show: true,
-								context: MESSAGE_CONTEXT.danger,
-								message: action.error || "Could not retrieve data in time, please try again"
-							}
-
-						});
+					case API_STATUS_FINISHED:
+						switch (action.payload.result) {
+							case API_RESULT_SUCCESS :
+								return Object.assign({}, state, {
+									isLoading: false,
+									message: initialState.message
+								});
+							case API_RESULT_FAILURE:
+								return Object.assign({}, state, {
+									isLoading: false,
+									message: {
+										show: true,
+										context: MESSAGE_CONTEXT_DANGER,
+										message: action.payload.error
+									}
+								});
+								break;
+							default:
+								return state;
+						}
 						break;
 					default:
 						return state;
 				}
-				break;
-			default:
+			}
+			else {
 				return state;
-		}
-	} else {
-		return state;
+			}
 	}
+	return state;
 }

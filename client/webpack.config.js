@@ -40,7 +40,10 @@ module.exports = {
 					plugins: ["react-html-attrs", "transform-class-properties", "transform-decorators-legacy"]
 				}
 			}
-			, {test: /\.css$/, loader: "style-loader!css-loader"}
+			, {
+				test: /\.css$/,
+				loader: "style!css"
+			}
 			, {
 				test: /\.(ttf|eot|svg|woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
 				loader: "url"

@@ -1,9 +1,10 @@
 import Footer from "./Footer";
 import Header from "./Header";
-import {MESSAGE_CONTEXT} from "../constants";
+import constants from "../constants";
 import React from "react";
 import {connect} from "react-redux";
 
+let {MESSAGE_CONTEXT_DANGER, MESSAGE_CONTEXT_INFO, MESSAGE_CONTEXT_SUCCESS, MESSAGE_CONTEXT_WARNING} = constants;
 class Layout extends React.Component {
 
 	constructor() {
@@ -24,16 +25,16 @@ class Layout extends React.Component {
 		let message      = "";
 		let contextClass = "alert-info";
 		switch (app.message.context) {
-			case MESSAGE_CONTEXT.danger:
+			case MESSAGE_CONTEXT_DANGER:
 				contextClass = "alert-danger";
 				break;
-			case MESSAGE_CONTEXT.info:
+			case MESSAGE_CONTEXT_INFO:
 				contextClass = "alert-info";
 				break;
-			case MESSAGE_CONTEXT.success:
+			case MESSAGE_CONTEXT_SUCCESS:
 				contextClass = "alert-success";
 				break;
-			case MESSAGE_CONTEXT.warning:
+			case MESSAGE_CONTEXT_WARNING:
 				contextClass = "alert-warning";
 				break;
 			default:

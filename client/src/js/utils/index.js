@@ -8,7 +8,9 @@ export function createConstants(...constants) {
 }
 
 export function createReducer(initialState, reducerMap) {
+	console.log("creating reducer");
 	return (state = initialState, action) => {
+		console.log("reducer: ", state, " ", action);
 		const reducer = reducerMap[action.type];
 
 		return reducer
@@ -28,5 +30,21 @@ export function checkHttpStatus(response) {
 }
 
 export function parseJSON(response) {
-	return response.json()
+	return response.data
+}
+
+export function convertErrorToString(error) {
+	if (error.response) {
+		if (error.response.status === 400) {
+			let errorMessage = '';
+			for (var k in error.response.data.error) {
+				errorMessage += `The ${k} field ${error.response.data.error[k]}`;
+			}
+			return errorMessage;
+		} else {
+			return `The ${error.response.config.method} request to ${error.response.config.url} returned a ${error.response.status} - ${error.response.statusText}`;
+		}
+	} else {
+		return error.toString();
+	}
 }

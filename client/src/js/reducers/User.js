@@ -1,5 +1,5 @@
 import {createReducer} from "../utils";
-import {LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER} from "../constants";
+import constants from "../constants";
 import jwtDecode from "jwt-decode";
 
 const initialState = {
@@ -10,6 +10,8 @@ const initialState = {
 	statusText: null
 };
 
+let {LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER} = constants;
+
 export default createReducer(initialState, {
 	[LOGIN_USER_REQUEST]: (state, payload) => {
 		return Object.assign({}, state, {
@@ -18,6 +20,7 @@ export default createReducer(initialState, {
 		});
 	},
 	[LOGIN_USER_SUCCESS]: (state, payload) => {
+		console.log("SUCCESS");
 		return Object.assign({}, state, {
 			'isAuthenticating': false,
 			'isAuthenticated': true,
