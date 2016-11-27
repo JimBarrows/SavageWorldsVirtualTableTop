@@ -10,7 +10,7 @@ import {browserHistory, IndexRoute, Route, Router} from "react-router";
 import {Provider} from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import {syncHistoryWithStore} from "react-router-redux";
+import {syncHistoryWithStore, push} from "react-router-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 
@@ -39,4 +39,5 @@ ReactDOM.render(
 let token = localStorage.getItem("token");
 if (token !== null) {
 	store.dispatch(loginUserSuccess(token));
+	store.dispatch(push("/"));
 }

@@ -20,7 +20,6 @@ export default createReducer(initialState, {
 		});
 	},
 	[LOGIN_USER_SUCCESS]: (state, payload) => {
-		console.log("SUCCESS");
 		return Object.assign({}, state, {
 			'isAuthenticating': false,
 			'isAuthenticated': true,
