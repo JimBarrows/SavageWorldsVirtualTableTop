@@ -8,9 +8,7 @@ export function createConstants(...constants) {
 }
 
 export function createReducer(initialState, reducerMap) {
-	console.log("creating reducer");
 	return (state = initialState, action) => {
-		console.log("reducer: ", state, " ", action);
 		const reducer = reducerMap[action.type];
 
 		return reducer

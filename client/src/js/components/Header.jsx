@@ -17,6 +17,7 @@ class Header extends React.Component {
 	}
 
 	logout() {
+		this.props.logout();
 	}
 
 	render() {

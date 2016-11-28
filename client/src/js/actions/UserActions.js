@@ -11,7 +11,9 @@ let {
 		    REGISTER_USER_BEGINS,
 		    REGISTER_USER_FAILURE,
 		    LOGIN_USER_BEGINS,
-		    LOGIN_USER_SUCCESS
+		    LOGIN_USER_SUCCESS,
+		    USER_LOGGED_OUT,
+		    USER_LOGOUT_FAILURE
     } = constants;
 
 
@@ -108,18 +110,26 @@ export function userLogin(username, password, redirect = "/") {
 }
 
 export function logout() {
-	axios.get("/api/user/logout")
-			.then(function (response) {
-				dispatcher.dispatch({
-					type: UserEventNames.USER_LOGGED_OUT
-				});
-			})
-			.catch(function (error) {
-				dispatcher.dispatch({
-					type: UserEventNames.USER_LOGOUT_FAILURE
-					, error: error.data
+	return function (dispatch) {
+		axios.get("/api/user/logout")
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then(function (data) {
+					dispatch({
+						type: USER_LOGGED_OUT
+					});
 				})
-			})
+				.catch(function (error) {
+					dispatch({
+						type: USER_LOGOUT_FAILURE
+						, payload: {
+							status: API_STATUS_FINISHED,
+							result: API_RESULT_FAILURE,
+							error: convertErrorToString(error)
+						}
+					});
+				});
+	}
 }
 
 export function loginUserSuccess(token) {

@@ -3,6 +3,7 @@ import Header from "./Header";
 import constants from "../constants";
 import React from "react";
 import {connect} from "react-redux";
+import {logout} from "../actions";
 
 let {MESSAGE_CONTEXT_DANGER, MESSAGE_CONTEXT_INFO, MESSAGE_CONTEXT_SUCCESS, MESSAGE_CONTEXT_WARNING} = constants;
 class Layout extends React.Component {
@@ -21,9 +22,9 @@ class Layout extends React.Component {
 	}
 
 	render() {
-		let {app}        =this.props;
-		let message      = "";
-		let contextClass = "alert-info";
+		let {app, logout}        =this.props;
+		let message              = "";
+		let contextClass         = "alert-info";
 		switch (app.message.context) {
 			case MESSAGE_CONTEXT_DANGER:
 				contextClass = "alert-danger";
@@ -50,7 +51,7 @@ class Layout extends React.Component {
 		const {location, user}     = this.props;
 		return (
 				<div id="layout" class="container theme-showcase" role="main" style={containerStyle}>
-					<Header location={location} title={this.state.title} user={user}/>
+					<Header location={location} title={this.state.title} user={user} logout={logout.bind(this)}/>
 					{message}
 					{this.props.children}
 					<Footer/>
@@ -69,8 +70,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		registerRoute: () => {
-			dispatch(push("/register"));
+		logout: () => {
+			dispatch(logout());
 		}
 	};
 };

@@ -3,6 +3,7 @@ import config from "../config";
 import express from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import isAuthenticated from "../authentication";
 
 const router     = express.Router();
 const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -32,6 +33,11 @@ router.post('/authenticate', passport.authenticate('local'), function (req, res)
 	var token = jwt.sign(req.user, config.jwt.secret);
 	res.status(200).json({token: token});
 });
+
+router.get("/logout", isAuthenticated, function (req, res) {
+	req.logout();
+	res.status(200).end();
+});;;;;;;;;;;;;;;;;;;;;
 
 
 export default router;
