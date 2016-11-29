@@ -1,25 +1,28 @@
 import React from "react";
-import {withRouter} from "react-router";
 import {ListTablePanel, RowControlButtons} from "bootstrap-react-components";
 import {connect} from "react-redux";
-
+import {push} from "react-router-redux";
+import {load, remove} from "../actions/PlotPointActions";
 
 class PlotPointListPanelPanel extends React.Component {
 
-	add() {
-
+	create() {
+		this.props.create();
 	}
 
+	componentWillMount() {
+		this.props.load();
+	}
 	constructor(props) {
 		super(props);
 	}
 
-	edit(id) {
-
+	update(id) {
+		this.props.update(id);
 	}
 
 	remove(plotPoint) {
-
+		this.props.remove(plotPoint);
 	}
 
 	render() {
@@ -29,13 +32,13 @@ class PlotPointListPanelPanel extends React.Component {
 			return <tr key={index}>
 				<td>{plotPoint.name}</td>
 				<td>
-					<RowControlButtons id={plotPoint.name} edit={this.edit.bind(this, plotPoint._id)}
+					<RowControlButtons id={plotPoint.name} edit={this.update.bind(this, plotPoint._id)}
 					                   remove={this.remove.bind(this, plotPoint)}/>
 				</td>
 			</tr>
 		});
 		return (
-				<ListTablePanel id="plotPointTable" title="Plot Points" onAddClick={this.add.bind(this)}>
+				<ListTablePanel id="plotPointTable" title="Plot Points" onAddClick={this.create.bind(this)}>
 					<thead>
 					<tr>
 						<th>Name</th>
@@ -48,18 +51,20 @@ class PlotPointListPanelPanel extends React.Component {
 		);
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
-		plotPoints: state.deckList ? state.deckList : []
+		plotPoints: state.PlotPoints.plotPoints
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		add: (deck) => {
-			dispatch(deckAdd(deck));
-		}
+		create: () => dispatch(push("/plotPoints/add")),
+		update: (plotPointId) => dispatch(push(`/plotPoint/${plotPointId}/edit`)),
+		load: () => dispatch(load()),
+		remove: (plotPoint) => dispatch(remove(plotPoint))
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PlotPointListPanelPanel));
+export default connect(mapStateToProps, mapDispatchToProps)(PlotPointListPanelPanel);

@@ -93,6 +93,9 @@ export function userLogin(username, password, redirect = "/") {
 							result: API_RESULT_SUCCESS,
 						}
 					});
+					axios.defaults.headers = {
+						"x-access-token": data.token
+					};
 					localStorage.setItem('token', data.token);
 					dispatch(push("/"));
 				})
@@ -115,9 +118,14 @@ export function logout() {
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(function (data) {
+					axios.defaults.headers = {
+						"x-access-token": ""
+					};
+					localStorage.removeItem('token');
 					dispatch({
 						type: USER_LOGGED_OUT
 					});
+					store.dispatch(push("/"));
 				})
 				.catch(function (error) {
 					dispatch({
@@ -134,6 +142,9 @@ export function logout() {
 
 export function loginUserSuccess(token) {
 	localStorage.setItem('token', token);
+	axios.defaults.headers = {
+		"x-access-token": token
+	};
 	return {
 		type: LOGIN_USER_SUCCESS,
 		payload: {

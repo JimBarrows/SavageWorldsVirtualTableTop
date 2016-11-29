@@ -1,26 +1,26 @@
 'use strict';
 import React from "react";
-import RaceList from "../components/RaceList";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-import PlotPointStore from "../stores/PlotPointStore";
 
-export default class PlotPointForm extends React.Component {
+class PlotPointForm extends React.Component {
 
 	cancel(event) {
 		event.preventDefault();
 		this.props.onCancel();
 	}
 
-	constructor(props) {
-		super(props);
-		let {_id, description, name, races} = PlotPointStore.current;
-		this.state                          = {
-			_id,
-			description,
-			error: null,
-			name,
-			races
-		};
+	componentWillMount() {
+		let {name = "", description = "", _id = ""}  = this.props;
+		this.setState({
+			name, description, _id
+		});
+	}
+
+	componentWillReceiveProps(nextProps) {
+		let {name = "", description = "", _id = ""}  = nextProps;
+		this.setState({
+			name, description, _id
+		});
 	}
 
 	descriptionChange(event) {
@@ -36,7 +36,7 @@ export default class PlotPointForm extends React.Component {
 	}
 
 	render() {
-		let {name, description, races, error} = this.state;
+		let {name, description, error} = this.state;
 		return (
 				<form id="plotPointForm">
 					<DangerAlert error={error}/>
@@ -49,7 +49,6 @@ export default class PlotPointForm extends React.Component {
 					/>
 					<TextAreaFormGroup label="Description" id="description"
 					                   onChange={this.descriptionChange.bind(this)} value={description}/>
-					<RaceList races={races}/>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
@@ -61,3 +60,4 @@ export default class PlotPointForm extends React.Component {
 		this.props.onSubmit(this.state);
 	}
 }
+export default PlotPointForm;

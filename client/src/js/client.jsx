@@ -13,7 +13,8 @@ import ReactDOM from "react-dom";
 import {syncHistoryWithStore, push} from "react-router-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
-
+import AddPlotPoint from "./pages/AddPlotPoint";
+import UpdatePlotPoint from "./pages/UpdatePlotPoint";
 axios.create({
 	validateStatus: function (status) {
 		return status < 300;
@@ -31,6 +32,14 @@ ReactDOM.render(
 					<IndexRoute component={requireAuthentication(PlotPoints)}></IndexRoute>
 					<Route path="register" component={Register}/>
 					<Route path="login" component={Login}/>
+					<Route path="plotPoint">
+						<Route path=":plotPointId">
+							<Route path="edit" component={requireAuthentication(UpdatePlotPoint)}/>
+						</Route>
+					</Route>
+					<Route path="plotPoints">
+						<Route path="add" component={requireAuthentication(AddPlotPoint)}/>
+					</Route>
 				</Route>
 			</Router>
 		</Provider>
@@ -40,4 +49,7 @@ let token = localStorage.getItem("token");
 if (token !== null) {
 	store.dispatch(loginUserSuccess(token));
 	store.dispatch(push("/"));
+	axios.defaults.headers = {
+		"x-access-token": token
+	};
 }

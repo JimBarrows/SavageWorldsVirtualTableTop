@@ -1,10 +1,18 @@
 /**
  * Created by JimBarrows on 7/9/16.
  */
-'use strict';
+import axios from "axios";
+import constants from "../constants";
+import {push} from "react-router-redux";
+import {checkHttpStatus, parseJSON, convertErrorToString} from "../utils";
 
-import {PlotPointEvent} from "../constants";
-// import PlotPointStore from "../stores/PlotPointStore";
+
+let {
+		    API_STATUS_FINISHED, API_RESULT_FAILURE, API_RESULT_SUCCESS, API_STATUS_STARTED,
+		    PLOT_POINT_DELETE_BEGIN, PLOT_POINT_DELETE_SUCCESS, PLOT_POINT_DELETE_FAILURE, PLOT_POINT_NEW, PLOT_POINT_UPDATE_FAILURE, PLOT_POINT_UPDATE_BEGIN, PLOT_POINT_UPDATE_SUCCESS, PLOT_POINT_EDIT,
+		    PLOT_POINT_NOT_FOUND, PLOT_POINTS_LOAD_FAILURE, PLOT_POINTS_LOAD_SUCCESS, PLOT_POINTS_LOAD_BEGIN,
+		    PLOT_POINT_ADD_BEGIN, PLOT_POINT_ADD_SUCCESS, PLOT_POINT_ADD_FAILURE
+    } = constants;
 
 export function addRace(race) {
 	// let plotPoint = PlotPointStore.current;
@@ -16,78 +24,144 @@ export function addRace(race) {
 }
 
 export function create(plotPoint) {
-	// delete plotPoint._id;
-	// axios.post('/api/plotPoints', plotPoint)
-	// 		.then((response) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.SAVE_SUCCESS,
-	// 			plotPoint: response.data
-	// 		}))
-	// 		.catch((error) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.SAVE_SUCCESS,
-	// 			error
-	// 		}));
-}
+	return function (dispatch) {
+		delete plotPoint._id;
+		dispatch({
+			type: PLOT_POINT_ADD_BEGIN,
+			payload: {
+				status: API_STATUS_STARTED
+			}
+		});
 
-export function editPlotPoint(id) {
-	let plotPoint = PlotPointStore.findById(id);
-	if (plotPoint) {
-		// dispatcher.dispatch({
-		// 	type: PlotPointEvent.EDIT,
-		// 	plotPoint
-		// })
-	} else {
-		// dispatcher.dispatch({
-		// 	type: PlotPointEvent.NOT_FOUND,
-		// 	id
-		// })
+		axios.post('/api/plotPoints', plotPoint)
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then((data) => dispatch({
+					type: PLOT_POINT_ADD_SUCCESS,
+					payload: {
+						status: API_STATUS_FINISHED,
+						result: API_RESULT_SUCCESS, plotPoint: data
+					}
+				}))
+				.then(() => dispatch(push("/")))
+				.catch((error) => dispatch({
+					type: PLOT_POINT_ADD_FAILURE,
+					payload: {
+						status: API_STATUS_FINISHED,
+						result: API_RESULT_FAILURE,
+						error: convertErrorToString(error)
+					}
+				}));
 	}
 
 }
 
+export function loadPlotPoint(id) {
+	return (dispatch, state) => {
+		let plotPoint = state().PlotPoints.plotPoints.find((pp) => id === pp._id);
+		if (plotPoint) {
+			dispatch({
+				type: PLOT_POINT_EDIT,
+				payload: {
+					plotPoint
+				}
+			})
+		} else {
+			dispatch({
+				type: PLOT_POINT_NOT_FOUND,
+				payload: {id}
+			})
+		}
+	}
+}
+
 export function load() {
-	// axios.get('/api/plotPoints')
-	// 		.then((response) =>
-	// 				dispatcher.dispatch({
-	// 					type: PlotPointEvent.LOAD_SUCCESS,
-	// 					plotPoints: response.data
-	// 				})
-	// 		)
-	// 		.catch((error) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.LOAD_FAILURE,
-	// 			error: error
-	// 		}));
+	return function (dispatch) {
+
+		dispatch({
+			type: PLOT_POINTS_LOAD_BEGIN,
+			payload: {
+				status: API_STATUS_STARTED
+			}
+		});
+
+		axios.get('/api/plotPoints')
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then((data) =>
+						dispatch({
+							type: PLOT_POINTS_LOAD_SUCCESS,
+							payload: {
+								plotPoints: data,
+								status: API_STATUS_FINISHED,
+								result: API_RESULT_SUCCESS
+							}
+						}))
+				.catch((error) =>
+						dispatch({
+							type: PLOT_POINTS_LOAD_FAILURE,
+							payload: {
+								status: API_STATUS_FINISHED,
+								result: API_RESULT_FAILURE,
+								error: convertErrorToString(error)
+							}
+						}));
+	}
 }
 
 export function newPlotPoint() {
-	let plotPoint = {
-		name: "",
-		description: "",
-		races: [{
-			name: "Human",
-			description: "Human!",
-			abilities: [{
-				name: "Extra Edge",
-				description: "Get one extra edge",
-				cost: 2
+	return function (dispatch) {
+		let plotPoint = {
+			name: "",
+			description: "",
+			races: [{
+				name: "Human",
+				description: "Human!",
+				abilities: [{
+					name: "Extra Edge",
+					description: "Get one extra edge",
+					cost: 2
+				}]
 			}]
-		}]
-	};
-	// dispatcher.dispatch({
-	// 	type: PlotPointEvent.NEW,
-	// 	plotPoint
-	// });
+		};
+		dispatch({
+			type: PLOT_POINT_NEW,
+			payload: {plotPoint}
+		});
+	}
+
 }
 
 export function remove(plotPoint) {
-	// axios.delete('/api/plotPoints/' + plotPoint._id)
-	// 		.then((response) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.REMOVE_SUCCESS,
-	// 			plotPoint: plotPoint
-	// 		}))
-	// 		.catch((error) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.REMOVE_FAILURE,
-	// 			error: error.status
-	// 		}));
+	return function (dispatch, state) {
+		dispatch({
+			type: PLOT_POINT_DELETE_BEGIN,
+			payload: {
+				status: API_STATUS_STARTED
+			}
+		});
+		axios.delete('/api/plotPoint/' + plotPoint._id)
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then((data) => dispatch({
+					type: PLOT_POINT_DELETE_SUCCESS,
+					payload: {
+						status: API_STATUS_FINISHED,
+						result: API_RESULT_SUCCESS,
+						plotPoint: plotPoint
+					}
+				}))
+				.then(() => dispatch(push("/")))
+				.catch((error) => dispatch({
+					type: PLOT_POINT_DELETE_FAILURE,
+					payload: {
+						status: API_STATUS_FINISHED,
+						result: API_RESULT_FAILURE,
+						error: convertErrorToString(error)
+					}
+				}));
+	}
+
 }
 
 export function removeRace(race) {
@@ -105,13 +179,33 @@ export function updateRace(race) {
 }
 
 export function update(plotPoint) {
-	// axios.put('/api/plotPoints/' + plotPoint._id, plotPoint)
-	// 		.then((response) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.SAVE_SUCCESS,
-	// 			plotPoint: response.data
-	// 		}))
-	// 		.catch((error) => dispatcher.dispatch({
-	// 			type: PlotPointEvent.SAVE_SUCCESS,
-	// 			error: error.status
-	// 		}));
+	return (dispatch) => {
+		dispatch({
+			type: PLOT_POINT_UPDATE_BEGIN,
+			payload: {
+				status: API_STATUS_STARTED
+			}
+		});
+		axios.put('/api/plotPoint/' + plotPoint._id, plotPoint)
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then((data) => dispatch({
+					type: PLOT_POINT_UPDATE_SUCCESS,
+					payload: {
+						status: API_STATUS_FINISHED,
+						result: API_RESULT_SUCCESS,
+						plotPoint: plotPoint
+					}
+				}))
+				.then(() => dispatch(push("/")))
+				.catch((error) => dispatch({
+					type: PLOT_POINT_UPDATE_FAILURE,
+					payload: {
+						status: API_STATUS_FINISHED,
+						result: API_RESULT_FAILURE,
+						error: convertErrorToString(error)
+					}
+				}));
+	}
+
 }
