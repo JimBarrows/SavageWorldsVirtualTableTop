@@ -3,6 +3,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {loadPlotPoint, update} from "../actions/PlotPointActions";
 import PlotPointForm from "../components/PlotPointForm";
+import {push} from "react-router-redux";
 
 class UpdatePlotPoint extends React.Component {
 
@@ -30,7 +31,8 @@ class UpdatePlotPoint extends React.Component {
 						<h1>Update Plot Point</h1>
 					</PageHeader>
 					<PlotPointForm plotPoint={this.state.plotPoint}
-					               onSubmit={this.props.save.bind(this)}/>
+					               onSubmit={this.props.save.bind(this)}
+					               onCancel={this.props.onCancel.bind(this)}/>
 
 				</div>
 		);
@@ -46,7 +48,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		load: (id) => dispatch(loadPlotPoint(id)),
-		save: (plotPoint) => dispatch(update(plotPoint))
+		save: (plotPoint) => dispatch(update(plotPoint)),
+		onCancel: () => dispatch(push("/"))
 	};
 };
 
