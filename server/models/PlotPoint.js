@@ -104,7 +104,7 @@ const RangedWeapon = new Schema({
 	long: Types.Number
 });
 
-const VehicleMountedAndAtGuns = new Schema({
+const VehicleMountedAndAtGun = new Schema({
 	name: Types.String,
 	type: Types.String,
 	era: Types.String,
@@ -130,7 +130,7 @@ const Ammo = new Schema({
 	notes: Types.String
 });
 
-const SpecialWeapons = new Schema({
+const SpecialWeapon = new Schema({
 	name: Types.String,
 	type: Types.String,
 	era: Types.String,
@@ -145,9 +145,16 @@ const SpecialWeapons = new Schema({
 	burstTemplate: Types.String,
 	weight: Types.Number,
 });
-const PlotPoint      = new Schema({
+
+const SettingRule = new Schema({
+	name: Types.String,
+	description: Types.String
+});
+
+const PlotPoint = new Schema({
 	name: Types.String,
 	description: Types.String,
+	settingRules: [SettingRule],
 	races: [Race],
 	skillDescriptions: [SkillDescription],
 	hindrances: [HindranceDescription],
@@ -158,9 +165,9 @@ const PlotPoint      = new Schema({
 	armor: [Armor],
 	rangedWeapons: [RangedWeapon],
 	user: Types.ObjectId,
-	vehicleMountedAndAtGuns: [VehicleMountedAndAtGuns],
+	vehicleMountedAndAtGuns: [VehicleMountedAndAtGun],
 	ammunition: [Ammo],
-	specialWeapons: [SpecialWeapons]
+	specialWeapons: [SpecialWeapon]
 });
 
 export default  mongoose.model('PlotPoint', PlotPoint);

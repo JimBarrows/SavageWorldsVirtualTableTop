@@ -112,8 +112,9 @@ export function load() {
 export function newPlotPoint() {
 	return function (dispatch) {
 		let plotPoint = {
-			name: "",
+			name: "New Plot Point",
 			description: "",
+			settingRules: [],
 			races: [{
 				name: "Human",
 				description: "Human!",

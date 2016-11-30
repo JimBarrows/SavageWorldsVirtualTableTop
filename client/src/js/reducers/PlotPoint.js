@@ -6,7 +6,8 @@ let {PLOT_POINT_EDIT, PLOT_POINT_UPDATE_SUCCESS, PLOT_POINT_NEW} = constants;
 const initialState = {
 	plotPoint: {
 		name: "",
-		description: ""
+		description: "",
+		settingRules: []
 	}
 
 };

@@ -1,6 +1,7 @@
 'use strict';
 import React from "react";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
+import SettingRules from "../components/SettingRules";
 
 class PlotPointForm extends React.Component {
 
@@ -10,17 +11,21 @@ class PlotPointForm extends React.Component {
 	}
 
 	componentWillMount() {
-		let {name = "", description = "", _id = ""}  = this.props;
-		this.setState({
-			name, description, _id
-		});
+		this.propsToState(this.props);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		let {name = "", description = "", _id = ""}  = nextProps;
-		this.setState({
-			name, description, _id
-		});
+		this.propsToState(nextProps);
+	}
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			_id: '',
+			description: "",
+			name: "",
+			settingRules: []
+		}
 	}
 
 	descriptionChange(event) {
@@ -35,8 +40,21 @@ class PlotPointForm extends React.Component {
 		});
 	}
 
+	settingRulesChange(newRules) {
+		this.setState({
+			settingRules: newRules
+		});
+	}
+
+	propsToState(props) {
+		let {name = "", description = "", _id = "", settingRules = []}  = props.plotPoint;
+		this.setState({
+			name, description, _id, settingRules
+		});
+	}
+
 	render() {
-		let {name, description, error} = this.state;
+		let {name, description, settingRules, error} = this.state;
 		return (
 				<form id="plotPointForm">
 					<DangerAlert error={error}/>
@@ -49,6 +67,7 @@ class PlotPointForm extends React.Component {
 					/>
 					<TextAreaFormGroup label="Description" id="description"
 					                   onChange={this.descriptionChange.bind(this)} value={description}/>
+					<SettingRules rules={settingRules} settingRulesChange={this.settingRulesChange.bind(this)}/>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
@@ -57,7 +76,8 @@ class PlotPointForm extends React.Component {
 
 	submit(event) {
 		event.preventDefault();
-		this.props.onSubmit(this.state);
+		let {name = "", description = "", _id = "", settingRules = []} = this.state;
+		this.props.onSubmit({_id, description, name, settingRules});
 	}
 }
 export default PlotPointForm;
