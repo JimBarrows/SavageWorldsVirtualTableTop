@@ -1,4 +1,9 @@
 import axios from "axios";
+import {hashHistory, IndexRoute, Route, Router} from "react-router";
+import {Provider} from "react-redux";
+import React from "react";
+import ReactDOM from "react-dom";
+import {syncHistoryWithStore, push} from "react-router-redux";
 import {loginUserSuccess} from "./actions";
 import {requireAuthentication} from "./components/AuthenticationComponent";
 import Layout from "./components/layout";
@@ -6,22 +11,18 @@ import Login from "./pages/Login";
 import PlotPoints from "./pages/PlotPointList";
 import Register from "./pages/Register";
 import store from "./Store";
-import {browserHistory, IndexRoute, Route, Router} from "react-router";
-import {Provider} from "react-redux";
-import React from "react";
-import ReactDOM from "react-dom";
-import {syncHistoryWithStore, push} from "react-router-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.min.css";
 import AddPlotPoint from "./pages/AddPlotPoint";
 import UpdatePlotPoint from "./pages/UpdatePlotPoint";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "font-awesome/css/font-awesome.min.css";
+
 axios.create({
 	validateStatus: function (status) {
 		return status < 300;
 	}
 });
 
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(hashHistory, store);
 
 const app = document.getElementById("app");
 

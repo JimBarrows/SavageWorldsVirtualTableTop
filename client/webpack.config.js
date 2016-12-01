@@ -11,7 +11,7 @@ module.exports = {
 	devtool: "eval-source-map",
 	entry: {main: "./js/client.jsx"},
 	output: {
-		path: __dirname + "/src/"
+		path: __dirname + "/../uiserver/public/javascripts"
 		, filename: "client.min.js"
 	},
 	plugins: [

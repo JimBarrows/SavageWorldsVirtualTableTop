@@ -31,6 +31,7 @@ export default function app(state = initialState, action) {
 					message: action.payload.message
 				}
 			});
+
 		default:
 			if (action.payload && action.payload.status && action.payload.result) {
 				switch (action.payload.status) {

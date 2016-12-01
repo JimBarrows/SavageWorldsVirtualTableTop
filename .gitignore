@@ -59,3 +59,5 @@ tmp/
 tmp*
 temp/
 *.sqlite3
+/uiserver/public/javascripts/client.min.js
+/uiserver/public/javascirpts/*.svg
