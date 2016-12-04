@@ -1,7 +1,7 @@
 'use strict';
 import React from "react";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-import SettingRules from "./SettingRules";
+import SettingRules from "./SettingRuleList";
 import RaceList from "./RaceList";
 
 class PlotPointForm extends React.Component {
@@ -74,8 +74,8 @@ class PlotPointForm extends React.Component {
 					/>
 					<TextAreaFormGroup label="Description" id="description"
 					                   onChange={this.descriptionChange.bind(this)} value={description}/>
-					<SettingRules rules={settingRules} settingRulesChange={this.settingRulesChange.bind(this)}/>
-					<RaceList list={races} onListChange={this.racesChange.bind(this)}/>
+					<SettingRules list={settingRules} onListChange={this.settingRulesChange.bind(this)} allowEditing={true}/>
+					<RaceList list={races} onListChange={this.racesChange.bind(this)} allowEditing={true}/>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
