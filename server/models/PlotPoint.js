@@ -7,34 +7,24 @@ export const ranks = ['d4', 'd6', 'd8', 'd10', 'd12'];
 
 export const attributes = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor'];
 
-const RaceAbility = new Schema({
+const Ammo = new Schema({
 	name: Types.String,
-	description: Types.String,
-	cost: Types.Number
+	weightNumerator: Types.Number,
+	weightDenominator: Types.Number,
+	costNumerator: Types.Number,
+	costDenominator: Types.Number,
+	notes: Types.String
 });
 
-const Race = new Schema({
-	name: Types.String,
-	description: Types.String,
-	abilities: [RaceAbility]
-});
 
-const SkillDescription = new Schema({
+const Armor = new Schema({
 	name: Types.String,
-	description: Types.String,
-	attribute: Types.String
-});
-
-const HindranceDescription = new Schema({
-	name: Types.String,
-	description: Types.String,
-	effects: Types.String,
-	severity: Types.String
-});
-
-const SkillRank = new Schema({
-	description: [Types.ObjectId],
-	rank: {type: Types.String, enum: ranks}
+	type: Types.String,
+	era: Types.String,
+	points: Types.Number,
+	pointsVsBullets: Types.Number,
+	armorProtection: Types.Number,
+	apVsBullets: Types.Number
 });
 
 const AttributeRank = new Schema({
@@ -47,6 +37,11 @@ const EdgeType = new Schema({
 	description: Types.String
 });
 
+const SkillRank = new Schema({
+	description: [Types.ObjectId],
+	rank: {type: Types.String, enum: ranks}
+});
+
 const EdgeDescription = new Schema({
 	name: Types.String,
 	description: Types.String,
@@ -55,13 +50,6 @@ const EdgeDescription = new Schema({
 	attributeRankRequirements: [AttributeRank],
 	skillRankRequirements: [SkillRank],
 	edgeType: EdgeType
-});
-
-const MundaneItem = new Schema({
-	name: Types.String,
-	weight: Types.Number,
-	cost: Types.Number,
-	type: Types.String
 });
 
 const HandWeapon = new Schema({
@@ -76,14 +64,30 @@ const HandWeapon = new Schema({
 	notes: Types.String
 });
 
-const Armor = new Schema({
+const HindranceDescription = new Schema({
 	name: Types.String,
-	type: Types.String,
-	era: Types.String,
-	points: Types.Number,
-	pointsVsBullets: Types.Number,
-	armorProtection: Types.Number,
-	apVsBullets: Types.Number
+	description: Types.String,
+	effects: Types.String,
+	severity: Types.String
+});
+
+const MundaneItem = new Schema({
+	name: Types.String,
+	weight: Types.Number,
+	cost: Types.Number,
+	type: Types.String
+});
+
+const RaceAbility = new Schema({
+	name: Types.String,
+	description: Types.String,
+	cost: Types.Number
+});
+
+const Race = new Schema({
+	name: Types.String,
+	description: Types.String,
+	abilities: [RaceAbility]
 });
 
 const RangedWeapon = new Schema({
@@ -104,30 +108,15 @@ const RangedWeapon = new Schema({
 	long: Types.Number
 });
 
-const VehicleMountedAndAtGun = new Schema({
+const SettingRule = new Schema({
 	name: Types.String,
-	type: Types.String,
-	era: Types.String,
-	short: Types.Number,
-	medium: Types.Number,
-	long: Types.Number,
-	numberOfDice: Types.Number,
-	dice: {type: Types.String, enum: ranks},
-	armorPiercing: Types.Number,
-	heNumberOfDice: Types.Number,
-	heDice: {type: Types.String, enum: ranks},
-	heAp: Types.Number,
-	burstTemplate: Types.String,
-	rateOfFire: Types.Number
+	description: Types.String
 });
 
-const Ammo = new Schema({
+const SkillDescription = new Schema({
 	name: Types.String,
-	weightNumerator: Types.Number,
-	weightDenominator: Types.Number,
-	costNumerator: Types.Number,
-	costDenominator: Types.Number,
-	notes: Types.String
+	description: Types.String,
+	attribute: Types.String
 });
 
 const SpecialWeapon = new Schema({
@@ -146,9 +135,21 @@ const SpecialWeapon = new Schema({
 	weight: Types.Number,
 });
 
-const SettingRule = new Schema({
+const VehicleMountedAndAtGun = new Schema({
 	name: Types.String,
-	description: Types.String
+	type: Types.String,
+	era: Types.String,
+	short: Types.Number,
+	medium: Types.Number,
+	long: Types.Number,
+	numberOfDice: Types.Number,
+	dice: {type: Types.String, enum: ranks},
+	armorPiercing: Types.Number,
+	heNumberOfDice: Types.Number,
+	heDice: {type: Types.String, enum: ranks},
+	heAp: Types.Number,
+	burstTemplate: Types.String,
+	rateOfFire: Types.Number
 });
 
 const PlotPoint = new Schema({
