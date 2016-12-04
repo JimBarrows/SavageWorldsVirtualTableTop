@@ -2,60 +2,59 @@
 import React from "react";
 import RaceViewer from "../components/RaceView";
 import RaceEditor from "../components/RaceEditor";
-import {PlotPointEvent} from "../constants";
-import PlotPointStore from "../stores/PlotPointStore";
 
+const emptyRace = {
+	name: "",
+	description: "",
+	_id: "",
+	abilities: []
+};
 
-export default class RaceDescription extends React.Component {
+class RaceDescription extends React.Component {
 
 	constructor(props) {
 		super(props);
-		let {_id, name, description, abilities} = this.props;
-		this.state                              = {
-			name,
-			description,
-			abilities,
-			edit: false,
-			nameError: ""
-		};
-		this.plotPointChange                    = this.plotPointChange.bind(this);
+		this.state = {
+			editing: false
+		}
 	}
 
 	componentWillMount() {
-		PlotPointStore.on(PlotPointEvent.CURRENT_PLOTPOINT_CHANGE, this.plotPointChange);
+		this.propsToState(this.props);
 	}
 
-	componentWillUnmount() {
-		PlotPointStore.removeListener(PlotPointEvent.CURRENT_PLOTPOINT_CHANGE, this.plotPointChange);
+	componentWillReceiveProps(nextProps) {
+		this.propsToState(nextProps);
 	}
 
-	plotPointChange() {
+	editing(e) {
 		this.setState({
-			edit: false
+			editing: true
+		})
+	}
+
+	propsToState(props) {
+		let {item                               = emptyRace, index = 0, editing = false}  = props;
+		let {_id, name, description, abilities} = item;
+		this.setState({
+			_id, name, description, abilities, index, editing
 		});
 	}
 
-	edit() {
-		this.setState({
-			edit: true
-		})
-	}
-
 	remove() {
-		this.props.remove({
-			name: this.state.name,
-			description: this.state.description,
-			abilities: this.state.abilities,
-			_id: this.state._id
-		})
+		let {_id, name, description, abilities} = this.state;
+		this.props.remove({_id, name, description, abilities});
 	}
 
 	render() {
-		let element = (this.state.edit) ?
-				<RaceEditor name={this.props.name} description={this.props.description} abilities={this.props.abilities}
-				            save={this.props.save}/> :
-				<RaceViewer name={this.props.name} description={this.props.description} abilities={this.props.abilities}
-				            edit={this.edit.bind(this)} remove={this.remove.bind(this)}/>;
+		let {_id, name, description, abilities} = this.state;
+		let element                             = (this.state.editing) ?
+				<RaceEditor _id={_id} name={name} description={description} abilities={abilities}
+				            save={this.props.save} onListChange={this.props.onListChange}/> :
+				<RaceViewer _id={_id} name={name} description={description} abilities={abilities}
+				            edit={this.editing.bind(this)} remove={this.remove.bind(this)}/>;
 		return element
 	}
 }
+
+export default RaceDescription;

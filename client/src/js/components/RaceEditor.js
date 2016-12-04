@@ -1,8 +1,7 @@
 'use strict';
 import React from "react";
-import * as Action from "../actions/PlotPointActions";
-import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-
+import {TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
+import AbilityList from "./AbilityList";
 
 export default class RaceEditor extends React.Component {
 
@@ -10,71 +9,67 @@ export default class RaceEditor extends React.Component {
 
 	}
 
-	constructor(props) {
-		super(props);
-		let {_id, name, description, abilities, descriptionError, abilityError, nameError, onChange} = props;
-		if (!abilities) {
-			abilities = [];
-		}
-		this.state = {
-			_id, name, description, abilities, descriptionError, abilityError, nameError, onChange
-		};
+	componentWillMount() {
+		let {_id, name, description, abilities = [], descriptionError, abilityError, nameError} = this.props;
+		this.setState({
+			_id, name, description, abilities, descriptionError, abilityError, nameError
+		});
 	}
 
-	onChange(event) {
-		switch (event.target.id) {
-			case 'raceFormName' :
-				this.setState({
-					name: event.target.value
-				});
-				break;
-			case "raceFormDescription" :
-				this.setState({
-					description: event.target.value
-				});
-				break;
+	componentWillReceiveProps(nextProps) {
+		let {_id, name, description, abilities = [], descriptionError, abilityError, nameError} = nextProps;
+		this.setState({
+			_id, name, description, abilities, descriptionError, abilityError, nameError
+		});
+	}
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			adding: false
 		}
+	}
+
+	descriptionChange(e) {
+		this.setState({
+			description: e.target.value
+		});
+	}
+
+	nameChange(e) {
+		this.setState({
+			name: e.target.value
+		});
+	}
+
+	onListChange(list) {
+		this.setState({
+			abilities: list
+		});
 	}
 
 	render() {
-		const {_id, name, description, abilities, descriptionError, abilityError, nameError} = this.state;
-		const {save}                                                                         = this.props;
+		const {name, description, abilities, descriptionError, nameError} = this.state;
+
 		return (
 				<div id="raceForm">
 					<TextFormGroup
 							error={nameError}
 							label="Race"
 							id="raceFormName"
-							onChange={this.onChange.bind(this)}
+							onChange={this.nameChange.bind(this)}
 							value={name}
 					/>
 					<TextAreaFormGroup
 							error={descriptionError}
 							label="Description"
 							id="raceFormDescription"
-							onChange={this.onChange.bind(this)}
+							onChange={this.descriptionChange.bind(this)}
 							value={description}
 					/>
-					<h3>Abilities</h3>
-					{abilities.map((ability, index) => (
-							<div key={index} class="ability">
-								<h4 ><TextFormGroup
-										error={abilityError}
-										label="Ability Name"
-										id={"abilityName" + index}
-										onChange={this.onChange.bind(this)}
-										value={ability.name}/>
-									<small>
-										<bold>Cost:</bold>
-										<NumberFormGroup error={costError} id={"abilityCost" + index} onChange={this.onChange.bind(this)}
-										                 value={ability.cost}/>
-								</small>
-							</h4>
-						{ability.description}
-						</div>))}
+					<AbilityList list={abilities} onListChange={this.onListChange.bind(this)} allowEditing={true}/>
 					<button type="button" class="btn btn-primary"
-					        onClick={this.save.bind(this)}>
-						Save
+					        onClick={this.save.bind(this)}>Save
 					</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</div>
@@ -84,11 +79,8 @@ export default class RaceEditor extends React.Component {
 	save(event) {
 		event.preventDefault();
 		let {_id, name, description, abilities} = this.state;
-		Action.addRace({
-			_id,
-			name,
-			description,
-			abilities
-		});
+		this.props.save({
+			_id, name, description, abilities
+		})
 	}
 }

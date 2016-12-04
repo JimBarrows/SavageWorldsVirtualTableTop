@@ -25,6 +25,7 @@
  "dependencies" : {
 	"axios" : "^0.14.0",
 	"bootstrap-react-components" : "^0.16.0",
+	"bson-objectid" : "^1.1.4",
 	"immutable" : "^3.8.1",
 	"jwt-decode" : "^2.1.0",
 	"moment" : "^2.15.1",

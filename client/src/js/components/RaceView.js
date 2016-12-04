@@ -1,36 +1,25 @@
 'use strict';
 import React from "react";
 import {RowControlButtons} from "bootstrap-react-components";
+import AbilityList from "./AbilityList";
 
-export default class RaceView extends React.Component {
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			editing: false
-		}
-	}
+class RaceView extends React.Component {
 
 	render() {
-		const {name, description, abilities} = this.props;
-		const {editing}                      = this.state;
+		const {name, description, abilities, edit, remove, save} = this.props;
 		return (
-				<div id="raceView">
-					<h2>{name} <RowControlButtons id={name} editing={editing} edit={this.props.edit} save={this.props.save}
-					                              remove={this.props.remove}/>
-					</h2>
+				<div class="raceView">
+					<h3>{name} <RowControlButtons id={name}
+					                              editing={false}
+					                              edit={edit}
+					                              save={save}
+					                              remove={remove}/>
+					</h3>
 					{description}
-					<h3>Abilities</h3>
-					{abilities.map((ability, index) => (
-							<div key={index} class="ability">
-								<h4 >{ability.name}
-									<small>
-										<bold>Cost:</bold>
-										{ability.cost}</small>
-								</h4>
-								{ability.description}
-							</div>))}
+					<AbilityList list={abilities} allowEditing={false}/>
 				</div>
 		);
 	}
 }
+
+export default RaceView
