@@ -17,7 +17,8 @@ class SettingRuleList extends ListManager {
 					<dl>
 						{list.map((rule, index) => <SettingRule
 								key={rule._id || `${rule.name.replace(" ", "_")}_${index}`}
-								rule={rule} index={index}
+								rule={rule}
+								index={index}
 								save={this.addToList.bind(this)}
 								update={this.updateItem.bind(this)}
 								remove={this.removeItem.bind(this)}/>

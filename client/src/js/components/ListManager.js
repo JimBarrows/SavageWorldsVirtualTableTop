@@ -1,4 +1,5 @@
 import React from "react";
+import ObjectId from "bson-objectid";
 
 class ListManager extends React.Component {
 
@@ -8,8 +9,11 @@ class ListManager extends React.Component {
 		})
 	}
 
-	addToList(newRule) {
-		let list = [...this.state.list, newRule];
+	addToList(item) {
+		if (!item._id) {
+			item._id = ObjectId.generate();
+		}
+		let list = [...this.state.list, item];
 		this.setState({
 			list,
 			adding: false
@@ -60,8 +64,8 @@ class ListManager extends React.Component {
 		});
 	}
 
-	removeItem(rule) {
-		let list = this.state.list.filter((r) => rule._id ? rule._id !== r._id : rule.name !== r.name);
+	removeItem(item) {
+		let list = this.state.list.filter((r) => item._id !== r._id);
 		this.setState({
 			list
 		});

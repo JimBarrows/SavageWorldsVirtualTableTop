@@ -3,6 +3,7 @@ import React from "react";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import SettingRules from "./SettingRuleList";
 import RaceList from "./RaceList";
+import SkillList from "./SkillList";
 
 class PlotPointForm extends React.Component {
 
@@ -25,7 +26,8 @@ class PlotPointForm extends React.Component {
 			_id: '',
 			description: "",
 			name: "",
-			settingRules: []
+			settingRules: [],
+			skillDescriptions: []
 		}
 	}
 
@@ -54,14 +56,14 @@ class PlotPointForm extends React.Component {
 	}
 
 	propsToState(props) {
-		let {name = "", description = "", _id = "", settingRules = [], races = []}  = props.plotPoint;
+		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = []}  = props.plotPoint;
 		this.setState({
-			name, description, _id, settingRules, races
+			name, description, _id, settingRules, races, skillDescriptions
 		});
 	}
 
 	render() {
-		let {name, description, settingRules, races, error} = this.state;
+		let {name, description, settingRules, races, skillDescriptions, error} = this.state;
 		return (
 				<form id="plotPointForm">
 					<DangerAlert error={error}/>
@@ -76,16 +78,24 @@ class PlotPointForm extends React.Component {
 					                   onChange={this.descriptionChange.bind(this)} value={description}/>
 					<SettingRules list={settingRules} onListChange={this.settingRulesChange.bind(this)} allowEditing={true}/>
 					<RaceList list={races} onListChange={this.racesChange.bind(this)} allowEditing={true}/>
+					<SkillList list={skillDescriptions} onListChange={this.skillDescriptionsChange.bind(this)}
+					           allowEditing={true}/>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
 		);
 	}
 
+	skillDescriptionsChange(skillDescriptions) {
+		this.setState({
+			skillDescriptions
+		});
+	}
+
 	submit(event) {
 		event.preventDefault();
-		let {name = "", description = "", _id = "", settingRules = [], races = []} = this.state;
-		this.props.onSubmit({_id, description, name, settingRules, races});
+		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = []} = this.state;
+		this.props.onSubmit({_id, description, name, settingRules, races, skillDescriptions});
 	}
 }
 export default PlotPointForm;
