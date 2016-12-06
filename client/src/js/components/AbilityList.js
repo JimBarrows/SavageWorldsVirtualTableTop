@@ -1,7 +1,7 @@
 import React from "react";
 import AbilityDescription from "./AbilityDescription";
 import AbilityEditor from "./AbilityEditor";
-import ListManager from "./ListManager";
+import ListManager from "./ItemList/ItemList";
 
 class AbilityList extends ListManager {
 

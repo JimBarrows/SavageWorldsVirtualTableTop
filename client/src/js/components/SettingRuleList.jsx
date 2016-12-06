@@ -1,6 +1,6 @@
 import React from "react";
 import SettingRule from "./SettingRule";
-import ListManager from "./ListManager";
+import ListManager from "./ItemList/ItemList";
 
 class SettingRuleList extends ListManager {
 

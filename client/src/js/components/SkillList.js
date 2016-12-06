@@ -1,5 +1,5 @@
 import React from "react";
-import ListManager from "./ListManager";
+import ListManager from "./ItemList/ItemList";
 import SkillDescription from "./SkillDescription";
 
 class SkillList extends ListManager {

@@ -4,6 +4,8 @@ import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-com
 import SettingRules from "./SettingRuleList";
 import RaceList from "./RaceList";
 import SkillList from "./SkillList";
+import {EdgeTypeList} from "./EdgeTypeList";
+import {EdgeList} from "./EdgeList";
 
 class PlotPointForm extends React.Component {
 
@@ -27,7 +29,9 @@ class PlotPointForm extends React.Component {
 			description: "",
 			name: "",
 			settingRules: [],
-			skillDescriptions: []
+			skillDescriptions: [],
+			edges: [],
+			edgeTypes: []
 		}
 	}
 
@@ -37,15 +41,28 @@ class PlotPointForm extends React.Component {
 		})
 	}
 
+	edgesChange(edges) {
+		this.setState({
+			edges
+		});
+	}
+
+	edgeTypesChange(edgeTypes) {
+		this.setState({
+			edgeTypes
+		});
+	}
+
 	nameChange(event) {
 		this.setState({
 			name: event.target.value
 		});
 	}
 
-	settingRulesChange(newRules) {
+	propsToState(props) {
+		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = [], edges = [], edgeTypes = []}  = props.plotPoint;
 		this.setState({
-			settingRules: newRules
+			name, description, _id, settingRules, races, skillDescriptions, edges, edgeTypes
 		});
 	}
 
@@ -55,15 +72,8 @@ class PlotPointForm extends React.Component {
 		});
 	}
 
-	propsToState(props) {
-		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = []}  = props.plotPoint;
-		this.setState({
-			name, description, _id, settingRules, races, skillDescriptions
-		});
-	}
-
 	render() {
-		let {name, description, settingRules, races, skillDescriptions, error} = this.state;
+		let {name, description, settingRules, races, skillDescriptions, edges, edgeTypes, error} = this.state;
 		return (
 				<form id="plotPointForm">
 					<DangerAlert error={error}/>
@@ -80,10 +90,18 @@ class PlotPointForm extends React.Component {
 					<RaceList list={races} onListChange={this.racesChange.bind(this)} allowEditing={true}/>
 					<SkillList list={skillDescriptions} onListChange={this.skillDescriptionsChange.bind(this)}
 					           allowEditing={true}/>
+					<EdgeTypeList list={edgeTypes} onListChange={this.edgeTypesChange.bind(this)} allowEditing={true}/>
+					<EdgeList list={edges} onListChange={this.edgesChange.bind(this)} allowEditing={true}/>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
 		);
+	}
+
+	settingRulesChange(newRules) {
+		this.setState({
+			settingRules: newRules
+		});
 	}
 
 	skillDescriptionsChange(skillDescriptions) {
@@ -94,8 +112,8 @@ class PlotPointForm extends React.Component {
 
 	submit(event) {
 		event.preventDefault();
-		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = []} = this.state;
-		this.props.onSubmit({_id, description, name, settingRules, races, skillDescriptions});
+		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = [], edges = [], edgeTypes = []} = this.state;
+		this.props.onSubmit({_id, description, name, settingRules, races, skillDescriptions, edges, edgeTypes});
 	}
 }
 export default PlotPointForm;

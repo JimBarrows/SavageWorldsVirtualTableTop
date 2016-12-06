@@ -153,22 +153,23 @@ const VehicleMountedAndAtGun = new Schema({
 });
 
 const PlotPoint = new Schema({
-	name: Types.String,
-	description: Types.String,
-	settingRules: [SettingRule],
-	races: [Race],
-	skillDescriptions: [SkillDescription],
-	hindrances: [HindranceDescription],
-	edges: [EdgeDescription],
-	startingFund: Types.Number,
-	mundaneItems: [MundaneItem],
-	handWeapons: [HandWeapon],
-	armor: [Armor],
-	rangedWeapons: [RangedWeapon],
-	user: Types.ObjectId,
-	vehicleMountedAndAtGuns: [VehicleMountedAndAtGun],
 	ammunition: [Ammo],
-	specialWeapons: [SpecialWeapon]
+	armor: [Armor],
+	description: Types.String,
+	edges: [EdgeDescription],
+	edgeTypes: [EdgeType],
+	handWeapons: [HandWeapon],
+	hindrances: [HindranceDescription],
+	mundaneItems: [MundaneItem],
+	name: Types.String,
+	races: [Race],
+	rangedWeapons: [RangedWeapon],
+	settingRules: [SettingRule],
+	skillDescriptions: [SkillDescription],
+	specialWeapons: [SpecialWeapon],
+	startingFund: Types.Number,
+	user: Types.ObjectId,
+	vehicleMountedAndAtGuns: [VehicleMountedAndAtGun]
 });
 
 export default  mongoose.model('PlotPoint', PlotPoint);
