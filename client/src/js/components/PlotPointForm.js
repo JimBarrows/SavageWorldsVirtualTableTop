@@ -78,6 +78,7 @@ class PlotPointForm extends React.Component {
 				<form id="plotPointForm">
 					<DangerAlert error={error}/>
 					<TextFormGroup
+							id="plotPointName"
 							error={error}
 							label="Name"
 							name="name"

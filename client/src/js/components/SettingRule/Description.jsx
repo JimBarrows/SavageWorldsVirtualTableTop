@@ -1,6 +1,6 @@
 import React from "react";
 import SettingRuleEditor from "./Editor";
-import SettingRuleViewer from "./Viewer";
+import SettingRuleViewer from "./View";
 import {ItemDescription} from "../Item";
 
 class SettingRuleDescription extends ItemDescription {
@@ -8,7 +8,7 @@ class SettingRuleDescription extends ItemDescription {
 	editor(item) {
 		return <SettingRuleEditor _id={item._id}
 		                          name={item.name}
-		                          descripiton={item.description}
+		                          description={item.description}
 		                          save={this.save.bind(this)}
 		                          onListChange={this.props.onListChange}/>
 	}

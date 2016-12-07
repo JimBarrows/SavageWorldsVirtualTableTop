@@ -5,11 +5,9 @@ import ListManager from "../Item/List";
 
 class SettingRuleList extends ListManager {
 
-
 	render() {
 		let {list, allowEditing}    = this.state;
-		let addButton               = this.buttonEditOrNothing("Add Setting", <SettingRuleEditor
-				save={this.addToList.bind(this)}/>);
+		let addButton = this.buttonEditOrNothing("Add Setting", <SettingRuleEditor save={this.addToList.bind(this)}/>);
 
 		return (
 				<div id="settingRulesList">
@@ -17,10 +15,9 @@ class SettingRuleList extends ListManager {
 					{addButton}
 					<dl>
 						{list.map((item, index) => <SettingRuleDescription
-								key={item._id}
+								key={ item._id}
 								item={item}
-								save={this.addToList.bind(this)}
-								update={this.updateItem.bind(this)}
+								save={this.updateItem.bind(this)}
 								remove={this.removeItem.bind(this)}
 								allowEditing={allowEditing}/>
 						)}

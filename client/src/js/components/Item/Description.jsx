@@ -37,7 +37,6 @@ class ItemDescription extends React.Component {
 	}
 
 	remove() {
-
 		this.props.remove(this.state.item);
 	}
 
