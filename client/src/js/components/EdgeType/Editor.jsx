@@ -1,27 +1,8 @@
 import {TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import React from "react";
+import {ItemEditor} from "../Item";
 
-class EdgeTypeEditor extends React.Component {
-
-	cancel() {
-
-	}
-
-	componentWillMount() {
-		this.propsToState(this.props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.propsToState(nextProps);
-	}
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			nameError: "",
-			descriptionError: ""
-		};
-	}
+class EdgeTypeEditor extends ItemEditor {
 
 	descriptionChange(e) {
 		this.setState({
@@ -67,13 +48,11 @@ class EdgeTypeEditor extends React.Component {
 		);
 	}
 
-	save(event) {
-		event.preventDefault();
+	stateToItem() {
 		let {_id, name, description} = this.state;
-		this.props.save({
+		return {
 			_id, name, description
-		});
-
+		}
 	}
 }
 
