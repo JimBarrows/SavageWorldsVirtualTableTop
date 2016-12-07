@@ -1,5 +1,5 @@
 import React from "react";
-import ListManager from "../ItemList/ItemList";
+import ListManager from "../Item/List";
 import EdgeEditor from "./Editor";
 import EdgeDescription from "./Description";
 

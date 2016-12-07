@@ -2,7 +2,7 @@
 import React from "react";
 import RaceViewer from "./View";
 import RaceEditor from "./Editor";
-import {ItemDescription} from "../ItemList";
+import {ItemDescription} from "../Item";
 
 class RaceDescription extends ItemDescription {
 	editor(item) {

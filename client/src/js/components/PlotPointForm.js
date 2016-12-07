@@ -1,11 +1,11 @@
-'use strict';
-import React from "react";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-import {SettingRuleList} from "./SettingRule";
-import {RaceList} from "./Race";
-import {SkillList} from "./Skill";
-import {EdgeTypeList} from "./EdgeType";
+import React from "react";
 import {EdgeList} from "./EdgeList";
+import {EdgeTypeList} from "./EdgeType";
+import {RaceList} from "./Race";
+import {SettingRuleList} from "./SettingRule";
+import {SkillList} from "./Skill";
+
 
 class PlotPointForm extends React.Component {
 

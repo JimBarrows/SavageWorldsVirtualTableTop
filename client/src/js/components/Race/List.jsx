@@ -1,7 +1,7 @@
 import React from "react";
 import RaceDescription from "./Description";
 import RaceEditor from "./Editor";
-import ListManager from "../ItemList/ItemList";
+import ListManager from "../Item/List";
 
 
 class RaceList extends ListManager {

@@ -1,6 +1,6 @@
 import React from "react";
-import ListManager from "../ItemList/ItemList";
-import SkillDescription from "./SkillDescription";
+import ListManager from "../Item/List";
+import SkillDescription from "./Description";
 
 class SkillList extends ListManager {
 

@@ -1,7 +1,7 @@
 import React from "react";
-import ListManager from "../ItemList/ItemList";
-import EdgeTypeEditor from "./EdgeTypeEditor";
-import EdgeTypeDescription from "./EdgeTypeDescription";
+import ListManager from "../Item/List";
+import EdgeTypeEditor from "./Editor";
+import EdgeTypeDescription from "./Description";
 
 class EdgeTypeList extends ListManager {
 

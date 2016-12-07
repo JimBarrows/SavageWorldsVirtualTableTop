@@ -1,7 +1,7 @@
 import React from "react";
 import EdgeEditor from "./Editor";
 import EdgeView from "./View";
-import {ItemDescription} from "../ItemList";
+import {ItemDescription} from "../Item";
 
 class EdgeDescription extends ItemDescription {
 
