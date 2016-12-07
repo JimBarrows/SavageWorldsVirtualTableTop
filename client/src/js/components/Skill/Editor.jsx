@@ -1,4 +1,5 @@
 import React from "react";
+import {FormGroup, TextFormGroup, TextAreaFormGroup} from "bootstrap-react-components";
 
 class Editor extends React.Component {
 
@@ -40,7 +41,7 @@ class Editor extends React.Component {
 	}
 
 	render() {
-		let {_id, name, description, attribute, nameError, attributeError, descriptionError} = this.state;
+		let {_id, name, description, attribute} = this.state;
 		return (
 				<div id="SkillEditorPage">
 					<TextFormGroup label="Skill Name"
@@ -52,7 +53,7 @@ class Editor extends React.Component {
 					                   onChange={this.descriptionChange.bind(this)}
 					                   value={description}/>
 					<FormGroup label="Attribute"
-					           id="attribute" error={attributeError}
+					           id="attribute"
 					           required={true}>
 						<select class="form-control"
 						        id="attributeSelect"
@@ -67,14 +68,19 @@ class Editor extends React.Component {
 					</FormGroup>
 					<button type="button"
 					        class="btn btn-default"
-					        onClick={this.save.bind(this)}>{buttonName}</button>
+					        onClick={this.save.bind(this)}>Save
+					</button>
+					<button type="button"
+					        class="btn btn-default"
+					        onClick={this.cancel.bind(this)}>Cancel
+					</button>
 				</div>
 		);
 	}
 
 	save(event) {
 		event.preventDefault();
-		let {_id, name, description, attribute} = this.state;
+		let {_id, name, description, attribute = "Agility"} = this.state;
 		this.props.save({
 			_id, name, description, attribute
 		});

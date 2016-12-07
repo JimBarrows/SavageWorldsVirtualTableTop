@@ -18,7 +18,7 @@ class SkillDescription extends ItemDescription {
 		return <SkillView _id={item._id}
 		                  name={item.name}
 		                  description={item.description}
-		                  attribue={item.attribute}
+		                  attribute={item.attribute}
 		                  edit={this.editing.bind(this)}
 		                  remove={this.remove.bind(this)}
 		                  allowEditing={this.state.allowEditing}/>;
