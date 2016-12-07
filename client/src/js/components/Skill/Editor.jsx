@@ -1,24 +1,13 @@
 import React from "react";
 import {FormGroup, TextFormGroup, TextAreaFormGroup} from "bootstrap-react-components";
+import {ItemEditor} from "../Item";
 
-class Editor extends React.Component {
+class Editor extends ItemEditor {
 
 	attributeChange(e) {
 		this.setState({
 			attribute: e.target.value
 		});
-	}
-
-	cancel() {
-
-	}
-
-	componentWillMount() {
-		this.propsToState(this.props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.propsToState(nextProps);
 	}
 
 	descriptionChange(e) {
@@ -78,13 +67,9 @@ class Editor extends React.Component {
 		);
 	}
 
-	save(event) {
-		event.preventDefault();
+	stateToItem() {
 		let {_id, name, description, attribute = "Agility"} = this.state;
-		this.props.save({
-			_id, name, description, attribute
-		});
-
+		return {_id, name, description, attribute};
 	}
 }
 
