@@ -1,25 +1,10 @@
 import React from "react";
 import {TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import AbilityList from "../Ability/List";
+import {ItemEditor} from "../Item";
 
-export default class RaceEditor extends React.Component {
+export default class RaceEditor extends ItemEditor {
 
-	cancel() {
-
-	}
-
-	componentWillMount() {
-		this.propsToState(this.props);
-
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.propsToState(nextProps);
-	}
-
-	constructor(props) {
-		super(props);
-	}
 
 	descriptionChange(e) {
 		this.setState({
@@ -74,11 +59,8 @@ export default class RaceEditor extends React.Component {
 		)
 	}
 
-	save(event) {
-		event.preventDefault();
+	stateToItem() {
 		let {_id, name, description, abilities} = this.state;
-		this.props.save({
-			_id, name, description, abilities
-		})
+		return {_id, name, description, abilities};
 	}
 }
