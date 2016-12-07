@@ -45,7 +45,6 @@ const SkillRank = new Schema({
 const EdgeDescription = new Schema({
 	name: Types.String,
 	description: Types.String,
-	effects: Types.String,
 	edgeRequirements: [Types.ObjectId],
 	attributeRankRequirements: [AttributeRank],
 	skillRankRequirements: [SkillRank],
@@ -67,7 +66,6 @@ const HandWeapon = new Schema({
 const HindranceDescription = new Schema({
 	name: Types.String,
 	description: Types.String,
-	effects: Types.String,
 	severity: Types.String
 });
 
