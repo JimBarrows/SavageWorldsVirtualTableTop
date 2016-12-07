@@ -4,23 +4,11 @@ import {ItemEditor} from "../Item";
 
 class EdgeTypeEditor extends ItemEditor {
 
-	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		})
-	}
-
 	propsToState(props) {
 		let {_id, name, description} = props;
 		this.setState({
 			_id, name, description
 		});
-	}
-
-	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		})
 	}
 
 	render() {

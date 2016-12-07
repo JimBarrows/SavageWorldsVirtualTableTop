@@ -10,18 +10,6 @@ class Editor extends ItemEditor {
 		});
 	}
 
-	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		});
-	}
-
-	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		});
-	}
-
 	propsToState(props) {
 		let {_id, name, description, attribute} = props;
 		this.setState({

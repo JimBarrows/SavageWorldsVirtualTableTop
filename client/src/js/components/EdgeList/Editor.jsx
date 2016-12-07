@@ -5,12 +5,6 @@ import {ItemEditor} from "../Item";
 
 class EdgeEditor extends ItemEditor {
 
-	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		})
-	}
-
 	edgeTypeChange(e) {
 		let edgeType = this.props.edgeTypes.find((et) => et._id === e.target.value);
 		this.setState({
@@ -24,12 +18,6 @@ class EdgeEditor extends ItemEditor {
 		this.setState({
 			_id, name, description, edgeType
 		});
-	}
-
-	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		})
 	}
 
 	render() {

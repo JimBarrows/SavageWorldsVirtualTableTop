@@ -10,23 +10,11 @@ class AbilityEditor extends ItemEditor {
 		});
 	}
 
-	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		})
-	}
-
 	propsToState(props) {
 		let {_id, name, description, cost} = props;
 		this.setState({
 			_id, name, description, cost
 		});
-	}
-
-	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		})
 	}
 
 	render() {

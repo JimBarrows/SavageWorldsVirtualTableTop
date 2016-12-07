@@ -5,19 +5,6 @@ import {ItemEditor} from "../Item";
 
 export default class RaceEditor extends ItemEditor {
 
-
-	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		});
-	}
-
-	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		});
-	}
-
 	onAbilityListChange(list) {
 		this.setState({
 			abilities: list
