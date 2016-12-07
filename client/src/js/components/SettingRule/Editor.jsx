@@ -1,27 +1,8 @@
 import {TextFormGroup, TextAreaFormGroup} from "bootstrap-react-components";
 import React from "react";
+import {ItemEditor} from "../Item";
 
-class SettingRuleEditor extends React.Component {
-
-	cancel() {
-
-	}
-
-	componentWillMount() {
-		this.propsToState(this.props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.propsToState(nextProps);
-	}
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			nameError: "",
-			descriptionError: ""
-		};
-	}
+class SettingRuleEditor extends ItemEditor {
 
 	descriptionChange(e) {
 		this.setState({
@@ -30,9 +11,9 @@ class SettingRuleEditor extends React.Component {
 	}
 
 	propsToState(props) {
-		let {_id, name, description, edgeType} = props;
+		let {_id, name, description} = props;
 		this.setState({
-			_id, name, description, edgeType
+			_id, name, description
 		});
 	}
 
@@ -66,13 +47,11 @@ class SettingRuleEditor extends React.Component {
 		);
 	}
 
-	save(event) {
-		event.preventDefault();
+	stateToItem() {
 		let {_id, name, description, edgeType} = this.state;
-		this.props.save({
+		return {
 			_id, name, description, edgeType
-		});
-
+		}
 	}
 }
 
