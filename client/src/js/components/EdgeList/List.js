@@ -18,6 +18,7 @@ class EdgeList extends ListManager {
 					                                            item={item}
 					                                            save={this.updateItem.bind(this)}
 					                                            remove={this.removeItem.bind(this)}
+					                                            update={this.updateItem.bind(this)}
 					                                            allowEditing={allowEditing}/>)}
 				</div>
 		);

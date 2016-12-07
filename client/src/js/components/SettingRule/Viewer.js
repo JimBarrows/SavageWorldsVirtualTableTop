@@ -1,24 +1,23 @@
 import {RowControlButtons} from "bootstrap-react-components";
 import React from "react";
 
-class EdgeView extends React.Component {
+class Viewer extends React.Component {
 
 	render() {
-		let {_id, name, description, edgeType, edit, remove, save, allowEditing} = this.props;
+		let {_id, name, description, edit, remove, save, allowEditing} = this.props;
 		return (
-				<div class="edgeViewPage">
-					<h3>
-						{name} {edgeType ? "-" + edgeType.name : ""}
+				<div class="SettingRuleView">
+					<dt>{name}
 						{allowEditing ? <RowControlButtons id={_id}
 						                                   editing={false}
 						                                   edit={edit}
 						                                   save={save}
 						                                   remove={remove}/> : ""}
-					</h3>
-					{description}
+					</dt>
+					<dd>{description}</dd>
 				</div>
 		);
 	}
 }
 
-export default EdgeView;
+export default Viewer;

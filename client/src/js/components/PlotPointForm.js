@@ -1,9 +1,9 @@
 'use strict';
 import React from "react";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-import SettingRules from "./SettingRuleList";
+import SettingRules from "./SettingRule/List";
 import RaceList from "./Race/List";
-import SkillList from "./SkillList";
+import SkillList from "./Skill/SkillList";
 import {EdgeTypeList} from "./EdgeTypeList";
 import {EdgeList} from "./EdgeList";
 

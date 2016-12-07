@@ -52,13 +52,13 @@ class EdgeEditor extends React.Component {
 	}
 
 	render() {
-		let {_id, name, description, edgeType, edgeRequirements, nameError, descriptionError} = this.state;
+		let {_id, name, description, edgeType, nameError, descriptionError} = this.state;
 		return (
 				<div id="EdgeEditorForm">
 					<TextFormGroup
 							error={nameError}
 							label="Edge Name"
-							id={_id + "Name"}
+							id={"name" + _id}
 							onChange={this.nameChange.bind(this)}
 							value={name}
 							required={true}/>
@@ -71,7 +71,7 @@ class EdgeEditor extends React.Component {
 					<TextAreaFormGroup
 							error={descriptionError}
 							label="Description"
-							id={_id + "Description"}
+							id={"description" + _id}
 							onChange={this.descriptionChange.bind(this)}
 							value={description}
 					/>
@@ -81,12 +81,6 @@ class EdgeEditor extends React.Component {
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</div>
 		);
-	}
-
-	requiredEdgeChange(e) {
-		this.setState({
-			edgeRequirements: [...this.state.edgeRequirements, e.target.value]
-		})
 	}
 
 	save(event) {
