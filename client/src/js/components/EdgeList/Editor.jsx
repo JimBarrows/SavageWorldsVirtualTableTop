@@ -1,28 +1,9 @@
 import {FormGroup, TextFormGroup, TextAreaFormGroup} from "bootstrap-react-components";
 import React from "react";
 import {connect} from "react-redux";
+import {ItemEditor} from "../Item";
 
-class EdgeEditor extends React.Component {
-
-	cancel() {
-
-	}
-
-	componentWillMount() {
-		this.propsToState(this.props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.propsToState(nextProps);
-	}
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			nameError: "",
-			descriptionError: ""
-		};
-	}
+class EdgeEditor extends ItemEditor {
 
 	descriptionChange(e) {
 		this.setState({
@@ -79,14 +60,11 @@ class EdgeEditor extends React.Component {
 		);
 	}
 
-	save(event) {
-		event.preventDefault();
+	stateToItem() {
 		let {_id, name, description, edgeType = this.props.edgeTypes[0]} = this.state;
-		this.props.save({
-			_id, name, description, edgeType
-		});
-
+		return {_id, name, description, edgeType};
 	}
+
 }
 
 const mapStateToProps = (state) => {
