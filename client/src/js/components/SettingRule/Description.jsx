@@ -1,7 +1,7 @@
 import React from "react";
 import SettingRuleEditor from "./Editor";
 import SettingRuleViewer from "./Viewer";
-import {ItemDescription} from "../ItemList";
+import {ItemDescription} from "../Item";
 
 class SettingRuleDescription extends ItemDescription {
 

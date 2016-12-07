@@ -1,7 +1,7 @@
 import React from "react";
 import SkillEditor from "./Editor";
 import SkillView from "./View";
-import {ItemDescription} from "../ItemList";
+import {ItemDescription} from "../Item";
 
 class SkillDescription extends ItemDescription {
 
