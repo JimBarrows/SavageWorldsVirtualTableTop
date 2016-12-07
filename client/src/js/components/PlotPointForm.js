@@ -87,8 +87,12 @@ class PlotPointForm extends React.Component {
 					/>
 					<TextAreaFormGroup label="Description" id="description"
 					                   onChange={this.descriptionChange.bind(this)} value={description}/>
-					<SettingRuleList list={settingRules} onListChange={this.settingRulesChange.bind(this)} allowEditing={true}/>
-					<RaceList list={races} onListChange={this.racesChange.bind(this)} allowEditing={true}/>
+					<SettingRuleList list={settingRules}
+					                 onListChange={this.settingRulesChange.bind(this)}
+					                 allowEditing={true}/>
+					<RaceList list={races}
+					          onListChange={this.racesChange.bind(this)}
+					          allowEditing={true}/>
 					<SkillList list={skillDescriptions} onListChange={this.skillDescriptionsChange.bind(this)}
 					           allowEditing={true}/>
 					<EdgeTypeList list={edgeTypes} onListChange={this.edgeTypesChange.bind(this)} allowEditing={true}/>

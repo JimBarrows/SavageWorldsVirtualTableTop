@@ -43,7 +43,7 @@ class SettingRuleEditor extends React.Component {
 	}
 
 	render() {
-		let {_id, name, description, nameError, descriptionError} = this.state;
+		let {_id, name, description} = this.state;
 		return (
 				<div class="SettingRuleForm">
 					<TextFormGroup label="Rule Name"
@@ -57,6 +57,10 @@ class SettingRuleEditor extends React.Component {
 					<button type="button"
 					        class="btn btn-default"
 					        onClick={this.save.bind(this)}>Save
+					</button>
+					<button type="button"
+					        class="btn btn-default"
+					        onClick={this.cancel.bind(this)}>Cancel
 					</button>
 				</div>
 		);

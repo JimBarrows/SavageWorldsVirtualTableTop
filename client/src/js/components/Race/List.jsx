@@ -16,8 +16,7 @@ class RaceList extends ListManager {
 					{list.map((item, index) => <RaceDescription
 							key={item._id}
 							item={item}
-							save={this.addToList.bind(this)}
-							update={this.updateItem.bind(this)}
+							save={this.updateItem.bind(this)}
 							remove={this.removeItem.bind(this)}
 							allowEditing={allowEditing}/>
 					)}

@@ -1,4 +1,3 @@
-'use strict';
 import React from "react";
 import {TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import AbilityList from "../Ability/List";
@@ -10,24 +9,16 @@ export default class RaceEditor extends React.Component {
 	}
 
 	componentWillMount() {
-		let {_id, name, description, abilities = [], descriptionError, abilityError, nameError} = this.props;
-		this.setState({
-			_id, name, description, abilities, descriptionError, abilityError, nameError
-		});
+		this.propsToState(this.props);
+
 	}
 
 	componentWillReceiveProps(nextProps) {
-		let {_id, name, description, abilities = [], descriptionError, abilityError, nameError} = nextProps;
-		this.setState({
-			_id, name, description, abilities, descriptionError, abilityError, nameError
-		});
+		this.propsToState(nextProps);
 	}
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			adding: false
-		}
 	}
 
 	descriptionChange(e) {
@@ -42,9 +33,16 @@ export default class RaceEditor extends React.Component {
 		});
 	}
 
-	onListChange(list) {
+	onAbilityListChange(list) {
 		this.setState({
 			abilities: list
+		});
+	}
+
+	propsToState(props) {
+		let {_id, name, description, abilities = [], descriptionError, abilityError, nameError} = props;
+		this.setState({
+			_id, name, description, abilities, descriptionError, abilityError, nameError
 		});
 	}
 
@@ -67,8 +65,8 @@ export default class RaceEditor extends React.Component {
 							onChange={this.descriptionChange.bind(this)}
 							value={description}
 					/>
-					<AbilityList list={abilities} onListChange={this.onListChange.bind(this)} allowEditing={true}/>
-					<button type="button" class="btn btn-primary"
+					<AbilityList list={abilities} onListChange={this.onAbilityListChange.bind(this)} allowEditing={true}/>
+					<button type="button" class="btn btn-default"
 					        onClick={this.save.bind(this)}>Save
 					</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
