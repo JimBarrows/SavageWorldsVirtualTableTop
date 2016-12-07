@@ -1,7 +1,7 @@
 'use strict';
 import React from "react";
 import {TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-import AbilityList from "./AbilityList";
+import AbilityList from "../Ability/List";
 
 export default class RaceEditor extends React.Component {
 

@@ -2,7 +2,7 @@
 import React from "react";
 import {DangerAlert, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import SettingRules from "./SettingRuleList";
-import RaceList from "./RaceList";
+import RaceList from "./Race/List";
 import SkillList from "./SkillList";
 import {EdgeTypeList} from "./EdgeTypeList";
 import {EdgeList} from "./EdgeList";

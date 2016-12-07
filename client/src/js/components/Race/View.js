@@ -1,7 +1,7 @@
 'use strict';
 import React from "react";
 import {RowControlButtons} from "bootstrap-react-components";
-import AbilityList from "./AbilityList";
+import AbilityList from "../Ability/List";
 
 class RaceView extends React.Component {
 
