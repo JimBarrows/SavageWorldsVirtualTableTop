@@ -1,28 +1,8 @@
 import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import React from "react";
+import {ItemEditor} from "../Item";
 
-class AbilityEditor extends React.Component {
-
-	cancel() {
-
-	}
-
-	componentWillMount() {
-		this.propsToState(this.props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.propsToState(nextProps);
-	}
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			nameError: "",
-			costError: "",
-			descriptionError: ""
-		};
-	}
+class AbilityEditor extends ItemEditor {
 
 	costChange(e) {
 		this.setState({
@@ -50,19 +30,19 @@ class AbilityEditor extends React.Component {
 	}
 
 	render() {
-		let {_id, name, description, cost, nameError, costError, descriptionError} = this.state;
+		let {_id, name, description, cost} = this.state;
 		return (
 				<div id="AbilityEditorForm">
 					<TextFormGroup
-							error={nameError}
 							label="Ability Name"
 							id={_id + "Name"}
 							onChange={this.nameChange.bind(this)}
 							value={name}/>
-					<NumberFormGroup label="Cost" error={costError} id={cost + "Cost"} onChange={this.costChange.bind(this)}
+					<NumberFormGroup label="Cost"
+					                 id={cost + "Cost"}
+					                 onChange={this.costChange.bind(this)}
 					                 value={cost}/>
 					<TextAreaFormGroup
-							error={descriptionError}
 							label="Description"
 							id={_id + "Description"}
 							onChange={this.descriptionChange.bind(this)}
@@ -76,14 +56,11 @@ class AbilityEditor extends React.Component {
 		);
 	}
 
-	save(event) {
-		event.preventDefault();
+	stateToItem() {
 		let {_id, name, description, cost} = this.state;
-		this.props.save({
-			_id, name, description, cost
-		});
-
+		return {_id, name, description, cost};
 	}
+
 }
 
 export default AbilityEditor;
