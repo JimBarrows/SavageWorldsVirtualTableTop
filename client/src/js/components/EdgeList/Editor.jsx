@@ -52,26 +52,22 @@ class EdgeEditor extends React.Component {
 	}
 
 	render() {
-		let {_id, name, description, edgeType, nameError, descriptionError} = this.state;
+		let {_id, name, description, edgeType} = this.state;
 		return (
 				<div id="EdgeEditorForm">
 					<TextFormGroup
-							error={nameError}
 							label="Edge Name"
-							id={"name" + _id}
 							onChange={this.nameChange.bind(this)}
 							value={name}
 							required={true}/>
-					<FormGroup label="Edge Type" id="edgeType" error={""} required={true}>
+					<FormGroup label="Edge Type" id="edgeType" required={true}>
 						<select class="form-control" id="edgeTypeSelect" onChange={this.edgeTypeChange.bind(this)}
-						        value={edgeType._id}>
+						        value={edgeType && edgeType._id ? edgeType._id : ""}>
 							{this.props.edgeTypes.map((et) => <option key={et._id} value={et._id}>{et.name}</option>)}
 						</select>
 					</FormGroup>
 					<TextAreaFormGroup
-							error={descriptionError}
 							label="Description"
-							id={"description" + _id}
 							onChange={this.descriptionChange.bind(this)}
 							value={description}
 					/>
@@ -85,7 +81,7 @@ class EdgeEditor extends React.Component {
 
 	save(event) {
 		event.preventDefault();
-		let {_id, name, description, edgeType} = this.state;
+		let {_id, name, description, edgeType = this.props.edgeTypes[0]} = this.state;
 		this.props.save({
 			_id, name, description, edgeType
 		});
