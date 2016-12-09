@@ -13,6 +13,7 @@ import {VehicleMountedAndAtGunList} from "./Gear/Weapon/VehicleMountedAndAtGun";
 import {AmmunitionList} from "./Gear/Weapon/Ammunition";
 import {SpecialWeaponList} from "./Gear/Weapon/SpecialWeapon";
 import {ArmorList} from "./Gear/Armor";
+import {VehicleList} from "./Gear/Vehicle";
 
 class PlotPointForm extends React.Component {
 
@@ -58,7 +59,8 @@ class PlotPointForm extends React.Component {
 			vehicleMountedAndAtGuns: [],
 			ammunition: [],
 			specialWeapons: [],
-			armor: []
+			armor: [],
+			vehicles: []
 		}
 	}
 
@@ -109,7 +111,7 @@ class PlotPointForm extends React.Component {
 				    name              = "", description = "", _id = "", settingRules = [], races = [],
 				    skillDescriptions = [], edges = [], edgeTypes = [], hindrances = [], mundaneItems = [],
 				    handWeapons       = [], rangedWeapons = [], vehicleMountedAndAtGuns = [], ammunition = [],
-				    specialWeapons    = [], armor = []
+				    specialWeapons    = [], armor = [], vehicles = []
 		    }                     = props.plotPoint;
 		this.setState({
 			name,
@@ -127,7 +129,8 @@ class PlotPointForm extends React.Component {
 			vehicleMountedAndAtGuns,
 			ammunition,
 			specialWeapons,
-			armor
+			armor,
+			vehicles
 		});
 	}
 
@@ -148,7 +151,7 @@ class PlotPointForm extends React.Component {
 				    edges, edgeTypes, error, description, handWeapons,
 				    hindrances, mundaneItems, name, races, rangedWeapons,
 				    settingRules, skillDescriptions, vehicleMountedAndAtGuns, ammunition,
-				    specialWeapons, armor
+				    specialWeapons, armor, vehicles
 		    } = this.state;
 		return (
 				<form id="plotPointForm">
@@ -187,10 +190,7 @@ class PlotPointForm extends React.Component {
 					                   allowEditing={true}/>
 					<ArmorList list={armor} onListChange={this.armorChange.bind(this)}
 					           allowEditing={true}/>
-					<h2>Vehicles</h2>
-					<h3>Land Vehicles</h3>
-					<h3>Aircraft</h3>
-					<h3>Watercraft</h3>
+					<VehicleList list={vehicles} onListChange={this.vehicleChange.bind(this)} allowEditing={true}/>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
@@ -221,7 +221,7 @@ class PlotPointForm extends React.Component {
 				    name              = "", description = "", _id = "", settingRules = [], races = [],
 				    skillDescriptions = [], edges = [], edgeTypes = [], hindrances = [], mundaneItems = [],
 				    handWeapons       = [], rangedWeapons = [], vehicleMountedAndAtGuns = [], ammunition = [],
-				    specialWeapons    = [], armor = []
+				    specialWeapons    = [], armor = [], vehicles = []
 		    }                     = this.state;
 		this.props.onSubmit({
 			_id,
@@ -239,7 +239,14 @@ class PlotPointForm extends React.Component {
 			vehicleMountedAndAtGuns,
 			ammunition,
 			specialWeapons,
-			armor
+			armor,
+			vehicles
+		});
+	}
+
+	vehicleChange(vehicles) {
+		this.setState({
+			vehicles
 		});
 	}
 

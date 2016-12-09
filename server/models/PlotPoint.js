@@ -145,6 +145,24 @@ const VehicleMountedAndAtGun = new Schema({
 	rateOfFire: Types.Number
 });
 
+const Vehicle = new Schema({
+	era: Types.String,
+	type: Types.String,
+	mode: Types.String,
+	name: Types.String,
+	acceleration: Types.Number,
+	topSpeed: Types.Number,
+	toughness: Types.Number,
+	armorPoints: Types.Number,
+	crew: Types.Number,
+	passengers: Types.Number,
+	cost: Types.Number,
+	notes: Types.String,
+	examples: Types.String,
+	weapons: Types.String,
+	climb: Types.Number
+});
+
 const PlotPoint = new Schema({
 	ammunition: [Ammo],
 	armor: [Armor],
@@ -162,7 +180,8 @@ const PlotPoint = new Schema({
 	specialWeapons: [SpecialWeapon],
 	startingFund: Types.Number,
 	user: Types.ObjectId,
-	vehicleMountedAndAtGuns: [VehicleMountedAndAtGun]
+	vehicleMountedAndAtGuns: [VehicleMountedAndAtGun],
+	vehicles: [Vehicle]
 });
 
 export default  mongoose.model('PlotPoint', PlotPoint);
