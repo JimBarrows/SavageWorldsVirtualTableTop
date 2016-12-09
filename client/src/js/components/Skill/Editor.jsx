@@ -1,6 +1,7 @@
 import React from "react";
-import {FormGroup, TextFormGroup, TextAreaFormGroup} from "bootstrap-react-components";
+import {TextFormGroup, TextAreaFormGroup} from "bootstrap-react-components";
 import {ItemEditor} from "../Item";
+import AttributeSelect from "../AttributeSelect";
 
 class Editor extends ItemEditor {
 
@@ -29,20 +30,8 @@ class Editor extends ItemEditor {
 					                   name="description"
 					                   onChange={this.descriptionChange.bind(this)}
 					                   value={description}/>
-					<FormGroup label="Attribute"
-					           id="attribute"
-					           required={true}>
-						<select class="form-control"
-						        id="attributeSelect"
-						        onChange={this.attributeChange.bind(this)}
-						        value={attribute}>
-							<option>Agility</option>
-							<option>Smarts</option>
-							<option>Strength</option>
-							<option>Spirit</option>
-							<option>Vigor</option>
-						</select>
-					</FormGroup>
+					<AttributeSelect onChange={this.attributeChange.bind(this)}
+					                 value={attribute}/>
 					<button type="button"
 					        class="btn btn-default"
 					        onClick={this.save.bind(this)}>Save

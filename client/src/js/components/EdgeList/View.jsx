@@ -7,15 +7,15 @@ class EdgeView extends React.Component {
 		let {_id, name, description, edgeType, edit, remove, save, allowEditing} = this.props;
 		return (
 				<div class="edgeViewPage">
-					<h3>
-						{name} {edgeType ? "-" + edgeType.name : ""}
+					<dt>
+						{name} {edgeType ? " - " + edgeType.name : ""}
 						{allowEditing ? <RowControlButtons id={_id}
 						                                   editing={false}
 						                                   edit={edit}
 						                                   save={save}
 						                                   remove={remove}/> : ""}
-					</h3>
-					{description}
+					</dt>
+					<dd>{description}</dd>
 				</div>
 		);
 	}

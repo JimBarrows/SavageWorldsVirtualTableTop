@@ -6,9 +6,27 @@ import {HindranceList} from "./Hindrance";
 import {RaceList} from "./Race";
 import {SettingRuleList} from "./SettingRule";
 import {SkillList} from "./Skill";
-
+import {MundaneItemList} from "./Gear/MundaneItem";
+import {HandWeaponList} from "./Gear/Weapon/HandWeapon";
+import {RangedWeaponList} from "./Gear/Weapon/RangedWeapon";
+import {VehicleMountedAndAtGunList} from "./Gear/Weapon/VehicleMountedAndAtGun";
+import {AmmunitionList} from "./Gear/Weapon/Ammunition";
+import {SpecialWeaponList} from "./Gear/Weapon/SpecialWeapon";
+import {ArmorList} from "./Gear/Armor";
 
 class PlotPointForm extends React.Component {
+
+	ammunitionChange(ammunition) {
+		this.setState({
+			ammunition
+		});
+	}
+
+	armorChange(armor) {
+		this.setState({
+			armor
+		});
+	}
 
 	cancel(event) {
 		event.preventDefault();
@@ -33,7 +51,14 @@ class PlotPointForm extends React.Component {
 			skillDescriptions: [],
 			edges: [],
 			edgeTypes: [],
-			hindrances: []
+			hindrances: [],
+			mundaneItems: [],
+			handWeapons: [],
+			rangedWeapons: [],
+			vehicleMountedAndAtGuns: [],
+			ammunition: [],
+			specialWeapons: [],
+			armor: []
 		}
 	}
 
@@ -55,9 +80,21 @@ class PlotPointForm extends React.Component {
 		});
 	}
 
+	handWeaponsChange(handWeapons) {
+		this.setState({
+			handWeapons
+		});
+	}
+
 	hindrancesChange(hindrances) {
 		this.setState({
 			hindrances
+		});
+	}
+
+	mundaneItemsChange(mundaneItems) {
+		this.setState({
+			mundaneItems
 		});
 	}
 
@@ -68,10 +105,36 @@ class PlotPointForm extends React.Component {
 	}
 
 	propsToState(props) {
-		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = [], edges = [], edgeTypes = [], hindrances = []}  = props.plotPoint;
+		let {
+				    name              = "", description = "", _id = "", settingRules = [], races = [],
+				    skillDescriptions = [], edges = [], edgeTypes = [], hindrances = [], mundaneItems = [],
+				    handWeapons       = [], rangedWeapons = [], vehicleMountedAndAtGuns = [], ammunition = [],
+				    specialWeapons    = [], armor = []
+		    }                     = props.plotPoint;
 		this.setState({
-			name, description, _id, settingRules, races, skillDescriptions, edges, edgeTypes, hindrances
+			name,
+			description,
+			_id,
+			settingRules,
+			races,
+			skillDescriptions,
+			edges,
+			edgeTypes,
+			hindrances,
+			mundaneItems,
+			handWeapons,
+			rangedWeapons,
+			vehicleMountedAndAtGuns,
+			ammunition,
+			specialWeapons,
+			armor
 		});
+	}
+
+	rangedWeaponsChange(rangedWeapons) {
+		this.setState({
+			rangedWeapons
+		})
 	}
 
 	racesChange(races) {
@@ -81,7 +144,12 @@ class PlotPointForm extends React.Component {
 	}
 
 	render() {
-		let {name, description, settingRules, races, skillDescriptions, edges, edgeTypes, error, hindrances} = this.state;
+		let {
+				    edges, edgeTypes, error, description, handWeapons,
+				    hindrances, mundaneItems, name, races, rangedWeapons,
+				    settingRules, skillDescriptions, vehicleMountedAndAtGuns, ammunition,
+				    specialWeapons, armor
+		    } = this.state;
 		return (
 				<form id="plotPointForm">
 					<DangerAlert error={error}/>
@@ -106,6 +174,23 @@ class PlotPointForm extends React.Component {
 					<EdgeTypeList list={edgeTypes} onListChange={this.edgeTypesChange.bind(this)} allowEditing={true}/>
 					<EdgeList list={edges} onListChange={this.edgesChange.bind(this)} allowEditing={true}/>
 					<HindranceList list={hindrances} onListChange={this.hindrancesChange.bind(this)} allowEditing={true}/>
+					<h1>Gear</h1>
+					<MundaneItemList list={mundaneItems} onListChange={this.mundaneItemsChange.bind(this)} allowEditing={true}/>
+					<h2>Weapons</h2>
+					<HandWeaponList list={handWeapons} onListChange={this.handWeaponsChange.bind(this)} allowEditing={true}/>
+					<RangedWeaponList list={rangedWeapons} onListChange={this.rangedWeaponsChange.bind(this)}
+					                  allowEditing={true}/>
+					<VehicleMountedAndAtGunList list={vehicleMountedAndAtGuns}
+					                            onListChange={this.vehicleMountedAndAtGunsChange.bind(this)} allowEditing={true}/>
+					<AmmunitionList list={ammunition} onListChange={this.ammunitionChange.bind(this)} allowEditing={true}/>
+					<SpecialWeaponList list={specialWeapons} onListChange={this.specialWeaponsChange.bind(this)}
+					                   allowEditing={true}/>
+					<ArmorList list={armor} onListChange={this.armorChange.bind(this)}
+					           allowEditing={true}/>
+					<h2>Vehicles</h2>
+					<h3>Land Vehicles</h3>
+					<h3>Aircraft</h3>
+					<h3>Watercraft</h3>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
 				</form>
@@ -124,10 +209,44 @@ class PlotPointForm extends React.Component {
 		});
 	}
 
+	specialWeaponsChange(specialWeapons) {
+		this.setState({
+			specialWeapons
+		});
+	}
+
 	submit(event) {
 		event.preventDefault();
-		let {name = "", description = "", _id = "", settingRules = [], races = [], skillDescriptions = [], edges = [], edgeTypes = [], hindrances = []} = this.state;
-		this.props.onSubmit({_id, description, name, settingRules, races, skillDescriptions, edges, edgeTypes, hindrances});
+		let {
+				    name              = "", description = "", _id = "", settingRules = [], races = [],
+				    skillDescriptions = [], edges = [], edgeTypes = [], hindrances = [], mundaneItems = [],
+				    handWeapons       = [], rangedWeapons = [], vehicleMountedAndAtGuns = [], ammunition = [],
+				    specialWeapons    = [], armor = []
+		    }                     = this.state;
+		this.props.onSubmit({
+			_id,
+			description,
+			name,
+			settingRules,
+			races,
+			skillDescriptions,
+			edges,
+			edgeTypes,
+			hindrances,
+			mundaneItems,
+			handWeapons,
+			rangedWeapons,
+			vehicleMountedAndAtGuns,
+			ammunition,
+			specialWeapons,
+			armor
+		});
+	}
+
+	vehicleMountedAndAtGunsChange(vehicleMountedAndAtGuns) {
+		this.setState({
+			vehicleMountedAndAtGuns
+		});
 	}
 }
 export default PlotPointForm;

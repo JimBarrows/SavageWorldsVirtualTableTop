@@ -9,15 +9,15 @@ class EdgeTypeView extends React.Component {
 
 		return (
 				<div class="EdgeTypeView">
-					<h3>
+					<dt>
 						{name}
 						{allowEditing ? <RowControlButtons id={_id}
 						                                   editing={false}
 						                                   edit={edit}
 						                                   save={save}
 						                                   remove={remove}/> : ""}
-					</h3>
-					{description}
+					</dt>
+					<dd>{description}</dd>
 				</div>
 		);
 	}

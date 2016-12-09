@@ -11,13 +11,15 @@ class HindranceList extends ListManager {
 				save={this.addToList.bind(this)}/>);
 		return (
 				<div id="edgeTypeList">
-					<h2>Hindrances</h2>
+					<h1>Hindrances</h1>
 					{addButton}
-					{list.map((item, index) => <HindranceDescription key={item._id}
-					                                                 item={item}
-					                                                 save={this.updateItem.bind(this)}
-					                                                 remove={this.removeItem.bind(this)}
-					                                                 allowEditing={allowEditing}/>)}
+					<dl>
+						{list.map((item, index) => <HindranceDescription key={item._id}
+						                                                 item={item}
+						                                                 save={this.updateItem.bind(this)}
+						                                                 remove={this.removeItem.bind(this)}
+						                                                 allowEditing={allowEditing}/>)}
+					</dl>
 				</div>
 		);
 	}

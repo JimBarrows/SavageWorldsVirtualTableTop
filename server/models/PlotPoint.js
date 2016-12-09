@@ -9,10 +9,8 @@ export const attributes = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor'];
 
 const Ammo = new Schema({
 	name: Types.String,
-	weightNumerator: Types.Number,
-	weightDenominator: Types.Number,
-	costNumerator: Types.Number,
-	costDenominator: Types.Number,
+	cost: Types.Number,
+	weight: Types.Number,
 	notes: Types.String
 });
 
@@ -21,15 +19,23 @@ const Armor = new Schema({
 	name: Types.String,
 	type: Types.String,
 	era: Types.String,
-	points: Types.Number,
-	pointsVsBullets: Types.Number,
+	armor: Types.Number,
+	armorVsBullets: Types.Number,
 	armorProtection: Types.Number,
-	apVsBullets: Types.Number
+	cost: Types.Number,
+	weight: Types.Number
 });
 
 const AttributeRank = new Schema({
 	attribute: {type: Types.String, enum: attributes},
 	rank: {type: Types.String, enum: ranks}
+});
+
+const Damage = new Schema({
+	attribute: {type: Types.String, enum: attributes},
+	diceCount: {type: Types.Number},
+	bonus: Types.Number,
+	dice: {type: Types.String, enum: ranks}
 });
 
 const EdgeType = new Schema({
@@ -52,15 +58,13 @@ const EdgeDescription = new Schema({
 });
 
 const HandWeapon = new Schema({
-	name: Types.String,
-	type: Types.String,
-	era: Types.String,
-	weight: Types.Number,
 	cost: Types.Number,
-	ability: {type: Types.String, enum: attributes},
-	dice: {type: Types.String, enum: ranks},
-	bonus: Types.Number,
-	notes: Types.String
+	damage: Damage,
+	era: Types.String,
+	name: Types.String,
+	notes: Types.String,
+	type: Types.String,
+	weight: Types.Number
 });
 
 const HindranceDescription = new Schema({
@@ -70,10 +74,10 @@ const HindranceDescription = new Schema({
 });
 
 const MundaneItem = new Schema({
-	name: Types.String,
-	weight: Types.Number,
 	cost: Types.Number,
-	type: Types.String
+	name: Types.String,
+	type: Types.String,
+	weight: Types.Number
 });
 
 const RaceAbility = new Schema({
@@ -88,22 +92,24 @@ const Race = new Schema({
 	abilities: [RaceAbility]
 });
 
-const RangedWeapon = new Schema({
-	name: Types.String,
-	type: Types.String,
-	era: Types.String,
-	weight: Types.Number,
-	cost: Types.Number,
-	ability: {type: Types.String, enum: attributes},
-	dice: {type: Types.String, enum: ranks},
-	bonus: Types.Number,
-	rateOfFire: Types.Number,
-	shots: Types.Number,
-	minStr: {Type: Types.String, enum: ranks},
-	notes: Types.String,
+const Range = new Schema({
 	short: Types.Number,
 	medium: Types.Number,
 	long: Types.Number
+});
+
+const RangedWeapon = new Schema({
+	cost: Types.Number,
+	damage: Damage,
+	era: Types.String,
+	minStr: {Type: Types.String, enum: ranks},
+	name: Types.String,
+	notes: Types.String,
+	range: Range,
+	rateOfFire: Types.Number,
+	shots: Types.Number,
+	type: Types.String,
+	weight: Types.Number
 });
 
 const SettingRule = new Schema({
@@ -120,14 +126,10 @@ const SkillDescription = new Schema({
 const SpecialWeapon = new Schema({
 	name: Types.String,
 	type: Types.String,
-	era: Types.String,
-	short: Types.Number,
-	medium: Types.Number,
-	long: Types.Number,
-	numberOfDie: Types.Number,
-	dice: {type: Types.String, enum: ranks},
-	bonus: Types.Number,
+	range: Range,
+	damage: Damage,
 	rateOfFire: Types.Number,
+	armorPiercing: Types.Number,
 	minStrength: {type: Types.String, enum: ranks},
 	burstTemplate: Types.String,
 	weight: Types.Number,
@@ -137,16 +139,9 @@ const VehicleMountedAndAtGun = new Schema({
 	name: Types.String,
 	type: Types.String,
 	era: Types.String,
-	short: Types.Number,
-	medium: Types.Number,
-	long: Types.Number,
-	numberOfDice: Types.Number,
-	dice: {type: Types.String, enum: ranks},
-	armorPiercing: Types.Number,
-	heNumberOfDice: Types.Number,
-	heDice: {type: Types.String, enum: ranks},
-	heAp: Types.Number,
-	burstTemplate: Types.String,
+	range: Range,
+	apRoundDamage: Damage,
+	heRoundDamage: Damage,
 	rateOfFire: Types.Number
 });
 

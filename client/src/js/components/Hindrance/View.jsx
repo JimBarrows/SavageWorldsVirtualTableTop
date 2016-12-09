@@ -9,16 +9,17 @@ class HindranceView extends React.Component {
 
 		return (
 				<div class="HindranceView">
-					<h3>
+					<dt>
 						{name}
+						&nbsp;
 						<small>({severity})</small>
 						{allowEditing ? <RowControlButtons id={_id}
 						                                   editing={false}
 						                                   edit={edit}
 						                                   save={save}
 						                                   remove={remove}/> : ""}
-					</h3>
-					{description}
+					</dt>
+					<dd>{description}</dd>
 				</div>
 		);
 	}

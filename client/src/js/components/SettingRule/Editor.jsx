@@ -4,23 +4,11 @@ import {ItemEditor} from "../Item";
 
 class SettingRuleEditor extends ItemEditor {
 
-	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		})
-	}
-
 	propsToState(props) {
 		let {_id, name, description} = props;
 		this.setState({
 			_id, name, description
 		});
-	}
-
-	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		})
 	}
 
 	render() {
@@ -48,9 +36,9 @@ class SettingRuleEditor extends ItemEditor {
 	}
 
 	stateToItem() {
-		let {_id, name, description, edgeType} = this.state;
+		let {_id, name, description} = this.state;
 		return {
-			_id, name, description, edgeType
+			_id, name, description
 		}
 	}
 }

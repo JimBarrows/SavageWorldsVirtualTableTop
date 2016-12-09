@@ -12,14 +12,16 @@ class AbilityList extends ListManager {
 
 		return (
 				<div id="AbilityList">
-					<h4>Abilities</h4>
+					<h3>Abilities</h3>
 					{addButton}
-					{list.map((item, index) => (
-							<AbilityDescription key={item._id}
-							                    item={item}
-							                    save={this.updateItem.bind(this)}
-							                    remove={this.removeItem.bind(this)}
-							                    allowEditing={allowEditing}/>))}
+					<dl>
+						{list.map((item, index) => (
+								<AbilityDescription key={item._id}
+								                    item={item}
+								                    save={this.updateItem.bind(this)}
+								                    remove={this.removeItem.bind(this)}
+								                    allowEditing={allowEditing}/>))}
+					</dl>
 				</div>
 		);
 	}

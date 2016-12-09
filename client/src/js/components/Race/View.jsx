@@ -9,12 +9,12 @@ class RaceView extends React.Component {
 		const {name, description, abilities, edit, remove, save} = this.props;
 		return (
 				<div class="raceView">
-					<h3>{name} <RowControlButtons id={name}
+					<h2>{name} <RowControlButtons id={name}
 					                              editing={false}
 					                              edit={edit}
 					                              save={save}
 					                              remove={remove}/>
-					</h3>
+					</h2>
 					{description}
 					<AbilityList list={abilities} allowEditing={false}/>
 				</div>

@@ -11,7 +11,7 @@ class SettingRuleList extends ListManager {
 
 		return (
 				<div id="settingRulesList">
-					<h2>Setting Rules</h2>
+					<h1>Setting Rules</h1>
 					{addButton}
 					<dl>
 						{list.map((item, index) => <SettingRuleDescription

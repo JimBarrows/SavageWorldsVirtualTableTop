@@ -9,7 +9,7 @@ class SkillDescription extends ItemDescription {
 		return <SkillEditor _id={item._id}
 		                    name={item.name}
 		                    description={item.description}
-		                    attribue={item.attribute}
+		                    attribute={item.attribute}
 		                    save={this.save.bind(this)}
 		                    onListChange={this.props.onListChange}/>
 	}

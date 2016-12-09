@@ -9,19 +9,22 @@ class AbilityView extends React.Component {
 
 		return (
 				<div class="AbilityViewPage">
-					<h5>
+					<dt>
 						{name}
-						<small>
-							<bold>Cost:</bold>
-							{cost}
-						</small>
+
 						{allowEditing ? <RowControlButtons id={_id}
 						                                   editing={false}
 						                                   edit={edit}
 						                                   save={save}
 						                                   remove={remove}/> : ""}
-					</h5>
-					{description}
+					</dt>
+					<dd>
+						<small>
+							<bold>Cost:</bold>
+							{cost}
+						</small>
+						<br/>
+						{description}</dd>
 				</div>
 		);
 	}

@@ -11,14 +11,16 @@ class SkillList extends ListManager {
 
 		return (
 				<div id="skillList">
-					<h2>Skills</h2>
+					<h1>Skills</h1>
 					{addButton}
-					{list.map((item, index) => (
-							<SkillDescription key={item._id}
-							                  item={item}
-							                  save={this.updateItem.bind(this)}
-							                  remove={this.removeItem.bind(this)}
-							                  allowEditing={allowEditing}/>))}
+					<dl>
+						{list.map((item, index) => (
+								<SkillDescription key={item._id}
+								                  item={item}
+								                  save={this.updateItem.bind(this)}
+								                  remove={this.removeItem.bind(this)}
+								                  allowEditing={allowEditing}/>))}
+					</dl>
 				</div>
 		);
 	}

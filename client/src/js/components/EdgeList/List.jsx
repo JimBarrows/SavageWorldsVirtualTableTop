@@ -12,13 +12,15 @@ class EdgeList extends ListManager {
 				save={this.addToList.bind(this)}/>);
 		return (
 				<div id="edgeList">
-					<h2>Edges</h2>
+					<h1>Edges</h1>
 					{addButton}
-					{list.map((item, index) => <EdgeDescription key={item._id}
-					                                            item={item}
-					                                            save={this.updateItem.bind(this)}
-					                                            remove={this.removeItem.bind(this)}
-					                                            allowEditing={allowEditing}/>)}
+					<dl>
+						{list.map((item, index) => <EdgeDescription key={item._id}
+						                                            item={item}
+						                                            save={this.updateItem.bind(this)}
+						                                            remove={this.removeItem.bind(this)}
+						                                            allowEditing={allowEditing}/>)}
+					</dl>
 				</div>
 		);
 	}

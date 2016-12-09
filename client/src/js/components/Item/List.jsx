@@ -73,9 +73,9 @@ class ListManager extends React.Component {
 	}
 
 
-	updateItem(settingRule) {
-		let index              = this.state.list.findIndex((rule) => rule._id === settingRule._id || rule.name === settingRule.name);
-		this.state.list[index] = settingRule;
+	updateItem(item) {
+		let index              = this.state.list.findIndex((rule) => rule._id === item._id || rule.name === item.name);
+		this.state.list[index] = item;
 		this.setState({
 			list: this.state.list
 		});
