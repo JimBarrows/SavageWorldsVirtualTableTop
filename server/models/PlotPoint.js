@@ -1,11 +1,12 @@
 'use strict';
 import mongoose from "mongoose";
+import ArcaneBackground from "./ArcaneBackground";
+import SkillDescription from "./SkillDescription";
+import {ranks, attributes, hindranceSeverity} from "./enums";
 const Schema = mongoose.Schema;
 const Types  = mongoose.Schema.Types;
 
-export const ranks = ['d4', 'd6', 'd8', 'd10', 'd12'];
 
-export const attributes = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor'];
 
 const Ammo = new Schema({
 	name: Types.String,
@@ -13,7 +14,6 @@ const Ammo = new Schema({
 	weight: Types.Number,
 	notes: Types.String
 });
-
 
 const Armor = new Schema({
 	name: Types.String,
@@ -69,7 +69,7 @@ const HandWeapon = new Schema({
 
 const HindranceDescription = new Schema({
 	name: Types.String,
-	description: Types.String,
+	description: {type: Types.String, enum: hindranceSeverity},
 	severity: Types.String
 });
 
@@ -117,12 +117,6 @@ const SettingRule = new Schema({
 	description: Types.String
 });
 
-const SkillDescription = new Schema({
-	name: Types.String,
-	description: Types.String,
-	attribute: Types.String
-});
-
 const SpecialWeapon = new Schema({
 	name: Types.String,
 	type: Types.String,
@@ -166,6 +160,7 @@ const Vehicle = new Schema({
 const PlotPoint = new Schema({
 	ammunition: [Ammo],
 	armor: [Armor],
+	arcaneBackgrounds: [ArcaneBackground],
 	description: Types.String,
 	edges: [EdgeDescription],
 	edgeTypes: [EdgeType],
