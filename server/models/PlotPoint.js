@@ -2,10 +2,10 @@
 import mongoose from "mongoose";
 import ArcaneBackground from "./ArcaneBackground";
 import SkillDescription from "./SkillDescription";
+import Trapping from "./Trapping";
 import {ranks, attributes, hindranceSeverity} from "./enums";
 const Schema = mongoose.Schema;
 const Types  = mongoose.Schema.Types;
-
 
 
 const Ammo = new Schema({
@@ -174,6 +174,7 @@ const PlotPoint = new Schema({
 	skillDescriptions: [SkillDescription],
 	specialWeapons: [SpecialWeapon],
 	startingFund: Types.Number,
+	trappings: [Trapping],
 	user: Types.ObjectId,
 	vehicleMountedAndAtGuns: [VehicleMountedAndAtGun],
 	vehicles: [Vehicle]

@@ -15,6 +15,7 @@ import {SpecialWeaponList} from "./Gear/Weapon/SpecialWeapon";
 import {ArmorList} from "./Gear/Armor";
 import {VehicleList} from "./Gear/Vehicle";
 import {ArcaneBackgroundList} from "./Powers/ArcaneBackground";
+import {TrappingList} from "./Powers/Trapping";
 
 class PlotPointForm extends React.Component {
 
@@ -68,7 +69,8 @@ class PlotPointForm extends React.Component {
 			specialWeapons: [],
 			armor: [],
 			vehicles: [],
-			arcaneBackgrounds: []
+			arcaneBackgrounds: [],
+			trappings: []
 		}
 	}
 
@@ -120,7 +122,7 @@ class PlotPointForm extends React.Component {
 				    skillDescriptions = [], edges = [], edgeTypes = [], hindrances = [], mundaneItems = [],
 				    handWeapons       = [], rangedWeapons = [], vehicleMountedAndAtGuns = [], ammunition = [],
 				    specialWeapons    = [], armor = [], vehicles = [],
-				    arcaneBackgrounds = []
+				    arcaneBackgrounds = [], trappings = []
 		    }                     = props.plotPoint;
 		this.setState({
 			name,
@@ -140,7 +142,8 @@ class PlotPointForm extends React.Component {
 			specialWeapons,
 			armor,
 			vehicles,
-			arcaneBackgrounds
+			arcaneBackgrounds,
+			trappings
 		});
 	}
 
@@ -161,7 +164,7 @@ class PlotPointForm extends React.Component {
 				    edges, edgeTypes, error, description, handWeapons,
 				    hindrances, mundaneItems, name, races, rangedWeapons,
 				    settingRules, skillDescriptions, vehicleMountedAndAtGuns, ammunition,
-				    specialWeapons, armor, vehicles, arcaneBackgrounds
+				    specialWeapons, armor, vehicles, arcaneBackgrounds, trappings
 		    } = this.state;
 		return (
 				<form id="plotPointForm">
@@ -204,7 +207,8 @@ class PlotPointForm extends React.Component {
 					<h1>Powers</h1>
 					<ArcaneBackgroundList list={arcaneBackgrounds} onListChange={this.arcaneBackgroundsChange.bind(this)}
 					                      allowEditing={true}/>
-					<h2>Trappings and Effects</h2>
+					<TrappingList list={trappings} onListChange={this.trappingsChange.bind(this)}
+					              allowEditing={true}/>
 					<h2>Powers</h2>
 					<button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Save</button>
 					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
@@ -236,7 +240,7 @@ class PlotPointForm extends React.Component {
 				    name              = "", description = "", _id = "", settingRules = [], races = [],
 				    skillDescriptions = [], edges = [], edgeTypes = [], hindrances = [], mundaneItems = [],
 				    handWeapons       = [], rangedWeapons = [], vehicleMountedAndAtGuns = [], ammunition = [],
-				    specialWeapons    = [], armor = [], vehicles = [], arcaneBackgrounds = []
+				    specialWeapons    = [], armor = [], vehicles = [], arcaneBackgrounds = [], trappings = []
 		    }                     = this.state;
 		this.props.onSubmit({
 			_id,
@@ -255,7 +259,15 @@ class PlotPointForm extends React.Component {
 			ammunition,
 			specialWeapons,
 			armor,
-			vehicles, arcaneBackgrounds
+			vehicles,
+			arcaneBackgrounds,
+			trappings
+		});
+	}
+
+	trappingsChange(trappings) {
+		this.setState({
+			trappings
 		});
 	}
 
