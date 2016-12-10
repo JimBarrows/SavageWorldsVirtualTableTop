@@ -1,6 +1,8 @@
 'use strict';
 import mongoose from "mongoose";
 import ArcaneBackground from "./ArcaneBackground";
+import Power from "./Power";
+import Range from "./Range";
 import SkillDescription from "./SkillDescription";
 import Trapping from "./Trapping";
 import {ranks, attributes, hindranceSeverity} from "./enums";
@@ -92,12 +94,6 @@ const Race = new Schema({
 	abilities: [RaceAbility]
 });
 
-const Range = new Schema({
-	short: Types.Number,
-	medium: Types.Number,
-	long: Types.Number
-});
-
 const RangedWeapon = new Schema({
 	cost: Types.Number,
 	damage: Damage,
@@ -168,6 +164,7 @@ const PlotPoint = new Schema({
 	hindrances: [HindranceDescription],
 	mundaneItems: [MundaneItem],
 	name: Types.String,
+	powers: [Power],
 	races: [Race],
 	rangedWeapons: [RangedWeapon],
 	settingRules: [SettingRule],
