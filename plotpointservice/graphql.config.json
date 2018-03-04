@@ -20,8 +20,8 @@
  "README_endpoints" : "A list of GraphQL endpoints that can be queried from '.graphql' files in the IDE",
  "endpoints" : [
 	{
-	 "name" : "Default (http://localhost/api/plotpointservice/graphql/)",
-	 "url" : "http://localhost/api/plotpointservice/graphql/",
+	 "name" : "Plot point service",
+	 "url" : "http://localhost/api/plotpointservice",
 	 "options" : {
 		"headers" : {
 		 "user-agent" : "JS GraphQL"
