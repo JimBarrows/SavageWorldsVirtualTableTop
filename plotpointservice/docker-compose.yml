@@ -1,0 +1,56 @@
+version: '3'
+services:
+
+  swga_database:
+    image: thejimbarrows/swga_datastore
+    ports:
+      - "5432:5432"
+
+  user_database:
+    image: erpmicroservices/e-commerce-db
+    ports:
+      - "5433:5432"
+
+  user_services:
+    image: erpmicroservices/e-commerce-services:latest
+    links:
+      - user_database:e-commerce-db
+    environment:
+      - ENDPOINT_URL=/api/user/graphql
+      - GRAPHIQL=true
+      - JWT_HEADER=authorization
+      - JWT_SECRET=This is really cool
+      - SERVER_URL=/
+    labels:
+      - "traefik.backend=user-service"
+      - "traefik.frontend.rule=PathPrefixStrip:/api/user"
+      - "traefik.port=80"
+      - "traefik.frontend.entryPoints=http"
+
+  plotpointservice:
+    build: .
+    links:
+      - swga_database
+    environment:
+      - JWT_HEADER=authorization
+      - JWT_SECRET=This is really cool
+      - SERVER_PORT=80
+      - SERVER_TRACING=true
+      - SERVER_URL=http://localhost/api/plotpointservice
+    volumes:
+      - "./:/usr/src/app"
+    labels:
+      - "traefik.backend=plotpointservice"
+      - "traefik.frontend.rule=PathPrefixStrip:/api/plotpointservice"
+      - "traefik.port=80"
+      - "traefik.frontend.entryPoints=http"
+
+  traefik:
+    image: traefik
+    command: --web --docker --docker.domain=docker.localhost --logLevel=INFO
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml

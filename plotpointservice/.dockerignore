@@ -1,0 +1,8 @@
+feautres/
+docker-compose.yml
+Dockerfile
+.idea/
+node_modules/
+graphql.config.json
+graphql.schema.json
+README.md
