@@ -1,0 +1,25 @@
+{
+  "name": "ui-webapp",
+  "version": "0.1.0",
+  "private": true,
+  "author": {
+    "name": "Jim Barrows",
+    "email": "Jim.Barrows@gmail.com"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.1"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "docker-compose up",
+    "start:local": "react-scripts start",
+    "stop": "docker-compose down",
+    "test": "npm run test:unit && npm run test:ui",
+    "test:unit": "react-scripts test --env=jsdom",
+    "test:ui": "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
+    "test:ui:feature": "cucumber-js --require-module babel-core/register --require-module babel-polyfill --name \"I can add a card when creating a deck\""
+  }
+}
