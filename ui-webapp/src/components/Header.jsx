@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import {Link} from 'react-router-dom';
+
 // import {withRouter} from 'react-router-dom'
 
 class Header extends React.Component {
 
   constructor () {
-    super()
+	  super();
     this.state = {
       collapsed: true,
       username: null
@@ -12,17 +14,17 @@ class Header extends React.Component {
   }
 
   toggleCollapse () {
-    let collapsed = !this.state.collapsed
+	  let collapsed = !this.state.collapsed;
     this.setState({collapsed})
   }
 
   logout (e) {
-    e.preventDefault()
+	  e.preventDefault();
     this.props.logout()
   }
 
   render () {
-    const {auth} = this.props
+	  const {auth}      = this.props;
     let UserComponent = /* auth.isAuthenticated
       ? (
         <ul className='nav navbar-nav navbar-right' >
@@ -33,7 +35,9 @@ class Header extends React.Component {
           </li >
         </ul >
       )
-      :*/ <ul className='nav navbar-nav navbar-right' ></ul >
+      :*/ <ul className='nav navbar-nav navbar-right'>
+	    <li><Link to='/register'>Register</Link></li>
+    </ul>;
 
 
     return (
@@ -60,9 +64,9 @@ class Header extends React.Component {
   }
 }
 
-Header.propTypes = {}
+Header.propTypes = {};
 
-Header.defaultProps = {}
+Header.defaultProps = {};
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -70,7 +74,7 @@ const mapStateToProps = (state, ownProps) => {
     location: ownProps.location,
     auth: state.auth
   }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -78,5 +82,5 @@ const mapDispatchToProps = (dispatch) => {
       // dispatch(logoutAndRedirect())
     }
   }
-}
+};
 export default Header //withRouter(connect(mapStateToProps, mapDispatchToProps)(Header))

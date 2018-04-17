@@ -1,8 +1,9 @@
-import React, {Component} from 'react'
-import {Route, Switch} from 'react-router-dom'
-import './App.css'
-import Header from './components/Header'
-import PlotPointList from './components/PlotPointList'
+import React, {Component} from 'react';
+import {Route, Switch} from 'react-router-dom';
+import './App.css';
+import Header from './components/Header';
+import PlotPointList from './components/PlotPointList';
+import Register from './components/Register';
 
 class App extends Component {
   render () {
@@ -13,6 +14,7 @@ class App extends Component {
         <div id={"layout"} className="container" role={"main"} >
           <Switch >
             <Route exact path="/" component={PlotPointList} />
+	          <Route exact path="/register" component={Register}/>
           </Switch >
         </div >
       </div >
