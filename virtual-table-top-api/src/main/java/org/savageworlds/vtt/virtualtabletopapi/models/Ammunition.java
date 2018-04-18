@@ -2,8 +2,10 @@ package org.savageworlds.vtt.virtualtabletopapi.models;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.*;
 
+@Entity
 public class Ammunition extends Gear {
 
 

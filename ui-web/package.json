@@ -1,34 +1,30 @@
 {
-  "name": "ui-webapp",
-  "version": "0.1.0",
-  "private": true,
-  "author": {
-    "name": "Jim Barrows",
-    "email": "Jim.Barrows@gmail.com"
-  },
-  "dependencies": {
-    "apollo-client": "^2.2.6",
-    "apollo-client-preset": "^1.0.8",
-    "bootstrap-react-components": "^0.19.1",
-    "graphql": "^0.13.1",
-    "graphql-tag": "^2.8.0",
-    "postcss": "^6.0.19",
-    "react": "^16.2.0",
-    "react-apollo": "^2.0.4",
-    "react-dom": "^16.2.0",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1"
-  },
-  "scripts": {
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "start": "docker-compose up",
-    "start:local": "react-scripts start",
-    "stop": "docker-compose down",
-    "test": "npm run test:unit && npm run test:ui",
-    "test:unit": "react-scripts test --env=jsdom",
-    "test:ui": "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
-    "test:ui:feature": "cucumber-js --require-module babel-core/register --require-module babel-polyfill --name \"I can add a card when creating a deck\""
-  }
+ "name" : "ui-webapp",
+ "version" : "0.1.0",
+ "private" : true,
+ "author" : {
+	"name" : "Jim Barrows",
+	"email" : "Jim.Barrows@gmail.com"
+ },
+ "dependencies" : {
+	"bootstrap-react-components" : "^0.19.1",
+	"postcss" : "^6.0.19",
+	"react" : "^16.2.0",
+	"react-dom" : "^16.2.0",
+	"react-router" : "^4.2.0",
+	"react-router-dom" : "^4.2.2",
+	"react-scripts" : "1.1.1",
+	"rest" : "^2.0.0"
+ },
+ "scripts" : {
+	"build" : "react-scripts build",
+	"eject" : "react-scripts eject",
+	"start" : "docker-compose up",
+	"start:local" : "react-scripts start",
+	"stop" : "docker-compose down",
+	"test" : "npm run test:unit && npm run test:ui",
+	"test:unit" : "react-scripts test --env=jsdom",
+	"test:ui" : "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
+	"test:ui:feature" : "cucumber-js --require-module babel-core/register --require-module babel-polyfill --name \"I can add a card when creating a deck\""
+ }
 }
