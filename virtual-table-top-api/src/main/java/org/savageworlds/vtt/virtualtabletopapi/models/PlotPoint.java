@@ -42,52 +42,57 @@ public class PlotPoint {
 	@Min(1)
 	private int maximumSkillPoints = 15;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Race> races = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Skill> skills = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Hindrance> hindrances = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Edge> edges = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Gear> gear = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Vehicle> vehicles = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<SettingRule> settingRules = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<ArcaneBackground> arcaneBackgrounds = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Power> powers = new LinkedHashSet<>();
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Persona> characters = new LinkedHashSet<>();
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
 	private Set<Beast> beasts = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("name")
 	private Set<Location> gazetteer = new LinkedHashSet<>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("name")
+	private Set<Story> savageTales = new LinkedHashSet<>();
 
 	@Override
 	public String toString() {
@@ -112,7 +117,16 @@ public class PlotPoint {
 				.append("characters", characters)
 				.append("beasts", beasts)
 				.append("gazetteer", gazetteer)
+				.append("savageTales", savageTales)
 				.toString();
+	}
+
+	public Set<Story> getSavageTales() {
+		return savageTales;
+	}
+
+	public void setSavageTales(final Set<Story> savageTales) {
+		this.savageTales = savageTales;
 	}
 
 	public int getMaximumMinorHindrances() {

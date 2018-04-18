@@ -3,13 +3,16 @@ package org.savageworlds.vtt.virtualtabletopapi.models;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Location {
+public class Scene {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,30 +31,36 @@ public class Location {
 	@NotEmpty
 	private String gmDescription;
 
+	@Positive
+	@Min(1)
+	private int sequence;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@OrderBy("name")
+	private Set<Persona> cast = new LinkedHashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@OrderBy("name")
+	private Set<Beast> animals = new LinkedHashSet<>();
+
 	@ManyToOne
-	private Location inside;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "inside", fetch = FetchType.EAGER)
-	@OrderBy("name")
-	private Set<Location> contains = new LinkedHashSet<>();
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "startingLocation")
-	@OrderBy("name")
-	private Set<Story> savageTales = new LinkedHashSet<>();
+	@NotNull
+	private Location location;
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(getId(), getVersion());
+		return Objects.hash(getId(), getVersion(), getName());
 	}
 
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Location)) return false;
-		final Location location = (Location) o;
-		return getId() == location.getId() &&
-				getVersion() == location.getVersion();
+		if (!(o instanceof Scene)) return false;
+		final Scene scene = (Scene) o;
+		return getId() == scene.getId() &&
+				getVersion() == scene.getVersion() &&
+				Objects.equals(getName(), scene.getName());
 	}
 
 	@Override
@@ -62,18 +71,11 @@ public class Location {
 				.append("name", name)
 				.append("playerDescription", playerDescription)
 				.append("gmDescription", gmDescription)
-				.append("inside", inside)
-				.append("contains", contains)
-				.append("savageTales", savageTales)
+				.append("sequence", sequence)
+				.append("cast", cast)
+				.append("animals", animals)
+				.append("location", location)
 				.toString();
-	}
-
-	public String getGmDescription() {
-		return gmDescription;
-	}
-
-	public void setGmDescription(final String gmDescription) {
-		this.gmDescription = gmDescription;
 	}
 
 	public long getId() {
@@ -108,27 +110,43 @@ public class Location {
 		this.playerDescription = playerDescription;
 	}
 
-	public Location getInside() {
-		return inside;
+	public String getGmDescription() {
+		return gmDescription;
 	}
 
-	public void setInside(final Location inside) {
-		this.inside = inside;
+	public void setGmDescription(final String gmDescription) {
+		this.gmDescription = gmDescription;
 	}
 
-	public Set<Location> getContains() {
-		return contains;
+	public int getSequence() {
+		return sequence;
 	}
 
-	public void setContains(final Set<Location> contains) {
-		this.contains = contains;
+	public void setSequence(final int sequence) {
+		this.sequence = sequence;
 	}
 
-	public Set<Story> getSavageTales() {
-		return savageTales;
+	public Set<Persona> getCast() {
+		return cast;
 	}
 
-	public void setSavageTales(final Set<Story> savageTales) {
-		this.savageTales = savageTales;
+	public void setCast(final Set<Persona> cast) {
+		this.cast = cast;
+	}
+
+	public Set<Beast> getAnimals() {
+		return animals;
+	}
+
+	public void setAnimals(final Set<Beast> animals) {
+		this.animals = animals;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(final Location location) {
+		this.location = location;
 	}
 }
