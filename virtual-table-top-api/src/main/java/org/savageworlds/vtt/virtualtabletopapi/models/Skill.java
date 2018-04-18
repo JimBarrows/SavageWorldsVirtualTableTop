@@ -41,7 +41,7 @@ public class Skill {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(getId(), getVersion());
+		return Objects.hash(getId(), getVersion(), getName());
 	}
 
 	@Override
@@ -50,7 +50,8 @@ public class Skill {
 		if (!(o instanceof Skill)) return false;
 		final Skill skill = (Skill) o;
 		return getId() == skill.getId() &&
-				getVersion() == skill.getVersion();
+				getVersion() == skill.getVersion() &&
+				Objects.equals(getName(), skill.getName());
 	}
 
 	@Override

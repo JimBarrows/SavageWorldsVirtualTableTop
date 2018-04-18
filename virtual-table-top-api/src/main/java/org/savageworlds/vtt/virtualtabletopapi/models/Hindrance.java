@@ -40,7 +40,7 @@ public class Hindrance {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(getId(), getVersion());
+		return Objects.hash(getId(), getVersion(), getName());
 	}
 
 	@Override
@@ -49,7 +49,8 @@ public class Hindrance {
 		if (!(o instanceof Hindrance)) return false;
 		final Hindrance hindrance = (Hindrance) o;
 		return getId() == hindrance.getId() &&
-				getVersion() == hindrance.getVersion();
+				getVersion() == hindrance.getVersion() &&
+				Objects.equals(getName(), hindrance.getName());
 	}
 
 	@Override

@@ -44,15 +44,15 @@ public class PlotPoint {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Race> races = new LinkedHashSet<>();
+	private Set<Ammunition> ammunition = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Skill> skills = new LinkedHashSet<>();
+	private Set<ArcaneBackground> arcaneBackgrounds = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Hindrance> hindrances = new LinkedHashSet<>();
+	private Set<Beast> beasts = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
@@ -64,15 +64,23 @@ public class PlotPoint {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Vehicle> vehicles = new LinkedHashSet<>();
+	private Set<GearCategory> gearCategories = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<SettingRule> settingRules = new LinkedHashSet<>();
+	private Set<GearType> gearTypes = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<ArcaneBackground> arcaneBackgrounds = new LinkedHashSet<>();
+	private Set<Hindrance> hindrances = new LinkedHashSet<>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("name")
+	private Set<Location> locations = new LinkedHashSet<>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("name")
+	private Set<Persona> personas = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
@@ -80,53 +88,66 @@ public class PlotPoint {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Persona> characters = new LinkedHashSet<>();
+	private Set<Race> races = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Beast> beasts = new LinkedHashSet<>();
+	private Set<SettingRule> settingRules = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Location> gazetteer = new LinkedHashSet<>();
+	private Set<Skill> skills = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("name")
-	private Set<Story> savageTales = new LinkedHashSet<>();
+	private Set<Story> stories = new LinkedHashSet<>();
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this)
-				.append("id", id)
-				.append("version", version)
-				.append("name", name)
-				.append("description", description)
-				.append("maximumMinorHindrances", maximumMinorHindrances)
-				.append("maximumMajorHindrances", maximumMajorHindrances)
-				.append("maximumAttributePoints", maximumAttributePoints)
-				.append("maximumSkillPoints", maximumSkillPoints)
-				.append("races", races)
-				.append("skills", skills)
-				.append("hindrances", hindrances)
-				.append("edges", edges)
-				.append("gear", gear)
-				.append("vehicles", vehicles)
-				.append("settingRules", settingRules)
-				.append("arcaneBackgrounds", arcaneBackgrounds)
-				.append("powers", powers)
-				.append("characters", characters)
-				.append("beasts", beasts)
-				.append("gazetteer", gazetteer)
-				.append("savageTales", savageTales)
-				.toString();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("name")
+	private Set<Vehicle> vehicles = new LinkedHashSet<>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("name")
+	private Set<VehicleType> vehicleTypes = new LinkedHashSet<>();
+
+	public Set<Ammunition> getAmmunition() {
+		return ammunition;
 	}
 
-	public Set<Story> getSavageTales() {
-		return savageTales;
+	public void setAmmunition(final Set<Ammunition> ammunition) {
+		this.ammunition = ammunition;
 	}
 
-	public void setSavageTales(final Set<Story> savageTales) {
-		this.savageTales = savageTales;
+	public Set<GearCategory> getGearCategories() {
+		return gearCategories;
+	}
+
+	public void setGearCategories(final Set<GearCategory> gearCategories) {
+		this.gearCategories = gearCategories;
+	}
+
+	public Set<GearType> getGearTypes() {
+		return gearTypes;
+	}
+
+	public void setGearTypes(final Set<GearType> gearTypes) {
+		this.gearTypes = gearTypes;
+	}
+
+	public Set<VehicleType> getVehicleTypes() {
+		return vehicleTypes;
+	}
+
+	public void setVehicleTypes(final Set<VehicleType> vehicleTypes) {
+		this.vehicleTypes = vehicleTypes;
+	}
+
+	public Set<Story> getStories() {
+		return stories;
+	}
+
+	public void setStories(final Set<Story> stories) {
+		this.stories = stories;
 	}
 
 	public int getMaximumMinorHindrances() {
@@ -184,12 +205,60 @@ public class PlotPoint {
 				getVersion() == plotPoint.getVersion();
 	}
 
-	public Set<Location> getGazetteer() {
-		return gazetteer;
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("version", version)
+				.append("name", name)
+				.append("description", description)
+				.append("maximumMinorHindrances", maximumMinorHindrances)
+				.append("maximumMajorHindrances", maximumMajorHindrances)
+				.append("maximumAttributePoints", maximumAttributePoints)
+				.append("maximumSkillPoints", maximumSkillPoints)
+				.append("ammunition", ammunition)
+				.append("arcaneBackgrounds", arcaneBackgrounds)
+				.append("beasts", beasts)
+				.append("edges", edges)
+				.append("gear", gear)
+				.append("gearCategories", gearCategories)
+				.append("gearTypes", gearTypes)
+				.append("hindrances", hindrances)
+				.append("locations", locations)
+				.append("personas", personas)
+				.append("powers", powers)
+				.append("races", races)
+				.append("settingRules", settingRules)
+				.append("skills", skills)
+				.append("stories", stories)
+				.append("vehicles", vehicles)
+				.append("vehicleTypes", vehicleTypes)
+				.toString();
 	}
 
-	public void setGazetteer(final Set<Location> gazetteer) {
-		this.gazetteer = gazetteer;
+	public long getId() {
+
+		return id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(final long version) {
+		this.version = version;
+	}
+
+	public Set<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(final Set<Location> locations) {
+		this.locations = locations;
 	}
 
 	public Set<Skill> getSkills() {
@@ -256,12 +325,12 @@ public class PlotPoint {
 		this.powers = powers;
 	}
 
-	public Set<Persona> getCharacters() {
-		return characters;
+	public Set<Persona> getPersonas() {
+		return personas;
 	}
 
-	public void setCharacters(final Set<Persona> characters) {
-		this.characters = characters;
+	public void setPersonas(final Set<Persona> personas) {
+		this.personas = personas;
 	}
 
 	public Set<Race> getRaces() {
@@ -278,23 +347,6 @@ public class PlotPoint {
 
 	public void setDescription(final String description) {
 		this.description = description;
-	}
-
-	public long getId() {
-
-		return id;
-	}
-
-	public long getVersion() {
-		return version;
-	}
-
-	public void setVersion(final long version) {
-		this.version = version;
-	}
-
-	public void setId(final long id) {
-		this.id = id;
 	}
 
 	public String getName() {
