@@ -40,7 +40,7 @@ public class Race {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(getId(), getVersion());
+		return Objects.hash(getId(), getVersion(), getName());
 	}
 
 	@Override
@@ -49,7 +49,8 @@ public class Race {
 		if (!(o instanceof Race)) return false;
 		final Race race = (Race) o;
 		return getId() == race.getId() &&
-				getVersion() == race.getVersion();
+				getVersion() == race.getVersion() &&
+				Objects.equals(getName(), race.getName());
 	}
 
 	@Override

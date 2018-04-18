@@ -12,6 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static java.lang.String.format;
+
 @SpringBootApplication
 public class VirtualTableTopApiApplication {
 
@@ -32,16 +34,17 @@ public class VirtualTableTopApiApplication {
 			PlotPoint plotPoint = new PlotPoint();
 			plotPoint.setName("This is a plot point");
 			plotPoint.setDescription("This is it's description");
-			plotPoint.getRaces().add(getRace());
+			plotPoint.getRaces().add(getRace("Human"));
+			plotPoint.getRaces().add(getRace("Elf"));
 			plotPointRepository.save(plotPoint);
 		};
 	}
 
-	private Race getRace() {
+	private Race getRace(String name) {
 		Race race = new Race();
-		race.setName("Human");
-		race.setDescription("Human description");
-		race.getAbilities().add(new RacialAbility("Extra Edge", "Gets and extra edge", 2));
+		race.setName(name);
+		race.setDescription(format("%s description", name));
+		race.getAbilities().add(new RacialAbility(format("%s edge", name), format("%s edge description", name), 2));
 		return race;
 	}
 }
