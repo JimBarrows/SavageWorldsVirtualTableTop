@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
 class PlotPointList extends React.Component {
 
@@ -14,8 +14,8 @@ class PlotPointList extends React.Component {
 
 PlotPointList.propTypes = {
   id: PropTypes.string.required
-}
+};
 
-PlotPointList.defaultProps = {}
+PlotPointList.defaultProps = {};
 
 export default PlotPointList

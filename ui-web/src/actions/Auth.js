@@ -1,5 +1,5 @@
 export function logout () {
-  localStorage.removeItem('token')
+	localStorage.removeItem('token');
   return {
     type: auth_constants.LOGOUT_USER
   }
@@ -7,7 +7,7 @@ export function logout () {
 
 export function logoutAndRedirect () {
   return (dispatch, state) => {
-    dispatch(logout())
+	  dispatch(logout());
     dispatch(push(null, '/login'))
   }
 }
