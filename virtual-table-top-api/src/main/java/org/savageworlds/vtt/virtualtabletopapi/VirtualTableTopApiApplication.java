@@ -24,7 +24,11 @@ public class VirtualTableTopApiApplication {
 
 	@Bean
 	public CommandLineRunner plotPoints(PlotPointRepository plotPointRepository) {
-		return (args) -> plotPointRepository.save(plotPoint());
+		return (args) -> {
+			for (int i = 0; i < 20; i++) {
+				plotPointRepository.save(plotPoint());
+			}
+		};
 	}
 
 	private PlotPoint plotPoint() {
