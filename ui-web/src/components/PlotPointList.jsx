@@ -21,6 +21,7 @@ class PlotPointList extends React.Component {
 						</tr>)}
 						</tbody>
 					</table>
+
 				</div>
 		);
 	}
