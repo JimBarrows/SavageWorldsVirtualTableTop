@@ -38,10 +38,11 @@ class PlotPoints extends React.Component {
 				.catch(error => console.log('error: ', convertErrorToString(error)));
 	}
 
-	navigationButton(name, enabled, onClick, active) {
+	navigationButton(key, name, enabled, onClick, active) {
+		let k= key || '';
 		let classNames = 'page-item ' + (enabled ? '' : 'disabled') + (active ? ' active' : '');
-		return <li className={classNames}>
-			<a className={'page-link'} href={'#'} tabIndex={-1} onClick={onClick}>{name}</a>
+		return <li key={k} className={classNames}>
+			<a className={'page-link'} tabIndex={-1} onClick={onClick}>{name}</a>
 		</li>;
 	}
 
@@ -50,7 +51,7 @@ class PlotPoints extends React.Component {
 	}
 
 	nextButton() {
-		return this.navigationButton("Next", this.state.links.next, this.onNext);
+		return this.navigationButton(this.state.page.totalPages, "Next", this.state.links.next, this.onNext);
 	}
 
 	onNext(e) {
@@ -102,22 +103,21 @@ class PlotPoints extends React.Component {
 		for (let i = 0; i < this.state.page.totalPages || 0; i++) {
 			let onClick     = this.onPage(i);
 			let currentPage = this.state.page.number;// === 0 ? 1 : this.state.page.number;
-			buttons.push(this.navigationButton((i+1).toString(), this.state.page.totalPages, onClick, currentPage === i));
+			buttons.push(this.navigationButton(i+2, (i+1).toString(), this.state.page.totalPages, onClick, currentPage === i));
 		}
 		return buttons;
 	}
 
 	previousButton() {
-		return this.navigationButton("Previous", this.state.links.prev, this.onPrevious);
+		return this.navigationButton(1, "Previous", this.state.links.prev, this.onPrevious);
 	}
 
 
 	plotPointList() {
-		let pageInfo = this.state.page ? <span>{this.state.page.number + 1} / {this.state.page.totalPages}</span> : <span/>;
 		return <div>
 			<PlotPointList id={'mainPlotPointList'} plotPoints={this.state.plotPoints} page={this.state.page}
 			               links={this.state.links}/>
-			<ul className="pagination">
+			<ul className="pagination justify-content-center">
 				{this.previousButton()}
 				{this.pageButtons()}
 				{this.nextButton()}
