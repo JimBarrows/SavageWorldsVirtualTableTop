@@ -16,7 +16,8 @@ let {
 	    PLOT_POINT_ADD_BEGIN, PLOT_POINT_ADD_SUCCESS, PLOT_POINT_ADD_FAILURE
     } = plotPoint_constants;
 
-export function load() {
+export function loadPage(pageNumber) {
+	let pageNo = pageNumber ||0;
 	return function (dispatch) {
 
 		dispatch({
@@ -26,7 +27,7 @@ export function load() {
 			}
 		});
 
-		axios.get('/api/plotPoints?size=10&sort=name,asc')
+		axios.get(`/api/plotPoints?size=10&sort=name,asc&page=${pageNo}`)
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then((data) =>
@@ -63,6 +64,41 @@ export function loadNextPage() {
 		});
 
 		axios.get(getState().PlotPoints.links.next.href)
+				.then(checkHttpStatus)
+				.then(parseJSON)
+				.then(data => dispatch({
+					type : PLOT_POINTS_LOAD_SUCCESS,
+					payload: {
+						plotPoints: data._embedded.plotPoints,
+						page      : data.page,
+						links     : data._links,
+						status    : API_STATUS_FINISHED,
+						result    : API_RESULT_SUCCESS
+					}
+				}))
+				.catch((error) =>
+						dispatch({
+							type   : PLOT_POINTS_LOAD_FAILURE,
+							payload: {
+								status: API_STATUS_FINISHED,
+								result: API_RESULT_FAILURE,
+								error : convertErrorToString(error)
+							}
+						}));
+	};
+}
+
+export function loadPreviousPage() {
+	return function (dispatch, getState) {
+
+		dispatch({
+			type   : PLOT_POINTS_LOAD_BEGIN,
+			payload: {
+				status: API_STATUS_STARTED
+			}
+		});
+
+		axios.get(getState().PlotPoints.links.prev.href)
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => dispatch({

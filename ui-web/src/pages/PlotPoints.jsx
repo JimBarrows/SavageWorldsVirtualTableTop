@@ -6,7 +6,7 @@ import PlotPointList from '../components/PlotPointList';
 import {checkHttpStatus, convertErrorToString, parseJSON} from '../utils';
 import {connect} from "react-redux";
 import {push} from "react-router-redux";
-import {load, loadNextPage, remove} from "../actions/PlotPointActions";
+import {loadPage, loadNextPage, loadPreviousPage} from "../actions/PlotPointActions";
 
 class PlotPoints extends React.Component {
 
@@ -30,7 +30,7 @@ class PlotPoints extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.load();
+		this.props.loadPage(0);
 	}
 
 	navigationButton(key, name, enabled, onClick, active) {
@@ -58,29 +58,13 @@ class PlotPoints extends React.Component {
 	onPage(pageNumber) {
 		let dis = this;
 		return function (e) {
-			axios.get(`/api/plotPoints?size=10&sort=name,asc&page=${pageNumber}`)
-					.then(checkHttpStatus)
-					.then(parseJSON)
-					.then(data => dis.setState({
-						plotPoints: data._embedded.plotPoints,
-						page      : data.page,
-						links     : data._links
-					}))
-					.catch(error => console.log('error: ', convertErrorToString(error)));
+			dis.props.loadPage(pageNumber);
 		};
 	}
 
 	onPrevious(e) {
 		if (this.props.links.prev) {
-			axios.get(this.props.links.prev.href)
-					.then(checkHttpStatus)
-					.then(parseJSON)
-					.then(data => this.setState({
-						plotPoints: data._embedded.plotPoints,
-						page      : data.page,
-						links     : data._links
-					}))
-					.catch(error => console.log('error: ', convertErrorToString(error)));
+			this.props.loadPrevPage();
 		}
 	}
 
@@ -137,8 +121,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		create      : () => dispatch(push("/plotPoints/add")),
-		load        : () => dispatch(load()),
-		loadNextPage: () => dispatch(loadNextPage())
+		loadPage        : (pageNumber) => dispatch(loadPage(pageNumber)),
+		loadNextPage: () => dispatch(loadNextPage()),
+		loadPrevPage: () => dispatch(loadPreviousPage())
 	};
 };
 
