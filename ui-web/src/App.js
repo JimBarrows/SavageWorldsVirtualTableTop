@@ -3,12 +3,13 @@ import React, {Component} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
+import MessageDisplay from './components/MessageDisplay';
 import Register from './components/Register';
 import AddPlotPoint from './pages/AddPlotPoint';
 import PlotPoints from './pages/PlotPoints';
 
 axios.create({
-	baseURL: '/api/',
+	baseURL       : '/api/',
 	validateStatus: function (status) {
 		return status < 300;
 	}
@@ -19,7 +20,7 @@ class App extends Component {
 		return (
 				<div>
 					<Header/>
-					{/*<MessageDisplay id={'application'} />*/}
+					<MessageDisplay id={'application'}/>
 					<div id={"layout"} className="container" role={"main"}>
 						<Switch>
 							<Route exact path="/" component={PlotPoints}/>
@@ -32,4 +33,4 @@ class App extends Component {
 	}
 }
 
-export default App
+export default App;

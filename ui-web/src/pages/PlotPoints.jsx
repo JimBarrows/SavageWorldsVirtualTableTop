@@ -6,7 +6,7 @@ import PlotPointList from '../components/PlotPointList';
 import {checkHttpStatus, convertErrorToString, parseJSON} from '../utils';
 import {connect} from "react-redux";
 import {push} from "react-router-redux";
-import {load, remove} from "../actions/PlotPointActions";
+import {load, loadNextPage, remove} from "../actions/PlotPointActions";
 
 class PlotPoints extends React.Component {
 
@@ -51,15 +51,7 @@ class PlotPoints extends React.Component {
 
 	onNext(e) {
 		if (this.props.links.next) {
-			axios.get(this.props.links.next.href)
-					.then(checkHttpStatus)
-					.then(parseJSON)
-					.then(data => this.setState({
-						plotPoints: data._embedded.plotPoints,
-						page      : data.page,
-						links     : data._links
-					}))
-					.catch(error => console.log('error: ', convertErrorToString(error)));
+			this.props.loadNextPage(this.props.links.next.href);
 		}
 	}
 
@@ -144,10 +136,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		create: () => dispatch(push("/plotPoints/add")),
-		update: (plotPointId) => dispatch(push(`/plotPoint/${plotPointId}/edit`)),
-		load  : () => dispatch(load()),
-		remove: (plotPoint) => dispatch(remove(plotPoint))
+		create      : () => dispatch(push("/plotPoints/add")),
+		load        : () => dispatch(load()),
+		loadNextPage: () => dispatch(loadNextPage())
 	};
 };
 
