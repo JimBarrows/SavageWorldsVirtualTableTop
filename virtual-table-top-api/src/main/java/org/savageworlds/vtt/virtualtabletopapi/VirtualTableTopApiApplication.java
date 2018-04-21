@@ -26,15 +26,15 @@ public class VirtualTableTopApiApplication {
 	public CommandLineRunner plotPoints(PlotPointRepository plotPointRepository) {
 		return (args) -> {
 			for (int i = 0; i < 20; i++) {
-				plotPointRepository.save(plotPoint());
+				plotPointRepository.save(plotPoint(i));
 			}
 		};
 	}
 
-	private PlotPoint plotPoint() {
+	private PlotPoint plotPoint(int number) {
 		PlotPoint plotPoint = new PlotPoint();
-		plotPoint.setName("Test plot point");
-		plotPoint.setDescription("Test plot point description");
+		plotPoint.setName("Test plot point " + number);
+		plotPoint.setDescription("Test plot point description " + number);
 		return plotPoint;
 	}
 }

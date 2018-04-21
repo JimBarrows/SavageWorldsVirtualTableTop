@@ -1,13 +1,12 @@
 package org.savageworlds.vtt.virtualtabletopapi.repositories;
 
-import org.savageworlds.vtt.virtualtabletopapi.models.Story;
+import org.savageworlds.vtt.virtualtabletopapi.models.ArcaneBackground;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.Set;
+import java.util.List;
 
 @RepositoryRestResource
-public interface SavageTalesRepository extends PagingAndSortingRepository<Story, Long> {
+public interface ArcaneBackgroundsRepository extends PagingAndSortingRepository<ArcaneBackground, Long> {
 
-	Set<Story> findByName(String name);
 }
