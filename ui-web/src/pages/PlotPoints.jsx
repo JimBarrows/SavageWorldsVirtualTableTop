@@ -1,9 +1,12 @@
 import axios from 'axios';
-import {PageHeader, Pagination} from 'bootstrap-react-components';
+import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import PlotPointList from '../components/PlotPointList';
 import {checkHttpStatus, convertErrorToString, parseJSON} from '../utils';
+import {connect} from "react-redux";
+import {push} from "react-router-redux";
+import {load, remove} from "../actions/PlotPointActions";
 
 class PlotPoints extends React.Component {
 
@@ -27,19 +30,11 @@ class PlotPoints extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get('/api/plotPoints?size=10&sort=name,asc')
-				.then(checkHttpStatus)
-				.then(parseJSON)
-				.then(data => this.setState({
-					plotPoints: data._embedded.plotPoints,
-					page      : data.page,
-					links     : data._links
-				}))
-				.catch(error => console.log('error: ', convertErrorToString(error)));
+		this.props.load();
 	}
 
 	navigationButton(key, name, enabled, onClick, active) {
-		let k= key || '';
+		let k          = key || '';
 		let classNames = 'page-item ' + (enabled ? '' : 'disabled') + (active ? ' active' : '');
 		return <li key={k} className={classNames}>
 			<a className={'page-link'} tabIndex={-1} onClick={onClick}>{name}</a>
@@ -69,7 +64,7 @@ class PlotPoints extends React.Component {
 	}
 
 	onPage(pageNumber) {
-		let dis =this;
+		let dis = this;
 		return function (e) {
 			axios.get(`/api/plotPoints?size=10&sort=name,asc&page=${pageNumber}`)
 					.then(checkHttpStatus)
@@ -103,7 +98,7 @@ class PlotPoints extends React.Component {
 		for (let i = 0; i < this.state.page.totalPages || 0; i++) {
 			let onClick     = this.onPage(i);
 			let currentPage = this.state.page.number;// === 0 ? 1 : this.state.page.number;
-			buttons.push(this.navigationButton(i+2, (i+1).toString(), this.state.page.totalPages, onClick, currentPage === i));
+			buttons.push(this.navigationButton(i + 2, (i + 1).toString(), this.state.page.totalPages, onClick, currentPage === i));
 		}
 		return buttons;
 	}
@@ -139,4 +134,21 @@ class PlotPoints extends React.Component {
 	}
 }
 
-export default withRouter(PlotPoints);
+const mapStateToProps = (state) => {
+	return {
+		plotPoints: state.PlotPoints.plotPoints,
+		page      : state.PlotPoints.page,
+		links     : state.PlotPoints.links
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		create: () => dispatch(push("/plotPoints/add")),
+		update: (plotPointId) => dispatch(push(`/plotPoint/${plotPointId}/edit`)),
+		load  : () => dispatch(load()),
+		remove: (plotPoint) => dispatch(remove(plotPoint))
+	};
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPoints));

@@ -10,6 +10,8 @@
 	"dependencies": {
 		"axios": "^0.18.0",
 		"bootstrap-react-components": "^0.19.1",
+		"history": "^4.7.2",
+		"jwt-decode": "^2.2.0",
 		"postcss": "^6.0.19",
 		"prop-types": "^15.6.1",
 		"react": "^16.2.0",
@@ -17,8 +19,11 @@
 		"react-redux": "^5.0.7",
 		"react-router": "^4.2.0",
 		"react-router-dom": "^4.2.2",
+		"react-router-redux": "^5.0.0-alpha.9",
 		"react-scripts": "1.1.4",
 		"redux": "^4.0.0",
+		"redux-logger": "^3.0.6",
+		"redux-thunk": "^2.2.0",
 		"rest": "^2.0.0"
 	},
 	"scripts": {

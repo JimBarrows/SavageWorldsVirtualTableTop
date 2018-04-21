@@ -10,7 +10,7 @@ import Layout from "./components/layout";
 import Login from "./pages/Login";
 import PlotPoints from "./pages/PlotPointList";
 import Register from "./pages/Register";
-import store from "./Store";
+import store from "../../../ui-web/src/Store";
 import AddPlotPoint from "./pages/AddPlotPoint";
 import UpdatePlotPoint from "./pages/UpdatePlotPoint";
 import "bootstrap/dist/css/bootstrap.min.css";
