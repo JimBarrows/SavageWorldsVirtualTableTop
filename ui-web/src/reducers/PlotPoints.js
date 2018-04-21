@@ -17,7 +17,9 @@ export default createReducer(initialState, {
 		]
 	}),
 	[PLOT_POINTS_LOAD_SUCCESS] : (state, payload) => Object.assign({}, {
-		plotPoints: payload.plotPoints
+		plotPoints: payload.plotPoints,
+		page      : payload.page,
+		links     : payload.links
 	}),
 	[PLOT_POINT_DELETE_SUCCESS]: (state, payload) => Object.assign({}, {
 		plotPoints: [...state.plotPoints.filter((p) => p._id !== payload.plotPoint._id)]

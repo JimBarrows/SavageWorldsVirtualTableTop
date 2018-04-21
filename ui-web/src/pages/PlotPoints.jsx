@@ -46,12 +46,12 @@ class PlotPoints extends React.Component {
 	}
 
 	nextButton() {
-		return this.navigationButton(this.state.page.totalPages, "Next", this.state.links.next, this.onNext);
+		return this.navigationButton(this.props.page.totalPages, "Next", this.props.links.next, this.onNext);
 	}
 
 	onNext(e) {
-		if (this.state.links.next) {
-			axios.get(this.state.links.next.href)
+		if (this.props.links.next) {
+			axios.get(this.props.links.next.href)
 					.then(checkHttpStatus)
 					.then(parseJSON)
 					.then(data => this.setState({
@@ -79,8 +79,8 @@ class PlotPoints extends React.Component {
 	}
 
 	onPrevious(e) {
-		if (this.state.links.prev) {
-			axios.get(this.state.links.prev.href)
+		if (this.props.links.prev) {
+			axios.get(this.props.links.prev.href)
 					.then(checkHttpStatus)
 					.then(parseJSON)
 					.then(data => this.setState({
@@ -95,23 +95,23 @@ class PlotPoints extends React.Component {
 	pageButtons() {
 		let buttons = [];
 
-		for (let i = 0; i < this.state.page.totalPages || 0; i++) {
+		for (let i = 0; i < this.props.page.totalPages || 0; i++) {
 			let onClick     = this.onPage(i);
-			let currentPage = this.state.page.number;// === 0 ? 1 : this.state.page.number;
-			buttons.push(this.navigationButton(i + 2, (i + 1).toString(), this.state.page.totalPages, onClick, currentPage === i));
+			let currentPage = this.props.page.number;// === 0 ? 1 : this.props.page.number;
+			buttons.push(this.navigationButton(i + 2, (i + 1).toString(), this.props.page.totalPages, onClick, currentPage === i));
 		}
 		return buttons;
 	}
 
 	previousButton() {
-		return this.navigationButton(1, "Previous", this.state.links.prev, this.onPrevious);
+		return this.navigationButton(1, "Previous", this.props.links.prev, this.onPrevious);
 	}
 
 
 	plotPointList() {
 		return <div>
-			<PlotPointList id={'mainPlotPointList'} plotPoints={this.state.plotPoints} page={this.state.page}
-			               links={this.state.links}/>
+			<PlotPointList id={'mainPlotPointList'} plotPoints={this.props.plotPoints} page={this.props.page}
+			               links={this.props.links}/>
 			<ul className="pagination justify-content-center">
 				{this.previousButton()}
 				{this.pageButtons()}
@@ -128,7 +128,7 @@ class PlotPoints extends React.Component {
 					<button className={'btn btn-default'} id='addPlotPointButton' type={'button'}
 					        onClick={this.navigateToNewPlotPoint}>Add
 					</button>
-					{this.state.plotPoints.length > 0 ? this.plotPointList() : <p>There are no plot points, please add one</p>}
+					{this.props.plotPoints.length > 0 ? this.plotPointList() : <p>There are no plot points, please add one</p>}
 				</div>
 		);
 	}
