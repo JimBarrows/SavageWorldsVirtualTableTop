@@ -5,7 +5,7 @@ import './App.css';
 import Header from './components/Header';
 import MessageDisplay from './components/MessageDisplay';
 import Register from './components/Register';
-import AddPlotPoint from './pages/AddPlotPoint';
+import PlotPointEditor from './pages/PlotPointEditor';
 import PlotPoints from './pages/PlotPoints';
 
 axios.create({
@@ -24,7 +24,8 @@ class App extends Component {
 					<div id={"layout"} className="container" role={"main"}>
 						<Switch>
 							<Route exact path="/" component={PlotPoints}/>
-							<Route exact path='/newPlotPoint' component={AddPlotPoint}/>
+							<Route exact path='/plotPointEditor' component={PlotPointEditor}/>
+							<Route exact path={"/plotPointEditor/:name"} component={PlotPointEditor}/>
 							<Route exact path="/register" component={Register}/>
 						</Switch>
 					</div>

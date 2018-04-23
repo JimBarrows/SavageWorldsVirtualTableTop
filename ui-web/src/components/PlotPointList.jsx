@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 class PlotPointList extends React.Component {
 
 
 	render() {
 		return (
-				<div id={'PlotPointListComponent_' + this.props.id}>
+				<div id={'PlotPointListComponent' }>
 					<table className={'table'}>
 						<thead>
 						<tr>
@@ -15,10 +16,13 @@ class PlotPointList extends React.Component {
 						</tr>
 						</thead>
 						<tbody>
-						{this.props.plotPoints.map((pp, index) => <tr id={'plotPoint_' + index} key={index}>
-							<td>{pp.name}</td>
-							<td>{pp.description}</td>
-						</tr>)}
+						{
+							this.props.plotPoints.map((pp, index) =>
+									<tr id={'plotPoint_' + index} key={index}>
+										<td>{pp.name}<Link to={`/plotPointEditor/${pp.name}`}>Edit</Link></td>
+										<td>{pp.description}</td>
+									</tr>)
+						}
 						</tbody>
 					</table>
 
@@ -28,7 +32,7 @@ class PlotPointList extends React.Component {
 }
 
 PlotPointList.propTypes = {
-	id: PropTypes.string.isRequired
+	// id: PropTypes.string.isRequired
 };
 
 PlotPointList.defaultProps = {

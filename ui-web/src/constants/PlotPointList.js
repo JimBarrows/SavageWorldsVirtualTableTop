@@ -1,0 +1,11 @@
+import {createConstants} from '../utils';
+
+export default createConstants(
+		'PLOT_POINTS_LOAD_BEGIN',
+		'PLOT_POINTS_LOAD_SUCCESS',
+		'PLOT_POINTS_LOAD_FAILURE',
+		'PLOT_POINT_EDIT',
+		'PLOT_POINT_DELETE_BEGIN',
+		'PLOT_POINT_DELETE_SUCCESS',
+		'PLOT_POINT_DELETE_FAILURE'
+);

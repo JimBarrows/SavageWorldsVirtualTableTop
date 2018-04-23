@@ -3,10 +3,10 @@ import React from 'react';
 import {checkHttpStatus, parseJSON} from '../utils';
 import axios from 'axios';
 
-export default class AddPlotPoint extends React.Component {
+export default class PlotPointEditor extends React.Component {
 
 	static defaultProps = {
-		id: 'AddPlotPointPage'
+		id: 'PlotPointEditorPage'
 	};
 
 	constructor(props) {
@@ -79,7 +79,7 @@ export default class AddPlotPoint extends React.Component {
 
 	render() {
 		return <div id={this.props.id}>
-			<PageHeader id={this.props.id}><h1>Add Plotpoint</h1></PageHeader>
+			<PageHeader id={this.props.id}><h1>Plotpoint Editor</h1></PageHeader>
 			<form id='plotPointForm'>
 				<TextFormGroup id='plotPointName' label='Name' onChange={this.nameChange} required={true}
 				               value={this.state.name}/>

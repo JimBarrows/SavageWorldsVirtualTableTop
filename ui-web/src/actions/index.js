@@ -1,2 +1,2 @@
 export * from "./Auth"
-export * from "./PlotPointActions";
+export * from "./PlotPointListActions";

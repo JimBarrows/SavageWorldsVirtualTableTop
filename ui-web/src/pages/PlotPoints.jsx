@@ -1,12 +1,10 @@
-import axios from 'axios';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import PlotPointList from '../components/PlotPointList';
-import {checkHttpStatus, convertErrorToString, parseJSON} from '../utils';
 import {connect} from "react-redux";
 import {push} from "react-router-redux";
-import {loadPage, loadNextPage, loadPreviousPage} from "../actions/PlotPointActions";
+import {loadPage, loadNextPage, loadPreviousPage} from "../actions/PlotPointListActions";
 
 class PlotPoints extends React.Component {
 
@@ -42,7 +40,7 @@ class PlotPoints extends React.Component {
 	}
 
 	navigateToNewPlotPoint() {
-		this.props.history.push('/newPlotPoint');
+		this.props.history.push('/plotPointEditor');
 	}
 
 	nextButton() {

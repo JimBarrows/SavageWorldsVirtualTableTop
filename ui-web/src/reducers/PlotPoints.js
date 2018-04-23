@@ -4,7 +4,7 @@
 import {createReducer} from "../utils";
 import {plotPoint_constants} from "../constants";
 
-let {PLOT_POINTS_LOAD_SUCCESS, PLOT_POINT_ADD_SUCCESS, PLOT_POINT_DELETE_SUCCESS} = plotPoint_constants;
+let {PLOT_POINTS_LOAD_SUCCESS} = plotPoint_constants;
 const initialState                                                                = {
 	plotPoints: []
 };
