@@ -3,7 +3,7 @@ import {NumberFormGroup, PageHeader, TextAreaFormGroup, TextFormGroup} from 'boo
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {cancelChanges, descriptionChange} from '../actions';
+import {cancelChanges, descriptionChange, maximumAttributePointsChange} from '../actions';
 import {checkHttpStatus, parseJSON} from '../utils';
 
 class PlotPointEditor extends React.Component {
@@ -38,9 +38,7 @@ class PlotPointEditor extends React.Component {
 	}
 
 	maximumAttributePointsChange(e) {
-		this.setState({
-			maximumAttributePoints: e.target.value
-		});
+		this.props.maximumAttributePointsChange(e.target.value);
 	}
 
 	maximumMajorHindrancesChange(e) {
@@ -128,8 +126,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		cancel           : () => dispatch(cancelChanges()),
-		descriptionChange: () => dispatch(descriptionChange())
+		cancel                      : () => dispatch(cancelChanges()),
+		descriptionChange           : () => dispatch(descriptionChange()),
+		maximumAttributePointsChange: () => dispatch(maximumAttributePointsChange())
 	};
 };
 

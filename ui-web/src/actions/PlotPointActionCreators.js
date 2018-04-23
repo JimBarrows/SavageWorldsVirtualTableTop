@@ -18,3 +18,12 @@ export function descriptionChange(description) {
 		}
 	};
 }
+
+export function maximumAttributePointsChange(maximumAttributePoints) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_MAXIMUM_ATTRIBUTE_POINT_CHANGE,
+		payload: {
+			maximumAttributePoints
+		}
+	};
+}
