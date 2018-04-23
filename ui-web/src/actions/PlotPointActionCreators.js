@@ -27,3 +27,30 @@ export function maximumAttributePointsChange(maximumAttributePoints) {
 		}
 	};
 }
+
+export function maximumMajorHindrancesChange(maximumMajorHindrances) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_MAXIMUM_MAJOR_HINDRANCE_CHANGE,
+		payload: {
+			maximumMajorHindrances
+		}
+	};
+}
+
+export function maximumMinorHindrancesChange(maximumMinorHindrances) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_MAXIMUM_MINOR_HINDRANCE_CHANGE,
+		payload: {
+			maximumMinorHindrances
+		}
+	};
+}
+
+export function maximumSkillPointsChange(maximumSkillPoints) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_MAXIMUM_SKILL_POINTS_CHANGE,
+		payload: {
+			maximumSkillPoints
+		}
+	};
+}

@@ -3,7 +3,13 @@ import {NumberFormGroup, PageHeader, TextAreaFormGroup, TextFormGroup} from 'boo
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {cancelChanges, descriptionChange, maximumAttributePointsChange} from '../actions';
+import {
+	cancelChanges,
+	descriptionChange,
+	maximumAttributePointsChange,
+	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
+	maximumSkillPointsChange
+} from '../actions';
 import {checkHttpStatus, parseJSON} from '../utils';
 
 class PlotPointEditor extends React.Component {
@@ -42,21 +48,15 @@ class PlotPointEditor extends React.Component {
 	}
 
 	maximumMajorHindrancesChange(e) {
-		this.setState({
-			maximumMajorHindrances: e.target.value
-		});
+		this.props.maximumMajorHindrancesChange(e.target.value);
 	}
 
 	maximumMinorHindrancesChange(e) {
-		this.setState({
-			maximumMinorHindrances: e.target.value
-		});
+		this.props.maximumMinorHindrancesChange(e.target.value);
 	}
 
 	maximumSkillPointsChange(e) {
-		this.setState({
-			maximumSkillPoints: e.target.value
-		});
+		this.props.maximumSkillPointsChange(e.target.value);
 	}
 
 	nameChange(e) {
@@ -73,12 +73,12 @@ class PlotPointEditor extends React.Component {
 				               value={this.props.name}/>
 				<TextAreaFormGroup id={'plotPointDescription'} label={'Description'} onChange={this.descriptionChange}
 				                   value={this.props.description}/>
-				<NumberFormGroup id={'maximumMinorHindrances'} label={'Maximum Number of Minor Hindrances'}
-				                 onChange={this.maximumMinorHindrancesChange} value={this.props.maximumMinorHindrances}/>
-				<NumberFormGroup id={'maximumMajorHindrances'} label={'Maximum Number of Major Hindrances'}
-				                 onChange={this.maximumMajorHindrancesChange} value={this.props.maximumMajorHindrances}/>
 				<NumberFormGroup id={'maximumAttributePoints'} label={'Maximum Attribute Points'}
 				                 onChange={this.maximumAttributePointsChange} value={this.props.maximumAttributePoints}/>
+				<NumberFormGroup id={'maximumMajorHindrances'} label={'Maximum Number of Major Hindrances'}
+				                 onChange={this.maximumMajorHindrancesChange} value={this.props.maximumMajorHindrances}/>
+				<NumberFormGroup id={'maximumMinorHindrances'} label={'Maximum Number of Minor Hindrances'}
+				                 onChange={this.maximumMinorHindrancesChange} value={this.props.maximumMinorHindrances}/>
 				<NumberFormGroup id={'maximumSkillPoints'} label={'Maximum Skill Points'}
 				                 onChange={this.maximumSkillPointsChange} value={this.props.maximumSkillPoints}/>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
@@ -118,6 +118,7 @@ const mapStateToProps = (state) => {
 	return {
 		name                  : state.PlotPoint.name,
 		description           : state.PlotPoint.description,
+		maximumMajorHindrances: state.PlotPoint.maximumMajorHindrances,
 		maximumMinorHindrances: state.PlotPoint.maximumMinorHindrances,
 		maximumAttributePoints: state.PlotPoint.maximumAttributePoints,
 		maximumSkillPoints    : state.PlotPoint.maximumSkillPoints
@@ -128,8 +129,12 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		cancel                      : () => dispatch(cancelChanges()),
 		descriptionChange           : () => dispatch(descriptionChange()),
-		maximumAttributePointsChange: () => dispatch(maximumAttributePointsChange())
-	};
+		maximumAttributePointsChange: () => dispatch(maximumAttributePointsChange()),
+		maximumMajorHindrancesChange: () => dispatch(maximumMajorHindrancesChange()),
+		maximumMinorHindrancesChange: () => dispatch(maximumMinorHindrancesChange()),
+		maximumSkillPointsChange    : () => dispatch(maximumSkillPointsChange())
+	}
+			;
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPointEditor));
