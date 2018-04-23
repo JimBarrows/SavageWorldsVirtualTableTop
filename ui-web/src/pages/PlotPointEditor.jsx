@@ -1,9 +1,12 @@
+import axios from 'axios';
 import {NumberFormGroup, PageHeader, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components';
 import React from 'react';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
+import {cancelChanges, descriptionChange} from '../actions';
 import {checkHttpStatus, parseJSON} from '../utils';
-import axios from 'axios';
 
-export default class PlotPointEditor extends React.Component {
+class PlotPointEditor extends React.Component {
 
 	static defaultProps = {
 		id: 'PlotPointEditorPage'
@@ -19,32 +22,19 @@ export default class PlotPointEditor extends React.Component {
 		this.maximumSkillPointsChange     = this.maximumSkillPointsChange.bind(this);
 		this.nameChange                   = this.nameChange.bind(this);
 		this.save                         = this.save.bind(this);
-		this.state                        = {
-			name                  : '',
-			description           : '',
-			maximumMinorHindrances: 2,
-			maximumMajorHindrances: 2,
-			maximumAttributePoints: 5,
-			maximumSkillPoints    : 15
-		};
+	}
+
+	componentDidMount() {
+
 	}
 
 	cancel(e) {
 		e.preventDefault();
-		this.setState({
-			name                  : '',
-			description           : '',
-			maximumMinorHindrances: 2,
-			maximumMajorHindrances: 2,
-			maximumAttributePoints: 5,
-			maximumSkillPoints    : 15
-		});
+		this.props.cancel();
 	}
 
 	descriptionChange(e) {
-		this.setState({
-			description: e.target.value
-		});
+		this.props.descriptionChange(e.target.value);
 	}
 
 	maximumAttributePointsChange(e) {
@@ -82,17 +72,17 @@ export default class PlotPointEditor extends React.Component {
 			<PageHeader id={this.props.id}><h1>Plotpoint Editor</h1></PageHeader>
 			<form id='plotPointForm'>
 				<TextFormGroup id='plotPointName' label='Name' onChange={this.nameChange} required={true}
-				               value={this.state.name}/>
+				               value={this.props.name}/>
 				<TextAreaFormGroup id={'plotPointDescription'} label={'Description'} onChange={this.descriptionChange}
-				                   value={this.state.description}/>
+				                   value={this.props.description}/>
 				<NumberFormGroup id={'maximumMinorHindrances'} label={'Maximum Number of Minor Hindrances'}
-				                 onChange={this.maximumMinorHindrancesChange} value={this.state.maximumMinorHindrances}/>
+				                 onChange={this.maximumMinorHindrancesChange} value={this.props.maximumMinorHindrances}/>
 				<NumberFormGroup id={'maximumMajorHindrances'} label={'Maximum Number of Major Hindrances'}
-				                 onChange={this.maximumMajorHindrancesChange} value={this.state.maximumMajorHindrances}/>
+				                 onChange={this.maximumMajorHindrancesChange} value={this.props.maximumMajorHindrances}/>
 				<NumberFormGroup id={'maximumAttributePoints'} label={'Maximum Attribute Points'}
-				                 onChange={this.maximumAttributePointsChange} value={this.state.maximumAttributePoints}/>
+				                 onChange={this.maximumAttributePointsChange} value={this.props.maximumAttributePoints}/>
 				<NumberFormGroup id={'maximumSkillPoints'} label={'Maximum Skill Points'}
-				                 onChange={this.maximumSkillPointsChange} value={this.state.maximumSkillPoints}/>
+				                 onChange={this.maximumSkillPointsChange} value={this.props.maximumSkillPoints}/>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
 				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}
@@ -125,3 +115,22 @@ export default class PlotPointEditor extends React.Component {
 				.then();
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		name                  : state.PlotPoint.name,
+		description           : state.PlotPoint.description,
+		maximumMinorHindrances: state.PlotPoint.maximumMinorHindrances,
+		maximumAttributePoints: state.PlotPoint.maximumAttributePoints,
+		maximumSkillPoints    : state.PlotPoint.maximumSkillPoints
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		cancel           : () => dispatch(cancelChanges()),
+		descriptionChange: () => dispatch(descriptionChange())
+	};
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPointEditor));

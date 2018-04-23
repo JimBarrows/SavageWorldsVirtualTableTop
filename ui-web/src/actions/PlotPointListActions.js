@@ -2,8 +2,8 @@
  * Created by JimBarrows on 7/9/16.
  */
 import axios from "axios";
-import {application_constants, plotPoint_constants} from '../constants';
-import {checkHttpStatus, parseJSON, convertErrorToString} from "../utils";
+import {application_constants, plotPointList_constants} from '../constants';
+import {checkHttpStatus, convertErrorToString, parseJSON} from "../utils";
 
 
 let {
@@ -12,7 +12,7 @@ let {
 
 let {
 	   PLOT_POINTS_LOAD_FAILURE, PLOT_POINTS_LOAD_SUCCESS, PLOT_POINTS_LOAD_BEGIN,
-    } = plotPoint_constants;
+    } = plotPointList_constants;
 
 export function loadPage(pageNumber) {
 	let pageNo = pageNumber ||0;
