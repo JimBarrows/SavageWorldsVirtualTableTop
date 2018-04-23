@@ -54,3 +54,12 @@ export function maximumSkillPointsChange(maximumSkillPoints) {
 		}
 	};
 }
+
+export function nameChange(name) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_NAME_CHANGE,
+		payload: {
+			name
+		}
+	};
+}

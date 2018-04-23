@@ -8,7 +8,7 @@ import {
 	descriptionChange,
 	maximumAttributePointsChange,
 	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
-	maximumSkillPointsChange
+	maximumSkillPointsChange, nameChange
 } from '../actions';
 import {checkHttpStatus, parseJSON} from '../utils';
 
@@ -60,9 +60,7 @@ class PlotPointEditor extends React.Component {
 	}
 
 	nameChange(e) {
-		this.setState({
-			name: e.target.value
-		});
+		this.props.nameChange(e.target.value);
 	}
 
 	render() {
@@ -132,9 +130,9 @@ const mapDispatchToProps = (dispatch) => {
 		maximumAttributePointsChange: () => dispatch(maximumAttributePointsChange()),
 		maximumMajorHindrancesChange: () => dispatch(maximumMajorHindrancesChange()),
 		maximumMinorHindrancesChange: () => dispatch(maximumMinorHindrancesChange()),
-		maximumSkillPointsChange    : () => dispatch(maximumSkillPointsChange())
-	}
-			;
+		maximumSkillPointsChange    : () => dispatch(maximumSkillPointsChange()),
+		nameChange                  : () => dispatch(nameChange())
+	};
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPointEditor));

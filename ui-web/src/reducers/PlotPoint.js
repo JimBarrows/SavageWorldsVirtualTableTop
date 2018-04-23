@@ -7,7 +7,8 @@ let {
 	    PLOT_POINT_MAXIMUM_ATTRIBUTE_POINT_CHANGE,
 	    PLOT_POINT_MAXIMUM_MAJOR_HINDRANCE_CHANGE,
 	    PLOT_POINT_MAXIMUM_MINOR_HINDRANCE_CHANGE,
-	    PLOT_POINT_MAXIMUM_SKILL_POINTS_CHANGE
+	    PLOT_POINT_MAXIMUM_SKILL_POINTS_CHANGE,
+	    PLOT_POINT_NAME_CHANGE
     } = plotPoint_constants;
 
 const initialState = {
@@ -53,6 +54,10 @@ export default createReducer(initialState, {
 
 	[PLOT_POINT_MAXIMUM_SKILL_POINTS_CHANGE]: (state, payload) => Object.assign({}, {
 		maximumSkillPoints: payload.maximumSkillPoints
+	}),
+
+	[PLOT_POINT_NAME_CHANGE]: (state, payload) => Object.assign({}, {
+		name: payload.name
 	})
 })
 ;
