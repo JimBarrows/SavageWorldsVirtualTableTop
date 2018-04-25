@@ -17,9 +17,9 @@ public class Vehicle {
 
 	@NotEmpty
 	@Column(nullable = false)
-	private String name = '';
+	private String name = "";
 
-	private String description = '';
+	private String description = "";
 
 	@ManyToOne
 	@NotNull
@@ -96,21 +96,21 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
-				.append('id', id)
-				.append('version', version)
-				.append('name', name)
-				.append('description', description)
-				.append('type', type)
-				.append('acceleration', acceleration)
-				.append('topSpeed', topSpeed)
-				.append('toughness', toughness)
-				.append('withoutArmor', withoutArmor)
-				.append('crew', crew)
-				.append('passengers', passengers)
-				.append('minimumCost', minimumCost)
-				.append('maximumCost', maximumCost)
-				.append('examples', examples)
-				.append('military", military)
+				.append("id", id)
+				.append("version", version)
+				.append("name", name)
+				.append("description", description)
+				.append("type", type)
+				.append("acceleration", acceleration)
+				.append("topSpeed", topSpeed)
+				.append("toughness", toughness)
+				.append("withoutArmor", withoutArmor)
+				.append("crew", crew)
+				.append("passengers", passengers)
+				.append("minimumCost", minimumCost)
+				.append("maximumCost", maximumCost)
+				.append("examples", examples)
+				.append("military", military)
 				.append("climb", climb)
 				.toString();
 	}

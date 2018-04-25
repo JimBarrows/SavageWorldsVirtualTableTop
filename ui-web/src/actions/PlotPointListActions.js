@@ -25,7 +25,7 @@ export function loadPage(pageNumber) {
 			}
 		});
 
-		axios.get(`/api/plotPoints?size=10&sort=name,asc&page=${pageNo}`)
+		return axios.get(`/api/plotPoints?size=10&sort=name,asc&page=${pageNo}`)
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then((data) =>

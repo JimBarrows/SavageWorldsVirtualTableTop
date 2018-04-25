@@ -32,8 +32,8 @@ public class Ammunition extends Gear {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
-				.append('weightCount', weightCount)
-				.append('costCount', costCount)
+				.append("weightCount", weightCount)
+				.append("costCount", costCount)
 				.toString();
 	}
 }
