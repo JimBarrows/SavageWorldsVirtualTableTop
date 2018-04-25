@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 class ItemDescription extends React.Component {
 
@@ -25,7 +25,7 @@ class ItemDescription extends React.Component {
 	}
 
 	editor(item) {
-		return "";
+		return '';
 	}
 
 	propsToState(props) {
@@ -54,7 +54,7 @@ class ItemDescription extends React.Component {
 	}
 
 	viewer(item) {
-		return "";
+		return '';
 	}
 }
 

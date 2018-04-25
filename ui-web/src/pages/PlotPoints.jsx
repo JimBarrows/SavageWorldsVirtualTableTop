@@ -110,9 +110,9 @@ class PlotPoints extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		plotPoints: state.PlotPoints.plotPoints,
-		page      : state.PlotPoints.page,
-		links     : state.PlotPoints.links
+		plotPoints: state.PlotPointList.plotPoints,
+		page      : state.PlotPointList.page,
+		links     : state.PlotPointList.links
 	};
 };
 

@@ -3,14 +3,14 @@
  */
 export default class Page {
 
-	constructor(browser, path = "") {
+	constructor(browser, path = '') {
 		this.browser = browser;
-		this.path    = "/" + path;
+		this.path    = '/' + path;
 	}
 
 	open() {
 		this.browser.url(this.path);
-		this.browser.waitUntil(this.isCurrent, 15000, "Didn't change to " + this.path, 1000);
+		this.browser.waitUntil(this.isCurrent, 15000, 'Didn't change to ' + this.path, 1000);
 	}
 
 	isCurrent() {
@@ -18,6 +18,6 @@ export default class Page {
 	}
 
 	logoutLink() {
-		return this.browser.element("#logout");
+		return this.browser.element('#logout');
 	}
 };

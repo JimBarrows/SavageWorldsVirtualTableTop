@@ -2,12 +2,12 @@
  * Created by JimBarrows on 8/19/16.
  */
 'use strict';
-var axios = require("axios");
+var axios = require('axios');
 require('babel-register');
-var fixtures      = require("./support/fixtures");
+var fixtures      = require('./support/fixtures');
 var cleanDatabase = fixtures.cleanDatabase;
-var chai          = require("chai");
-console.log("conf");
+var chai          = require('chai');
+console.log('conf');
 exports.config = {
 
 	//
@@ -58,7 +58,7 @@ exports.config = {
 	screenshotPath: './errorShots/',
 	//
 	// Set a base URL in order to shorten url command calls. If your url parameter starts
-	// with "/", the base url gets prepended.
+	// with '/', the base url gets prepended.
 	baseUrl: 'http://localhost:3000',
 	//
 	// Default timeout for all waitForXXX commands.
@@ -131,7 +131,7 @@ exports.config = {
 	// Gets executed before test execution begins. At this point you can access to all global
 	// variables like `browser`. It is the perfect place to define custom commands.
 	before: function (capabilities, specs) {
-		require("./support/custom_commands");
+		require('./support/custom_commands');
 		global.expect = chai.expect;
 		global.axios  = axios.create({
 			baseURL: 'http://localhost:3000/api',

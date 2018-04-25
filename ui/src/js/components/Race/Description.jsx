@@ -1,7 +1,7 @@
-import React from "react";
-import RaceViewer from "./View";
-import RaceEditor from "./Editor";
-import {ItemDescription} from "../Item";
+import React from 'react';
+import RaceViewer from './View';
+import RaceEditor from './Editor';
+import {ItemDescription} from '../Item';
 
 class RaceDescription extends ItemDescription {
 

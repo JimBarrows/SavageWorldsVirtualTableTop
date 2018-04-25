@@ -1,17 +1,17 @@
-import React from "react";
-import RaceDescription from "./Description";
-import RaceEditor from "./Editor";
-import ListManager from "../Item/List";
+import React from 'react';
+import RaceDescription from './Description';
+import RaceEditor from './Editor';
+import ListManager from '../Item/List';
 
 class RaceList extends ListManager {
 
 	render() {
 		let {list, allowEditing}       = this.state;
-		let addButton = this.buttonEditOrNothing("Add Race", <RaceEditor
+		let addButton = this.buttonEditOrNothing('Add Race', <RaceEditor
 				save={this.addToList.bind(this)}/>);
 
 		return (
-				<div id="raceList">
+				<div id='raceList'>
 					<h1>Races</h1>
 					{addButton}
 					<dl>

@@ -1,9 +1,9 @@
 /**
  * Created by JimBarrows on 7/9/16.
  */
-import axios from "axios";
+import axios from 'axios';
 import {application_constants, plotPointList_constants} from '../constants';
-import {checkHttpStatus, convertErrorToString, parseJSON} from "../utils";
+import {checkHttpStatus, convertErrorToString, parseJSON} from '../utils';
 
 
 let {
@@ -11,7 +11,7 @@ let {
     } = application_constants;
 
 let {
-	   PLOT_POINTS_LOAD_FAILURE, PLOT_POINTS_LOAD_SUCCESS, PLOT_POINTS_LOAD_BEGIN,
+	   PLOT_POINT_LIST_LOAD_FAILURE, PLOT_POINT_LIST_LOAD_SUCCESS, PLOT_POINT_LIST_LOAD_BEGIN,
     } = plotPointList_constants;
 
 export function loadPage(pageNumber) {
@@ -19,7 +19,7 @@ export function loadPage(pageNumber) {
 	return function (dispatch) {
 
 		dispatch({
-			type   : PLOT_POINTS_LOAD_BEGIN,
+			type   : PLOT_POINT_LIST_LOAD_BEGIN,
 			payload: {
 				status: API_STATUS_STARTED
 			}
@@ -30,7 +30,7 @@ export function loadPage(pageNumber) {
 				.then(parseJSON)
 				.then((data) =>
 						dispatch({
-							type   : PLOT_POINTS_LOAD_SUCCESS,
+							type   : PLOT_POINT_LIST_LOAD_SUCCESS,
 							payload: {
 								plotPoints: data._embedded.plotPoints,
 								page      : data.page,
@@ -41,7 +41,7 @@ export function loadPage(pageNumber) {
 						}))
 				.catch((error) =>
 						dispatch({
-							type   : PLOT_POINTS_LOAD_FAILURE,
+							type   : PLOT_POINT_LIST_LOAD_FAILURE,
 							payload: {
 								status: API_STATUS_FINISHED,
 								result: API_RESULT_FAILURE,
@@ -55,7 +55,7 @@ export function loadNextPage() {
 	return function (dispatch, getState) {
 
 		dispatch({
-			type   : PLOT_POINTS_LOAD_BEGIN,
+			type   : PLOT_POINT_LIST_LOAD_BEGIN,
 			payload: {
 				status: API_STATUS_STARTED
 			}
@@ -65,7 +65,7 @@ export function loadNextPage() {
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => dispatch({
-					type : PLOT_POINTS_LOAD_SUCCESS,
+					type : PLOT_POINT_LIST_LOAD_SUCCESS,
 					payload: {
 						plotPoints: data._embedded.plotPoints,
 						page      : data.page,
@@ -76,7 +76,7 @@ export function loadNextPage() {
 				}))
 				.catch((error) =>
 						dispatch({
-							type   : PLOT_POINTS_LOAD_FAILURE,
+							type   : PLOT_POINT_LIST_LOAD_FAILURE,
 							payload: {
 								status: API_STATUS_FINISHED,
 								result: API_RESULT_FAILURE,
@@ -90,7 +90,7 @@ export function loadPreviousPage() {
 	return function (dispatch, getState) {
 
 		dispatch({
-			type   : PLOT_POINTS_LOAD_BEGIN,
+			type   : PLOT_POINT_LIST_LOAD_BEGIN,
 			payload: {
 				status: API_STATUS_STARTED
 			}
@@ -100,7 +100,7 @@ export function loadPreviousPage() {
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => dispatch({
-					type : PLOT_POINTS_LOAD_SUCCESS,
+					type : PLOT_POINT_LIST_LOAD_SUCCESS,
 					payload: {
 						plotPoints: data._embedded.plotPoints,
 						page      : data.page,
@@ -111,7 +111,7 @@ export function loadPreviousPage() {
 				}))
 				.catch((error) =>
 						dispatch({
-							type   : PLOT_POINTS_LOAD_FAILURE,
+							type   : PLOT_POINT_LIST_LOAD_FAILURE,
 							payload: {
 								status: API_STATUS_FINISHED,
 								result: API_RESULT_FAILURE,

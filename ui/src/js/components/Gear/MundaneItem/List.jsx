@@ -1,8 +1,8 @@
-import React from "react";
-import ObjectId from "bson-objectid";
-import {ItemList} from "../../Item";
-import MundaneItem from "./Item";
-import {ListTablePanel} from "bootstrap-react-components";
+import React from 'react';
+import ObjectId from 'bson-objectid';
+import {ItemList} from '../../Item';
+import MundaneItem from './Item';
+import {ListTablePanel} from 'bootstrap-react-components';
 
 class MundaneItemList extends ItemList {
 
@@ -19,10 +19,10 @@ class MundaneItemList extends ItemList {
 		let {list, allowEditing, adding}    = this.state;
 
 		return (
-				<div id="mundaneItemList">
+				<div id='mundaneItemList'>
 					<h3>Mundane Items</h3>
 
-					<ListTablePanel title="Mundane Items" id="mundaneItem" onAddClick={this.add.bind(this)}>
+					<ListTablePanel title='Mundane Items' id='mundaneItem' onAddClick={this.add.bind(this)}>
 						<thead>
 						<tr>
 							<th>Name</th>
@@ -35,7 +35,7 @@ class MundaneItemList extends ItemList {
 						{ adding ? <MundaneItem allowEditing={true}
 						                        editing={true}
 						                        item={this.newItem()}
-						                        key="New Row"
+						                        key='New Row'
 						                        save={this.addToList.bind(this)}/> : null}
 						{list.map((item, index) => <MundaneItem allowEditing={allowEditing}
 						                                        key={item._id}
@@ -52,9 +52,9 @@ class MundaneItemList extends ItemList {
 	newItem() {
 		return {
 			_id: ObjectId.generate(),
-			name: "",
+			name: '',
 			cost: 0,
-			type: "",
+			type: '',
 			weight: 0
 		}
 	}

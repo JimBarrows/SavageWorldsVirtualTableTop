@@ -1,16 +1,16 @@
-import {routerReducer} from "react-router-redux";
-import {combineReducers} from "redux";
-import Application from "./Application";
-import User from "./User";
-import PlotPoint from "./PlotPoint";
-import PlotPoints from "./PlotPoints";
+import {routerReducer} from 'react-router-redux';
+import {combineReducers} from 'redux';
+import Application from './Application';
+import User from './User';
+import PlotPoint from './PlotPoint';
+import PlotPointList from './PlotPointList';
 
 const reducer = combineReducers({
-	app: Application,
+	app    : Application,
 	PlotPoint,
-	PlotPoints,
+	PlotPointList,
 	routing: routerReducer,
-	user: User
+	user   : User
 });
 
 export default reducer;

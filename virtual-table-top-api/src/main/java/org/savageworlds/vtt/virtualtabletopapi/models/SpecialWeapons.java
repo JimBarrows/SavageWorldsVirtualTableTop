@@ -46,12 +46,12 @@ public class SpecialWeapons extends Gear {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
-				.append("ranges", ranges)
-				.append("damage", damage)
-				.append("rateOfFire", rateOfFire)
-				.append("armorPierce", armorPierce)
-				.append("minimumStrength", minimumStrength)
-				.append("burst", burst)
+				.append('ranges', ranges)
+				.append('damage', damage)
+				.append('rateOfFire', rateOfFire)
+				.append('armorPierce', armorPierce)
+				.append('minimumStrength', minimumStrength)
+				.append('burst', burst)
 				.toString();
 	}
 

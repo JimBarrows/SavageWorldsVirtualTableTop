@@ -1,7 +1,7 @@
-import React from "react";
-import SettingRuleEditor from "./Editor";
-import SettingRuleViewer from "./View";
-import {ItemDescription} from "../Item";
+import React from 'react';
+import SettingRuleEditor from './Editor';
+import SettingRuleViewer from './View';
+import {ItemDescription} from '../Item';
 
 class SettingRuleDescription extends ItemDescription {
 

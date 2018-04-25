@@ -1,5 +1,5 @@
-import React from "react";
-import {EditableCell, RowControlButtons} from "bootstrap-react-components";
+import React from 'react';
+import {EditableCell, RowControlButtons} from 'bootstrap-react-components';
 
 class MundaneItem extends React.Component {
 
@@ -53,18 +53,18 @@ class MundaneItem extends React.Component {
 	render() {
 		let {allowEditing, editing, item} = this.state;
 		return <tr key={item._id}>
-			<EditableCell disabled={false} edit={allowEditing && editing} error="" label="Name"
+			<EditableCell disabled={false} edit={allowEditing && editing} error='' label='Name'
 			              onChange={this.nameChange.bind(this)}
-			              placeHolder="Name" required={true} type="text" value={item.name}/>
-			<EditableCell disabled={false} edit={allowEditing && editing} error="" label="Cost"
+			              placeHolder='Name' required={true} type='text' value={item.name}/>
+			<EditableCell disabled={false} edit={allowEditing && editing} error='' label='Cost'
 			              onChange={this.costChange.bind(this)}
-			              placeHolder="Cost" required={true} type="number" value={item.cost}/>
-			<EditableCell disabled={false} edit={allowEditing && editing} error=""
+			              placeHolder='Cost' required={true} type='number' value={item.cost}/>
+			<EditableCell disabled={false} edit={allowEditing && editing} error=''
 			              onChange={this.typeChange.bind(this)}
-			              required={true} type="text" value={item.type}/>
-			<EditableCell disabled={false} edit={allowEditing && editing} error="" label="Weight"
+			              required={true} type='text' value={item.type}/>
+			<EditableCell disabled={false} edit={allowEditing && editing} error='' label='Weight'
 			              onChange={this.weightChange.bind(this)}
-			              placeHolder="Weight" required={true} type="number" value={item.weight}/>
+			              placeHolder='Weight' required={true} type='number' value={item.weight}/>
 			<td><RowControlButtons editing={editing}
 			                       edit={this.edit.bind(this)}
 			                       save={this.save.bind(this)}

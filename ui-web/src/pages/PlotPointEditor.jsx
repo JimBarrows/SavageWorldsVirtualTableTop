@@ -1,15 +1,18 @@
 import axios from 'axios';
-import {NumberFormGroup, PageHeader, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components';
+import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
 	cancelChanges,
-	descriptionChange,
+	descriptionChange, loadPlotPoint,
 	maximumAttributePointsChange,
 	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
-	maximumSkillPointsChange, nameChange
+	maximumSkillPointsChange, nameChange, newPlotPoint
 } from '../actions';
+import NumberFormGroup from '../components/NumberFormGroup';
+import TextAreaFormGroup from '../components/TextAreaFormGroup';
+import TextFormGroup from '../components/TextFormGroup';
 import {checkHttpStatus, parseJSON} from '../utils';
 
 class PlotPointEditor extends React.Component {
@@ -31,7 +34,11 @@ class PlotPointEditor extends React.Component {
 	}
 
 	componentDidMount() {
-
+		if (this.props.match.params.name) {
+			this.props.loadPlotPoint(this.props.match.params.name);
+		} else {
+			this.props.newPlotPoint();
+		}
 	}
 
 	cancel(e) {
@@ -126,12 +133,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		cancel                      : () => dispatch(cancelChanges()),
-		descriptionChange           : () => dispatch(descriptionChange()),
-		maximumAttributePointsChange: () => dispatch(maximumAttributePointsChange()),
-		maximumMajorHindrancesChange: () => dispatch(maximumMajorHindrancesChange()),
-		maximumMinorHindrancesChange: () => dispatch(maximumMinorHindrancesChange()),
-		maximumSkillPointsChange    : () => dispatch(maximumSkillPointsChange()),
-		nameChange                  : () => dispatch(nameChange())
+		descriptionChange           : (description) => dispatch(descriptionChange(description)),
+		loadPlotPoint               : (name) => dispatch(loadPlotPoint(name)),
+		maximumAttributePointsChange: (maximumAttributePoints) => dispatch(maximumAttributePointsChange(maximumAttributePoints)),
+		maximumMajorHindrancesChange: (maximumMajorHindrances) => dispatch(maximumMajorHindrancesChange(maximumMajorHindrances)),
+		maximumMinorHindrancesChange: (maximumMinorHindrances) => dispatch(maximumMinorHindrancesChange(maximumMinorHindrances)),
+		maximumSkillPointsChange    : (maximumSkillPoints) => dispatch(maximumSkillPointsChange(maximumSkillPoints)),
+		nameChange                  : (name) => dispatch(nameChange(name)),
+		newPlotPoint                : () => dispatch(newPlotPoint())
 	};
 };
 

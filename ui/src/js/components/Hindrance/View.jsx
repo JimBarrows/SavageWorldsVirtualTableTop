@@ -1,5 +1,5 @@
-import {RowControlButtons} from "bootstrap-react-components";
-import React from "react";
+import {RowControlButtons} from 'bootstrap-react-components';
+import React from 'react';
 
 class HindranceView extends React.Component {
 
@@ -8,7 +8,7 @@ class HindranceView extends React.Component {
 		let {_id, name, description, severity, edit, remove, save, allowEditing} = this.props;
 
 		return (
-				<div class="HindranceView">
+				<div class='HindranceView'>
 					<dt>
 						{name}
 						&nbsp;
@@ -17,7 +17,7 @@ class HindranceView extends React.Component {
 						                                   editing={false}
 						                                   edit={edit}
 						                                   save={save}
-						                                   remove={remove}/> : ""}
+						                                   remove={remove}/> : ''}
 					</dt>
 					<dd>{description}</dd>
 				</div>

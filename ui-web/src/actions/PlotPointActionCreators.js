@@ -1,8 +1,14 @@
 /**
  * Created by JimBarrows on 4/23/18.
  */
+import axios from 'axios';
+import {application_constants, plotPoint_constants} from '../constants';
+import {checkHttpStatus, convertErrorToString, parseJSON} from '../utils';
 
-import {plotPoint_constants} from '../constants';
+let {
+	    API_STATUS_FINISHED, API_RESULT_FAILURE, API_RESULT_SUCCESS, API_STATUS_STARTED
+    } = application_constants;
+
 
 export function cancelChanges() {
 	return {
@@ -16,6 +22,66 @@ export function descriptionChange(description) {
 		payload: {
 			description
 		}
+	};
+}
+
+export function loadPlotPoint(name) {
+	return function (dispatch, getState) {
+		dispatch({
+			type   : plotPoint_constants.PLOT_POINT_LOAD_BEGIN,
+			payload: {
+				status: {
+					API_STATUS_STARTED
+				}
+			}
+		});
+		let list      = getState().PlotPointList;
+		let plotPoint = list.plotPoints.find(pp => pp.name === name);
+		if (plotPoint) {
+			let {description, name, maximumMinorHindrances, maximumMajorHindrances, maximumAttributePoints, maximumSkillPoints} = plotPoint;
+			dispatch({
+				type   : plotPoint_constants.PLOT_POINT_LOAD_SUCCESS,
+				payload: {
+					description, name, maximumMinorHindrances, maximumMajorHindrances, maximumAttributePoints, maximumSkillPoints,
+					result: API_RESULT_SUCCESS,
+					status: API_STATUS_FINISHED
+				}
+			});
+		}
+		// axios.put(plotPoint._links.self.href, modifiedPlotPoint)
+		// 		.then(checkHttpStatus)
+		// 		.then(parseJSON)
+		// 		.then(data => {
+		// 			if (data.error) {
+		// 				dispatch({
+		// 					type   : plotPoint_constants.PLOT_POINT_LOAD_FAILURE,
+		// 					payload: {
+		// 						status: API_STATUS_FINISHED,
+		// 						result: API_RESULT_FAILURE,
+		// 						error : convertErrorToString(data.error)
+		// 					}
+		// 				});
+		// 			} else {
+		// 				dispatch({
+		// 					type   : plotPoint_constants.PLOT_POINT_LOAD_SUCCESS,
+		// 					payload: {
+		// 						plotPoint: data,
+		// 						result   : API_RESULT_SUCCESS,
+		// 						status   : API_STATUS_FINISHED
+		// 					}
+		// 				});
+		// 			}
+		// 		})
+		// 		.catch(error => {
+		// 			dispatch({
+		// 				type   : plotPoint_constants.PLOT_POINT_LOAD_FAILURE,
+		// 				payload: {
+		// 					status: API_STATUS_FINISHED,
+		// 					result: API_RESULT_FAILURE,
+		// 					error : convertErrorToString(error)
+		// 				}
+		// 			});
+		// 		});
 	};
 }
 
@@ -61,5 +127,11 @@ export function nameChange(name) {
 		payload: {
 			name
 		}
+	};
+}
+
+export function newPlotPoint() {
+	return {
+		type: plotPoint_constants.PLOT_POINT_NEW
 	};
 }

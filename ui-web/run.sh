@@ -14,6 +14,6 @@ case $1 in
     yarn test $@
     ;;
   *)
-    exec "$@"
+    exec '$@'
     ;;
 esac
