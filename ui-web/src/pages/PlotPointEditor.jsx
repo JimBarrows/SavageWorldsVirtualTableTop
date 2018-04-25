@@ -8,7 +8,7 @@ import {
 	descriptionChange, loadPlotPoint,
 	maximumAttributePointsChange,
 	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
-	maximumSkillPointsChange, nameChange, newPlotPoint
+	maximumSkillPointsChange, nameChange, newPlotPoint, savePlotPoint
 } from '../actions';
 import NumberFormGroup from '../components/NumberFormGroup';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
@@ -85,25 +85,7 @@ class PlotPointEditor extends React.Component {
 
 	save = e => {
 		e.preventDefault();
-		let {
-			    name,
-			    description,
-			    maximumMinorHindrances,
-			    maximumMajorHindrances,
-			    maximumAttributePoints,
-			    maximumSkillPoints
-		    } = this.state;
-
-		axios.post('/api/plotPoints', {
-			name,
-			description,
-			maximumMinorHindrances,
-			maximumMajorHindrances,
-			maximumAttributePoints,
-			maximumSkillPoints
-		}).then(checkHttpStatus)
-				.then(parseJSON)
-				.then();
+		this.props.savePlotPoint()
 	};
 }
 
@@ -129,7 +111,8 @@ const mapDispatchToProps = (dispatch) => {
 		maximumMinorHindrancesChange: (maximumMinorHindrances) => dispatch(maximumMinorHindrancesChange(maximumMinorHindrances)),
 		maximumSkillPointsChange    : (maximumSkillPoints) => dispatch(maximumSkillPointsChange(maximumSkillPoints)),
 		nameChange                  : (name) => dispatch(nameChange(name)),
-		newPlotPoint                : () => dispatch(newPlotPoint())
+		newPlotPoint                : () => dispatch(newPlotPoint()),
+		savePlotPoint               : () => dispatch(savePlotPoint())
 	};
 };
 

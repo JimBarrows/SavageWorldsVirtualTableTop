@@ -135,3 +135,46 @@ export function newPlotPoint() {
 		type: plotPoint_constants.PLOT_POINT_NEW
 	};
 }
+
+export function savePlotPoint() {
+	return function (dispatch, getState) {
+		dispatch({
+			type   : plotPoint_constants.PLOT_POINT_SAVE_BEGIN,
+			payload: {
+				status: {
+					API_STATUS_STARTED
+				}
+			}
+		});
+		let {
+			    name,
+			    description,
+			    maximumMinorHindrances,
+			    maximumMajorHindrances,
+			    maximumAttributePoints,
+			    maximumSkillPoints
+		    } = getState().PlotPoint;
+		axios.post('/api/plotPoints', {
+			name,
+			description,
+			maximumMinorHindrances,
+			maximumMajorHindrances,
+			maximumAttributePoints,
+			maximumSkillPoints
+		}).then(checkHttpStatus)
+				.then(parseJSON)
+				.then(data => dispatch({
+					type   : plotPoint_constants.PLOT_POINT_SAVE_SUCCESS,
+					payload: data
+				}))
+				.catch(error =>
+						dispatch({
+							type   : plotPoint_constants.PLOT_POINT_SAVE_FAILURE,
+							payload: {
+								status: API_STATUS_FINISHED,
+								result: API_RESULT_FAILURE,
+								error : convertErrorToString(error)
+							}
+						}));
+	};
+}
