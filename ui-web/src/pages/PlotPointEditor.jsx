@@ -1,8 +1,6 @@
-import axios from 'axios';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
 import {
 	cancelChanges,
 	descriptionChange, loadPlotPoint,
@@ -13,7 +11,6 @@ import {
 import NumberFormGroup from '../components/NumberFormGroup';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
-import {checkHttpStatus, parseJSON} from '../utils';
 
 class PlotPointEditor extends React.Component {
 

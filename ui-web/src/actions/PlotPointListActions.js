@@ -61,7 +61,7 @@ export function loadNextPage() {
 			}
 		});
 
-		axios.get(getState().PlotPoints.links.next.href)
+		axios.get(getState().PlotPointList.links.next.href)
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => dispatch({
@@ -96,7 +96,7 @@ export function loadPreviousPage() {
 			}
 		});
 
-		axios.get(getState().PlotPoints.links.prev.href)
+		axios.get(getState().PlotPointList.links.prev.href)
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => dispatch({

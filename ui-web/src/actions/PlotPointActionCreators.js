@@ -38,50 +38,30 @@ export function loadPlotPoint(name) {
 		let list      = getState().PlotPointList;
 		let plotPoint = list.plotPoints.find(pp => pp.name === name);
 		if (plotPoint) {
-			let {description, name, maximumMinorHindrances, maximumMajorHindrances, maximumAttributePoints, maximumSkillPoints} = plotPoint;
+			let {
+				    description,
+				    _links,
+				    name,
+				    maximumMinorHindrances,
+				    maximumMajorHindrances,
+				    maximumAttributePoints,
+				    maximumSkillPoints
+			    } = plotPoint;
 			dispatch({
 				type   : plotPoint_constants.PLOT_POINT_LOAD_SUCCESS,
 				payload: {
-					description, name, maximumMinorHindrances, maximumMajorHindrances, maximumAttributePoints, maximumSkillPoints,
+					description,
+					_links,
+					name,
+					maximumMinorHindrances,
+					maximumMajorHindrances,
+					maximumAttributePoints,
+					maximumSkillPoints,
 					result: API_RESULT_SUCCESS,
 					status: API_STATUS_FINISHED
 				}
 			});
 		}
-		// axios.put(plotPoint._links.self.href, modifiedPlotPoint)
-		// 		.then(checkHttpStatus)
-		// 		.then(parseJSON)
-		// 		.then(data => {
-		// 			if (data.error) {
-		// 				dispatch({
-		// 					type   : plotPoint_constants.PLOT_POINT_LOAD_FAILURE,
-		// 					payload: {
-		// 						status: API_STATUS_FINISHED,
-		// 						result: API_RESULT_FAILURE,
-		// 						error : convertErrorToString(data.error)
-		// 					}
-		// 				});
-		// 			} else {
-		// 				dispatch({
-		// 					type   : plotPoint_constants.PLOT_POINT_LOAD_SUCCESS,
-		// 					payload: {
-		// 						plotPoint: data,
-		// 						result   : API_RESULT_SUCCESS,
-		// 						status   : API_STATUS_FINISHED
-		// 					}
-		// 				});
-		// 			}
-		// 		})
-		// 		.catch(error => {
-		// 			dispatch({
-		// 				type   : plotPoint_constants.PLOT_POINT_LOAD_FAILURE,
-		// 				payload: {
-		// 					status: API_STATUS_FINISHED,
-		// 					result: API_RESULT_FAILURE,
-		// 					error : convertErrorToString(error)
-		// 				}
-		// 			});
-		// 		});
 	};
 }
 
@@ -149,23 +129,37 @@ export function savePlotPoint() {
 		let {
 			    name,
 			    description,
+			    _links,
 			    maximumMinorHindrances,
 			    maximumMajorHindrances,
 			    maximumAttributePoints,
 			    maximumSkillPoints
-		    } = getState().PlotPoint;
-		axios.post('/api/plotPoints', {
-			name,
-			description,
-			maximumMinorHindrances,
-			maximumMajorHindrances,
-			maximumAttributePoints,
-			maximumSkillPoints
+		    }    = getState().PlotPoint;
+		let link = (_links && _links.self &&_links.self.href) || '/api/plotPoints';
+		axios({
+			method: _links ? 'put' : 'post',
+			url   : link,
+			data  : {
+				name,
+				description,
+				maximumMinorHindrances,
+				maximumMajorHindrances,
+				maximumAttributePoints,
+				maximumSkillPoints
+			}
 		}).then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => dispatch({
 					type   : plotPoint_constants.PLOT_POINT_SAVE_SUCCESS,
-					payload: data
+					payload: {
+						description           : data.description,
+						_links                : _links,
+						maximumMinorHindrances: data.maximumMinorHindrances,
+						maximumMajorHindrances: data.maximumMajorHindrances,
+						maximumAttributePoints: data.maximumAttributePoints,
+						maximumSkillPoints    : data.maximumSkillPoints,
+						name                  : data.name
+					}
 				}))
 				.catch(error =>
 						dispatch({

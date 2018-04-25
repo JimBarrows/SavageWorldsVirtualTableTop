@@ -6,7 +6,7 @@ import Header from './components/Header';
 import MessageDisplay from './components/MessageDisplay';
 import Register from './components/Register';
 import PlotPointEditor from './pages/PlotPointEditor';
-import PlotPoints from './pages/PlotPoints';
+import PlotPointList from './pages/PlotPointList';
 
 axios.create({
 	baseURL       : '/api/',
@@ -23,7 +23,7 @@ class App extends Component {
 					<MessageDisplay id={'application'}/>
 					<div id={"layout"} className="container" role={"main"}>
 						<Switch>
-							<Route exact path="/" component={PlotPoints}/>
+							<Route exact path="/" component={PlotPointList}/>
 							<Route exact path='/plotPointEditor' component={PlotPointEditor}/>
 							<Route exact path={"/plotPointEditor/:name"} component={PlotPointEditor}/>
 							<Route exact path="/register" component={Register}/>

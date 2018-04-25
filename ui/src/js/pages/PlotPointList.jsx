@@ -54,7 +54,7 @@ class PlotPointListPanelPanel extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		plotPoints: state.PlotPoints.plotPoints
+		plotPoints: state.PlotPointList.plotPoints
 	};
 };
 

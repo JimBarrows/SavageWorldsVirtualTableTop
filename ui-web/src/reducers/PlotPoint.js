@@ -46,6 +46,7 @@ export default createReducer(initialState, {
 	[PLOT_POINT_LOAD_SUCCESS]: (state, payload) => Object.assign({}, {
 		name                  : payload.name,
 		description           : payload.description,
+		_links                : payload._links,
 		maximumMinorHindrances: payload.maximumMinorHindrances,
 		maximumMajorHindrances: payload.maximumMajorHindrances,
 		maximumAttributePoints: payload.maximumAttributePoints,
@@ -83,7 +84,7 @@ export default createReducer(initialState, {
 		original              : {}
 	}),
 
-	[PLOT_POINT_SAVE_SUCCESS]: (state, payload) => Object.assign({},{
+	[PLOT_POINT_SAVE_SUCCESS]: (state, payload) => Object.assign({}, {
 		name                  : payload.name,
 		description           : payload.description,
 		maximumMinorHindrances: payload.maximumMinorHindrances,

@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {push} from "react-router-redux";
 import {loadPage, loadNextPage, loadPreviousPage} from "../actions/PlotPointListActions";
 
-class PlotPoints extends React.Component {
+class PlotPointListPage extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -97,8 +97,8 @@ class PlotPoints extends React.Component {
 	render() {
 
 		return (
-				<div id='PlotPointsPage'>
-					<PageHeader id='PlotPointsPage'><h1>Plot Points</h1></PageHeader>
+				<div id='PlotPointListPage'>
+					<PageHeader id='PlotPointListPage'><h1>Plot Points</h1></PageHeader>
 					<button className={'btn btn-default'} id='addPlotPointButton' type={'button'}
 					        onClick={this.navigateToNewPlotPoint}>Add
 					</button>
@@ -125,4 +125,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPoints));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPointListPage));
