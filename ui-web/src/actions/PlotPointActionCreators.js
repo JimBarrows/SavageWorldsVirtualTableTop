@@ -35,7 +35,7 @@ export function loadPlotPoint(name) {
 				}
 			}
 		});
-		return axios.get(`/api/plotPoints/search//findByName?name=${name}`)
+		return axios.get(`/api/plotPoints/search/findByName?name=${name}`)
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(data => {

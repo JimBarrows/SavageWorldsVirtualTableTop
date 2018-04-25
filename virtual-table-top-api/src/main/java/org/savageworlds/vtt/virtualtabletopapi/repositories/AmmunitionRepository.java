@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource
+@RepositoryRestResource(exported = false)
 public interface AmmunitionRepository extends PagingAndSortingRepository<Ammunition, Long> {
 
 }
