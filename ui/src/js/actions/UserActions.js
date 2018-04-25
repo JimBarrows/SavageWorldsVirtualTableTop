@@ -1,7 +1,7 @@
-import axios from "axios";
-import constants from "../constants";
-import {checkHttpStatus, parseJSON, convertErrorToString} from "../utils";
-import {push} from "react-router-redux";
+import axios from 'axios';
+import constants from '../constants';
+import {checkHttpStatus, parseJSON, convertErrorToString} from '../utils';
+import {push} from 'react-router-redux';
 
 let {
 		    API_RESULT_SUCCESS,
@@ -27,7 +27,7 @@ export function userRegister(username, password) {
 			}
 		});
 
-		axios.post("/api/user", {
+		axios.post('/api/user', {
 					username
 					, password
 				})
@@ -40,7 +40,7 @@ export function userRegister(username, password) {
 							, payload: {
 								status: API_STATUS_FINISHED,
 								result: API_RESULT_FAILURE,
-								error: convertErrorToString(response.data.error)
+								error: convertErrorToString(data.error)
 							}
 						});
 					} else {
@@ -53,7 +53,7 @@ export function userRegister(username, password) {
 							}
 						});
 						localStorage.setItem('token', data.token);
-						dispatch(push("/"));
+						dispatch(push('/'));
 					}
 				})
 				.catch(function (error) {
@@ -69,7 +69,7 @@ export function userRegister(username, password) {
 	}
 }
 
-export function userLogin(username, password, redirect = "/") {
+export function userLogin(username, password, redirect = '/') {
 	return function (dispatch) {
 		dispatch({
 			type: LOGIN_USER_BEGINS,
@@ -78,7 +78,7 @@ export function userLogin(username, password, redirect = "/") {
 			}
 		});
 
-		return axios.post("/api/user/authenticate", {
+		return axios.post('/api/user/authenticate', {
 					username
 					, password
 				})
@@ -94,10 +94,10 @@ export function userLogin(username, password, redirect = "/") {
 						}
 					});
 					axios.defaults.headers = {
-						"x-access-token": data.token
+						'x-access-token': data.token
 					};
 					localStorage.setItem('token', data.token);
-					dispatch(push("/"));
+					dispatch(push('/'));
 				})
 				.catch(function (error) {
 					dispatch({
@@ -114,12 +114,12 @@ export function userLogin(username, password, redirect = "/") {
 
 export function logout() {
 	return function (dispatch) {
-		axios.get("/api/user/logout")
+		axios.get('/api/user/logout')
 				.then(checkHttpStatus)
 				.then(parseJSON)
 				.then(function (data) {
 					axios.defaults.headers = {
-						"x-access-token": ""
+						'x-access-token': '"
 					};
 					localStorage.removeItem('token');
 					dispatch({

@@ -1,13 +1,13 @@
 {
-  "plugins": [
-    "babel",
-    "react"
+  'plugins': [
+    'babel',
+    'react'
   ],
-  "rules": {
-    "babel/new-cap": 1,
-    "babel/object-curly-spacing": 1,
-    "babel/no-await-in-loop": 1,
-    "babel/flow-object-type": 1,
-    "babel/no-invalid-this": 1
+  'rules': {
+    'babel/new-cap': 1,
+    'babel/object-curly-spacing': 1,
+    'babel/no-await-in-loop': 1,
+    'babel/flow-object-type': 1,
+    'babel/no-invalid-this': 1
   }
 }

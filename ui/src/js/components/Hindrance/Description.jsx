@@ -1,7 +1,7 @@
-import React from "react";
-import HindranceEditor from "./Editor";
-import HindranceView from "./View";
-import {ItemDescription} from "../Item";
+import React from 'react';
+import HindranceEditor from './Editor';
+import HindranceView from './View';
+import {ItemDescription} from '../Item';
 
 class HindranceDescription extends ItemDescription {
 

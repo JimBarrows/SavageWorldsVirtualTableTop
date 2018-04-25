@@ -1,16 +1,16 @@
-import React from "react";
-import SettingRuleDescription from "./Description";
-import SettingRuleEditor from "./Editor";
-import ListManager from "../Item/List";
+import React from 'react';
+import SettingRuleDescription from './Description';
+import SettingRuleEditor from './Editor';
+import ListManager from '../Item/List';
 
 class SettingRuleList extends ListManager {
 
 	render() {
 		let {list, allowEditing}    = this.state;
-		let addButton = this.buttonEditOrNothing("Add Setting", <SettingRuleEditor save={this.addToList.bind(this)}/>);
+		let addButton = this.buttonEditOrNothing('Add Setting', <SettingRuleEditor save={this.addToList.bind(this)}/>);
 
 		return (
-				<div id="settingRulesList">
+				<div id='settingRulesList'>
 					<h1>Setting Rules</h1>
 					{addButton}
 					<dl>

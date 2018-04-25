@@ -1,11 +1,11 @@
 /**
  * Created by JimBarrows on 11/26/16.
  */
-import Account from "../../../server/models/Account";
-import PlotPoint from "../../../server/models/PlotPoint";
-import bluebird from "bluebird";
-import chai from "chai";
-import mongoose from "mongoose";
+import Account from '../../../server/models/Account';
+import PlotPoint from '../../../server/models/PlotPoint';
+import bluebird from 'bluebird';
+import chai from 'chai';
+import mongoose from 'mongoose";
 
 console.log("fixtures");
 

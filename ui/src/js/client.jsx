@@ -8,9 +8,9 @@ import {loginUserSuccess} from "./actions";
 import {requireAuthentication} from "./components/AuthenticationComponent";
 import Layout from "./components/layout";
 import Login from "./pages/Login";
-import PlotPoints from "./pages/PlotPointList";
+import PlotPointList from "./pages/PlotPointList";
 import Register from "./pages/Register";
-import store from "./Store";
+import store from "../../../ui-web/src/Store";
 import AddPlotPoint from "./pages/AddPlotPoint";
 import UpdatePlotPoint from "./pages/UpdatePlotPoint";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -30,7 +30,7 @@ ReactDOM.render(
 		<Provider store={store}>
 			<Router history={history}>
 				<Route path="/" component={Layout}>
-					<IndexRoute component={requireAuthentication(PlotPoints)}></IndexRoute>
+					<IndexRoute component={requireAuthentication(PlotPointList)}></IndexRoute>
 					<Route path="register" component={Register}/>
 					<Route path="login" component={Login}/>
 					<Route path="plotPoint">

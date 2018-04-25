@@ -62,7 +62,7 @@ class Header extends React.Component {
 						</div>
 						<div id="navbar" class={"navbar-collapse " + navClass}>
 							<ul class="nav navbar-nav">
-								{user.isAuthenticated ? <li class={plotPointClass}><Link to="/">PlotPoints</Link></li> : ""}
+								{user.isAuthenticated ? <li class={plotPointClass}><Link to="/">PlotPointList</Link></li> : ""}
 
 							</ul>
 							{UserComponent}

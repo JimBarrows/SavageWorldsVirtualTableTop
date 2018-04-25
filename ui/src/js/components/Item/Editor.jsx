@@ -1,5 +1,5 @@
-import {PageHeader} from "bootstrap-react-components";
-import React from "react";
+import {PageHeader} from 'bootstrap-react-components';
+import React from 'react';
 
 class Editor extends React.Component {
 
@@ -36,8 +36,8 @@ class Editor extends React.Component {
 
 	render() {
 		return (
-				<div id="EditorPage">
-					<PageHeader id="Editor">
+				<div id='EditorPage'>
+					<PageHeader id='Editor'>
 						<h1>Editor</h1>
 					</PageHeader>
 				</div>

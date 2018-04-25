@@ -1,7 +1,7 @@
 /**
  * Created by JimBarrows on 11/26/16.
  */
-import constants from "../constants";
+import {application_constants} from "../constants";
 
 const initialState = {
 	isLoading: false,
@@ -19,7 +19,7 @@ let {
 		    API_STATUS_STARTED,
 		    DISPLAY_MESSAGE,
 		    MESSAGE_CONTEXT_DANGER
-    } = constants;
+    } = application_constants;
 
 export default function app(state = initialState, action) {
 	switch (action.type) {
@@ -55,11 +55,10 @@ export default function app(state = initialState, action) {
 										message: action.payload.error
 									}
 								});
-								break;
 							default:
 								return state;
 						}
-						break;
+
 					default:
 						return state;
 				}
@@ -68,5 +67,4 @@ export default function app(state = initialState, action) {
 				return state;
 			}
 	}
-	return state;
 }

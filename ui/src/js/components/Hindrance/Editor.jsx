@@ -1,6 +1,6 @@
-import {FormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
-import React from "react";
-import {ItemEditor} from "../Item";
+import {FormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components';
+import React from 'react';
+import {ItemEditor} from '../Item';
 
 class HindranceEditor extends ItemEditor {
 
@@ -14,23 +14,23 @@ class HindranceEditor extends ItemEditor {
 	render() {
 		let {_id, name, description, severity} = this.state;
 		return (
-				<div id="HindranceEditorForm">
+				<div id='HindranceEditorForm'>
 					<TextFormGroup
-							label="Name"
-							id={_id + "Name"}
+							label='Name'
+							id={_id + 'Name'}
 							onChange={this.nameChange.bind(this)}
 							value={name}/>
 					<TextAreaFormGroup
-							label="Description"
-							id={_id + "Description"}
+							label='Description'
+							id={_id + 'Description'}
 							onChange={this.descriptionChange.bind(this)}
 							value={description}
 					/>
-					<FormGroup label="Severity"
-					           id="severity"
+					<FormGroup label='Severity'
+					           id='severity'
 					           required={true}>
-						<select class="form-control"
-						        id="severitySelect"
+						<select class='form-control'
+						        id='severitySelect'
 						        onChange={this.severityChange.bind(this)}
 						        value={severity}>
 							<option>Major</option>
@@ -38,10 +38,10 @@ class HindranceEditor extends ItemEditor {
 							<option>Major or Minor</option>
 						</select>
 					</FormGroup>
-					<button type="button" class="btn btn-default"
+					<button type='button' class='btn btn-default'
 					        onClick={this.save.bind(this)}>Save
 					</button>
-					<button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
+					<button type='button' class='btn btn-default' onClick={this.cancel.bind(this)}>Cancel</button>
 				</div>
 		);
 	}
@@ -53,7 +53,7 @@ class HindranceEditor extends ItemEditor {
 	}
 
 	stateToItem() {
-		let {_id, name, description, severity = "Major"} = this.state;
+		let {_id, name, description, severity = 'Major'} = this.state;
 		return {
 			_id, name, description, severity
 		}

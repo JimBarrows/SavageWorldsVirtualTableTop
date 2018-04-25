@@ -1,5 +1,5 @@
-import React from "react";
-import ObjectId from "bson-objectid";
+import React from 'react';
+import ObjectId from 'bson-objectid';
 
 class ListManager extends React.Component {
 
@@ -28,14 +28,14 @@ class ListManager extends React.Component {
 				return editor
 
 			} else {
-				return <button type="button" class="btn btn-default btn-xs" onClick={this.add.bind(this)}>
+				return <button type='button' class='btn btn-default btn-xs' onClick={this.add.bind(this)}>
 					<span
-							class="glyphicon glyphicon-plus"
-							aria-hidden="true"/>{buttonName}
+							class='glyphicon glyphicon-plus'
+							aria-hidden='true'/>{buttonName}
 				</button>
 			}
 		} else {
-			return "";
+			return '';
 		}
 	}
 
