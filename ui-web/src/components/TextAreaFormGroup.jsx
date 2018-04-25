@@ -1,7 +1,7 @@
 import {FormGroup} from 'bootstrap-react-components';
 import PropTypes from 'prop-types';
 import React from 'react';
-import RichTextEditor, {createValueFromString} from 'react-rte';
+import RichTextEditor from 'react-rte';
 
 
 export default class TextAreaFormGroup extends React.Component {
@@ -55,7 +55,7 @@ export default class TextAreaFormGroup extends React.Component {
 	};
 
 	render() {
-		let {disabled, error, id, label, placeholder, required, value} = this.props;
+		let {disabled, error, id, label, placeholder, required} = this.props;
 		return (
 				<FormGroup label={label} id={id} error={error} required={required}>
 					<RichTextEditor

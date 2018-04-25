@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
 class PlotPointList extends React.Component {
 
-
+	static defaultProps = {
+		plotPoints: []
+	}
 	render() {
 		return (
 				<div id={'PlotPointListComponent' }>
@@ -30,13 +31,5 @@ class PlotPointList extends React.Component {
 		);
 	}
 }
-
-PlotPointList.propTypes = {
-	// id: PropTypes.string.isRequired
-};
-
-PlotPointList.defaultProps = {
-	plotPoints: []
-};
 
 export default PlotPointList;

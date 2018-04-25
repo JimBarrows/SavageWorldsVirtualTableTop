@@ -21,18 +21,6 @@ class PlotPointEditor extends React.Component {
 		id: 'PlotPointEditorPage'
 	};
 
-	constructor(props) {
-		super(props);
-		this.cancel                       = this.cancel.bind(this);
-		this.descriptionChange            = this.descriptionChange.bind(this);
-		this.maximumAttributePointsChange = this.maximumAttributePointsChange.bind(this);
-		this.maximumMajorHindrancesChange = this.maximumMajorHindrancesChange.bind(this);
-		this.maximumMinorHindrancesChange = this.maximumMinorHindrancesChange.bind(this);
-		this.maximumSkillPointsChange     = this.maximumSkillPointsChange.bind(this);
-		this.nameChange                   = this.nameChange.bind(this);
-		this.save                         = this.save.bind(this);
-	}
-
 	componentDidMount() {
 		if (this.props.match.params.name) {
 			this.props.loadPlotPoint(this.props.match.params.name);
@@ -41,34 +29,34 @@ class PlotPointEditor extends React.Component {
 		}
 	}
 
-	cancel(e) {
+	cancel = e => {
 		e.preventDefault();
 		this.props.cancel();
-	}
+	};
 
-	descriptionChange(e) {
+	descriptionChange = e => {
 		this.props.descriptionChange(e.target.value);
-	}
+	};
 
-	maximumAttributePointsChange(e) {
+	maximumAttributePointsChange = e => {
 		this.props.maximumAttributePointsChange(e.target.value);
-	}
+	};
 
-	maximumMajorHindrancesChange(e) {
+	maximumMajorHindrancesChange = e => {
 		this.props.maximumMajorHindrancesChange(e.target.value);
-	}
+	};
 
-	maximumMinorHindrancesChange(e) {
+	maximumMinorHindrancesChange = e => {
 		this.props.maximumMinorHindrancesChange(e.target.value);
-	}
+	};
 
-	maximumSkillPointsChange(e) {
+	maximumSkillPointsChange = e => {
 		this.props.maximumSkillPointsChange(e.target.value);
-	}
+	};
 
-	nameChange(e) {
+	nameChange = e => {
 		this.props.nameChange(e.target.value);
-	}
+	};
 
 	render() {
 		return <div id={this.props.id}>
@@ -95,7 +83,7 @@ class PlotPointEditor extends React.Component {
 		</div>;
 	}
 
-	save(e) {
+	save = e => {
 		e.preventDefault();
 		let {
 			    name,
@@ -116,17 +104,18 @@ class PlotPointEditor extends React.Component {
 		}).then(checkHttpStatus)
 				.then(parseJSON)
 				.then();
-	}
+	};
 }
 
 const mapStateToProps = (state) => {
 	return {
-		name                  : state.PlotPoint.name,
+
 		description           : state.PlotPoint.description,
+		maximumAttributePoints: state.PlotPoint.maximumAttributePoints,
 		maximumMajorHindrances: state.PlotPoint.maximumMajorHindrances,
 		maximumMinorHindrances: state.PlotPoint.maximumMinorHindrances,
-		maximumAttributePoints: state.PlotPoint.maximumAttributePoints,
-		maximumSkillPoints    : state.PlotPoint.maximumSkillPoints
+		maximumSkillPoints    : state.PlotPoint.maximumSkillPoints,
+		name                  : state.PlotPoint.name
 	};
 };
 
@@ -144,4 +133,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPointEditor));
+export default connect(mapStateToProps, mapDispatchToProps)(PlotPointEditor);
