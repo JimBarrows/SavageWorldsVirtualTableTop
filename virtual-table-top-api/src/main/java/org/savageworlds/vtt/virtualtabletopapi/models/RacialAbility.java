@@ -26,15 +26,15 @@ public class RacialAbility {
 
 	@NotNull
 	@Column(nullable = false)
-	private int points = 1;
+	private int cost = 1;
 
 	public RacialAbility() {
 	}
 
-	public RacialAbility(@NotEmpty final String name, final String description, final int points) {
+	public RacialAbility(@NotEmpty final String name, final String description, final int cost) {
 		this.name = name;
 		this.description = description;
-		this.points = points;
+		this.cost = cost;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class RacialAbility {
 				.append("version", version)
 				.append("name", name)
 				.append("description", description)
-				.append("points", points)
+				.append("cost", cost)
 				.toString();
 	}
 
@@ -95,11 +95,11 @@ public class RacialAbility {
 		this.description = description;
 	}
 
-	public int getPoints() {
-		return points;
+	public int getCost() {
+		return cost;
 	}
 
-	public void setPoints(final int points) {
-		this.points = points;
+	public void setCost(final int cost) {
+		this.cost = cost;
 	}
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {RaceEditor, RaceView} from './index';
+import {RaceEditor} from './index';
 
 class RaceList extends React.Component {
 

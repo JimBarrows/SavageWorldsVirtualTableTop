@@ -1,6 +1,6 @@
 import React from 'react';
 import RaceViewer from './View';
-import RaceEditor from './Editor';
+import RaceEditor from './RaceEditor';
 
 
 class RaceDescription  {

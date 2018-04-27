@@ -9,7 +9,7 @@ import {
 	maximumSkillPointsChange, nameChange, newPlotPoint, raceChange, savePlotPoint
 } from '../actions';
 import NumberFormGroup from '../components/NumberFormGroup';
-import {RaceEditor, RaceList} from '../components/Race';
+import {RaceEditor} from '../components/Race';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
 
@@ -56,16 +56,21 @@ class PlotPointEditor extends React.Component {
 				<TextAreaFormGroup id={'plotPointDescription'} label={'Description'} onChange={this.descriptionChange}
 				                   value={this.props.description}/>
 				<NumberFormGroup id={'maximumAttributePoints'} label={'Maximum Attribute Points'}
-				                 onChange={this.maximumAttributePointsChange} required={true} value={this.props.maximumAttributePoints}/>
+				                 onChange={this.maximumAttributePointsChange} required={true}
+				                 value={this.props.maximumAttributePoints}/>
 				<NumberFormGroup id={'maximumMajorHindrances'} label={'Maximum Number of Major Hindrances'}
-				                 onChange={this.maximumMajorHindrancesChange} required={true} value={this.props.maximumMajorHindrances}/>
+				                 onChange={this.maximumMajorHindrancesChange} required={true}
+				                 value={this.props.maximumMajorHindrances}/>
 				<NumberFormGroup id={'maximumMinorHindrances'} label={'Maximum Number of Minor Hindrances'}
-				                 onChange={this.maximumMinorHindrancesChange} required={true} value={this.props.maximumMinorHindrances}/>
+				                 onChange={this.maximumMinorHindrancesChange} required={true}
+				                 value={this.props.maximumMinorHindrances}/>
 				<NumberFormGroup id={'maximumSkillPoints'} label={'Maximum Skill Points'}
-				                 onChange={this.maximumSkillPointsChange} required={true} value={this.props.maximumSkillPoints}/>
+				                 onChange={this.maximumSkillPointsChange} required={true}
+				                 value={this.props.maximumSkillPoints}/>
 				<h2>Races</h2>
-				{this.props.races.map((race, index) => <RaceEditor key={index} index={index} race={race}
-				                                                   onChange={this.raceChange}/>)}
+				{this.props.races.map((race, index) =>
+						<RaceEditor key={index} index={index} race={race}
+						            onChange={this.raceChange}/>)}
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
 				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}

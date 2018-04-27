@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -63,7 +62,7 @@ public class VirtualTableTopApiApplication {
 			RacialAbility racialAbility = new RacialAbility();
 			racialAbility.setName("Racial Ability " + i);
 			racialAbility.setDescription("Racial Ability Description " +i);
-			racialAbility.setPoints( i);
+			racialAbility.setCost( i);
 			racialAbilities.add(racialAbility);
 		}
 		return racialAbilities;
