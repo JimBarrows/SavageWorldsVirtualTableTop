@@ -36,6 +36,7 @@ export default class RaceEditor extends React.Component {
 							label='Race'
 							id='raceFormName'
 							onChange={this.onNameChange}
+							required={true}
 							value={name}
 					/>
 					<TextAreaFormGroup
@@ -43,6 +44,7 @@ export default class RaceEditor extends React.Component {
 							label='Description'
 							id='raceFormDescription'
 							onChange={this.onDescriptionChange}
+							required={true}
 							value={description}
 					/>
 				</div>

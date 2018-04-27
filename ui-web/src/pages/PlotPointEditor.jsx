@@ -56,13 +56,13 @@ class PlotPointEditor extends React.Component {
 				<TextAreaFormGroup id={'plotPointDescription'} label={'Description'} onChange={this.descriptionChange}
 				                   value={this.props.description}/>
 				<NumberFormGroup id={'maximumAttributePoints'} label={'Maximum Attribute Points'}
-				                 onChange={this.maximumAttributePointsChange} value={this.props.maximumAttributePoints}/>
+				                 onChange={this.maximumAttributePointsChange} required={true} value={this.props.maximumAttributePoints}/>
 				<NumberFormGroup id={'maximumMajorHindrances'} label={'Maximum Number of Major Hindrances'}
-				                 onChange={this.maximumMajorHindrancesChange} value={this.props.maximumMajorHindrances}/>
+				                 onChange={this.maximumMajorHindrancesChange} required={true} value={this.props.maximumMajorHindrances}/>
 				<NumberFormGroup id={'maximumMinorHindrances'} label={'Maximum Number of Minor Hindrances'}
-				                 onChange={this.maximumMinorHindrancesChange} value={this.props.maximumMinorHindrances}/>
+				                 onChange={this.maximumMinorHindrancesChange} required={true} value={this.props.maximumMinorHindrances}/>
 				<NumberFormGroup id={'maximumSkillPoints'} label={'Maximum Skill Points'}
-				                 onChange={this.maximumSkillPointsChange} value={this.props.maximumSkillPoints}/>
+				                 onChange={this.maximumSkillPointsChange} required={true} value={this.props.maximumSkillPoints}/>
 				<h2>Races</h2>
 				{this.props.races.map((race, index) => <RaceEditor key={index} index={index} race={race}
 				                                                   onChange={this.raceChange}/>)}
