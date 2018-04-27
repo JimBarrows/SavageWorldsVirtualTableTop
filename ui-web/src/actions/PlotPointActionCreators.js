@@ -46,7 +46,8 @@ export function loadPlotPoint(name) {
 						    maximumMinorHindrances,
 						    maximumMajorHindrances,
 						    maximumAttributePoints,
-						    maximumSkillPoints
+						    maximumSkillPoints,
+						    races
 					    } = data._embedded.plotPoints[0];
 					dispatch({
 						type   : plotPoint_constants.PLOT_POINT_LOAD_SUCCESS,
@@ -58,6 +59,7 @@ export function loadPlotPoint(name) {
 							maximumMajorHindrances,
 							maximumAttributePoints,
 							maximumSkillPoints,
+							races,
 							result: API_RESULT_SUCCESS,
 							status: API_STATUS_FINISHED
 						}
@@ -117,6 +119,16 @@ export function newPlotPoint() {
 	};
 }
 
+export function raceChange(race, index) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_RACE_CHANGE,
+		payload: {
+			race,
+			index
+		}
+	};
+}
+
 export function savePlotPoint() {
 	return function (dispatch, getState) {
 		dispatch({
@@ -134,7 +146,8 @@ export function savePlotPoint() {
 			    maximumMinorHindrances,
 			    maximumMajorHindrances,
 			    maximumAttributePoints,
-			    maximumSkillPoints
+			    maximumSkillPoints,
+			    races
 		    }    = getState().PlotPoint;
 		let link = (_links && _links.self && _links.self.href) || '/api/plotPoints';
 		axios({
@@ -146,7 +159,8 @@ export function savePlotPoint() {
 				maximumMinorHindrances,
 				maximumMajorHindrances,
 				maximumAttributePoints,
-				maximumSkillPoints
+				maximumSkillPoints,
+				races
 			}
 		}).then(checkHttpStatus)
 				.then(parseJSON)
@@ -159,7 +173,10 @@ export function savePlotPoint() {
 						maximumMajorHindrances: data.maximumMajorHindrances,
 						maximumAttributePoints: data.maximumAttributePoints,
 						maximumSkillPoints    : data.maximumSkillPoints,
-						name                  : data.name
+						name                  : data.name,
+						races                 : data.races,
+						result                : API_RESULT_SUCCESS,
+						status                : API_STATUS_FINISHED
 					}
 				}))
 				.catch(error =>

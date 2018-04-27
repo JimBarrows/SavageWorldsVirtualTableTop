@@ -1,6 +1,6 @@
 import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import React from "react";
-import {ItemEditor} from "../Item";
+import {ItemEditor} from "../../../../ui/src/js/components/Item/index";
 
 class AbilityEditor extends ItemEditor {
 

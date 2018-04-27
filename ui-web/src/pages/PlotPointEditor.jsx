@@ -6,11 +6,13 @@ import {
 	descriptionChange, loadPlotPoint,
 	maximumAttributePointsChange,
 	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
-	maximumSkillPointsChange, nameChange, newPlotPoint, savePlotPoint
+	maximumSkillPointsChange, nameChange, newPlotPoint, raceChange, savePlotPoint
 } from '../actions';
 import NumberFormGroup from '../components/NumberFormGroup';
+import {RaceEditor, RaceList} from '../components/Race';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
+
 
 class PlotPointEditor extends React.Component {
 
@@ -31,29 +33,19 @@ class PlotPointEditor extends React.Component {
 		this.props.cancel();
 	};
 
-	descriptionChange = e => {
-		this.props.descriptionChange(e.target.value);
-	};
+	descriptionChange = e => this.props.descriptionChange(e.target.value);
 
-	maximumAttributePointsChange = e => {
-		this.props.maximumAttributePointsChange(e.target.value);
-	};
+	maximumAttributePointsChange = e => this.props.maximumAttributePointsChange(e.target.value);
 
-	maximumMajorHindrancesChange = e => {
-		this.props.maximumMajorHindrancesChange(e.target.value);
-	};
+	maximumMajorHindrancesChange = e => this.props.maximumMajorHindrancesChange(e.target.value);
 
-	maximumMinorHindrancesChange = e => {
-		this.props.maximumMinorHindrancesChange(e.target.value);
-	};
+	maximumMinorHindrancesChange = e => this.props.maximumMinorHindrancesChange(e.target.value);
 
-	maximumSkillPointsChange = e => {
-		this.props.maximumSkillPointsChange(e.target.value);
-	};
+	maximumSkillPointsChange = e => this.props.maximumSkillPointsChange(e.target.value);
 
-	nameChange = e => {
-		this.props.nameChange(e.target.value);
-	};
+	nameChange = e => this.props.nameChange(e.target.value);
+
+	raceChange = (race, index) => this.props.raceChange(race, index);
 
 	render() {
 		return <div id={this.props.id}>
@@ -71,6 +63,9 @@ class PlotPointEditor extends React.Component {
 				                 onChange={this.maximumMinorHindrancesChange} value={this.props.maximumMinorHindrances}/>
 				<NumberFormGroup id={'maximumSkillPoints'} label={'Maximum Skill Points'}
 				                 onChange={this.maximumSkillPointsChange} value={this.props.maximumSkillPoints}/>
+				<h2>Races</h2>
+				{this.props.races.map((race, index) => <RaceEditor key={index} index={index} race={race}
+				                                                   onChange={this.raceChange}/>)}
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
 				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}
@@ -82,7 +77,7 @@ class PlotPointEditor extends React.Component {
 
 	save = e => {
 		e.preventDefault();
-		this.props.savePlotPoint()
+		this.props.savePlotPoint();
 	};
 }
 
@@ -94,7 +89,8 @@ const mapStateToProps = (state) => {
 		maximumMajorHindrances: state.PlotPoint.maximumMajorHindrances,
 		maximumMinorHindrances: state.PlotPoint.maximumMinorHindrances,
 		maximumSkillPoints    : state.PlotPoint.maximumSkillPoints,
-		name                  : state.PlotPoint.name
+		name                  : state.PlotPoint.name,
+		races                 : state.PlotPoint.races
 	};
 };
 
@@ -109,6 +105,7 @@ const mapDispatchToProps = (dispatch) => {
 		maximumSkillPointsChange    : (maximumSkillPoints) => dispatch(maximumSkillPointsChange(maximumSkillPoints)),
 		nameChange                  : (name) => dispatch(nameChange(name)),
 		newPlotPoint                : () => dispatch(newPlotPoint()),
+		raceChange                  : (race, index) => dispatch(raceChange(race, index)),
 		savePlotPoint               : () => dispatch(savePlotPoint())
 	};
 };

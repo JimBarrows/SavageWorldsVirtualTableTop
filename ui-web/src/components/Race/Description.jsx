@@ -1,9 +1,9 @@
 import React from 'react';
 import RaceViewer from './View';
 import RaceEditor from './Editor';
-import {ItemDescription} from '../Item';
 
-class RaceDescription extends ItemDescription {
+
+class RaceDescription  {
 
 	editor(item) {
 		return <RaceEditor _id={item._id}
