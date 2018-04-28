@@ -10,6 +10,12 @@ let {
     } = application_constants;
 
 
+export function addRace() {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_ADD_RACE
+	};
+}
+
 export function addRacialAbility(indexOfRace) {
 	return {
 		type   : plotPoint_constants.PLOT_POINT_ADD_RACIAL_ABILITY,

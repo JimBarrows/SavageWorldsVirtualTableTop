@@ -29,14 +29,16 @@ export default class RaceEditor extends React.Component {
 	onNameChange = event => {
 		this.props.onChange({
 			name       : event.target.value,
-			description: this.props.race.description
+			description: this.props.race.description,
+			abilities  : this.props.race.abilities
 		}, this.props.index);
 	};
 
 	onDescriptionChange = event => {
 		this.props.onChange({
 			name       : this.props.race.name,
-			description: event.target.value
+			description: event.target.value,
+			abilities  : this.props.race.abilities
 		}, this.props.index);
 	};
 
@@ -63,7 +65,7 @@ export default class RaceEditor extends React.Component {
 							value={description}
 					/>
 					<h3>Racial Abilities</h3>
-					<button className="btn btn-default" onClick={this.addRacialAbility}>Add</button>
+					<button id={'addRacialAbilityButton'} className="btn btn-default" onClick={this.addRacialAbility}>Add</button>
 					{abilities.map((ability, index) =>
 							<RaceAbilityEditor key={index} index={index} ability={ability}
 							                   onChange={this.onAbilityChange}/>)}

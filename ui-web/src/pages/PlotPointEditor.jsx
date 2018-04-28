@@ -2,6 +2,7 @@ import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {connect} from 'react-redux';
 import {
+	addRace,
 	addRacialAbility,
 	cancelChanges,
 	descriptionChange, loadPlotPoint,
@@ -19,6 +20,11 @@ class PlotPointEditor extends React.Component {
 
 	static defaultProps = {
 		id: 'PlotPointEditorPage'
+	};
+
+	addRace = (event) => {
+		event.preventDefault();
+		this.props.addRace();
 	};
 
 	addRacialAbility = (indexOfRace) => this.props.addRacialAbility(indexOfRace);
@@ -71,6 +77,7 @@ class PlotPointEditor extends React.Component {
 				                 onChange={this.maximumSkillPointsChange} required={true}
 				                 value={this.props.maximumSkillPoints}/>
 				<h2>Races</h2>
+				<button id={'addRaceButton'} className="btn btn-default" onClick={this.addRace}>Add</button>
 				{this.props.races.map((race, index) =>
 						<RaceEditor key={index} index={index} race={race}
 						            addRacialAbility={this.addRacialAbility}
@@ -105,6 +112,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		addRace                     : () => dispatch(addRace()),
 		addRacialAbility            : (indexOfRace) => dispatch(addRacialAbility(indexOfRace)),
 		cancel                      : () => dispatch(cancelChanges()),
 		descriptionChange           : (description) => dispatch(descriptionChange(description)),
