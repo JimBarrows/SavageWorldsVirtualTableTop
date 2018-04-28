@@ -10,6 +10,15 @@ let {
     } = application_constants;
 
 
+export function addRacialAbility(indexOfRace) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_ADD_RACIAL_ABILITY,
+		payload: {
+			index: indexOfRace
+		}
+	};
+}
+
 export function cancelChanges() {
 	return {
 		type: plotPoint_constants.PLOT_POINT_CANCEL

@@ -6,10 +6,16 @@ import RaceAbilityEditor from './RaceAbilityEditor';
 export default class RaceEditor extends React.Component {
 
 	static propTypes = {
-		description: PropTypes.string,
-		index      : PropTypes.number.isRequired,
-		name       : PropTypes.string,
-		onChange   : PropTypes.func.isRequired
+		addRacialAbility: PropTypes.func.isRequired,
+		description     : PropTypes.string,
+		index           : PropTypes.number.isRequired,
+		name            : PropTypes.string,
+		onChange        : PropTypes.func.isRequired
+	};
+
+	addRacialAbility = (e) => {
+		e.preventDefault();
+		this.props.addRacialAbility(this.props.index);
 	};
 
 	onAbilityChange = (ability, index) => {
@@ -35,15 +41,15 @@ export default class RaceEditor extends React.Component {
 	};
 
 	render() {
-		const {name, description, abilities} = this.props.race;
-		const {descriptionError, nameError}  = this.props;
+		const {abilities, name, description, index} = this.props.race;
+		const {descriptionError, nameError}         = this.props;
 
 		return (
 				<div id='raceEditor'>
 					<TextFormGroup
 							error={nameError}
 							label='Race'
-							id='raceFormName'
+							id={'raceFormName_' + index}
 							onChange={this.onNameChange}
 							required={true}
 							value={name}
@@ -51,16 +57,18 @@ export default class RaceEditor extends React.Component {
 					<TextAreaFormGroup
 							error={descriptionError}
 							label='Description'
-							id='raceFormDescription'
+							id={'raceFormDescription_' + index}
 							onChange={this.onDescriptionChange}
 							required={true}
 							value={description}
 					/>
 					<h3>Racial Abilities</h3>
+					<button className="btn btn-default" onClick={this.addRacialAbility}>Add</button>
 					{abilities.map((ability, index) =>
 							<RaceAbilityEditor key={index} index={index} ability={ability}
 							                   onChange={this.onAbilityChange}/>)}
 				</div>
-		);
+		)
+				;
 	}
 }

@@ -4,6 +4,7 @@
 import {createConstants} from '../utils';
 
 export default createConstants(
+		'PLOT_POINT_ADD_RACIAL_ABILITY',
 		'PLOT_POINT_CANCEL',
 		'PLOT_POINT_CREATE',
 		'PLOT_POINT_DESCRIPTION_CHANGE',

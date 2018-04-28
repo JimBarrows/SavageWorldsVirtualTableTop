@@ -2,6 +2,7 @@ import {plotPoint_constants} from '../constants';
 import {createReducer} from '../utils';
 
 let {
+	    PLOT_POINT_ADD_RACIAL_ABILITY,
 	    PLOT_POINT_CANCEL,
 	    PLOT_POINT_DESCRIPTION_CHANGE,
 	    PLOT_POINT_LOAD_SUCCESS,
@@ -15,7 +16,7 @@ let {
 	    PLOT_POINT_SAVE_SUCCESS
     } = plotPoint_constants;
 
-const initialState = {
+const newPlotPoint = {
 	name                  : '',
 	description           : '',
 	maximumMinorHindrances: 2,
@@ -25,7 +26,25 @@ const initialState = {
 	races                 : []
 };
 
+const initialState = Object.assign({}, newPlotPoint);
+
+const newRacialAbility = {
+	name       : '',
+	description: '',
+	cost       : 0
+};
+
 export default createReducer(initialState, {
+	[PLOT_POINT_ADD_RACIAL_ABILITY]: (state, payload) => {
+		return Object.assign({},
+				state,
+				{
+					races: state.races.map((race, index) => (index === payload.index) ?
+							Object.assign({}, race, {abilities: [newRacialAbility, ...race.abilities]})
+							: race)
+				});
+	},
+
 	[PLOT_POINT_CANCEL]: (state, payload) => {
 		if (state.original) {
 			return Object.assign({}, state.original);
@@ -79,14 +98,8 @@ export default createReducer(initialState, {
 	}),
 
 	[PLOT_POINT_NEW]: (state, payload) => Object.assign({}, {
-		name                  : '',
-		description           : '',
-		maximumMinorHindrances: 2,
-		maximumMajorHindrances: 1,
-		maximumAttributePoints: 5,
-		maximumSkillPoints    : 15,
-		races                 : [],
-		original              : {}
+		...newPlotPoint,
+		original: {}
 	}),
 
 	[PLOT_POINT_RACE_CHANGE]: (state, payload) => Object.assign({}, state, {
