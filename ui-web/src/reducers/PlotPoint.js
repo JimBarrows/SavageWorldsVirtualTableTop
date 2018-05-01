@@ -81,16 +81,6 @@ export default createReducer(initialState, {
 		}
 	},
 
-	[PLOT_POINT_DELETE_RACIAL_ABILITY]: (state, payload) => {
-		return Object.assign({},
-				state,
-				{
-					races: state.races.map((race, index) => (index === payload.indexOfRace) ?
-							Object.assign({}, race, {abilities: race.abilities.filter((a, index) => index !== payload.indexOfRacialAbility)})
-							: race)
-				});
-	},
-
 	[PLOT_POINT_DESCRIPTION_CHANGE]: (state, payload) => Object.assign({}, state, {
 		description: payload.description
 	}),

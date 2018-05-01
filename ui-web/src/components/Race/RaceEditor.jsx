@@ -26,10 +26,6 @@ export default class RaceEditor extends React.Component {
 		this.props.addRacialAbility(this.props.index);
 	};
 
-	deleteRacialAbility = (racialAbilityIndex) => {
-		this.props.deleteRacialAbility(this.props.index, racialAbilityIndex);
-	};
-
 	onAbilityChange = (ability, index) => {
 		this.props.onChange({
 			name       : this.props.race.name,
@@ -38,6 +34,14 @@ export default class RaceEditor extends React.Component {
 		}, this.props.index);
 	};
 
+	onAbilityDelete = index => {
+		this.props.onChange({
+			name       : this.props.race.name,
+			description: this.props.race.description,
+			abilities  : this.props.race.abilities.filter((a, idx) => index !== idx )
+		}, this.props.index);
+	}
+
 	onNameChange = event => {
 		this.props.onChange({
 			name       : event.target.value,
@@ -45,6 +49,10 @@ export default class RaceEditor extends React.Component {
 			abilities  : this.props.race.abilities
 		}, this.props.index);
 	};
+
+	onDelete = event => {
+		event.preventDefault();
+	}
 
 	onDescriptionChange = event => {
 		this.props.onChange({
@@ -62,7 +70,7 @@ export default class RaceEditor extends React.Component {
 				<Panel id={'raceEditor'}>
 					<PanelHeader id={'raceEditor'}>
 						<div className={'btn-group pull-right'}>
-							<RemoveButton id={'raceEditor'} onClick={this.delete}/>
+							<RemoveButton id={'raceEditor'} onClick={this.onDelete}/>
 						</div>
 					</PanelHeader>
 					<PanelBody id={'raceEditor'}>
@@ -88,7 +96,7 @@ export default class RaceEditor extends React.Component {
 						{abilities.map((ability, index) =>
 								<RaceAbilityEditor ability={ability} index={index} key={index}
 								                   onChange={this.onAbilityChange}
-								                   onDelete={this.deleteRacialAbility}/>)}
+								                   onDelete={this.onAbilityDelete}/>)}
 					</PanelBody>
 				</Panel>
 

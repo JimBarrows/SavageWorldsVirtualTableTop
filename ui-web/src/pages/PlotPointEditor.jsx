@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {
 	addRace,
 	addRacialAbility,
-	cancelChanges, deleteRacialAbility,
+	cancelChanges,
 	descriptionChange, loadPlotPoint,
 	maximumAttributePointsChange,
 	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
@@ -120,7 +120,6 @@ const mapDispatchToProps = (dispatch) => {
 		addRace                     : () => dispatch(addRace()),
 		addRacialAbility            : (indexOfRace) => dispatch(addRacialAbility(indexOfRace)),
 		cancel                      : () => dispatch(cancelChanges()),
-		deleteRacialAbility            : (indexOfRace, indexOfRacialAbility) => dispatch(deleteRacialAbility(indexOfRace, indexOfRacialAbility)),
 		descriptionChange           : (description) => dispatch(descriptionChange(description)),
 		loadPlotPoint               : (name) => dispatch(loadPlotPoint(name)),
 		maximumAttributePointsChange: (maximumAttributePoints) => dispatch(maximumAttributePointsChange(maximumAttributePoints)),
