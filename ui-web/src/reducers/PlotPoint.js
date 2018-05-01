@@ -5,6 +5,7 @@ let {
 	    PLOT_POINT_ADD_RACE,
 	    PLOT_POINT_ADD_RACIAL_ABILITY,
 	    PLOT_POINT_CANCEL,
+	    PLOT_POINT_DELETE_RACIAL_ABILITY,
 	    PLOT_POINT_DESCRIPTION_CHANGE,
 	    PLOT_POINT_LOAD_SUCCESS,
 	    PLOT_POINT_MAXIMUM_ATTRIBUTE_POINT_CHANGE,
@@ -78,6 +79,16 @@ export default createReducer(initialState, {
 				races                 : []
 			});
 		}
+	},
+
+	[PLOT_POINT_DELETE_RACIAL_ABILITY]: (state, payload) => {
+		return Object.assign({},
+				state,
+				{
+					races: state.races.map((race, index) => (index === payload.indexOfRace) ?
+							Object.assign({}, race, {abilities: race.abilities.filter((a, index) => index !== payload.indexOfRacialAbility)})
+							: race)
+				});
 	},
 
 	[PLOT_POINT_DESCRIPTION_CHANGE]: (state, payload) => Object.assign({}, state, {

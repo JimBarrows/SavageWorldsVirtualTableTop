@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {
 	addRace,
 	addRacialAbility,
-	cancelChanges,
+	cancelChanges, deleteRacialAbility,
 	descriptionChange, loadPlotPoint,
 	maximumAttributePointsChange,
 	maximumMajorHindrancesChange, maximumMinorHindrancesChange,
@@ -40,6 +40,10 @@ class PlotPointEditor extends React.Component {
 	cancel = e => {
 		e.preventDefault();
 		this.props.cancel();
+	};
+
+	deleteRacialAbility = (raceIndex, racialAbilityIndex) => {
+		this.props.deleteRacialAbility(raceIndex, racialAbilityIndex);
 	};
 
 	descriptionChange = e => this.props.descriptionChange(e.target.value);
@@ -81,6 +85,7 @@ class PlotPointEditor extends React.Component {
 				{this.props.races.map((race, index) =>
 						<RaceEditor key={index} index={index} race={race}
 						            addRacialAbility={this.addRacialAbility}
+						            deleteRacialAbility={this.deleteRacialAbility}
 						            onChange={this.raceChange}/>)}
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
@@ -115,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
 		addRace                     : () => dispatch(addRace()),
 		addRacialAbility            : (indexOfRace) => dispatch(addRacialAbility(indexOfRace)),
 		cancel                      : () => dispatch(cancelChanges()),
+		deleteRacialAbility            : (indexOfRace, indexOfRacialAbility) => dispatch(deleteRacialAbility(indexOfRace, indexOfRacialAbility)),
 		descriptionChange           : (description) => dispatch(descriptionChange(description)),
 		loadPlotPoint               : (name) => dispatch(loadPlotPoint(name)),
 		maximumAttributePointsChange: (maximumAttributePoints) => dispatch(maximumAttributePointsChange(maximumAttributePoints)),

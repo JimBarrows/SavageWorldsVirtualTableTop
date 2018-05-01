@@ -1,7 +1,21 @@
-import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
+import {
+	NumberFormGroup,
+	Panel, PanelBody,
+	PanelHeader,
+	RemoveButton,
+	TextAreaFormGroup,
+	TextFormGroup
+} from "bootstrap-react-components";
 import React from "react";
+import PropTypes from 'prop-types';
 
-class RaceAbilitiyEditor extends React.Component {
+class RaceAbilityEditor extends React.Component {
+
+	static propTypes = {
+		ability : PropTypes.object.isRequired,
+		onChange: PropTypes.func.isRequired,
+		onDelete: PropTypes.func.isRequired
+	};
 
 	costChange = event => this.props.onChange({
 		cost       : event.target.value,
@@ -21,28 +35,40 @@ class RaceAbilitiyEditor extends React.Component {
 		name       : event.target.value
 	}, this.props.index);
 
+	onDelete = event => {
+		event.preventDefault();
+		this.props.onDelete(this.props.index);
+	};
+
 	render() {
 		let {cost, description, name} = this.props.ability;
 		return (
-				<div id="RaceAbilityEditorForm">
-					<TextFormGroup id={"abilityName"}
-					               label="Ability Name"
-					               onChange={this.nameChange}
-					               value={name}/>
-					<NumberFormGroup id={"cost"}
-					                 label="Cost"
-					                 onChange={this.costChange}
-					                 value={cost}/>
-					<TextAreaFormGroup id={"abilityDescription"}
-					                   label="Description"
-					                   onChange={this.descriptionChange}
-					                   value={description}
-					/>
-				</div>
+				<Panel id={'RaceAbilityEditor'}>
+					<PanelHeader id={'RaceAbilityEditor'}>
+						<div className={'btn-group pull-right'}>
+							<RemoveButton id={'RaceAbilityEditor'} onClick={this.onDelete}/>
+						</div>
+					</PanelHeader>
+					<PanelBody id={'raceEditor'}>
+						<TextFormGroup id={"abilityName"}
+						               label="Ability Name"
+						               onChange={this.nameChange}
+						               value={name}/>
+						<NumberFormGroup id={"cost"}
+						                 label="Cost"
+						                 onChange={this.costChange}
+						                 value={cost}/>
+						<TextAreaFormGroup id={"abilityDescription"}
+						                   label="Description"
+						                   onChange={this.descriptionChange}
+						                   value={description}
+						/>
+					</PanelBody>
+				</Panel>
 		);
 	}
 
 
 }
 
-export default RaceAbilitiyEditor;
+export default RaceAbilityEditor;

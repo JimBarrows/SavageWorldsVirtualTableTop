@@ -31,6 +31,17 @@ export function cancelChanges() {
 	};
 }
 
+
+export function deleteRacialAbility(indexOfRace, indexOfRacialAbility) {
+	return {
+		type   : plotPoint_constants.PLOT_POINT_DELETE_RACIAL_ABILITY,
+		payload: {
+			indexOfRace,
+			indexOfRacialAbility
+		}
+	};
+}
+
 export function descriptionChange(description) {
 	return {
 		type   : plotPoint_constants.PLOT_POINT_DESCRIPTION_CHANGE,
