@@ -67,12 +67,13 @@ class PlotPointEditor extends React.Component {
 	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
 	nameChange                   = e => this.setState({name: e.target.value});
 	raceChange                   = (race, index) => this.setState({races: this.state.races.map((r, i) => i === index ? race : r)});
+	raceDelete                   = (index) => this.setState({races: this.state.races.filter((r, i) => i !== index)});
 	races                        = () => {
 		if (this.state.races.length === 0) {
 			return <p>No races</p>;
 		} else {
 			return this.state.races.map((race, index) =>
-					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange}/>);
+					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange} onDelete={this.raceDelete}/>);
 		}
 	};
 

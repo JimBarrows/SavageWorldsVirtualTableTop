@@ -52,7 +52,7 @@ export default class RaceEditor extends React.Component {
 	};
 
 	onDelete            = () => {
-
+		this.props.onDelete(this.props.index);
 	};
 	onDescriptionChange = event => {
 		this.props.onChange({
@@ -63,8 +63,9 @@ export default class RaceEditor extends React.Component {
 	};
 
 	render() {
-		const {abilities, name, description, index} = this.props.race;
-		const {descriptionError, nameError}         = this.props;
+		let {abilities, name, description} = this.props.race;
+		let {index}                        = this.props;
+		let {descriptionError, nameError}  = this.props;
 
 		return (
 				<Panel id={'raceEditor'}>
