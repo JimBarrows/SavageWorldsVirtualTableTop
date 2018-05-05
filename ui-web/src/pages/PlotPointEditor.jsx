@@ -100,6 +100,21 @@ class PlotPointEditor extends React.Component {
 				<h2>Races</h2>
 				<button id={'addRaceButton'} className="btn btn-default" onClick={this.addRace}>Add</button>
 				{this.races()}
+				<h2>Skills</h2>
+				<h2>Hindrances</h2>
+				<h2>Edges</h2>
+				<h2>Gear</h2>
+				<h3>Mundane Items</h3>
+				<h3>Hand Weapons</h3>
+				<h3>Armor</h3>
+				<h3>Ranged Weapons</h3>
+				<h3>Vehicle Mounted & AT Guns</h3>
+				<h3>Ammunition</h3>
+				<h3>Special Weapons</h3>
+				<h3>Vehicles</h3>
+				<h3>Watercraft</h3>
+				<h3>Aircraft</h3>
+				<h2>Powers</h2>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
 				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}
