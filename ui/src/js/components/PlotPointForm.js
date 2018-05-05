@@ -3,7 +3,7 @@ import React from "react";
 import {EdgeList} from "./EdgeList";
 import {EdgeTypeList} from "./EdgeType";
 import {HindranceList} from "./Hindrance";
-import {RaceList} from "./Race";
+import {RaceList} from "../../../../ui-web/src/components/Race";
 import {SettingRuleList} from "./SettingRule";
 import {SkillList} from "./Skill";
 import {MundaneItemList} from "./Gear/MundaneItem";

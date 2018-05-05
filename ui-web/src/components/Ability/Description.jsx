@@ -1,7 +1,6 @@
 import React from "react";
 import AbilityEditor from "./Editor";
 import AbilityView from "./View";
-import {ItemDescription} from "../Item";
 
 
 class AbilityDescription extends ItemDescription {

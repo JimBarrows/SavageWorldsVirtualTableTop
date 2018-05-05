@@ -4,6 +4,8 @@
 import {createConstants} from '../utils';
 
 export default createConstants(
+		'PLOT_POINT_ADD_RACE',
+		'PLOT_POINT_ADD_RACIAL_ABILITY',
 		'PLOT_POINT_CANCEL',
 		'PLOT_POINT_CREATE',
 		'PLOT_POINT_DESCRIPTION_CHANGE',
@@ -16,6 +18,7 @@ export default createConstants(
 		'PLOT_POINT_MAXIMUM_SKILL_POINTS_CHANGE',
 		'PLOT_POINT_NAME_CHANGE',
 		'PLOT_POINT_NEW',
+		'PLOT_POINT_RACE_CHANGE',
 		'PLOT_POINT_SAVE_BEGIN',
 		'PLOT_POINT_SAVE_FAILURE',
 		'PLOT_POINT_SAVE_SUCCESS',
