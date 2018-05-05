@@ -1,3 +1,4 @@
+import {API} from 'aws-amplify';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
@@ -24,8 +25,9 @@ class PlotPointListPage extends React.Component {
 		};
 	}
 
-	componentDidMount() {
-		this.props.loadPage(0);
+	async componentDidMount() {
+		let plotPoints = await API.get('PlotPointsCRUD', '/PlotPoints');
+		this.setState({plotPoints});
 	}
 
 	navigationButton(key, name, enabled, onClick, active) {
@@ -81,7 +83,7 @@ class PlotPointListPage extends React.Component {
 
 	plotPointList() {
 		return <div>
-			<PlotPointList id={'mainPlotPointList'} plotPoints={this.props.plotPoints} page={this.props.page}
+			<PlotPointList id={'mainPlotPointList'} plotPoints={this.state.plotPoints} page={this.props.page}
 			               links={this.props.links}/>
 			<ul className="pagination justify-content-center">
 				{this.previousButton()}
@@ -99,7 +101,7 @@ class PlotPointListPage extends React.Component {
 					<button className={'btn btn-default'} id='addPlotPointButton' type={'button'}
 					        onClick={this.navigateToNewPlotPoint}>Add
 					</button>
-					{this.props.plotPoints.length > 0 ? this.plotPointList() : <p>There are no plot points, please add one</p>}
+					{this.state.plotPoints.length > 0 ? this.plotPointList() : <p>There are no plot points, please add one</p>}
 				</div>
 		);
 	}
