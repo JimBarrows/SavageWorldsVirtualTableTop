@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import {
 	Panel,
 	PanelBody,
@@ -8,22 +6,25 @@ import {
 	TextAreaFormGroup,
 	TextFormGroup
 } from 'bootstrap-react-components';
+import PropTypes from 'prop-types';
+import React from 'react';
 import RaceAbilityEditor from './RaceAbilityEditor';
 
 export default class RaceEditor extends React.Component {
 
 	static propTypes = {
-		addRacialAbility   : PropTypes.func.isRequired,
-		description        : PropTypes.string,
-		index              : PropTypes.number.isRequired,
-		name               : PropTypes.string,
-		onChange           : PropTypes.func.isRequired,
-		deleteRacialAbility: PropTypes.func.isRequired
+		race    : PropTypes.object,
+		index   : PropTypes.number.isRequired,
+		onChange: PropTypes.func.isRequired
 	};
 
 	addRacialAbility = (e) => {
 		e.preventDefault();
-		this.props.addRacialAbility(this.props.index);
+		this.props.onChange({
+			description: this.props.race.description,
+			name       : this.props.race.name,
+			abilities  : [{name: '', description: '', cost: 0}, ...this.props.race.abilities]
+		}, this.props.index);
 	};
 
 	onAbilityChange = (ability, index) => {
@@ -38,9 +39,9 @@ export default class RaceEditor extends React.Component {
 		this.props.onChange({
 			name       : this.props.race.name,
 			description: this.props.race.description,
-			abilities  : this.props.race.abilities.filter((a, idx) => index !== idx )
+			abilities  : this.props.race.abilities.filter((a, idx) => index !== idx)
 		}, this.props.index);
-	}
+	};
 
 	onNameChange = event => {
 		this.props.onChange({
@@ -50,10 +51,9 @@ export default class RaceEditor extends React.Component {
 		}, this.props.index);
 	};
 
-	onDelete = event => {
-		event.preventDefault();
-	}
+	onDelete            = () => {
 
+	};
 	onDescriptionChange = event => {
 		this.props.onChange({
 			name       : this.props.race.name,

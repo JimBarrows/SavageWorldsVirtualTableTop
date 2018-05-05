@@ -1,13 +1,14 @@
 import {
 	NumberFormGroup,
-	Panel, PanelBody,
+	Panel,
+	PanelBody,
 	PanelHeader,
 	RemoveButton,
 	TextAreaFormGroup,
 	TextFormGroup
 } from "bootstrap-react-components";
-import React from "react";
 import PropTypes from 'prop-types';
+import React from "react";
 
 class RaceAbilityEditor extends React.Component {
 
@@ -18,7 +19,7 @@ class RaceAbilityEditor extends React.Component {
 	};
 
 	costChange = event => this.props.onChange({
-		cost       : event.target.value,
+		cost       : parseInt(event.target.value, 10),
 		description: this.props.ability.description,
 		name       : this.props.ability.name
 	}, this.props.index);

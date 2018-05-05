@@ -26,18 +26,19 @@ class PlotPointEditor extends React.Component {
 
 	addRace = (event) => {
 		event.preventDefault();
-		this.props.addRace();
+		this.setState({
+			races: [{name: '', description: '', abilities: []}, ...this.state.races]
+		});
 	};
 
-	addRacialAbility             = (indexOfRace) => this.props.addRacialAbility(indexOfRace);
-	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 
 	cancel = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
 
-	descriptionChange            = e => this.props.descriptionChange(e.target.value);
+	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
+	descriptionChange            = e => this.setState({description: e.target.value});
 	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
 	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
 	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
@@ -48,21 +49,24 @@ class PlotPointEditor extends React.Component {
 			return <p>No races</p>;
 		} else {
 			return this.state.races.map((race, index) =>
-					<RaceEditor key={index} index={index} race={race}
-					            addRacialAbility={this.addRacialAbility}
-					            deleteRacialAbility={this.deleteRacialAbility}
-					            onChange={this.raceChange}/>);
+					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange}/>);
 		}
 	};
-
-	async componentDidMount() {
-		if (this.props.match.params.name) {
-			let plotPoint = await API.get('PlotPointsCRUD', `/plotPoints/object/${this.props.match.params.name}`);
-			this.setState({
-				...plotPoint
-			});
-		}
-	}
+	save                         = async e => {
+		e.preventDefault();
+		let plotPoint = await API.post('PlotPointsCRUD', `/PlotPoints`, {
+			body: {
+				name                  : this.state.name,
+				description           : this.state.description,
+				maximumAttributePoints: this.state.maximumAttributePoints,
+				maximumMajorHindrances: this.state.maximumMajorHindrances,
+				maximumMinorHindrances: this.state.maximumMinorHindrances,
+				maximumSkillPoints    : this.state.maximumSkillPoints,
+				races                 : this.state.races
+			}
+		});
+		this.props.history.push('/');
+	};
 
 	render() {
 		return <div id={this.props.id}>
@@ -96,10 +100,14 @@ class PlotPointEditor extends React.Component {
 		</div>;
 	}
 
-	save = e => {
-		e.preventDefault();
-		this.props.savePlotPoint();
-	};
+	async componentDidMount() {
+		if (this.props.match.params.name) {
+			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
+			this.setState({
+				...plotPoint
+			});
+		}
+	}
 }
 
 export default withRouter(PlotPointEditor);
