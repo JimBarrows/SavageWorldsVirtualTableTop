@@ -37,8 +37,31 @@ class PlotPointEditor extends React.Component {
 		this.props.cancel();
 	};
 
-	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 	descriptionChange            = e => this.setState({description: e.target.value});
+	save                         = async e => {
+		e.preventDefault();
+		let toSave = {
+			name                  : this.state.name,
+			description           : this.state.description,
+			maximumAttributePoints: this.state.maximumAttributePoints,
+			maximumMajorHindrances: this.state.maximumMajorHindrances,
+			maximumMinorHindrances: this.state.maximumMinorHindrances,
+			maximumSkillPoints    : this.state.maximumSkillPoints,
+			races                 : this.state.races
+		};
+		if (this.props.match.params.name) {
+			await API.put('PlotPointsCRUD', `/PlotPoints`, {
+				body: {...toSave}
+			});
+		} else {
+			await API.post('PlotPointsCRUD', `/PlotPoints`, {
+				body: {...toSave}
+			});
+		}
+
+		this.props.history.push('/');
+	};
+	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
 	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
 	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
@@ -51,21 +74,6 @@ class PlotPointEditor extends React.Component {
 			return this.state.races.map((race, index) =>
 					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange}/>);
 		}
-	};
-	save                         = async e => {
-		e.preventDefault();
-		let plotPoint = await API.post('PlotPointsCRUD', `/PlotPoints`, {
-			body: {
-				name                  : this.state.name,
-				description           : this.state.description,
-				maximumAttributePoints: this.state.maximumAttributePoints,
-				maximumMajorHindrances: this.state.maximumMajorHindrances,
-				maximumMinorHindrances: this.state.maximumMinorHindrances,
-				maximumSkillPoints    : this.state.maximumSkillPoints,
-				races                 : this.state.races
-			}
-		});
-		this.props.history.push('/');
 	};
 
 	render() {
