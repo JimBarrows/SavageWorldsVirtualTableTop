@@ -2,9 +2,6 @@ import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import PlotPointList from '../components/PlotPointList';
-import {connect} from "react-redux";
-import {push} from "react-router-redux";
-import {loadPage, loadNextPage, loadPreviousPage} from "../actions/PlotPointListActions";
 
 class PlotPointListPage extends React.Component {
 
@@ -108,21 +105,4 @@ class PlotPointListPage extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		plotPoints: state.PlotPointList.plotPoints,
-		page      : state.PlotPointList.page,
-		links     : state.PlotPointList.links
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		create      : () => dispatch(push("/plotPoints/add")),
-		loadPage        : (pageNumber) => dispatch(loadPage(pageNumber)),
-		loadNextPage: () => dispatch(loadNextPage()),
-		loadPrevPage: () => dispatch(loadPreviousPage())
-	};
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotPointListPage));
+export default withRouter(PlotPointListPage);

@@ -1,19 +1,12 @@
-import axios from 'axios';
 import React, {Component} from 'react';
 import {Route, Switch} from 'react-router-dom';
+import { withAuthenticator } from 'aws-amplify-react';
 import './App.css';
 import Header from './components/Header';
 import MessageDisplay from './components/MessageDisplay';
-import Register from './components/Register';
 import PlotPointEditor from './pages/PlotPointEditor';
 import PlotPointList from './pages/PlotPointList';
 
-axios.create({
-	baseURL       : '/api/',
-	validateStatus: function (status) {
-		return status < 300;
-	}
-});
 
 class App extends Component {
 	render() {
@@ -26,7 +19,6 @@ class App extends Component {
 							<Route exact path="/" component={PlotPointList}/>
 							<Route exact path='/plotPointEditor' component={PlotPointEditor}/>
 							<Route exact path={"/plotPointEditor/:name"} component={PlotPointEditor}/>
-							<Route exact path="/register" component={Register}/>
 						</Switch>
 					</div>
 				</div>
@@ -34,4 +26,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default withAuthenticator(App);
