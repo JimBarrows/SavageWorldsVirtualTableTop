@@ -4,6 +4,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import EdgeEditor from '../components/EdgeEditor';
 import HindranceEditor from '../components/HindranceEditor';
+import MundaneItemEditor from '../components/MundaneItemEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
 import {RaceEditor} from '../components/Race';
 import SkillEditor from '../components/SkillEditor';
@@ -25,6 +26,7 @@ class PlotPointEditor extends React.Component {
 		maximumMajorHindrances: 1,
 		maximumMinorHindrances: 2,
 		maximumSkillPoints    : 15,
+		mundaneItems          : [],
 		name                  : '',
 		races                 : [],
 		skills                : []
@@ -44,24 +46,32 @@ class PlotPointEditor extends React.Component {
 		});
 	};
 
-	addRace           = (event) => {
+	addMundaneItem = (event) => {
+		event.preventDefault();
+		this.setState({
+			mundaneItems: [{name: '', description: '', cost: 1, weight: 1}, ...this.state.mundaneItems]
+		});
+	};
+
+	addRace = (event) => {
 		event.preventDefault();
 		this.setState({
 			races: [{name: '', description: '', abilities: []}, ...this.state.races]
 		});
 	};
-	addSkill          = event => {
+
+	addSkill = event => {
 		event.preventDefault();
 		this.setState({
 			skills: [{name: '', attribute: 'Ability', description: ''}, ...this.state.skills]
 		});
 	};
-	cancel            = e => {
+
+	cancel = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-	descriptionChange = e => this.setState({description: e.target.value});
-	edges             = () => {
+	edges  = () => {
 		if (this.state.edges.length === 0) {
 			return <p>No edges</p>;
 		} else {
@@ -70,9 +80,48 @@ class PlotPointEditor extends React.Component {
 					            onDelete={this.edgeDelete}/>);
 		}
 	};
-	edgeChange        = (edge, index) => this.setState({edges: this.state.edges.map((r, i) => i === index ? edge : r)});
-	edgeDelete        = (index) => this.setState({edges: this.state.edges.filter((r, i) => i !== index)});
-	save              = async e => {
+
+	descriptionChange            = e => this.setState({description: e.target.value});
+	edgeChange                   = (edge, index) => this.setState({edges: this.state.edges.map((r, i) => i === index ? edge : r)});
+	edgeDelete                   = (index) => this.setState({edges: this.state.edges.filter((r, i) => i !== index)});
+	hindrances                   = () => {
+		if (this.state.hindrances.length === 0) {
+			return <p>No hindrances</p>;
+		} else {
+			return this.state.hindrances.map((hindrance, index) =>
+					<HindranceEditor key={index} index={index} hindrance={hindrance} onChange={this.hindranceChange}
+					                 onDelete={this.hindranceDelete}/>);
+		}
+	};
+	hindranceChange              = (hindrance, index) => this.setState({hindrances: this.state.hindrances.map((r, i) => i === index ? hindrance : r)});
+	hindranceDelete              = (index) => this.setState({hindrances: this.state.hindrances.filter((r, i) => i !== index)});
+	mundaneItems                 = () => {
+		if (this.state.mundaneItems.length === 0) {
+			return <p>No mundaneItems</p>;
+		} else {
+			return this.state.mundaneItems.map((mundaneItem, index) =>
+					<MundaneItemEditor key={index} index={index} mundaneItem={mundaneItem} onChange={this.mundaneItemsChange}
+					                   onDelete={this.mundaneItemDelete}/>);
+		}
+	};
+	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
+	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
+	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
+	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
+	mundaneItemsChange           = (mundaneItem, index) => this.setState({mundaneItems: this.state.mundaneItems.map((r, i) => i === index ? mundaneItem : r)});
+	mundaneItemsDelete           = (index) => this.setState({mundaneItems: this.state.mundaneItems.filter((r, i) => i !== index)});
+	nameChange                   = e => this.setState({name: e.target.value});
+	raceChange                   = (race, index) => this.setState({races: this.state.races.map((r, i) => i === index ? race : r)});
+	raceDelete                   = (index) => this.setState({races: this.state.races.filter((r, i) => i !== index)});
+	races                        = () => {
+		if (this.state.races.length === 0) {
+			return <p>No races</p>;
+		} else {
+			return this.state.races.map((race, index) =>
+					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange} onDelete={this.raceDelete}/>);
+		}
+	};
+	save                         = async e => {
 		e.preventDefault();
 		let toSave = {
 			description           : this.state.description,
@@ -82,6 +131,7 @@ class PlotPointEditor extends React.Component {
 			maximumMajorHindrances: this.state.maximumMajorHindrances,
 			maximumMinorHindrances: this.state.maximumMinorHindrances,
 			maximumSkillPoints    : this.state.maximumSkillPoints,
+			mundaneItems          : this.state.mundaneItems,
 			name                  : this.state.name,
 			races                 : this.state.races,
 			skills                : this.state.skills
@@ -98,15 +148,17 @@ class PlotPointEditor extends React.Component {
 
 		this.props.history.push('/');
 	};
-	hindrances        = () => {
-		if (this.state.hindrances.length === 0) {
-			return <p>No hindrances</p>;
+	skills                       = () => {
+		if (this.state.skills.length === 0) {
+			return <p>No skills</p>;
 		} else {
-			return this.state.hindrances.map((hindrance, index) =>
-					<HindranceEditor key={index} index={index} hindrance={hindrance} onChange={this.hindranceChange}
-					                 onDelete={this.hindranceDelete}/>);
+			return this.state.skills.map((skill, index) =>
+					<SkillEditor key={index} index={index} skill={skill} onChange={this.skillChange}
+					             onDelete={this.skillDelete}/>);
 		}
 	};
+	skillChange                  = (skill, index) => this.setState({skills: this.state.skills.map((s, i) => i === index ? skill : s)});
+	skillDelete                  = index => this.setState({skills: this.state.skills.filter((r, i) => i !== index)});
 
 	async componentDidMount() {
 		if (this.props.match.params.name) {
@@ -114,31 +166,6 @@ class PlotPointEditor extends React.Component {
 			this.setState({
 				...plotPoint
 			});
-		}
-	};
-	hindranceChange   = (hindrance, index) => {
-		console.log('hindrance: ', hindrance);
-		let after = this.state.hindrances.map((r, i) => i === index ? hindrance : r);
-		console.log('after: ', after);
-		this.setState({hindrances: after});
-	};
-	hindranceDelete   = (index) => this.setState({hindrances: this.state.hindrances.filter((r, i) => i !== index)});
-
-
-	skillChange                  = (skill, index) => this.setState({skills: this.state.skills.map((s, i) => i === index ? skill : s)});
-	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
-	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
-	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
-	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
-	nameChange                   = e => this.setState({name: e.target.value});
-	raceChange                   = (race, index) => this.setState({races: this.state.races.map((r, i) => i === index ? race : r)});
-	raceDelete                   = (index) => this.setState({races: this.state.races.filter((r, i) => i !== index)});
-	races                        = () => {
-		if (this.state.races.length === 0) {
-			return <p>No races</p>;
-		} else {
-			return this.state.races.map((race, index) =>
-					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange} onDelete={this.raceDelete}/>);
 		}
 	};
 
@@ -176,6 +203,8 @@ class PlotPointEditor extends React.Component {
 				{this.edges()}
 				<h2>Gear</h2>
 				<h3>Mundane Items</h3>
+				<button id={'addMundaneItemButton'} className="btn btn-default" onClick={this.addMundaneItem}>Add</button>
+				{this.mundaneItems()}
 				<h3>Hand Weapons</h3>
 				<h3>Armor</h3>
 				<h3>Ranged Weapons</h3>
@@ -196,18 +225,6 @@ class PlotPointEditor extends React.Component {
 			</form>
 		</div>;
 	}
-	skillDelete                  = index => this.setState({skills: this.state.skills.filter((r, i) => i !== index)});
-	skills                       = () => {
-		if (this.state.skills.length === 0) {
-			return <p>No skills</p>;
-		} else {
-			return this.state.skills.map((skill, index) =>
-					<SkillEditor key={index} index={index} skill={skill} onChange={this.skillChange}
-					             onDelete={this.skillDelete}/>);
-		}
-	};
-
-
 }
 
 export default withRouter(PlotPointEditor);
