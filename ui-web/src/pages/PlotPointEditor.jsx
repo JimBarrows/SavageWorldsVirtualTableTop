@@ -2,6 +2,7 @@ import {API} from 'aws-amplify';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
+import EdgeEditor from '../components/EdgeEditor';
 import HindranceEditor from '../components/HindranceEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
 import {RaceEditor} from '../components/Race';
@@ -18,6 +19,7 @@ class PlotPointEditor extends React.Component {
 
 	state = {
 		description           : '',
+		edges                 : [],
 		hindrances            : [],
 		maximumAttributePoints: 5,
 		maximumMajorHindrances: 1,
@@ -28,33 +30,53 @@ class PlotPointEditor extends React.Component {
 		skills                : []
 	};
 
-	addHindrance = (event) => {
+	addEdge = (event) => {
 		event.preventDefault();
 		this.setState({
-			hindrances: [{name: '', description: '', type: ''}, ...this.state.hindrances]
+			edges: [{category: '', description: '', effects: '', name: '', requirements: ''}, ...this.state.edges]
 		});
 	};
 
-	addRace    = (event) => {
+	addHindrance = (event) => {
+		event.preventDefault();
+		this.setState({
+			hindrances: [{name: '', description: '', category: ''}, ...this.state.hindrances]
+		});
+	};
+
+	addRace           = (event) => {
 		event.preventDefault();
 		this.setState({
 			races: [{name: '', description: '', abilities: []}, ...this.state.races]
 		});
 	};
-	addSkill   = event => {
+	addSkill          = event => {
 		event.preventDefault();
 		this.setState({
 			skills: [{name: '', attribute: 'Ability', description: ''}, ...this.state.skills]
 		});
 	};
-	cancel     = e => {
+	cancel            = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-	save       = async e => {
+	descriptionChange = e => this.setState({description: e.target.value});
+	edges             = () => {
+		if (this.state.edges.length === 0) {
+			return <p>No edges</p>;
+		} else {
+			return this.state.edges.map((edge, index) =>
+					<EdgeEditor key={index} index={index} edge={edge} onChange={this.edgeChange}
+					            onDelete={this.edgeDelete}/>);
+		}
+	};
+	edgeChange        = (edge, index) => this.setState({edges: this.state.edges.map((r, i) => i === index ? edge : r)});
+	edgeDelete        = (index) => this.setState({edges: this.state.edges.filter((r, i) => i !== index)});
+	save              = async e => {
 		e.preventDefault();
 		let toSave = {
 			description           : this.state.description,
+			edges                 : this.state.edges,
 			hindrances            : this.state.hindrances,
 			maximumAttributePoints: this.state.maximumAttributePoints,
 			maximumMajorHindrances: this.state.maximumMajorHindrances,
@@ -76,7 +98,7 @@ class PlotPointEditor extends React.Component {
 
 		this.props.history.push('/');
 	};
-	hindrances = () => {
+	hindrances        = () => {
 		if (this.state.hindrances.length === 0) {
 			return <p>No hindrances</p>;
 		} else {
@@ -86,15 +108,6 @@ class PlotPointEditor extends React.Component {
 		}
 	};
 
-	descriptionChange = e => this.setState({description: e.target.value});
-	hindranceChange   = (hindrance, index) => {
-		console.log('hindrance: ', hindrance);
-		let after = this.state.hindrances.map((r, i) => i === index ? hindrance : r);
-		console.log('after: ', after);
-		this.setState({hindrances: after});
-	};
-	hindranceDelete   = (index) => this.setState({hindrances: this.state.hindrances.filter((r, i) => i !== index)});
-
 	async componentDidMount() {
 		if (this.props.match.params.name) {
 			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
@@ -103,6 +116,15 @@ class PlotPointEditor extends React.Component {
 			});
 		}
 	};
+	hindranceChange   = (hindrance, index) => {
+		console.log('hindrance: ', hindrance);
+		let after = this.state.hindrances.map((r, i) => i === index ? hindrance : r);
+		console.log('after: ', after);
+		this.setState({hindrances: after});
+	};
+	hindranceDelete   = (index) => this.setState({hindrances: this.state.hindrances.filter((r, i) => i !== index)});
+
+
 	skillChange                  = (skill, index) => this.setState({skills: this.state.skills.map((s, i) => i === index ? skill : s)});
 	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
@@ -117,16 +139,6 @@ class PlotPointEditor extends React.Component {
 		} else {
 			return this.state.races.map((race, index) =>
 					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange} onDelete={this.raceDelete}/>);
-		}
-	};
-	skillDelete                  = index => this.setState({skills: this.state.skills.filter((r, i) => i !== index)});
-	skills                       = () => {
-		if (this.state.skills.length === 0) {
-			return <p>No skills</p>;
-		} else {
-			return this.state.skills.map((skill, index) =>
-					<SkillEditor key={index} index={index} skill={skill} onChange={this.skillChange}
-					             onDelete={this.skillDelete}/>);
 		}
 	};
 
@@ -160,6 +172,8 @@ class PlotPointEditor extends React.Component {
 				<button id={'addHindranceButton'} className="btn btn-default" onClick={this.addHindrance}>Add</button>
 				{this.hindrances()}
 				<h2>Edges</h2>
+				<button id={'addEdgeButton'} className="btn btn-default" onClick={this.addEdge}>Add</button>
+				{this.edges()}
 				<h2>Gear</h2>
 				<h3>Mundane Items</h3>
 				<h3>Hand Weapons</h3>
@@ -182,6 +196,17 @@ class PlotPointEditor extends React.Component {
 			</form>
 		</div>;
 	}
+	skillDelete                  = index => this.setState({skills: this.state.skills.filter((r, i) => i !== index)});
+	skills                       = () => {
+		if (this.state.skills.length === 0) {
+			return <p>No skills</p>;
+		} else {
+			return this.state.skills.map((skill, index) =>
+					<SkillEditor key={index} index={index} skill={skill} onChange={this.skillChange}
+					             onDelete={this.skillDelete}/>);
+		}
+	};
+
 
 }
 
