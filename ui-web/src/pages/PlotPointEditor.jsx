@@ -4,6 +4,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import NumberFormGroup from '../components/NumberFormGroup';
 import {RaceEditor} from '../components/Race';
+import SkillEditor from '../components/SkillEditor';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
 
@@ -15,39 +16,43 @@ class PlotPointEditor extends React.Component {
 	};
 
 	state = {
-		name                  : '',
 		description           : '',
 		maximumAttributePoints: 5,
 		maximumMajorHindrances: 1,
 		maximumMinorHindrances: 2,
 		maximumSkillPoints    : 15,
-		races                 : []
+		name                  : '',
+		races                 : [],
+		skills                : []
 	};
 
-	addRace = (event) => {
+	addRace  = (event) => {
 		event.preventDefault();
 		this.setState({
 			races: [{name: '', description: '', abilities: []}, ...this.state.races]
 		});
 	};
-
-
-	cancel = e => {
+	addSkill = event => {
+		event.preventDefault();
+		this.setState({
+			skills: [{name: '', attribute: 'Ability', description: ''}, ...this.state.skills]
+		});
+	};
+	cancel   = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-
-	descriptionChange            = e => this.setState({description: e.target.value});
-	save                         = async e => {
+	save     = async e => {
 		e.preventDefault();
 		let toSave = {
-			name                  : this.state.name,
 			description           : this.state.description,
 			maximumAttributePoints: this.state.maximumAttributePoints,
 			maximumMajorHindrances: this.state.maximumMajorHindrances,
 			maximumMinorHindrances: this.state.maximumMinorHindrances,
 			maximumSkillPoints    : this.state.maximumSkillPoints,
-			races                 : this.state.races
+			name                  : this.state.name,
+			races                 : this.state.races,
+			skills                : this.state.skills
 		};
 		if (this.props.match.params.name) {
 			await API.put('PlotPointsCRUD', `/PlotPoints`, {
@@ -61,6 +66,9 @@ class PlotPointEditor extends React.Component {
 
 		this.props.history.push('/');
 	};
+
+	descriptionChange            = e => this.setState({description: e.target.value});
+	skillChange                  = (skill, index) => this.setState({skills: this.state.skills.map((s, i) => i === index ? skill : s)});
 	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
 	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
@@ -76,6 +84,25 @@ class PlotPointEditor extends React.Component {
 					<RaceEditor key={index} index={index} race={race} onChange={this.raceChange} onDelete={this.raceDelete}/>);
 		}
 	};
+	skillDelete                  = index => this.setState({skills: this.state.skills.filter((r, i) => i !== index)});
+	skills                       = () => {
+		if (this.state.skills.length === 0) {
+			return <p>No skills</p>;
+		} else {
+			return this.state.skills.map((skill, index) =>
+					<SkillEditor key={index} index={index} skill={skill} onChange={this.skillChange}
+					             onDelete={this.skillDelete}/>);
+		}
+	};
+
+	async componentDidMount() {
+		if (this.props.match.params.name) {
+			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
+			this.setState({
+				...plotPoint
+			});
+		}
+	}
 
 	render() {
 		return <div id={this.props.id}>
@@ -100,6 +127,25 @@ class PlotPointEditor extends React.Component {
 				<h2>Races</h2>
 				<button id={'addRaceButton'} className="btn btn-default" onClick={this.addRace}>Add</button>
 				{this.races()}
+				<h2>Skills</h2>
+				<button id={'addSkillButton'} className="btn btn-default" onClick={this.addSkill}>Add</button>
+				{this.skills()}
+				<h2>Hindrances</h2>
+				<h2>Edges</h2>
+				<h2>Gear</h2>
+				<h3>Mundane Items</h3>
+				<h3>Hand Weapons</h3>
+				<h3>Armor</h3>
+				<h3>Ranged Weapons</h3>
+				<h3>Vehicle Mounted & AT Guns</h3>
+				<h3>Ammunition</h3>
+				<h3>Special Weapons</h3>
+				<h3>Vehicles</h3>
+				<h3>Watercraft</h3>
+				<h3>Aircraft</h3>
+				<h2>Powers</h2>
+				<h2>Beasts</h2>
+				<h2>Characters</h2>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
 				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}
@@ -109,14 +155,6 @@ class PlotPointEditor extends React.Component {
 		</div>;
 	}
 
-	async componentDidMount() {
-		if (this.props.match.params.name) {
-			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
-			this.setState({
-				...plotPoint
-			});
-		}
-	}
 }
 
 export default withRouter(PlotPointEditor);
