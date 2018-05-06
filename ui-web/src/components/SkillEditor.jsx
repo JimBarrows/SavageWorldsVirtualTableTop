@@ -15,11 +15,11 @@ class SkillEditor extends React.Component {
 		id: 'SkillEditor'
 	};
 
-	attributeChange = e => this.props.onChange(Object.assign({}, this.props.skill, {attribute: e.target.value}), this.props.index);
+	attributeChange = e => this.props.onChange(Object.assign({}, this.props.item, {attribute: e.target.value}), this.props.index);
 
-	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.skill, {description: e.target.value}), this.props.index);
+	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
 
-	nameChange = e => this.props.onChange(Object.assign({}, this.props.skill, {name: e.target.value}), this.props.index);
+	nameChange = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
 
 	onDelete = event => {
 		event.preventDefault();
@@ -31,7 +31,7 @@ class SkillEditor extends React.Component {
 
 				<BaseEditor id={this.props.id} onDelete={this.onDelete}>
 					<TextFormGroup id='skillName' label='Name' onChange={this.nameChange} required={true}
-					               value={this.props.skill.name}/>
+					               value={this.props.item.name}/>
 					<SelectFormGroup id={"skillAttribute"} label={'Attribute'} onChange={this.attributeChange}
 					                 options={[{label: 'Agility', value: 'Agility'}, {
 						                 label: 'Smarts',
@@ -40,9 +40,9 @@ class SkillEditor extends React.Component {
 						                 label: 'Strength',
 						                 value: 'Strength'
 					                 }, {label: 'Vigor'}]}
-					                 value={this.props.skill.attribute}/>
+					                 value={this.props.item.attribute}/>
 					<TextAreaFormGroup id={'skillDescription'} label={'Description'} onChange={this.descriptionChange}
-					                   value={this.props.skill.description}/>
+					                   value={this.props.item.description}/>
 				</BaseEditor>
 		);
 	}

@@ -7,7 +7,7 @@ import RaceAbilityEditor from './RaceAbilityEditor';
 export default class RaceEditor extends React.Component {
 
 	static propTypes = {
-		race    : PropTypes.object,
+		item    : PropTypes.object,
 		index   : PropTypes.number.isRequired,
 		onChange: PropTypes.func.isRequired
 	};
@@ -19,33 +19,33 @@ export default class RaceEditor extends React.Component {
 	addRacialAbility = (e) => {
 		e.preventDefault();
 		this.props.onChange({
-			description: this.props.race.description,
-			name       : this.props.race.name,
-			abilities  : [{name: '', description: '', cost: 0}, ...this.props.race.abilities]
+			description: this.props.item.description,
+			name       : this.props.item.name,
+			abilities  : [{name: '', description: '', cost: 0}, ...this.props.item.abilities]
 		}, this.props.index);
 	};
 
 	onAbilityChange = (ability, index) => {
 		this.props.onChange({
-			name       : this.props.race.name,
-			description: this.props.race.description,
-			abilities  : this.props.race.abilities.map((a, idx) => index === idx ? ability : a)
+			name       : this.props.item.name,
+			description: this.props.item.description,
+			abilities  : this.props.item.abilities.map((a, idx) => index === idx ? ability : a)
 		}, this.props.index);
 	};
 
 	onAbilityDelete = index => {
 		this.props.onChange({
-			name       : this.props.race.name,
-			description: this.props.race.description,
-			abilities  : this.props.race.abilities.filter((a, idx) => index !== idx)
+			name       : this.props.item.name,
+			description: this.props.item.description,
+			abilities  : this.props.item.abilities.filter((a, idx) => index !== idx)
 		}, this.props.index);
 	};
 
 	onNameChange = event => {
 		this.props.onChange({
 			name       : event.target.value,
-			description: this.props.race.description,
-			abilities  : this.props.race.abilities
+			description: this.props.item.description,
+			abilities  : this.props.item.abilities
 		}, this.props.index);
 	};
 
@@ -54,14 +54,14 @@ export default class RaceEditor extends React.Component {
 	};
 	onDescriptionChange = event => {
 		this.props.onChange({
-			name       : this.props.race.name,
+			name       : this.props.item.name,
 			description: event.target.value,
-			abilities  : this.props.race.abilities
+			abilities  : this.props.item.abilities
 		}, this.props.index);
 	};
 
 	render() {
-		let {abilities, name, description} = this.props.race;
+		let {abilities, name, description} = this.props.item;
 		let {index}                        = this.props;
 		let {descriptionError, nameError}  = this.props;
 
@@ -70,7 +70,7 @@ export default class RaceEditor extends React.Component {
 					<TextFormGroup
 							error={nameError}
 							label='Race'
-							id={'raceFormName_' + index}
+							id={'itemFormName_' + index}
 							onChange={this.onNameChange}
 							required={true}
 							value={name}
@@ -78,7 +78,7 @@ export default class RaceEditor extends React.Component {
 					<TextAreaFormGroup
 							error={descriptionError}
 							label='Description'
-							id={'raceFormDescription_' + index}
+							id={'itemFormDescription_' + index}
 							onChange={this.onDescriptionChange}
 							required={true}
 							value={description}
