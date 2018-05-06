@@ -1,6 +1,6 @@
-import {Panel, PanelBody, PanelHeader, RemoveButton} from 'bootstrap-react-components';
 import PropTypes from 'prop-types';
 import React from 'react';
+import BaseEditor from './BaseEditor';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
@@ -25,25 +25,18 @@ export default class EdgeEditor extends React.Component {
 
 	render() {
 		return (
-				<Panel id={this.props.id}>
-					<PanelHeader id={this.props.id}>
-						<div className={'btn-group pull-right'}>
-							<RemoveButton id={this.props.id} onClick={this.onDelete}/>
-						</div>
-					</PanelHeader>
-					<PanelBody id={this.props.id}>
-						<TextFormGroup id='edgeName' label='Name' onChange={this.nameChange} required={true}
-						               value={this.props.edge.name}/>
-						<TextFormGroup id='edgeCategory' label='Category' onChange={this.categoryChange} required={true}
-						               value={this.props.edge.category}/>
-						<TextFormGroup id='edgeRequirements' label='Requirements' onChange={this.requirementsChange} required={true}
-						               value={this.props.edge.requirements}/>
-						<TextAreaFormGroup id={'edgeDescription'} label={'Description'} onChange={this.descriptionChange}
-						                   value={this.props.edge.description}/>
-						<TextFormGroup id='edgeEffects' label='Effects' onChange={this.effectsChange} required={true}
-						               value={this.props.edge.effects}/>
-					</PanelBody>
-				</Panel>
+				<BaseEditor id={this.props.id} onDelete={this.onDelete}>
+					<TextFormGroup id='edgeName' label='Name' onChange={this.nameChange} required={true}
+					               value={this.props.edge.name}/>
+					<TextFormGroup id='edgeCategory' label='Category' onChange={this.categoryChange} required={true}
+					               value={this.props.edge.category}/>
+					<TextFormGroup id='edgeRequirements' label='Requirements' onChange={this.requirementsChange} required={true}
+					               value={this.props.edge.requirements}/>
+					<TextAreaFormGroup id={'edgeDescription'} label={'Description'} onChange={this.descriptionChange}
+					                   value={this.props.edge.description}/>
+					<TextFormGroup id='edgeEffects' label='Effects' onChange={this.effectsChange} required={true}
+					               value={this.props.edge.effects}/>
+				</BaseEditor>
 		);
 	}
 }

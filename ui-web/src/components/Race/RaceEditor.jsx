@@ -1,13 +1,7 @@
-import {
-	Panel,
-	PanelBody,
-	PanelHeader,
-	RemoveButton,
-	TextAreaFormGroup,
-	TextFormGroup
-} from 'bootstrap-react-components';
+import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components';
 import PropTypes from 'prop-types';
 import React from 'react';
+import BaseEditor from '../BaseEditor';
 import RaceAbilityEditor from './RaceAbilityEditor';
 
 export default class RaceEditor extends React.Component {
@@ -16,6 +10,10 @@ export default class RaceEditor extends React.Component {
 		race    : PropTypes.object,
 		index   : PropTypes.number.isRequired,
 		onChange: PropTypes.func.isRequired
+	};
+
+	static defaultProps = {
+		id: 'RaceEditor'
 	};
 
 	addRacialAbility = (e) => {
@@ -68,38 +66,31 @@ export default class RaceEditor extends React.Component {
 		let {descriptionError, nameError}  = this.props;
 
 		return (
-				<Panel id={'raceEditor'}>
-					<PanelHeader id={'raceEditor'}>
-						<div className={'btn-group pull-right'}>
-							<RemoveButton id={'raceEditor'} onClick={this.onDelete}/>
-						</div>
-					</PanelHeader>
-					<PanelBody id={'raceEditor'}>
-						<TextFormGroup
-								error={nameError}
-								label='Race'
-								id={'raceFormName_' + index}
-								onChange={this.onNameChange}
-								required={true}
-								value={name}
-						/>
-						<TextAreaFormGroup
-								error={descriptionError}
-								label='Description'
-								id={'raceFormDescription_' + index}
-								onChange={this.onDescriptionChange}
-								required={true}
-								value={description}
-						/>
-						<h3>Racial Abilities</h3>
-						<button id={'addRacialAbilityButton'} className="btn btn-default" onClick={this.addRacialAbility}>Add
-						</button>
-						{abilities.map((ability, index) =>
-								<RaceAbilityEditor ability={ability} index={index} key={index}
-								                   onChange={this.onAbilityChange}
-								                   onDelete={this.onAbilityDelete}/>)}
-					</PanelBody>
-				</Panel>
+				<BaseEditor id={this.props.id} onDelete={this.onDelete}>
+					<TextFormGroup
+							error={nameError}
+							label='Race'
+							id={'raceFormName_' + index}
+							onChange={this.onNameChange}
+							required={true}
+							value={name}
+					/>
+					<TextAreaFormGroup
+							error={descriptionError}
+							label='Description'
+							id={'raceFormDescription_' + index}
+							onChange={this.onDescriptionChange}
+							required={true}
+							value={description}
+					/>
+					<h3>Racial Abilities</h3>
+					<button id={'addRacialAbilityButton'} className="btn btn-default" onClick={this.addRacialAbility}>Add
+					</button>
+					{abilities.map((ability, index) =>
+							<RaceAbilityEditor ability={ability} index={index} key={index}
+							                   onChange={this.onAbilityChange}
+							                   onDelete={this.onAbilityDelete}/>)}
+				</BaseEditor>
 
 		);
 	}

@@ -1,14 +1,7 @@
-import {
-	NumberFormGroup,
-	Panel,
-	PanelBody,
-	PanelHeader,
-	RemoveButton,
-	TextAreaFormGroup,
-	TextFormGroup
-} from "bootstrap-react-components";
+import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import PropTypes from 'prop-types';
 import React from "react";
+import BaseEditor from '../BaseEditor';
 
 class RaceAbilityEditor extends React.Component {
 
@@ -18,23 +11,11 @@ class RaceAbilityEditor extends React.Component {
 		onDelete: PropTypes.func.isRequired
 	};
 
-	costChange = event => this.props.onChange({
-		cost       : parseInt(event.target.value, 10),
-		description: this.props.ability.description,
-		name       : this.props.ability.name
-	}, this.props.index);
+	costChange = e => this.props.onChange(Object.assign({}, this.props.ability, {cost: parseInt(e.target.value, 10)}), this.props.index);
 
-	descriptionChange = event => this.props.onChange({
-		cost       : this.props.ability.cost,
-		description: event.target.value,
-		name       : this.props.ability.name
-	}, this.props.index);
+	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.ability, {description: e.target.value}), this.props.index);
 
-	nameChange = event => this.props.onChange({
-		cost       : this.props.ability.cost,
-		description: this.props.ability.description,
-		name       : event.target.value
-	}, this.props.index);
+	nameChange = e => this.props.onChange(Object.assign({}, this.props.ability, {name: e.target.value}), this.props.index);
 
 	onDelete = event => {
 		event.preventDefault();
@@ -44,28 +25,21 @@ class RaceAbilityEditor extends React.Component {
 	render() {
 		let {cost, description, name} = this.props.ability;
 		return (
-				<Panel id={'RaceAbilityEditor'}>
-					<PanelHeader id={'RaceAbilityEditor'}>
-						<div className={'btn-group pull-right'}>
-							<RemoveButton id={'RaceAbilityEditor'} onClick={this.onDelete}/>
-						</div>
-					</PanelHeader>
-					<PanelBody id={'raceEditor'}>
-						<TextFormGroup id={"abilityName"}
-						               label="Ability Name"
-						               onChange={this.nameChange}
-						               value={name}/>
-						<NumberFormGroup id={"cost"}
-						                 label="Cost"
-						                 onChange={this.costChange}
-						                 value={cost}/>
-						<TextAreaFormGroup id={"abilityDescription"}
-						                   label="Description"
-						                   onChange={this.descriptionChange}
-						                   value={description}
-						/>
-					</PanelBody>
-				</Panel>
+				<BaseEditor id={'raceEditor'} onDelete={this.onDelete}>
+					<TextFormGroup id={"abilityName"}
+					               label="Ability Name"
+					               onChange={this.nameChange}
+					               value={name}/>
+					<NumberFormGroup id={"cost"}
+					                 label="Cost"
+					                 onChange={this.costChange}
+					                 value={cost}/>
+					<TextAreaFormGroup id={"abilityDescription"}
+					                   label="Description"
+					                   onChange={this.descriptionChange}
+					                   value={description}
+					/>
+				</BaseEditor>
 		);
 	}
 
