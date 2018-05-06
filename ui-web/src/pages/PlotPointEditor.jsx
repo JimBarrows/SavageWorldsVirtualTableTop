@@ -109,7 +109,7 @@ class PlotPointEditor extends React.Component {
 	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
 	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
 	mundaneItemsChange           = (mundaneItem, index) => this.setState({mundaneItems: this.state.mundaneItems.map((r, i) => i === index ? mundaneItem : r)});
-	mundaneItemsDelete           = (index) => this.setState({mundaneItems: this.state.mundaneItems.filter((r, i) => i !== index)});
+	mundaneItemDelete            = (index) => this.setState({mundaneItems: this.state.mundaneItems.filter((r, i) => i !== index)});
 	nameChange                   = e => this.setState({name: e.target.value});
 	raceChange                   = (race, index) => this.setState({races: this.state.races.map((r, i) => i === index ? race : r)});
 	raceDelete                   = (index) => this.setState({races: this.state.races.filter((r, i) => i !== index)});
