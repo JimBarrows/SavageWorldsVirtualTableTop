@@ -1,7 +1,7 @@
 import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from "bootstrap-react-components";
 import PropTypes from 'prop-types';
 import React from "react";
-import BaseEditor from '../BaseEditor';
+import BaseEditor from './BaseEditor';
 
 class RaceAbilityEditor extends React.Component {
 

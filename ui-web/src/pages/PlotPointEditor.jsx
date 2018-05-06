@@ -6,7 +6,7 @@ import EdgeEditor from '../components/EdgeEditor';
 import HindranceEditor from '../components/HindranceEditor';
 import MundaneItemEditor from '../components/MundaneItemEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
-import {RaceEditor} from '../components/Race';
+import RaceEditor from '../components/RaceEditor';
 import SkillEditor from '../components/SkillEditor';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
