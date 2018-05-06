@@ -2,6 +2,7 @@ import {API} from 'aws-amplify';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
+import HindranceEditor from '../components/HindranceEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
 import {RaceEditor} from '../components/Race';
 import SkillEditor from '../components/SkillEditor';
@@ -17,6 +18,7 @@ class PlotPointEditor extends React.Component {
 
 	state = {
 		description           : '',
+		hindrances            : [],
 		maximumAttributePoints: 5,
 		maximumMajorHindrances: 1,
 		maximumMinorHindrances: 2,
@@ -26,26 +28,34 @@ class PlotPointEditor extends React.Component {
 		skills                : []
 	};
 
-	addRace  = (event) => {
+	addHindrance = (event) => {
+		event.preventDefault();
+		this.setState({
+			hindrances: [{name: '', description: '', type: ''}, ...this.state.hindrances]
+		});
+	};
+
+	addRace    = (event) => {
 		event.preventDefault();
 		this.setState({
 			races: [{name: '', description: '', abilities: []}, ...this.state.races]
 		});
 	};
-	addSkill = event => {
+	addSkill   = event => {
 		event.preventDefault();
 		this.setState({
 			skills: [{name: '', attribute: 'Ability', description: ''}, ...this.state.skills]
 		});
 	};
-	cancel   = e => {
+	cancel     = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-	save     = async e => {
+	save       = async e => {
 		e.preventDefault();
 		let toSave = {
 			description           : this.state.description,
+			hindrances            : this.state.hindrances,
 			maximumAttributePoints: this.state.maximumAttributePoints,
 			maximumMajorHindrances: this.state.maximumMajorHindrances,
 			maximumMinorHindrances: this.state.maximumMinorHindrances,
@@ -66,8 +76,33 @@ class PlotPointEditor extends React.Component {
 
 		this.props.history.push('/');
 	};
+	hindrances = () => {
+		if (this.state.hindrances.length === 0) {
+			return <p>No hindrances</p>;
+		} else {
+			return this.state.hindrances.map((hindrance, index) =>
+					<HindranceEditor key={index} index={index} hindrance={hindrance} onChange={this.hindranceChange}
+					                 onDelete={this.hindranceDelete}/>);
+		}
+	};
 
-	descriptionChange            = e => this.setState({description: e.target.value});
+	descriptionChange = e => this.setState({description: e.target.value});
+	hindranceChange   = (hindrance, index) => {
+		console.log('hindrance: ', hindrance);
+		let after = this.state.hindrances.map((r, i) => i === index ? hindrance : r);
+		console.log('after: ', after);
+		this.setState({hindrances: after});
+	};
+	hindranceDelete   = (index) => this.setState({hindrances: this.state.hindrances.filter((r, i) => i !== index)});
+
+	async componentDidMount() {
+		if (this.props.match.params.name) {
+			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
+			this.setState({
+				...plotPoint
+			});
+		}
+	};
 	skillChange                  = (skill, index) => this.setState({skills: this.state.skills.map((s, i) => i === index ? skill : s)});
 	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
@@ -94,15 +129,6 @@ class PlotPointEditor extends React.Component {
 					             onDelete={this.skillDelete}/>);
 		}
 	};
-
-	async componentDidMount() {
-		if (this.props.match.params.name) {
-			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
-			this.setState({
-				...plotPoint
-			});
-		}
-	}
 
 	render() {
 		return <div id={this.props.id}>
@@ -131,6 +157,8 @@ class PlotPointEditor extends React.Component {
 				<button id={'addSkillButton'} className="btn btn-default" onClick={this.addSkill}>Add</button>
 				{this.skills()}
 				<h2>Hindrances</h2>
+				<button id={'addHindranceButton'} className="btn btn-default" onClick={this.addHindrance}>Add</button>
+				{this.hindrances()}
 				<h2>Edges</h2>
 				<h2>Gear</h2>
 				<h3>Mundane Items</h3>
