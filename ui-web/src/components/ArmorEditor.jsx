@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MundaneItemEditor from './MundaneItemEditor';
 import NumberFormGroup from './NumberFormGroup';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
-export default class ArmorEditor extends React.Component {
+export default class ArmorEditor extends MundaneItemEditor {
 
 	static propTypes = {
 		id      : PropTypes.string.isRequired,
@@ -17,20 +18,19 @@ export default class ArmorEditor extends React.Component {
 	onKindChange  = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);
 	onNoteChange  = e => this.props.onChange(Object.assign({}, this.props.item, {notes: e.target.value}), this.props.index);
 
-	render() {
-		return <div id={'ArmorEditorComponent_' + this.props.id}>
-			<NumberFormGroup id={'armorArmor'} label={'Armor'} onChange={this.onArmorChange} required={true}
-			               value={this.props.item.damage}/>
-			<TextFormGroup id={'armorEra'} label={'Era'} onChange={this.onEraChange} required={true}
-			               value={this.props.item.era}/>
-			<TextFormGroup id={'armorKind'} label={'Kind'} onChange={this.onKindChange} required={true}
-			               value={this.props.item.kind}/>
-			<TextAreaFormGroup id={"armorNote"}
-			                   label="Notes"
-			                   onChange={this.onNoteChange}
-			                   value={this.props.item.notes}/>
-		</div>;
-	}
+	additionalFields = () => <div id={'ArmorEditorComponent_' + this.props.id}>
+		<NumberFormGroup id={'armorArmor'} label={'Armor'} onChange={this.onArmorChange} required={true}
+		                 value={this.props.item.damage}/>
+		<TextFormGroup id={'armorEra'} label={'Era'} onChange={this.onEraChange} required={true}
+		               value={this.props.item.era}/>
+		<TextFormGroup id={'armorKind'} label={'Kind'} onChange={this.onKindChange} required={true}
+		               value={this.props.item.kind}/>
+		<TextAreaFormGroup id={"armorNote"}
+		                   label="Notes"
+		                   onChange={this.onNoteChange}
+		                   value={this.props.item.notes}/>
+	</div>;
+
 };
 
 

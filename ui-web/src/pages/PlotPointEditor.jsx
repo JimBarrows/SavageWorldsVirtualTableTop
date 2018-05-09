@@ -5,11 +5,12 @@ import {withRouter} from 'react-router';
 import ArmorEditor from '../components/ArmorEditor';
 import EdgeEditor from '../components/EdgeEditor';
 import EditorList from '../components/EditorList';
-import HandWeaponList from '../components/HandWeaponList';
+import HandWeaponEditor from '../components/HandWeaponEditor';
 import HindranceEditor from '../components/HindranceEditor';
 import MundaneItemEditor from '../components/MundaneItemEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
 import RaceEditor from '../components/RaceEditor';
+import RangedWeaponEditor from '../components/RangedWeaponEditor';
 import SkillEditor from '../components/SkillEditor';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
@@ -34,6 +35,7 @@ class PlotPointEditor extends React.Component {
 		mundaneItems          : [],
 		name                  : '',
 		races                 : [],
+		rangedWeapons         : [],
 		skills                : []
 	};
 
@@ -51,6 +53,7 @@ class PlotPointEditor extends React.Component {
 	onEdgeListChange             = edges => this.setState({edges});
 	onHandWeaponsChange          = handWeapons => this.setState({handWeapons});
 	onRacesChange                = races => this.setState({races});
+	onRangedWeaponsChange        = rangedWeapons => this.setState({rangedWeapons});
 	onSkillsChange               = skills => this.setState({skills});
 	onMundaneItemsChange         = mundaneItems => this.setState({mundaneItems});
 	onHandWeaponsChange          = handWeapons => this.setState({handWeapons});
@@ -70,6 +73,7 @@ class PlotPointEditor extends React.Component {
 			mundaneItems          : this.state.mundaneItems,
 			name                  : this.state.name,
 			races                 : this.state.races,
+			rangedWeapons         : this.state.rangedWeapons,
 			skills                : this.state.skills
 		};
 		if (this.props.match.params.name) {
@@ -158,7 +162,7 @@ class PlotPointEditor extends React.Component {
 						list={this.state.handWeapons}
 						onChange={this.onHandWeaponsChange}
 						title={'Hand Weapons'}>
-					<HandWeaponList/>
+					<HandWeaponEditor/>
 				</EditorList>
 				<EditorList
 						emptyItem={({name: '', description: '', cost: 1, weight: 1, armor: '', notes: '', era: '', kind: ''})}
@@ -169,6 +173,29 @@ class PlotPointEditor extends React.Component {
 					<ArmorEditor/>
 				</EditorList>
 				<h3>Ranged Weapons</h3>
+				<EditorList
+						emptyItem={({
+							name           : '',
+							description    : '',
+							cost           : 1,
+							weight         : 1,
+							shortRange     : 1,
+							mediumRange    : 2,
+							longRange      : 3,
+							damage         : '',
+							rateOfFire     : 1,
+							shots          : 1,
+							minimumStrength: '',
+							notes          : '',
+							era            : '',
+							kind           : ''
+						})}
+						id={'RangedWeaponEditorList'}
+						list={this.state.rangedWeapons}
+						onChange={this.onRangedWeaponsChange}
+						title={'Ranged Weapons'}>
+					<RangedWeaponEditor/>
+				</EditorList>
 				<h3>Vehicle Mounted & AT Guns</h3>
 				<h3>Ammunition</h3>
 				<h3>Special Weapons</h3>

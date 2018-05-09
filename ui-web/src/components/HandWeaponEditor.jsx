@@ -4,7 +4,7 @@ import MundaneItemEditor from './MundaneItemEditor';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
-export default class HandWeaponList extends MundaneItemEditor {
+export default class HandWeaponEditor extends MundaneItemEditor {
 
 	static propTypes = {
 		id      : PropTypes.string.isRequired,
