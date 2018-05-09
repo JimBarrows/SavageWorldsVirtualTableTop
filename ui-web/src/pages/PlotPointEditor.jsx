@@ -2,6 +2,7 @@ import {API} from 'aws-amplify';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
+import ArmorEditor from '../components/ArmorEditor';
 import EdgeEditor from '../components/EdgeEditor';
 import EditorList from '../components/EditorList';
 import HandWeaponList from '../components/HandWeaponList';
@@ -21,6 +22,7 @@ class PlotPointEditor extends React.Component {
 	};
 
 	state = {
+		armor                 : [],
 		description           : '',
 		edges                 : [],
 		handWeapons           : [],
@@ -35,6 +37,7 @@ class PlotPointEditor extends React.Component {
 		skills                : []
 	};
 
+	onArmorChange                = armor => this.setState({armor});
 	cancel                       = e => {
 		e.preventDefault();
 		this.props.cancel();
@@ -55,6 +58,7 @@ class PlotPointEditor extends React.Component {
 	save = async e => {
 		e.preventDefault();
 		let toSave = {
+			armor                 : this.state.armor,
 			description           : this.state.description,
 			edges                 : this.state.edges,
 			handWeapons           : this.state.handWeapons,
@@ -156,8 +160,14 @@ class PlotPointEditor extends React.Component {
 						title={'Hand Weapons'}>
 					<HandWeaponList/>
 				</EditorList>
-				{/*<HandWeaponList handWeapons={this.state.handWeapons} onHandWeaponChange={this.onHandWeaponsChange}/>*/}
-				<h3>Armor</h3>
+				<EditorList
+						emptyItem={({name: '', description: '', cost: 1, weight: 1, armor: '', notes: '', era: '', kind: ''})}
+						id={'ArmorEditorList'}
+						list={this.state.armor}
+						onChange={this.onArmorChange}
+						title={'Armor'}>
+					<ArmorEditor/>
+				</EditorList>
 				<h3>Ranged Weapons</h3>
 				<h3>Vehicle Mounted & AT Guns</h3>
 				<h3>Ammunition</h3>
