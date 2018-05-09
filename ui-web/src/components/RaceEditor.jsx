@@ -1,13 +1,9 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components';
-import PropTypes from 'prop-types';
 import React from 'react';
 import BaseEditor from './BaseEditor';
 import RaceAbilityEditor from './RaceAbilityEditor';
 
 export default class RaceEditor extends React.Component {
-
-	static propTypes = {
-	};
 
 	static defaultProps = {
 		id: 'RaceEditor'
