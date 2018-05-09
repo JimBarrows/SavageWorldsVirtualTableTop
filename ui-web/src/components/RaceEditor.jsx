@@ -7,9 +7,6 @@ import RaceAbilityEditor from './RaceAbilityEditor';
 export default class RaceEditor extends React.Component {
 
 	static propTypes = {
-		item    : PropTypes.object,
-		index   : PropTypes.number.isRequired,
-		onChange: PropTypes.func.isRequired
 	};
 
 	static defaultProps = {

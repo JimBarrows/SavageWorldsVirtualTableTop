@@ -4,6 +4,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import EdgeEditor from '../components/EdgeEditor';
 import EditorList from '../components/EditorList';
+import HandWeaponList from '../components/HandWeaponList';
 import HindranceEditor from '../components/HindranceEditor';
 import MundaneItemEditor from '../components/MundaneItemEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
@@ -22,6 +23,7 @@ class PlotPointEditor extends React.Component {
 	state = {
 		description           : '',
 		edges                 : [],
+		handWeapons           : [],
 		hindrances            : [],
 		maximumAttributePoints: 5,
 		maximumMajorHindrances: 1,
@@ -44,15 +46,18 @@ class PlotPointEditor extends React.Component {
 	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
 	nameChange                   = e => this.setState({name: e.target.value});
 	onEdgeListChange             = edges => this.setState({edges});
+	onHandWeaponsChange          = handWeapons => this.setState({handWeapons});
 	onRacesChange                = races => this.setState({races});
 	onSkillsChange               = skills => this.setState({skills});
 	onMundaneItemsChange         = mundaneItems => this.setState({mundaneItems});
+	onHandWeaponsChange          = handWeapons => this.setState({handWeapons});
 
 	save = async e => {
 		e.preventDefault();
 		let toSave = {
 			description           : this.state.description,
 			edges                 : this.state.edges,
+			handWeapons           : this.state.handWeapons,
 			hindrances            : this.state.hindrances,
 			maximumAttributePoints: this.state.maximumAttributePoints,
 			maximumMajorHindrances: this.state.maximumMajorHindrances,
@@ -143,7 +148,15 @@ class PlotPointEditor extends React.Component {
 				            title={'Mundane Items'}>
 					<MundaneItemEditor/>
 				</EditorList>
-				<h3>Hand Weapons</h3>
+				<EditorList
+						emptyItem={({name: '', description: '', cost: 1, weight: 1, damage: '', notes: '', era: '', kind: ''})}
+						id={'HandWeaponsEditorList'}
+						list={this.state.handWeapons}
+						onChange={this.onHandWeaponsChange}
+						title={'Hand Weapons'}>
+					<HandWeaponList/>
+				</EditorList>
+				{/*<HandWeaponList handWeapons={this.state.handWeapons} onHandWeaponChange={this.onHandWeaponsChange}/>*/}
 				<h3>Armor</h3>
 				<h3>Ranged Weapons</h3>
 				<h3>Vehicle Mounted & AT Guns</h3>
