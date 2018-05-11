@@ -3,6 +3,7 @@ import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import ArmorEditor from '../components/ArmorEditor';
+import BaseVehicleEditor from '../components/BaseVehicleEditor';
 import EdgeEditor from '../components/EdgeEditor';
 import EditorList from '../components/EditorList';
 import HandWeaponEditor from '../components/HandWeaponEditor';
@@ -12,8 +13,10 @@ import NumberFormGroup from '../components/NumberFormGroup';
 import RaceEditor from '../components/RaceEditor';
 import RangedWeaponEditor from '../components/RangedWeaponEditor';
 import SkillEditor from '../components/SkillEditor';
+import SpecialWeaponsEditor from '../components/SpecialWeaponsEditor';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
+import VehicleMountedAndAtGunsEditor from '../components/VehicleMountedAndAtGunsEditor';
 
 
 class PlotPointEditor extends React.Component {
@@ -23,58 +26,66 @@ class PlotPointEditor extends React.Component {
 	};
 
 	state = {
-		armor                 : [],
-		description           : '',
-		edges                 : [],
-		handWeapons           : [],
-		hindrances            : [],
-		maximumAttributePoints: 5,
-		maximumMajorHindrances: 1,
-		maximumMinorHindrances: 2,
-		maximumSkillPoints    : 15,
-		mundaneItems          : [],
-		name                  : '',
-		races                 : [],
-		rangedWeapons         : [],
-		skills                : []
+		armor                  : [],
+		description            : '',
+		edges                  : [],
+		groundVehicles         : [],
+		handWeapons            : [],
+		hindrances             : [],
+		maximumAttributePoints : 5,
+		maximumMajorHindrances : 1,
+		maximumMinorHindrances : 2,
+		maximumSkillPoints     : 15,
+		mundaneItems           : [],
+		name                   : '',
+		races                  : [],
+		rangedWeapons          : [],
+		skills                 : [],
+		specialWeapons         : [],
+		vehicleMountedAndAtGuns: []
 	};
 
-	onArmorChange                = armor => this.setState({armor});
-	cancel                       = e => {
+	onArmorChange                 = armor => this.setState({armor});
+	cancel                        = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-	descriptionChange            = e => this.setState({description: e.target.value});
-	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
-	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
-	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
-	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
-	nameChange                   = e => this.setState({name: e.target.value});
-	onEdgeListChange             = edges => this.setState({edges});
-	onHandWeaponsChange          = handWeapons => this.setState({handWeapons});
-	onRacesChange                = races => this.setState({races});
-	onRangedWeaponsChange        = rangedWeapons => this.setState({rangedWeapons});
-	onSkillsChange               = skills => this.setState({skills});
-	onMundaneItemsChange         = mundaneItems => this.setState({mundaneItems});
-	onHandWeaponsChange          = handWeapons => this.setState({handWeapons});
+	descriptionChange             = e => this.setState({description: e.target.value});
+	edgeListChange                = edges => this.setState({edges});
+	groundVehiclesChange          = groundVehicles => this.setState({groundVehicles});
+	handWeaponsChange             = handWeapons => this.setState({handWeapons});
+	maximumAttributePointsChange  = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
+	maximumMajorHindrancesChange  = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
+	maximumMinorHindrancesChange  = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
+	maximumSkillPointsChange      = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
+	mundaneItemsChange            = mundaneItems => this.setState({mundaneItems});
+	nameChange                    = e => this.setState({name: e.target.value});
+	racesChange                   = races => this.setState({races});
+	rangedWeaponsChange           = rangedWeapons => this.setState({rangedWeapons});
+	skillsChange                  = skills => this.setState({skills});
+	specialWeaponsChange          = specialWeapons => this.setState({specialWeapons});
+	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.setState({vehicleMountedAndAtGuns});
 
 	save = async e => {
 		e.preventDefault();
 		let toSave = {
-			armor                 : this.state.armor,
-			description           : this.state.description,
-			edges                 : this.state.edges,
-			handWeapons           : this.state.handWeapons,
-			hindrances            : this.state.hindrances,
-			maximumAttributePoints: this.state.maximumAttributePoints,
-			maximumMajorHindrances: this.state.maximumMajorHindrances,
-			maximumMinorHindrances: this.state.maximumMinorHindrances,
-			maximumSkillPoints    : this.state.maximumSkillPoints,
-			mundaneItems          : this.state.mundaneItems,
-			name                  : this.state.name,
-			races                 : this.state.races,
-			rangedWeapons         : this.state.rangedWeapons,
-			skills                : this.state.skills
+			armor                  : this.state.armor,
+			description            : this.state.description,
+			edges                  : this.state.edges,
+			groundVehicles         : this.state.groundVehicles,
+			handWeapons            : this.state.handWeapons,
+			hindrances             : this.state.hindrances,
+			maximumAttributePoints : this.state.maximumAttributePoints,
+			maximumMajorHindrances : this.state.maximumMajorHindrances,
+			maximumMinorHindrances : this.state.maximumMinorHindrances,
+			maximumSkillPoints     : this.state.maximumSkillPoints,
+			mundaneItems           : this.state.mundaneItems,
+			name                   : this.state.name,
+			races                  : this.state.races,
+			rangedWeapons          : this.state.rangedWeapons,
+			skills                 : this.state.skills,
+			specialWeapons         : this.state.specialWeapons,
+			vehicleMountedAndAtGuns: this.state.vehicleMountedAndAtGuns
 		};
 		if (this.props.match.params.name) {
 			await API.put('PlotPointsCRUD', `/PlotPoints`, {
@@ -123,14 +134,14 @@ class PlotPointEditor extends React.Component {
 				<EditorList emptyItem={({name: '', description: '', abilities: []})}
 				            id={'RaceEditorList'}
 				            list={this.state.races}
-				            onChange={this.onRacesChange}
+				            onChange={this.racesChange}
 				            title={'Races'}>
 					<RaceEditor/>
 				</EditorList>
 				<EditorList emptyItem={({name: '', description: '', abilities: []})}
 				            id={'SkillEditorList'}
 				            list={this.state.skills}
-				            onChange={this.onSkillsChange}
+				            onChange={this.skillsChange}
 				            title={'Skills'}>
 					<SkillEditor/>
 				</EditorList>
@@ -144,7 +155,7 @@ class PlotPointEditor extends React.Component {
 				<EditorList emptyItem={({name: '', description: '', category: ''})}
 				            id={'EdgeEditorList'}
 				            list={this.state.edges}
-				            onChange={this.onEdgeListChange}
+				            onChange={this.edgeListChange}
 				            title={'Edges'}>
 					<EdgeEditor/>
 				</EditorList>
@@ -152,7 +163,7 @@ class PlotPointEditor extends React.Component {
 				<EditorList emptyItem={({name: '', description: '', cost: 1, weight: 1})}
 				            id={'MundaneItemEditorList'}
 				            list={this.state.mundaneItems}
-				            onChange={this.onMundaneItemsChange}
+				            onChange={this.mundaneItemsChange}
 				            title={'Mundane Items'}>
 					<MundaneItemEditor/>
 				</EditorList>
@@ -160,7 +171,7 @@ class PlotPointEditor extends React.Component {
 						emptyItem={({name: '', description: '', cost: 1, weight: 1, damage: '', notes: '', era: '', kind: ''})}
 						id={'HandWeaponsEditorList'}
 						list={this.state.handWeapons}
-						onChange={this.onHandWeaponsChange}
+						onChange={this.handWeaponsChange}
 						title={'Hand Weapons'}>
 					<HandWeaponEditor/>
 				</EditorList>
@@ -172,7 +183,6 @@ class PlotPointEditor extends React.Component {
 						title={'Armor'}>
 					<ArmorEditor/>
 				</EditorList>
-				<h3>Ranged Weapons</h3>
 				<EditorList
 						emptyItem={({
 							name           : '',
@@ -192,14 +202,77 @@ class PlotPointEditor extends React.Component {
 						})}
 						id={'RangedWeaponEditorList'}
 						list={this.state.rangedWeapons}
-						onChange={this.onRangedWeaponsChange}
+						onChange={this.rangedWeaponsChange}
 						title={'Ranged Weapons'}>
 					<RangedWeaponEditor/>
 				</EditorList>
-				<h3>Vehicle Mounted & AT Guns</h3>
+				<EditorList
+						emptyItem={({
+							name           : '',
+							description    : '',
+							cost           : 1,
+							weight         : 1,
+							shortRange     : 1,
+							mediumRange    : 2,
+							longRange      : 3,
+							apDamage       : '',
+							apArmorPiercing: 1,
+							heDamage       : '',
+							heBurstTemplate: '',
+							heArmorPiercing: 1,
+							rateOfFire     : 1,
+							notes          : '',
+							era            : '',
+							kind           : ''
+						})}
+						id={'vehicleMountedAndAtGunsEditorList'}
+						list={this.state.vehicleMountedAndAtGuns}
+						onChange={this.vehicleMountedAndAtGunsChange}
+						title={'Vehicle Mounted & AT Guns'}>
+					<VehicleMountedAndAtGunsEditor/>
+				</EditorList>
+				<EditorList
+						emptyItem={({
+							name           : '',
+							description    : '',
+							cost           : 1,
+							weight         : 1,
+							shortRange     : 1,
+							mediumRange    : 2,
+							longRange      : 3,
+							armorPiercing  : 1,
+							rateOfFire     : 1,
+							minimumStrength: '',
+							burstTemplate  : '',
+							notes          : '',
+							era            : '',
+							kind           : ''
+						})}
+						id={'specialWeaponsEditorList'}
+						list={this.state.specialWeapons}
+						onChange={this.specialWeaponsChange}
+						title={'Special Weapons'}>
+					<SpecialWeaponsEditor/>
+				</EditorList>
 				<h3>Ammunition</h3>
-				<h3>Special Weapons</h3>
-				<h3>Vehicles</h3>
+				<EditorList
+						emptyItem={({
+							name        : '',
+							description : '',
+							acceleration: 1,
+							topSpeed    : 1,
+							toughness   : 2,
+							armor       : 1,
+							minimumCost : 1,
+							maximumCost : 2,
+							notes       : ''
+						})}
+						id={'groundVehiclesEditorList'}
+						list={this.state.groundVehicles}
+						onChange={this.groundVehiclesChange}
+						title={'Ground Vehicles'}>
+					<BaseVehicleEditor/>
+				</EditorList>
 				<h3>Watercraft</h3>
 				<h3>Aircraft</h3>
 				<h2>Powers</h2>
