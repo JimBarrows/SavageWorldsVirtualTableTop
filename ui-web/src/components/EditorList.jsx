@@ -27,9 +27,10 @@ export default class EditorList extends React.Component {
 		} else {
 			return this.props.list.map((item, index) =>
 					React.cloneElement(this.props.children, {
-						key     : index,
+						id      : this.props.id,
 						index,
 						item,
+						key     : index,
 						onChange: this.change,
 						onDelete: this.delete
 					}));

@@ -3,6 +3,7 @@ import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import ArmorEditor from '../components/ArmorEditor';
+import BaseVehicleEditor from '../components/BaseVehicleEditor';
 import EdgeEditor from '../components/EdgeEditor';
 import EditorList from '../components/EditorList';
 import HandWeaponEditor from '../components/HandWeaponEditor';
@@ -28,6 +29,7 @@ class PlotPointEditor extends React.Component {
 		armor                  : [],
 		description            : '',
 		edges                  : [],
+		groundVehicles         : [],
 		handWeapons            : [],
 		hindrances             : [],
 		maximumAttributePoints : 5,
@@ -50,6 +52,7 @@ class PlotPointEditor extends React.Component {
 	};
 	descriptionChange             = e => this.setState({description: e.target.value});
 	edgeListChange                = edges => this.setState({edges});
+	groundVehiclesChange          = groundVehicles => this.setState({groundVehicles});
 	handWeaponsChange             = handWeapons => this.setState({handWeapons});
 	maximumAttributePointsChange  = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
 	maximumMajorHindrancesChange  = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
@@ -69,6 +72,7 @@ class PlotPointEditor extends React.Component {
 			armor                  : this.state.armor,
 			description            : this.state.description,
 			edges                  : this.state.edges,
+			groundVehicles         : this.state.groundVehicles,
 			handWeapons            : this.state.handWeapons,
 			hindrances             : this.state.hindrances,
 			maximumAttributePoints : this.state.maximumAttributePoints,
@@ -251,7 +255,24 @@ class PlotPointEditor extends React.Component {
 					<SpecialWeaponsEditor/>
 				</EditorList>
 				<h3>Ammunition</h3>
-				<h3>Vehicles</h3>
+				<EditorList
+						emptyItem={({
+							name        : '',
+							description : '',
+							acceleration: 1,
+							topSpeed    : 1,
+							toughness   : 2,
+							armor       : 1,
+							minimumCost : 1,
+							maximumCost : 2,
+							notes       : ''
+						})}
+						id={'groundVehiclesEditorList'}
+						list={this.state.groundVehicles}
+						onChange={this.groundVehiclesChange}
+						title={'Ground Vehicles'}>
+					<BaseVehicleEditor/>
+				</EditorList>
 				<h3>Watercraft</h3>
 				<h3>Aircraft</h3>
 				<h2>Powers</h2>
