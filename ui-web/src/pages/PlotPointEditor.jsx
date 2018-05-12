@@ -42,7 +42,8 @@ class PlotPointEditor extends React.Component {
 		rangedWeapons          : [],
 		skills                 : [],
 		specialWeapons         : [],
-		vehicleMountedAndAtGuns: []
+		vehicleMountedAndAtGuns: [],
+		watercraft             : []
 	};
 
 	onArmorChange                 = armor => this.setState({armor});
@@ -65,6 +66,7 @@ class PlotPointEditor extends React.Component {
 	skillsChange                  = skills => this.setState({skills});
 	specialWeaponsChange          = specialWeapons => this.setState({specialWeapons});
 	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.setState({vehicleMountedAndAtGuns});
+	watercraftChange              = watercraft => this.setState({watercraft});
 
 	save = async e => {
 		e.preventDefault();
@@ -85,7 +87,8 @@ class PlotPointEditor extends React.Component {
 			rangedWeapons          : this.state.rangedWeapons,
 			skills                 : this.state.skills,
 			specialWeapons         : this.state.specialWeapons,
-			vehicleMountedAndAtGuns: this.state.vehicleMountedAndAtGuns
+			vehicleMountedAndAtGuns: this.state.vehicleMountedAndAtGuns,
+			watercraft             : this.state.watercraft
 		};
 		if (this.props.match.params.name) {
 			await API.put('PlotPointsCRUD', `/PlotPoints`, {
@@ -254,6 +257,7 @@ class PlotPointEditor extends React.Component {
 						title={'Special Weapons'}>
 					<SpecialWeaponsEditor/>
 				</EditorList>
+				<h1>Vehicles</h1>
 				<EditorList
 						emptyItem={({
 							name        : '',
@@ -272,7 +276,24 @@ class PlotPointEditor extends React.Component {
 						title={'Ground Vehicles'}>
 					<BaseVehicleEditor/>
 				</EditorList>
-				<h3>Watercraft</h3>
+				<EditorList
+						emptyItem={({
+							name        : '',
+							description : '',
+							acceleration: 1,
+							topSpeed    : 1,
+							toughness   : 2,
+							armor       : 1,
+							minimumCost : 1,
+							maximumCost : 2,
+							notes       : ''
+						})}
+						id={'watercraftEditorList'}
+						list={this.state.watercraft}
+						onChange={this.watercraftChange}
+						title={'Watercraft'}>
+					<BaseVehicleEditor/>
+				</EditorList>
 				<h3>Aircraft</h3>
 				<h2>Powers</h2>
 				<h2>Beasts</h2>
