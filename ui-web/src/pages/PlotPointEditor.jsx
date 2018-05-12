@@ -254,7 +254,6 @@ class PlotPointEditor extends React.Component {
 						title={'Special Weapons'}>
 					<SpecialWeaponsEditor/>
 				</EditorList>
-				<h3>Ammunition</h3>
 				<EditorList
 						emptyItem={({
 							name        : '',
