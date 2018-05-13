@@ -12,6 +12,7 @@ import HandWeaponEditor from '../components/HandWeaponEditor';
 import HindranceEditor from '../components/HindranceEditor';
 import MundaneItemEditor from '../components/MundaneItemEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
+import PowerEditor from '../components/PowerEditor';
 import RaceEditor from '../components/RaceEditor';
 import RangedWeaponEditor from '../components/RangedWeaponEditor';
 import SkillEditor from '../components/SkillEditor';
@@ -44,6 +45,7 @@ class PlotPointEditor extends React.Component {
 		maximumSkillPoints     : 15,
 		mundaneItems           : [],
 		name                   : '',
+		powers                 : [],
 		races                  : [],
 		rangedWeapons          : [],
 		skills                 : [],
@@ -71,6 +73,7 @@ class PlotPointEditor extends React.Component {
 	maximumSkillPointsChange      = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
 	mundaneItemsChange            = mundaneItems => this.setState({mundaneItems});
 	nameChange                    = e => this.setState({name: e.target.value});
+	powersChange                  = powers => this.setState({powers});
 	racesChange                   = races => this.setState({races});
 	rangedWeaponsChange           = rangedWeapons => this.setState({rangedWeapons});
 	skillsChange                  = skills => this.setState({skills});
@@ -96,6 +99,7 @@ class PlotPointEditor extends React.Component {
 			maximumSkillPoints     : this.state.maximumSkillPoints,
 			mundaneItems           : this.state.mundaneItems,
 			name                   : this.state.name,
+			powers                 : this.state.powers,
 			races                  : this.state.races,
 			rangedWeapons          : this.state.rangedWeapons,
 			skills                 : this.state.skills,
@@ -353,7 +357,21 @@ class PlotPointEditor extends React.Component {
 						title={'Trappings & Effects'}>
 					<TrappingsAndEffectsEditor/>
 				</EditorList>
-				<h2>Powers</h2>
+				<EditorList
+						emptyItem={({
+							name       : '',
+							description: '',
+							rank       : '',
+							powerPoints: 1,
+							range      : '',
+							duration   : ''
+						})}
+						id={'powersEditorList'}
+						list={this.state.powers}
+						onChange={this.powersChange}
+						title={'Powers'}>
+					<PowerEditor/>
+				</EditorList>
 				<h1>Beasts</h1>
 				<h1>Characters</h1>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
