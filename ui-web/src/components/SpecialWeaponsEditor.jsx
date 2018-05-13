@@ -1,10 +1,10 @@
 import React from 'react';
-import MundaneItemEditor from './MundaneItemEditor';
+import BaseEditor from './BaseEditor';
 import NumberFormGroup from './NumberFormGroup';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
-export default class SpecialWeaponsEditor extends MundaneItemEditor {
+export default class SpecialWeaponsEditor extends React.Component {
 
 	onApChange              = e => this.props.onChange(Object.assign({}, this.props.item, {armorPiercing: parseInt(e.target.value, 10)}), this.props.index);
 	onDamageChange          = e => this.props.onChange(Object.assign({}, this.props.item, {damage: e.target.value}), this.props.index);
@@ -19,34 +19,71 @@ export default class SpecialWeaponsEditor extends MundaneItemEditor {
 	onShotsChange           = e => this.props.onChange(Object.assign({}, this.props.item, {shots: parseInt(e.target.value, 10)}), this.props.index);
 	onBurstTemplateChange   = e => this.props.onChange(Object.assign({}, this.props.item, {burstTemplate: e.target.value}), this.props.index);
 
-	additionalFields = () => <div id={'SpecialWeaponsEditorComponent_' + this.props.id}>
-		<NumberFormGroup id={'specialWeaponsShort'} label={'Short Range'} onChange={this.onShortRangeChange}
-		                 required={true} value={this.props.item.shortRange}/>
-		<NumberFormGroup id={'specialWeaponsMedium'} label={'Medium Range'} onChange={this.onMediumRangeChange}
-		                 required={true} value={this.props.item.mediumRange}/>
-		<NumberFormGroup id={'specialWeaponsLong'} label={'Long Range'} onChange={this.onLongRangeChange}
-		                 required={true} value={this.props.item.longRange}/>
-		<TextFormGroup id={'specialWeaponsDamage'} label={'Damage'} onChange={this.onDamageChange} required={true}
-		               value={this.props.item.damage}/>
-		<NumberFormGroup id={'specialWeaponsRateOfFire'} label={'Rate of Fire'} onChange={this.onRateOfFireChange}
-		                 required={true} value={this.props.item.rateOfFire}/>
-		<NumberFormGroup id={'specialWeaponsAp'} label={'Armor Piercing'} onChange={this.onApChange}
-		                 required={true} value={this.props.item.armorPiercing}/>
-		<NumberFormGroup id={'specialWeaponsShots'} label={'Shots'} onChange={this.onShotsChange}
-		                 required={true} value={this.props.item.shots}/>
-		<TextFormGroup id={'specialWeaponsMinimumStrength'} label={'Minimum Strength'}
-		               onChange={this.onMinimumStrengthChange}
-		               required={true} value={this.props.item.minimumStrength}/>
-		<TextFormGroup id={'vehicleMountedAndAtGunsBurstTemplate'} label={'Burst Template'}
-		               onChange={this.onBurstTemplateChange}
-		               required={true} value={this.props.item.heBurstTemplate}/>
-		<TextFormGroup id={'specialWeaponsEra'} label={'Era'} onChange={this.onEraChange} required={true}
-		               value={this.props.item.era}/>
-		<TextFormGroup id={'specialWeaponsKind'} label={'Kind'} onChange={this.onKindChange} required={true}
-		               value={this.props.item.kind}/>
-		<TextAreaFormGroup id={"specialWeaponsNote"}
-		                   label="Notes"
-		                   onChange={this.onNoteChange}
-		                   value={this.props.item.notes}/>
-	</div>;
+	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
+	nameChange        = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
+	onDelete          = event => {
+		event.preventDefault();
+		this.props.onDelete(this.props.index);
+	};
+
+	render() {
+		return <BaseEditor id={this.props.id} onDelete={this.onDelete}>
+			<TextFormGroup id='mundaneItemName' label='Name' onChange={this.nameChange} required={true}
+			               value={this.props.item.name}/>
+			<TextAreaFormGroup id={"mundaneItemDescription"}
+			                   label="Description"
+			                   onChange={this.descriptionChange}
+			                   value={this.props.item.description}/>
+			<NumberFormGroup id={'specialWeaponsShort'}
+			                 label={'Short Range'}
+			                 onChange={this.onShortRangeChange}
+			                 required={true}
+			                 value={this.props.item.shortRange}/>
+			<NumberFormGroup id={'specialWeaponsMedium'}
+			                 label={'Medium Range'}
+			                 onChange={this.onMediumRangeChange}
+			                 required={true}
+			                 value={this.props.item.mediumRange}/>
+			<NumberFormGroup id={'specialWeaponsLong'}
+			                 label={'Long Range'}
+			                 onChange={this.onLongRangeChange}
+			                 required={true}
+			                 value={this.props.item.longRange}/>
+			<TextFormGroup id={'specialWeaponsDamage'}
+			               label={'Damage'}
+			               onChange={this.onDamageChange}
+			               required={true}
+			               value={this.props.item.damage}/>
+			<NumberFormGroup id={'specialWeaponsRateOfFire'}
+			                 label={'Rate of Fire'}
+			                 onChange={this.onRateOfFireChange}
+			                 required={true}
+			                 value={this.props.item.rateOfFire}/>
+			<NumberFormGroup id={'specialWeaponsAp'}
+			                 label={'Armor Piercing'}
+			                 onChange={this.onApChange}
+			                 required={true}
+			                 value={this.props.item.armorPiercing}/>
+			<TextFormGroup id={'specialWeaponsMinimumStrength'}
+			               label={'Minimum Strength'}
+			               onChange={this.onMinimumStrengthChange}
+			               value={this.props.item.minimumStrength}/>
+			<TextFormGroup id={'vehicleMountedAndAtGunsBurstTemplate'} label={'Burst Template'}
+			               onChange={this.onBurstTemplateChange}
+			               value={this.props.item.heBurstTemplate}/>
+			<TextFormGroup id={'specialWeaponsEra'} label={'Era'}
+			               onChange={this.onEraChange}
+			               required={true}
+			               value={this.props.item.era}/>
+			<TextFormGroup id={'specialWeaponsKind'}
+			               label={'Kind'}
+			               onChange={this.onKindChange}
+			               required={true}
+			               value={this.props.item.kind}/>
+			<TextAreaFormGroup id={"specialWeaponsNote"}
+			                   label="Notes"
+			                   onChange={this.onNoteChange}
+			                   value={this.props.item.notes}/>
+		</BaseEditor>;
+	}
 }

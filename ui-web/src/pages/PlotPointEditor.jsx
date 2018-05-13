@@ -266,6 +266,7 @@ class PlotPointEditor extends React.Component {
 							name           : ' ',
 							description    : ' ',
 							cost           : 1,
+							military       : false,
 							weight         : 1,
 							shortRange     : 1,
 							mediumRange    : 2,
