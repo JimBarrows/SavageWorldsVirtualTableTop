@@ -1,14 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import BaseEditor from './BaseEditor';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
 export default class EdgeEditor extends React.Component {
-
-	static propTypes = {
-		id: PropTypes.string.isRequired
-	};
 
 	static defaultProps       = {
 		id: 'EdgeEditor'

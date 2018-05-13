@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import MundaneItemEditor from './MundaneItemEditor';
 import NumberFormGroup from './NumberFormGroup';
@@ -6,12 +5,6 @@ import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
 export default class VehicleMountedAndAtGunsEditor extends MundaneItemEditor {
-
-	static propTypes = {
-		id      : PropTypes.string.isRequired,
-		item    : PropTypes.object.isRequired,
-		onChange: PropTypes.func.isRequired
-	};
 
 	onEraChange             = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index);
 	onKindChange            = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);

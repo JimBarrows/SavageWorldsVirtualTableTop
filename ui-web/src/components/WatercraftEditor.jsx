@@ -1,9 +1,4 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import BaseEditor from './BaseEditor';
-import NumberFormGroup from './NumberFormGroup';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import BaseVehicleEditor from './BaseVehicleEditor';
 
 export default class WatercraftEditor extends BaseVehicleEditor {
 

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import BaseEditor from './BaseEditor';
 import NumberFormGroup from './NumberFormGroup';
@@ -67,9 +66,3 @@ export default class BaseVehicleEditor extends React.Component {
 		);
 	}
 }
-
-BaseVehicleEditor.propTypes = {
-	id: PropTypes.string.isRequired
-};
-
-BaseVehicleEditor.defaultProps = {};

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import MundaneItemEditor from './MundaneItemEditor';
 import NumberFormGroup from './NumberFormGroup';
@@ -6,12 +5,6 @@ import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
 export default class SpecialWeaponsEditor extends MundaneItemEditor {
-
-	static propTypes = {
-		id      : PropTypes.string.isRequired,
-		item    : PropTypes.object.isRequired,
-		onChange: PropTypes.func.isRequired
-	};
 
 	onApChange              = e => this.props.onChange(Object.assign({}, this.props.item, {armorPiercing: parseInt(e.target.value, 10)}), this.props.index);
 	onDamageChange          = e => this.props.onChange(Object.assign({}, this.props.item, {damage: e.target.value}), this.props.index);

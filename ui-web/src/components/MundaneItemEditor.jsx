@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import BaseEditor from './BaseEditor';
 import NumberFormGroup from './NumberFormGroup';
@@ -29,16 +28,10 @@ export default class MundaneItemEditor extends React.Component {
 					                 value={this.props.item.cost}/>
 					<NumberFormGroup id={'mundaneItemWeight'} label='Weight' onChange={this.weightChange} required={true}
 					                 value={this.props.item.weight}/>
-					{this.additionalFields ? this.additionalFields():''}
+					{this.additionalFields ? this.additionalFields() : ''}
 				</BaseEditor>
 		);
 	}
-
-	static propTypes = {
-		id      : PropTypes.string.isRequired,
-		item    : PropTypes.object.isRequired,
-		onChange: PropTypes.func.isRequired
-	};
 
 	static defaultProps = {
 		id: 'MundaneItemEditorComponent'

@@ -1,15 +1,10 @@
-import {SelectFormGroup} from 'bootstrap-react-components';
-import PropTypes from 'prop-types';
 import React from 'react';
+import AttributeFormGroup from './AttributeFormGroup';
 import BaseEditor from './BaseEditor';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
 class SkillEditor extends React.Component {
-
-	static propTypes = {
-		id: PropTypes.string.isRequired
-	};
 
 	static defaultProps = {
 		id: 'SkillEditor'
@@ -32,15 +27,9 @@ class SkillEditor extends React.Component {
 				<BaseEditor id={this.props.id} onDelete={this.onDelete}>
 					<TextFormGroup id='skillName' label='Name' onChange={this.nameChange} required={true}
 					               value={this.props.item.name}/>
-					<SelectFormGroup id={"skillAttribute"} label={'Attribute'} onChange={this.attributeChange}
-					                 options={[{label: 'Agility', value: 'Agility'}, {
-						                 label: 'Smarts',
-						                 value: 'Smarts'
-					                 }, {label: 'Spirit', value: 'Spirit'}, {
-						                 label: 'Strength',
-						                 value: 'Strength'
-					                 }, {label: 'Vigor'}]}
-					                 value={this.props.item.attribute}/>
+					<AttributeFormGroup id={'skillAttribute'}
+					                    onChange={this.attributeChange}
+					                    attribute={this.props.item.attribute}/>
 					<TextAreaFormGroup id={'skillDescription'} label={'Description'} onChange={this.descriptionChange}
 					                   value={this.props.item.description}/>
 				</BaseEditor>
