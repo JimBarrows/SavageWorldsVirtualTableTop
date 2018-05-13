@@ -34,7 +34,7 @@ class PlotPointEditor extends React.Component {
 		aircraft               : [],
 		arcaneBackgrounds      : [],
 		armor                  : [],
-		description            : '',
+		description            : ' ',
 		edges                  : [],
 		groundVehicles         : [],
 		handWeapons            : [],
@@ -44,7 +44,7 @@ class PlotPointEditor extends React.Component {
 		maximumMinorHindrances : 2,
 		maximumSkillPoints     : 15,
 		mundaneItems           : [],
-		name                   : '',
+		name                   : ' ',
 		powers                 : [],
 		races                  : [],
 		rangedWeapons          : [],
@@ -152,28 +152,28 @@ class PlotPointEditor extends React.Component {
 				                 onChange={this.maximumSkillPointsChange} required={true}
 				                 value={this.state.maximumSkillPoints}/>
 				<h1>Character Creation</h1>
-				<EditorList emptyItem={({name: '', description: '', abilities: []})}
+				<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
 				            id={'RaceEditorList'}
 				            list={this.state.races}
 				            onChange={this.racesChange}
 				            title={'Races'}>
 					<RaceEditor/>
 				</EditorList>
-				<EditorList emptyItem={({name: '', description: '', abilities: []})}
+				<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
 				            id={'SkillEditorList'}
 				            list={this.state.skills}
 				            onChange={this.skillsChange}
 				            title={'Skills'}>
 					<SkillEditor/>
 				</EditorList>
-				<EditorList emptyItem={({name: '', description: '', abilities: []})}
+				<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
 				            id={'HindrancesEditorList'}
 				            list={this.state.hindrances}
 				            onChange={this.hindrancesChange}
 				            title={'Hindrances'}>
 					<HindranceEditor/>
 				</EditorList>
-				<EditorList emptyItem={({name: '', description: '', category: ''})}
+				<EditorList emptyItem={({name: ' ', description: ' ', category: ' '})}
 				            id={'EdgeEditorList'}
 				            list={this.state.edges}
 				            onChange={this.edgeListChange}
@@ -181,7 +181,7 @@ class PlotPointEditor extends React.Component {
 					<EdgeEditor/>
 				</EditorList>
 				<h1>Gear</h1>
-				<EditorList emptyItem={({name: '', description: '', cost: 1, weight: 1})}
+				<EditorList emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1})}
 				            id={'MundaneItemEditorList'}
 				            list={this.state.mundaneItems}
 				            onChange={this.mundaneItemsChange}
@@ -189,7 +189,16 @@ class PlotPointEditor extends React.Component {
 					<MundaneItemEditor/>
 				</EditorList>
 				<EditorList
-						emptyItem={({name: '', description: '', cost: 1, weight: 1, damage: '', notes: '', era: '', kind: ''})}
+						emptyItem={({
+							name       : ' ',
+							description: ' ',
+							cost       : 1,
+							weight     : 1,
+							damage     : ' ',
+							notes      : ' ',
+							era        : ' ',
+							kind       : ' '
+						})}
 						id={'HandWeaponsEditorList'}
 						list={this.state.handWeapons}
 						onChange={this.handWeaponsChange}
@@ -197,7 +206,7 @@ class PlotPointEditor extends React.Component {
 					<HandWeaponEditor/>
 				</EditorList>
 				<EditorList
-						emptyItem={({name: '', description: '', cost: 1, weight: 1, armor: '', notes: '', era: '', kind: ''})}
+						emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1, armor: ' ', notes: ' ', era: ' ', kind: ' '})}
 						id={'ArmorEditorList'}
 						list={this.state.armor}
 						onChange={this.armorChange}
@@ -206,20 +215,20 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name           : '',
-							description    : '',
+							name           : ' ',
+							description    : ' ',
 							cost           : 1,
 							weight         : 1,
 							shortRange     : 1,
 							mediumRange    : 2,
 							longRange      : 3,
-							damage         : '',
+							damage         : ' ',
 							rateOfFire     : 1,
 							shots          : 1,
-							minimumStrength: '',
-							notes          : '',
-							era            : '',
-							kind           : ''
+							minimumStrength: ' ',
+							notes          : ' ',
+							era            : ' ',
+							kind           : ' '
 						})}
 						id={'RangedWeaponEditorList'}
 						list={this.state.rangedWeapons}
@@ -229,22 +238,22 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name           : '',
-							description    : '',
+							name           : ' ',
+							description    : ' ',
 							cost           : 1,
 							weight         : 1,
 							shortRange     : 1,
 							mediumRange    : 2,
 							longRange      : 3,
-							apDamage       : '',
+							apDamage       : ' ',
 							apArmorPiercing: 1,
-							heDamage       : '',
-							heBurstTemplate: '',
+							heDamage       : ' ',
+							heBurstTemplate: ' ',
 							heArmorPiercing: 1,
 							rateOfFire     : 1,
-							notes          : '',
-							era            : '',
-							kind           : ''
+							notes          : ' ',
+							era            : ' ',
+							kind           : ' '
 						})}
 						id={'vehicleMountedAndAtGunsEditorList'}
 						list={this.state.vehicleMountedAndAtGuns}
@@ -254,8 +263,8 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name           : '',
-							description    : '',
+							name           : ' ',
+							description    : ' ',
 							cost           : 1,
 							weight         : 1,
 							shortRange     : 1,
@@ -263,11 +272,11 @@ class PlotPointEditor extends React.Component {
 							longRange      : 3,
 							armorPiercing  : 1,
 							rateOfFire     : 1,
-							minimumStrength: '',
-							burstTemplate  : '',
-							notes          : '',
-							era            : '',
-							kind           : ''
+							minimumStrength: ' ',
+							burstTemplate  : ' ',
+							notes          : ' ',
+							era            : ' ',
+							kind           : ' '
 						})}
 						id={'specialWeaponsEditorList'}
 						list={this.state.specialWeapons}
@@ -278,15 +287,15 @@ class PlotPointEditor extends React.Component {
 				<h1>Vehicles</h1>
 				<EditorList
 						emptyItem={({
-							name        : '',
-							description : '',
+							name        : ' ',
+							description : ' ',
 							acceleration: 1,
 							topSpeed    : 1,
 							toughness   : 2,
 							armor       : 1,
 							minimumCost : 1,
 							maximumCost : 2,
-							notes       : ''
+							notes       : ' '
 						})}
 						id={'groundVehiclesEditorList'}
 						list={this.state.groundVehicles}
@@ -296,15 +305,15 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name        : '',
-							description : '',
+							name        : ' ',
+							description : ' ',
 							acceleration: 1,
 							topSpeed    : 1,
 							toughness   : 2,
 							armor       : 1,
 							minimumCost : 1,
 							maximumCost : 2,
-							notes       : ''
+							notes       : ' '
 						})}
 						id={'watercraftEditorList'}
 						list={this.state.watercraft}
@@ -314,15 +323,15 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name        : '',
-							description : '',
+							name        : ' ',
+							description : ' ',
 							acceleration: 1,
 							topSpeed    : 1,
 							toughness   : 2,
 							armor       : 1,
 							minimumCost : 1,
 							maximumCost : 2,
-							notes       : ''
+							notes       : ' '
 						})}
 						id={'aircraftEditorList'}
 						list={this.state.aircraft}
@@ -333,10 +342,10 @@ class PlotPointEditor extends React.Component {
 				<h1>Powers</h1>
 				<EditorList
 						emptyItem={({
-							name          : '',
-							description   : '',
-							skillName     : '',
-							attribute     : '',
+							name          : ' ',
+							description   : ' ',
+							skillName     : ' ',
+							attribute     : ' ',
 							startingPowers: 2
 						})}
 						id={'arcaneBackgroundEditorList'}
@@ -347,8 +356,8 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name       : '',
-							description: '',
+							name       : ' ',
+							description: ' ',
 							effects    : []
 						})}
 						id={'trappingsAndEffectsEditorList'}
@@ -359,12 +368,12 @@ class PlotPointEditor extends React.Component {
 				</EditorList>
 				<EditorList
 						emptyItem={({
-							name       : '',
-							description: '',
-							rank       : '',
+							name       : ' ',
+							description: ' ',
+							rank       : ' ',
 							powerPoints: 1,
-							range      : '',
-							duration   : ''
+							range      : ' ',
+							duration   : ' '
 						})}
 						id={'powersEditorList'}
 						list={this.state.powers}
