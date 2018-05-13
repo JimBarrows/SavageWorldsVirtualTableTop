@@ -11,16 +11,26 @@ export default class EditorList extends React.Component {
 		title    : PropTypes.string.isRequired
 	};
 
-	static defaultProps = {};
+	static defaultProps = {
+		headingLevel: 2
+	};
 
 	add = event => {
 		event.preventDefault();
 		this.props.onChange([Object.assign({}, this.props.emptyItem), ...this.props.list]);
 	};
 
-	change = (item, index) => this.props.onChange(this.props.list.map((r, i) => i === index ? item : r));
-	delete = (index) => this.props.onChange(this.props.list.filter((r, i) => i !== index));
-
+	change       = (item, index) => this.props.onChange(this.props.list.map((r, i) => i === index ? item : r));
+	delete       = (index) => this.props.onChange(this.props.list.filter((r, i) => i !== index));
+	heading      = () => {
+		if (this.props.headingLevel === 1) {
+			return <h1>{this.props.title}</h1>;
+		} else if (this.props.headingLevel === 2) {
+			return <h2>{this.props.title}</h2>;
+		} else if (this.props.headingLevel === 3) {
+			return <h3>{this.props.title}</h3>;
+		}
+	};
 	listElements = () => {
 		if (this.props.list.length === 0) {
 			return <p>Nothing here</p>;
@@ -40,7 +50,7 @@ export default class EditorList extends React.Component {
 	render() {
 		return (
 				<div id={this.props.id}>
-					<h2>{this.props.title}</h2>
+					{this.heading()}
 					<button id={`add${this.props.title}Button`} className="btn btn-default" onClick={this.add}>Add</button>
 					{this.listElements()}
 				</div>

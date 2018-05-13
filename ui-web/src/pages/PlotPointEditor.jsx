@@ -18,6 +18,7 @@ import SkillEditor from '../components/SkillEditor';
 import SpecialWeaponsEditor from '../components/SpecialWeaponsEditor';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
+import TrappingsAndEffectsEditor from '../components/TrappingsAndEffectsEditor';
 import VehicleMountedAndAtGunsEditor from '../components/VehicleMountedAndAtGunsEditor';
 import WatercraftEditor from '../components/WatercraftEditor';
 
@@ -47,6 +48,7 @@ class PlotPointEditor extends React.Component {
 		rangedWeapons          : [],
 		skills                 : [],
 		specialWeapons         : [],
+		trappingsAndEffects    : [],
 		vehicleMountedAndAtGuns: [],
 		watercraft             : []
 	};
@@ -73,30 +75,32 @@ class PlotPointEditor extends React.Component {
 	rangedWeaponsChange           = rangedWeapons => this.setState({rangedWeapons});
 	skillsChange                  = skills => this.setState({skills});
 	specialWeaponsChange          = specialWeapons => this.setState({specialWeapons});
+	trappingsAndEffectsChange     = trappingsAndEffects => this.setState({trappingsAndEffects});
 	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.setState({vehicleMountedAndAtGuns});
 	watercraftChange              = watercraft => this.setState({watercraft});
 
 	save = async e => {
 		e.preventDefault();
 		let toSave = {
-			aircraft              : this.state.aircraft,
-			arcaneBackgrounds     : this.state.arcaneBackgrounds,
-			armor                 : this.state.armor,
-			description           : this.state.description,
-			edges                 : this.state.edges,
-			groundVehicles        : this.state.groundVehicles,
-			handWeapons           : this.state.handWeapons,
-			hindrances            : this.state.hindrances,
-			maximumAttributePoints: this.state.maximumAttributePoints,
-			maximumMajorHindrances: this.state.maximumMajorHindrances,
-			maximumMinorHindrances: this.state.maximumMinorHindrances,
-			maximumSkillPoints    : this.state.maximumSkillPoints,
+			aircraft               : this.state.aircraft,
+			arcaneBackgrounds      : this.state.arcaneBackgrounds,
+			armor                  : this.state.armor,
+			description            : this.state.description,
+			edges                  : this.state.edges,
+			groundVehicles         : this.state.groundVehicles,
+			handWeapons            : this.state.handWeapons,
+			hindrances             : this.state.hindrances,
+			maximumAttributePoints : this.state.maximumAttributePoints,
+			maximumMajorHindrances : this.state.maximumMajorHindrances,
+			maximumMinorHindrances : this.state.maximumMinorHindrances,
+			maximumSkillPoints     : this.state.maximumSkillPoints,
 			mundaneItems           : this.state.mundaneItems,
 			name                   : this.state.name,
 			races                  : this.state.races,
 			rangedWeapons          : this.state.rangedWeapons,
 			skills                 : this.state.skills,
 			specialWeapons         : this.state.specialWeapons,
+			trappingsAndEffects    : this.state.trappingsAndEffects,
 			vehicleMountedAndAtGuns: this.state.vehicleMountedAndAtGuns,
 			watercraft             : this.state.watercraft
 		};
@@ -327,8 +331,8 @@ class PlotPointEditor extends React.Component {
 						emptyItem={({
 							name          : '',
 							description   : '',
-							skillName   : '',
-							attribute : '',
+							skillName     : '',
+							attribute     : '',
 							startingPowers: 2
 						})}
 						id={'arcaneBackgroundEditorList'}
@@ -337,10 +341,21 @@ class PlotPointEditor extends React.Component {
 						title={'Arcane Backgrounds'}>
 					<ArcaneBackgroundEditor/>
 				</EditorList>
-				<h2>Trappings & Effects</h2>
+				<EditorList
+						emptyItem={({
+							name       : '',
+							description: '',
+							effects    : []
+						})}
+						id={'trappingsAndEffectsEditorList'}
+						list={this.state.trappingsAndEffects}
+						onChange={this.trappingsAndEffectsChange}
+						title={'Trappings & Effects'}>
+					<TrappingsAndEffectsEditor/>
+				</EditorList>
 				<h2>Powers</h2>
-				<h2>Beasts</h2>
-				<h2>Characters</h2>
+				<h1>Beasts</h1>
+				<h1>Characters</h1>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
 				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}
