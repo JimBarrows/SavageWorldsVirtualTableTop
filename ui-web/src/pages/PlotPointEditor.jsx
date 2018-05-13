@@ -3,6 +3,7 @@ import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import AircraftEditor from '../components/AircraftEditor';
+import AmmunitionEditor from '../components/AmmunitionEditor';
 import ArcaneBackgroundEditor from '../components/ArcaneBackgroundEditor';
 import ArmorEditor from '../components/ArmorEditor';
 import BaseVehicleEditor from '../components/BaseVehicleEditor';
@@ -32,6 +33,7 @@ class PlotPointEditor extends React.Component {
 
 	state = {
 		aircraft               : [],
+		ammunition             : [],
 		arcaneBackgrounds      : [],
 		armor                  : [],
 		description            : ' ',
@@ -56,6 +58,7 @@ class PlotPointEditor extends React.Component {
 	};
 
 	aircraftChange                = aircraft => this.setState({aircraft});
+	ammunitionChange              = ammunition => this.setState({ammunition});
 	arcaneBackgroundChange        = arcaneBackgrounds => this.setState({arcaneBackgrounds});
 	armorChange                   = armor => this.setState({armor});
 	cancel                        = e => {
@@ -85,17 +88,18 @@ class PlotPointEditor extends React.Component {
 	save = async e => {
 		e.preventDefault();
 		let toSave = {
-			aircraft               : this.state.aircraft,
-			arcaneBackgrounds      : this.state.arcaneBackgrounds,
-			armor                  : this.state.armor,
-			description            : this.state.description,
-			edges                  : this.state.edges,
-			groundVehicles         : this.state.groundVehicles,
-			handWeapons            : this.state.handWeapons,
-			hindrances             : this.state.hindrances,
-			maximumAttributePoints : this.state.maximumAttributePoints,
-			maximumMajorHindrances : this.state.maximumMajorHindrances,
-			maximumMinorHindrances : this.state.maximumMinorHindrances,
+			aircraft              : this.state.aircraft,
+			ammunition            : this.state.ammunition,
+			arcaneBackgrounds     : this.state.arcaneBackgrounds,
+			armor                 : this.state.armor,
+			description           : this.state.description,
+			edges                 : this.state.edges,
+			groundVehicles        : this.state.groundVehicles,
+			handWeapons           : this.state.handWeapons,
+			hindrances            : this.state.hindrances,
+			maximumAttributePoints: this.state.maximumAttributePoints,
+			maximumMajorHindrances: this.state.maximumMajorHindrances,
+			maximumMinorHindrances: this.state.maximumMinorHindrances,
 			maximumSkillPoints     : this.state.maximumSkillPoints,
 			mundaneItems           : this.state.mundaneItems,
 			name                   : this.state.name,
@@ -260,6 +264,21 @@ class PlotPointEditor extends React.Component {
 						onChange={this.vehicleMountedAndAtGunsChange}
 						title={'Vehicle Mounted & AT Guns'}>
 					<VehicleMountedAndAtGunsEditor/>
+				</EditorList>
+				<EditorList
+						emptyItem={({
+							name  : ' ',
+							cost  : '1/2',
+							weight: '1/5',
+							notes : ' ',
+							era   : ' ',
+							kind  : ' '
+						})}
+						id={'ammunitionEditorList'}
+						list={this.state.ammunition}
+						onChange={this.ammunitionChange}
+						title={'Ammunition'}>
+					<AmmunitionEditor/>
 				</EditorList>
 				<EditorList
 						emptyItem={({
