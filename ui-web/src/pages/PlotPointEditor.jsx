@@ -327,8 +327,8 @@ class PlotPointEditor extends React.Component {
 						emptyItem={({
 							name          : '',
 							description   : '',
-							arcaneSkill   : '',
-							arcaneAbility : '',
+							skillName   : '',
+							attribute : '',
 							startingPowers: 2
 						})}
 						id={'arcaneBackgroundEditorList'}
