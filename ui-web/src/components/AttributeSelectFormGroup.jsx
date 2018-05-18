@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import SelectFormGroup from './SelectFormGroup';
 
-export default class AttributeFormGroup extends React.Component {
+export default class AttributeSelectFormGroup extends React.Component {
 
 	static propTypes = {
 		attribute: PropTypes.string,
