@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import SelectFormGroup from './SelectFormGroup';
 
-export default class RankFormGroup extends React.Component {
+export default class RankSelectFormGroup extends React.Component {
 
 	static propTypes = {
 		rank    : PropTypes.string,
