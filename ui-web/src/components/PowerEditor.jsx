@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseEditor from './BaseEditor';
 import NumberFormGroup from './NumberFormGroup';
-import RankFormGroup from './RankFormGroup';
+import RankSelectFormGroup from './RankSelectFormGroup';
 import TextAreaFormGroup from './TextAreaFormGroup';
 import TextFormGroup from './TextFormGroup';
 
@@ -27,7 +27,7 @@ export default class PowerEditor extends React.Component {
 					                   label="Description"
 					                   onChange={this.descriptionChange}
 					                   value={this.props.item.description}/>
-					<RankFormGroup id={'powerRank'} onChange={this.rankChange} rank={this.props.item.rank} required={true}/>
+					<RankSelectFormGroup id={'powerRank'} onChange={this.rankChange} rank={this.props.item.rank} required={true}/>
 					<NumberFormGroup id={'powerPowerPoints'} label={'Power Points'} onChange={this.powerPointChange}
 					                 required={true} value={this.props.item.powerPoints}/>
 					<TextFormGroup id='powerRange' label='Range' onChange={this.rangeChange} required={true}
