@@ -418,14 +418,15 @@ class PlotPointEditor extends React.Component {
 							specialAttributes : [],
 							spirit            : {dice: 'd4', bonus: 0},
 							strength          : {dice: 'd4', bonus: 0},
-							vigor             : {dice: 'd4', bonus: 0}
+							vigor             : {dice: 'd4', bonus: 0},
+							skills            : []
 						})}
 						id={'beastsEditorList'}
 						list={this.state.beasts}
 						onChange={this.beastsChange}
 						headingLevel={1}
 						title={'Beasts'}>
-					<BeastEditor/>
+					<BeastEditor skillsAvailable={this.state.skills}/>
 				</EditorList>
 				<h1>Characters</h1>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save

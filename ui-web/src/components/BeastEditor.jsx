@@ -8,17 +8,15 @@ import TextFormGroup from './TextFormGroup';
 export default class BeastEditor extends React.Component {
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id             : PropTypes.string.isRequired,
+		skillsAvailable: PropTypes.array.isRequired
 	};
 
 	static defaultProps = {
 		id: "BeastEditor"
 	};
 
-	agilityChange     = e => {
-		console.log('e: ', e);
-		return this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index);
-	};
+	agilityChange     = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index);
 	delete            = event => {
 		event.preventDefault();
 		this.props.onDelete(this.props.index);
@@ -31,6 +29,8 @@ export default class BeastEditor extends React.Component {
 	vigorChange       = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e}), this.props.index);
 
 	render() {
+		let chosenSkillNames = this.props.item.skills.map(s => s.skill.name);
+		let unselectedSkills = this.props.skillsAvailable.filter(s => !chosenSkillNames.includes(s));
 		return (
 				<BaseEditor id={this.props.id} onDelete={this.delete}>
 					<TextFormGroup id='beastName' label='Name' onChange={this.nameChange} required={true}
@@ -50,6 +50,9 @@ export default class BeastEditor extends React.Component {
 					                    onChange={this.strengthChange}/>
 					<AttributeFormGroup id={'vigor'} label='Vigor' value={this.props.item.vigor}
 					                    onChange={this.vigorChange}/>
+					<ul>
+						{unselectedSkills.map((s, k) => <li key={k}>{s.name}</li>)}
+					</ul>
 				</BaseEditor>
 		);
 	}
