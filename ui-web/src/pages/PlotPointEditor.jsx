@@ -8,7 +8,7 @@ import ArcaneBackgroundEditor from '../components/ArcaneBackgroundEditor';
 import ArmorEditor from '../components/ArmorEditor';
 import BaseVehicleEditor from '../components/BaseVehicleEditor';
 import BeastEditor from '../components/BeastEditor';
-import EdgeEditor from '../components/EdgeEditor';
+import EdgeEditorList from '../components/EdgeEditorList';
 import EditorList from '../components/EditorList';
 import HandWeaponEditor from '../components/HandWeaponEditor';
 import HindranceEditorList from '../components/HindranceEditorList';
@@ -59,23 +59,23 @@ class PlotPointEditor extends React.Component {
 		watercraft             : []
 	};
 
-	aircraftChange                = aircraft => this.setState({aircraft});
-	ammunitionChange              = ammunition => this.setState({ammunition});
-	arcaneBackgroundChange        = arcaneBackgrounds => this.setState({arcaneBackgrounds});
-	armorChange                   = armor => this.setState({armor});
-	beastsChange                  = beasts => this.setState({beasts});
-	cancel                        = e => {
+	aircraftChange               = aircraft => this.setState({aircraft});
+	ammunitionChange             = ammunition => this.setState({ammunition});
+	arcaneBackgroundChange       = arcaneBackgrounds => this.setState({arcaneBackgrounds});
+	armorChange                  = armor => this.setState({armor});
+	beastsChange                 = beasts => this.setState({beasts});
+	cancel                       = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-	descriptionChange             = e => this.setState({description: e.target.value});
-	edgeListChange                = edges => this.setState({edges});
-	groundVehiclesChange          = groundVehicles => this.setState({groundVehicles});
-	handWeaponsChange             = handWeapons => this.setState({handWeapons});
-	hindrancesChange              = hindrances => this.setState({hindrances});
-	maximumAttributePointsChange  = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
-	maximumMajorHindrancesChange  = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
-	maximumMinorHindrancesChange  = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
+	descriptionChange            = e => this.setState({description: e.target.value});
+	edgesChange                  = edges => this.setState({edges});
+	groundVehiclesChange         = groundVehicles => this.setState({groundVehicles});
+	handWeaponsChange            = handWeapons => this.setState({handWeapons});
+	hindrancesChange             = hindrances => this.setState({hindrances});
+	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
+	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
+	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
 	maximumSkillPointsChange      = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
 	mundaneItemsChange            = mundaneItems => this.setState({mundaneItems});
 	nameChange                    = e => this.setState({name: e.target.value});
@@ -164,13 +164,7 @@ class PlotPointEditor extends React.Component {
 				<SkillEditorList id={'PlotPoint'} skills={this.state.skills} skillsChange={this.skillsChange}/>
 				<HindranceEditorList id={'PlotPoint'} hindrances={this.state.hindrances}
 				                     hindrancesChange={this.hindrancesChange}/>
-				<EditorList emptyItem={({name: ' ', description: ' ', category: ' '})}
-				            id={'EdgeEditorList'}
-				            list={this.state.edges}
-				            onChange={this.edgeListChange}
-				            title={'Edges'}>
-					<EdgeEditor/>
-				</EditorList>
+				<EdgeEditorList id={'PlotPoint'} edges={this.state.edges} edgesChange={this.edgesChange}/>
 				<h1>Gear</h1>
 				<EditorList emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1})}
 				            id={'MundaneItemEditorList'}
