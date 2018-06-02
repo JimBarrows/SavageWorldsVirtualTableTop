@@ -17,7 +17,7 @@ import NumberFormGroup from '../components/NumberFormGroup';
 import PowerEditor from '../components/PowerEditor';
 import RaceEditorList from '../components/RaceEditorList';
 import RangedWeaponEditor from '../components/RangedWeaponEditor';
-import SkillEditor from '../components/SkillEditor';
+import SkillEditorList from '../components/SkillEditorList';
 import SpecialWeaponsEditor from '../components/SpecialWeaponsEditor';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
@@ -161,13 +161,7 @@ class PlotPointEditor extends React.Component {
 				                 value={this.state.maximumSkillPoints}/>
 				<h1>Character Creation</h1>
 				<RaceEditorList id={'PlotPoint'} races={this.state.races} racesChange={this.racesChange}/>
-				<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
-				            id={'SkillEditorList'}
-				            list={this.state.skills}
-				            onChange={this.skillsChange}
-				            title={'Skills'}>
-					<SkillEditor/>
-				</EditorList>
+				<SkillEditorList id={'PlotPoint'} skills={this.state.skills} skillsChange={this.skillsChange}/>
 				<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
 				            id={'HindrancesEditorList'}
 				            list={this.state.hindrances}
