@@ -11,7 +11,7 @@ import BeastEditor from '../components/BeastEditor';
 import EdgeEditor from '../components/EdgeEditor';
 import EditorList from '../components/EditorList';
 import HandWeaponEditor from '../components/HandWeaponEditor';
-import HindranceEditor from '../components/HindranceEditor';
+import HindranceEditorList from '../components/HindranceEditorList';
 import MundaneItemEditor from '../components/MundaneItemEditor';
 import NumberFormGroup from '../components/NumberFormGroup';
 import PowerEditor from '../components/PowerEditor';
@@ -162,13 +162,8 @@ class PlotPointEditor extends React.Component {
 				<h1>Character Creation</h1>
 				<RaceEditorList id={'PlotPoint'} races={this.state.races} racesChange={this.racesChange}/>
 				<SkillEditorList id={'PlotPoint'} skills={this.state.skills} skillsChange={this.skillsChange}/>
-				<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
-				            id={'HindrancesEditorList'}
-				            list={this.state.hindrances}
-				            onChange={this.hindrancesChange}
-				            title={'Hindrances'}>
-					<HindranceEditor/>
-				</EditorList>
+				<HindranceEditorList id={'PlotPoint'} hindrances={this.state.hindrances}
+				                     hindrancesChange={this.hindrancesChange}/>
 				<EditorList emptyItem={({name: ' ', description: ' ', category: ' '})}
 				            id={'EdgeEditorList'}
 				            list={this.state.edges}

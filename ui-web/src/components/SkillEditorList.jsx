@@ -6,8 +6,9 @@ import SkillEditor from './SkillEditor';
 export default class SkillEditorList extends React.Component {
 
 	static propTypes = {
-		id    : PropTypes.string.isRequired,
-		skills: PropTypes.array.isRequired
+		id          : PropTypes.string.isRequired,
+		skills      : PropTypes.array.isRequired,
+		skillsChange: PropTypes.func.isRequired
 	};
 
 	static defaultProps = {};

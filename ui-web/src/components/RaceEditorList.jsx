@@ -6,9 +6,9 @@ import RaceEditor from './RaceEditor';
 export default class RaceEditorList extends React.Component {
 
 	static propTypes = {
-		id   : PropTypes.string.isRequired,
-		races: PropTypes.array.isRequired
-
+		id         : PropTypes.string.isRequired,
+		races      : PropTypes.array.isRequired,
+		racesChange: PropTypes.func.isRequired
 	};
 
 	static defaultProps = {};
