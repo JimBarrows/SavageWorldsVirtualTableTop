@@ -4,7 +4,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import AircraftEditorList from '../components/AircraftEditorList';
 import AmmunitionEditorList from '../components/AmmunitionEditorList';
-import ArcaneBackgroundEditor from '../components/ArcaneBackgroundEditor';
+import ArcaneBackgroundEditorList from '../components/ArcaneBackgroundEditorList';
 import ArmorEditorList from '../components/ArmorEditorList';
 import BeastEditor from '../components/BeastEditor';
 import EdgeEditorList from '../components/EdgeEditorList';
@@ -14,14 +14,14 @@ import HandWeaponsEditorList from '../components/HandWeaponsEditorList';
 import HindranceEditorList from '../components/HindranceEditorList';
 import MundaneItemEditorList from '../components/MundaneItemEditorList';
 import NumberFormGroup from '../components/NumberFormGroup';
-import PowerEditor from '../components/PowerEditor';
+import PowersEditorList from '../components/PowersEditorList';
 import RaceEditorList from '../components/RaceEditorList';
 import RangedWeaponEditorList from '../components/RangedWeaponEditorList';
 import SkillEditorList from '../components/SkillEditorList';
 import SpecialWeaponsEditorList from '../components/SpecialWeaponsEditorList';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
-import TrappingsAndEffectsEditor from '../components/TrappingsAndEffectsEditor';
+import TrappingsAndEffectsEditorList from '../components/TrappingsAndEffectsEditorList';
 import VehicleMountedAndAtGunsEditorList from '../components/VehicleMountedAndAtGunsEditorList';
 import WatercraftEditorList from '../components/WatercraftEditorList';
 
@@ -186,47 +186,11 @@ class PlotPointEditor extends React.Component {
 				                      watercraftChange={this.watercraftChange}/>
 				<AircraftEditorList id={'PlotPoint'} aircraft={this.state.aircraft} aircraftChange={this.aircraftChange}/>
 				<h1>Powers</h1>
-				<EditorList
-						emptyItem={({
-							name          : ' ',
-							description   : ' ',
-							skillName     : ' ',
-							attribute     : ' ',
-							startingPowers: 2
-						})}
-						id={'arcaneBackgroundEditorList'}
-						list={this.state.arcaneBackgrounds}
-						onChange={this.arcaneBackgroundChange}
-						title={'Arcane Backgrounds'}>
-					<ArcaneBackgroundEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name       : ' ',
-							description: ' ',
-							effects    : []
-						})}
-						id={'trappingsAndEffectsEditorList'}
-						list={this.state.trappingsAndEffects}
-						onChange={this.trappingsAndEffectsChange}
-						title={'Trappings & Effects'}>
-					<TrappingsAndEffectsEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name       : ' ',
-							description: ' ',
-							rank       : ' ',
-							powerPoints: 1,
-							range      : ' ',
-							duration   : ' '
-						})}
-						id={'powersEditorList'}
-						list={this.state.powers}
-						onChange={this.powersChange}
-						title={'Powers'}>
-					<PowerEditor/>
-				</EditorList>
+				<ArcaneBackgroundEditorList id={'PlotPoint'} arcaneBackgrounds={this.state.arcaneBackgrounds}
+				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
+				<TrappingsAndEffectsEditorList id={'PlotPoint'} trappingsAndEffects={this.state.trappingsAndEffects}
+				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
+				<PowersEditorList id={'PlotPoint'} powers={this.state.powers} powersChange={this.powersChange}/>
 				<EditorList
 						emptyItem={({
 							agility           : {dice: 'd4', bonus: 0},
