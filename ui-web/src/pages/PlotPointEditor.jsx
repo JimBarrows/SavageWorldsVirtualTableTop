@@ -6,9 +6,8 @@ import AircraftEditorList from '../components/AircraftEditorList';
 import AmmunitionEditorList from '../components/AmmunitionEditorList';
 import ArcaneBackgroundEditorList from '../components/ArcaneBackgroundEditorList';
 import ArmorEditorList from '../components/ArmorEditorList';
-import BeastEditor from '../components/BeastEditor';
+import BeastsEditorList from '../components/BeastsEditorList';
 import EdgeEditorList from '../components/EdgeEditorList';
-import EditorList from '../components/EditorList';
 import GroundVehiclesEditorList from '../components/GroundVehiclesEditorList';
 import HandWeaponsEditorList from '../components/HandWeaponsEditorList';
 import HindranceEditorList from '../components/HindranceEditorList';
@@ -191,29 +190,7 @@ class PlotPointEditor extends React.Component {
 				<TrappingsAndEffectsEditorList id={'PlotPoint'} trappingsAndEffects={this.state.trappingsAndEffects}
 				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
 				<PowersEditorList id={'PlotPoint'} powers={this.state.powers} powersChange={this.powersChange}/>
-				<EditorList
-						emptyItem={({
-							agility           : {dice: 'd4', bonus: 0},
-							animalIntelligence: false,
-							name              : ' ',
-							charisma          : 0,
-							description       : ' ',
-							pace              : 6,
-							skills            : [],
-							smarts            : {dice: 'd4', bonus: 0},
-							specialAttributes : [],
-							spirit            : {dice: 'd4', bonus: 0},
-							strength          : {dice: 'd4', bonus: 0},
-							vigor             : {dice: 'd4', bonus: 0},
-							skills            : []
-						})}
-						id={'beastsEditorList'}
-						list={this.state.beasts}
-						onChange={this.beastsChange}
-						headingLevel={1}
-						title={'Beasts'}>
-					<BeastEditor skillsAvailable={this.state.skills}/>
-				</EditorList>
+				<BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}/>
 				<h1>Characters</h1>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
