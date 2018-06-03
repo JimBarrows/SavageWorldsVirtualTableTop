@@ -10,7 +10,7 @@ import BaseVehicleEditor from '../components/BaseVehicleEditor';
 import BeastEditor from '../components/BeastEditor';
 import EdgeEditorList from '../components/EdgeEditorList';
 import EditorList from '../components/EditorList';
-import HandWeaponEditor from '../components/HandWeaponEditor';
+import HandWeaponsEditorList from '../components/HandWeaponsEditorList';
 import HindranceEditorList from '../components/HindranceEditorList';
 import MundaneItemEditorList from '../components/MundaneItemEditorList';
 import NumberFormGroup from '../components/NumberFormGroup';
@@ -59,30 +59,30 @@ class PlotPointEditor extends React.Component {
 		watercraft             : []
 	};
 
-	aircraftChange               = aircraft => this.setState({aircraft});
-	ammunitionChange             = ammunition => this.setState({ammunition});
-	arcaneBackgroundChange       = arcaneBackgrounds => this.setState({arcaneBackgrounds});
-	armorChange                  = armor => this.setState({armor});
-	beastsChange                 = beasts => this.setState({beasts});
-	cancel                       = e => {
+	aircraftChange                = aircraft => this.setState({aircraft});
+	ammunitionChange              = ammunition => this.setState({ammunition});
+	arcaneBackgroundChange        = arcaneBackgrounds => this.setState({arcaneBackgrounds});
+	armorChange                   = armor => this.setState({armor});
+	beastsChange                  = beasts => this.setState({beasts});
+	cancel                        = e => {
 		e.preventDefault();
 		this.props.cancel();
 	};
-	descriptionChange            = e => this.setState({description: e.target.value});
-	edgesChange                  = edges => this.setState({edges});
-	groundVehiclesChange         = groundVehicles => this.setState({groundVehicles});
-	handWeaponsChange            = handWeapons => this.setState({handWeapons});
-	hindrancesChange             = hindrances => this.setState({hindrances});
-	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
-	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
-	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
-	maximumSkillPointsChange     = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
-	mundaneItemsChange           = mundaneItems => this.setState({mundaneItems});
-	nameChange                   = e => this.setState({name: e.target.value});
-	powersChange                 = powers => this.setState({powers});
-	racesChange                  = races => this.setState({races});
-	rangedWeaponsChange          = rangedWeapons => this.setState({rangedWeapons});
-	skillsChange                 = skills => this.setState({skills});
+	descriptionChange             = e => this.setState({description: e.target.value});
+	edgesChange                   = edges => this.setState({edges});
+	groundVehiclesChange          = groundVehicles => this.setState({groundVehicles});
+	handWeaponsChange             = handWeapons => this.setState({handWeapons});
+	hindrancesChange              = hindrances => this.setState({hindrances});
+	maximumAttributePointsChange  = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
+	maximumMajorHindrancesChange  = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
+	maximumMinorHindrancesChange  = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
+	maximumSkillPointsChange      = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
+	mundaneItemsChange            = mundaneItems => this.setState({mundaneItems});
+	nameChange                    = e => this.setState({name: e.target.value});
+	powersChange                  = powers => this.setState({powers});
+	racesChange                   = races => this.setState({races});
+	rangedWeaponsChange           = rangedWeapons => this.setState({rangedWeapons});
+	skillsChange                  = skills => this.setState({skills});
 	specialWeaponsChange          = specialWeapons => this.setState({specialWeapons});
 	trappingsAndEffectsChange     = trappingsAndEffects => this.setState({trappingsAndEffects});
 	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.setState({vehicleMountedAndAtGuns});
@@ -168,23 +168,8 @@ class PlotPointEditor extends React.Component {
 				<h1>Gear</h1>
 				<MundaneItemEditorList id={'PlotPoint'} mundaneItems={this.state.mundaneItems}
 				                       mundaneItemsChange={this.mundaneItemsChange}/>
-				<EditorList
-						emptyItem={({
-							name       : ' ',
-							description: ' ',
-							cost       : 1,
-							weight     : 1,
-							damage     : ' ',
-							notes      : ' ',
-							era        : ' ',
-							kind       : ' '
-						})}
-						id={'HandWeaponsEditorList'}
-						list={this.state.handWeapons}
-						onChange={this.handWeaponsChange}
-						title={'Hand Weapons'}>
-					<HandWeaponEditor/>
-				</EditorList>
+				<HandWeaponsEditorList id={'PlotPoint'} handWeapons={this.state.handWeapons}
+				                       handWeaponsChange={this.handWeaponsChange}/>
 				<EditorList
 						emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1, armor: ' ', notes: ' ', era: ' ', kind: ' '})}
 						id={'ArmorEditorList'}

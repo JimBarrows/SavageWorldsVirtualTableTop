@@ -15,7 +15,7 @@ export default class MundaneItemEditorList extends React.Component {
 
 	render() {
 		return (
-				<div id={'MundageItemEditorListComponent_' + this.props.id}>
+				<div id={'MundaneItemEditorListComponent_' + this.props.id}>
 					<EditorList emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1})}
 					            id={'MundaneItemEditorList'}
 					            list={this.props.mundaneItems}
