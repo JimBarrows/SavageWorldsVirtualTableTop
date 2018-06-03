@@ -2,14 +2,14 @@ import {API} from 'aws-amplify';
 import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
-import AircraftEditor from '../components/AircraftEditor';
+import AircraftEditorList from '../components/AircraftEditorList';
 import AmmunitionEditorList from '../components/AmmunitionEditorList';
 import ArcaneBackgroundEditor from '../components/ArcaneBackgroundEditor';
 import ArmorEditorList from '../components/ArmorEditorList';
-import BaseVehicleEditor from '../components/BaseVehicleEditor';
 import BeastEditor from '../components/BeastEditor';
 import EdgeEditorList from '../components/EdgeEditorList';
 import EditorList from '../components/EditorList';
+import GroundVehiclesEditorList from '../components/GroundVehiclesEditorList';
 import HandWeaponsEditorList from '../components/HandWeaponsEditorList';
 import HindranceEditorList from '../components/HindranceEditorList';
 import MundaneItemEditorList from '../components/MundaneItemEditorList';
@@ -23,7 +23,7 @@ import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
 import TrappingsAndEffectsEditor from '../components/TrappingsAndEffectsEditor';
 import VehicleMountedAndAtGunsEditorList from '../components/VehicleMountedAndAtGunsEditorList';
-import WatercraftEditor from '../components/WatercraftEditor';
+import WatercraftEditorList from '../components/WatercraftEditorList';
 
 
 class PlotPointEditor extends React.Component {
@@ -180,60 +180,11 @@ class PlotPointEditor extends React.Component {
 				<SpecialWeaponsEditorList id={'PlotPoint'} specialWeapons={this.state.specialWeapons}
 				                          specialWeaponsChange={this.specialWeaponsChange}/>
 				<h1>Vehicles</h1>
-				<EditorList
-						emptyItem={({
-							name        : ' ',
-							description : ' ',
-							acceleration: 1,
-							topSpeed    : 1,
-							toughness   : 2,
-							armor       : 1,
-							minimumCost : 1,
-							maximumCost : 2,
-							notes       : ' '
-						})}
-						id={'groundVehiclesEditorList'}
-						list={this.state.groundVehicles}
-						onChange={this.groundVehiclesChange}
-						title={'Ground Vehicles'}>
-					<BaseVehicleEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name        : ' ',
-							description : ' ',
-							acceleration: 1,
-							topSpeed    : 1,
-							toughness   : 2,
-							armor       : 1,
-							minimumCost : 1,
-							maximumCost : 2,
-							notes       : ' '
-						})}
-						id={'watercraftEditorList'}
-						list={this.state.watercraft}
-						onChange={this.watercraftChange}
-						title={'Watercraft'}>
-					<WatercraftEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name        : ' ',
-							description : ' ',
-							acceleration: 1,
-							topSpeed    : 1,
-							toughness   : 2,
-							armor       : 1,
-							minimumCost : 1,
-							maximumCost : 2,
-							notes       : ' '
-						})}
-						id={'aircraftEditorList'}
-						list={this.state.aircraft}
-						onChange={this.aircraftChange}
-						title={'Aircraft'}>
-					<AircraftEditor/>
-				</EditorList>
+				<GroundVehiclesEditorList id={'PlotPoint'} groundVehicles={this.state.groundVehicles}
+				                          groundVehiclesChange={this.groundVehiclesChange}/>
+				<WatercraftEditorList id={'PlotPoint'} watercraft={this.state.watercraft}
+				                      watercraftChange={this.watercraftChange}/>
+				<AircraftEditorList id={'PlotPoint'} aircraft={this.state.aircraft} aircraftChange={this.aircraftChange}/>
 				<h1>Powers</h1>
 				<EditorList
 						emptyItem={({
