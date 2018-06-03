@@ -3,9 +3,9 @@ import {PageHeader} from 'bootstrap-react-components';
 import React from 'react';
 import {withRouter} from 'react-router';
 import AircraftEditor from '../components/AircraftEditor';
-import AmmunitionEditor from '../components/AmmunitionEditor';
+import AmmunitionEditorList from '../components/AmmunitionEditorList';
 import ArcaneBackgroundEditor from '../components/ArcaneBackgroundEditor';
-import ArmorEditor from '../components/ArmorEditor';
+import ArmorEditorList from '../components/ArmorEditorList';
 import BaseVehicleEditor from '../components/BaseVehicleEditor';
 import BeastEditor from '../components/BeastEditor';
 import EdgeEditorList from '../components/EdgeEditorList';
@@ -16,13 +16,13 @@ import MundaneItemEditorList from '../components/MundaneItemEditorList';
 import NumberFormGroup from '../components/NumberFormGroup';
 import PowerEditor from '../components/PowerEditor';
 import RaceEditorList from '../components/RaceEditorList';
-import RangedWeaponEditor from '../components/RangedWeaponEditor';
+import RangedWeaponEditorList from '../components/RangedWeaponEditorList';
 import SkillEditorList from '../components/SkillEditorList';
-import SpecialWeaponsEditor from '../components/SpecialWeaponsEditor';
+import SpecialWeaponsEditorList from '../components/SpecialWeaponsEditorList';
 import TextAreaFormGroup from '../components/TextAreaFormGroup';
 import TextFormGroup from '../components/TextFormGroup';
 import TrappingsAndEffectsEditor from '../components/TrappingsAndEffectsEditor';
-import VehicleMountedAndAtGunsEditor from '../components/VehicleMountedAndAtGunsEditor';
+import VehicleMountedAndAtGunsEditorList from '../components/VehicleMountedAndAtGunsEditorList';
 import WatercraftEditor from '../components/WatercraftEditor';
 
 
@@ -142,11 +142,11 @@ class PlotPointEditor extends React.Component {
 		return <div id={this.props.id}>
 			<PageHeader id={this.props.id}><h1>Plot Point Editor</h1></PageHeader>
 			<form id='plotPointForm'>
-				<h1>Basic Rules</h1>
 				<TextFormGroup id='plotPointName' label='Name' onChange={this.nameChange} required={true}
 				               value={this.state.name}/>
 				<TextAreaFormGroup id={'plotPointDescription'} label={'Description'} onChange={this.descriptionChange}
 				                   value={this.state.description}/>
+				<h1>Basic Rules</h1>
 				<NumberFormGroup id={'maximumAttributePoints'} label={'Maximum Attribute Points'}
 				                 onChange={this.maximumAttributePointsChange} required={true}
 				                 value={this.state.maximumAttributePoints}/>
@@ -170,101 +170,15 @@ class PlotPointEditor extends React.Component {
 				                       mundaneItemsChange={this.mundaneItemsChange}/>
 				<HandWeaponsEditorList id={'PlotPoint'} handWeapons={this.state.handWeapons}
 				                       handWeaponsChange={this.handWeaponsChange}/>
-				<EditorList
-						emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1, armor: ' ', notes: ' ', era: ' ', kind: ' '})}
-						id={'ArmorEditorList'}
-						list={this.state.armor}
-						onChange={this.armorChange}
-						title={'Armor'}>
-					<ArmorEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name           : ' ',
-							description    : ' ',
-							cost           : 1,
-							weight         : 1,
-							shortRange     : 1,
-							mediumRange    : 2,
-							longRange      : 3,
-							damage         : ' ',
-							rateOfFire     : 1,
-							shots          : 1,
-							minimumStrength: ' ',
-							notes          : ' ',
-							era            : ' ',
-							kind           : ' '
-						})}
-						id={'RangedWeaponEditorList'}
-						list={this.state.rangedWeapons}
-						onChange={this.rangedWeaponsChange}
-						title={'Ranged Weapons'}>
-					<RangedWeaponEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name           : ' ',
-							description    : ' ',
-							cost           : 1,
-							weight         : 1,
-							shortRange     : 1,
-							mediumRange    : 2,
-							longRange      : 3,
-							apDamage       : ' ',
-							apArmorPiercing: 1,
-							heDamage       : ' ',
-							heBurstTemplate: ' ',
-							heArmorPiercing: 1,
-							rateOfFire     : 1,
-							notes          : ' ',
-							era            : ' ',
-							kind           : ' '
-						})}
-						id={'vehicleMountedAndAtGunsEditorList'}
-						list={this.state.vehicleMountedAndAtGuns}
-						onChange={this.vehicleMountedAndAtGunsChange}
-						title={'Vehicle Mounted & AT Guns'}>
-					<VehicleMountedAndAtGunsEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name  : ' ',
-							cost  : '1/2',
-							weight: '1/5',
-							notes : ' ',
-							era   : ' ',
-							kind  : ' '
-						})}
-						id={'ammunitionEditorList'}
-						list={this.state.ammunition}
-						onChange={this.ammunitionChange}
-						title={'Ammunition'}>
-					<AmmunitionEditor/>
-				</EditorList>
-				<EditorList
-						emptyItem={({
-							name           : ' ',
-							description    : ' ',
-							cost           : 1,
-							military       : false,
-							weight         : 1,
-							shortRange     : 1,
-							mediumRange    : 2,
-							longRange      : 3,
-							armorPiercing  : 1,
-							rateOfFire     : 1,
-							minimumStrength: ' ',
-							burstTemplate  : ' ',
-							notes          : ' ',
-							era            : ' ',
-							kind           : ' '
-						})}
-						id={'specialWeaponsEditorList'}
-						list={this.state.specialWeapons}
-						onChange={this.specialWeaponsChange}
-						title={'Special Weapons'}>
-					<SpecialWeaponsEditor/>
-				</EditorList>
+				<ArmorEditorList id={'PlotPoint'} armor={this.state.armor} armorChange={this.armorChange}/>
+				<RangedWeaponEditorList id={'PlotPoint'} rangedWeapons={this.state.rangedWeapons}
+				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
+				<VehicleMountedAndAtGunsEditorList id={'PlotPoint'}
+				                                   vehicleMountedAndAtGuns={this.state.vehicleMountedAndAtGuns}/>
+				<AmmunitionEditorList id={'PlotPoint'} ammunition={this.state.ammunition}
+				                      ammunitionChange={this.ammunitionChange}/>
+				<SpecialWeaponsEditorList id={'PlotPoint'} specialWeapons={this.state.specialWeapons}
+				                          specialWeaponsChange={this.specialWeaponsChange}/>
 				<h1>Vehicles</h1>
 				<EditorList
 						emptyItem={({
