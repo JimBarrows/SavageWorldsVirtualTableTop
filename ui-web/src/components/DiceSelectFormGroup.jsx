@@ -12,7 +12,7 @@ export default class DiceSelectFormGroup extends React.Component {
 	};
 
 	static defaultProps = {
-		label   : 'Dice',
+		label   : ' ',
 		required: false
 	};
 

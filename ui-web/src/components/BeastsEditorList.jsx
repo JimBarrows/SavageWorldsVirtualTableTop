@@ -8,7 +8,8 @@ export default class BeastsEditorList extends React.Component {
 	static propTypes = {
 		id          : PropTypes.string.isRequired,
 		beasts      : PropTypes.array.isRequired,
-		beastsChange: PropTypes.func.isRequired
+		beastsChange: PropTypes.func.isRequired,
+		skills      : PropTypes.array.isRequired
 	};
 
 	static defaultProps = {};
@@ -37,7 +38,7 @@ export default class BeastsEditorList extends React.Component {
 							onChange={this.props.beastsChange}
 							headingLevel={1}
 							title={'Beasts'}>
-						<BeastEditor skillsAvailable={this.state.skills}/>
+						<BeastEditor skillsAvailable={this.props.skills}/>
 					</EditorList>
 				</div>
 		);
