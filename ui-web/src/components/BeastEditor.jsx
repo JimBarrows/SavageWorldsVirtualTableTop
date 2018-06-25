@@ -37,10 +37,13 @@ export default class BeastEditor extends React.Component {
 
 	render() {
 		let chosenSkillNames = this.props.item.skills.map(s => s.name);
-		let unselectedSkills = this.props.skillsAvailable.filter(s => !chosenSkillNames.includes(s)).map((s, i) => ({
+		let unselectedSkills = this.props.skillsAvailable.filter(s => chosenSkillNames.includes(s.name));
+		console.log('filtered: ', unselectedSkills);
+		unselectedSkills = unselectedSkills.map((s, i) => ({
+			label: `${s.name} (${s.attribute})`,
 			value: i,
-			label: `${s.name} (${s.attribute})`
 		}));
+		console.log('into value/label: ', unselectedSkills);
 		return (
 				<BaseEditor id={this.props.id} onDelete={this.delete}>
 					<TextFormGroup id='beastName' label='Name' onChange={this.nameChange} required={true}
