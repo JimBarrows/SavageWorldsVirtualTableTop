@@ -1,42 +1,43 @@
 {
-	"name": "ui-webapp",
-	"version": "0.1.0",
-	"private": true,
-	"author": {
-		"name": "Jim Barrows",
-		"email": "Jim.Barrows@gmail.com"
-	},
-	"proxy": "http://localhost:8080",
-	"dependencies": {
-		"aws-amplify": "^0.4.3",
-		"aws-amplify-react": "^0.1.49",
-		"bootstrap-react-components": "^0.19.1",
-		"history": "^4.7.2",
-		"npm": "^6.1.0",
-		"postcss": "^6.0.19",
-		"prop-types": "^15.6.1",
-		"react": "^16.2.0",
-		"react-dom": "^16.2.0",
-		"react-redux": "^5.0.7",
-		"react-router": "^4.2.0",
-		"react-router-dom": "^4.2.2",
-		"react-router-redux": "^5.0.0-alpha.9",
-		"redux": "^4.0.0",
-		"redux-logger": "^3.0.6",
-		"redux-thunk": "^2.2.0"
-	},
-	"scripts": {
-		"build": "react-scripts build",
-		"eject": "react-scripts eject",
-		"start:docker": "docker-compose up",
-		"start": "react-scripts start",
-		"stop": "docker-compose down",
-		"test": "npm run test:unit && npm run test:ui",
-		"test:unit": "react-scripts test --env=jsdom",
-		"test:ui": "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
-		"test:ui:feature": "cucumber-js --require-module babel-core/register --require-module babel-polyfill --name \"I can add a card when creating a deck\""
-	},
-	"devDependencies": {
-		"react-scripts": "^1.1.4"
-	}
+  "name": "ui-webapp",
+  "version": "0.1.0",
+  "private": true,
+  "author": {
+    "name": "Jim Barrows",
+    "email": "Jim.Barrows@gmail.com"
+  },
+  "proxy": "http://localhost:8080",
+  "dependencies": {
+    "aws-amplify": "^0.4.3",
+    "aws-amplify-react": "^0.1.49",
+    "bootstrap-react-components": "^1.0.0",
+    "graphql": "^0.13.2",
+    "history": "^4.7.2",
+    "npm": "^6.1.0",
+    "postcss": "^6.0.19",
+    "prop-types": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start:docker": "docker-compose up",
+    "start": "react-scripts start",
+    "stop": "docker-compose down",
+    "test": "npm run test:unit && npm run test:ui",
+    "test:unit": "react-scripts test --env=jsdom",
+    "test:ui": "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
+    "test:ui:feature": "cucumber-js --require-module babel-core/register --require-module babel-polyfill --name \"I can add a card when creating a deck\""
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  }
 }
