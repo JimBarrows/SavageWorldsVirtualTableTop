@@ -190,7 +190,8 @@ class PlotPointEditor extends React.Component {
 				<TrappingsAndEffectsEditorList id={'PlotPoint'} trappingsAndEffects={this.state.trappingsAndEffects}
 				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
 				<PowersEditorList id={'PlotPoint'} powers={this.state.powers} powersChange={this.powersChange}/>
-				<BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}/>
+				<BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}
+				                  skills={this.state.skills}/>
 				<h1>Characters</h1>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
