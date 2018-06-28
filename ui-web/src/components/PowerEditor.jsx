@@ -1,9 +1,7 @@
-import React from 'react';
-import BaseEditor from './BaseEditor';
-import NumberFormGroup from './NumberFormGroup';
-import RankSelectFormGroup from './RankSelectFormGroup';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import React from 'react'
+import BaseEditor from './BaseEditor'
+import RankSelectFormGroup from './RankSelectFormGroup'
 
 export default class PowerEditor extends React.Component {
 

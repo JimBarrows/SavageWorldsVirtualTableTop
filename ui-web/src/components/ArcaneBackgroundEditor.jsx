@@ -1,9 +1,7 @@
-import React from 'react';
-import AttributeFormGroup from './AttributeFormGroup';
-import BaseEditor from './BaseEditor';
-import NumberFormGroup from './NumberFormGroup';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import React from 'react'
+import AttributeFormGroup from './AttributeFormGroup'
+import BaseEditor from './BaseEditor'
 
 export default class ArcaneBackgroundEditor extends React.Component {
 

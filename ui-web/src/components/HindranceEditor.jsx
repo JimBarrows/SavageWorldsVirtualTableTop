@@ -1,9 +1,7 @@
-import {SelectFormGroup} from 'bootstrap-react-components';
-import PropTypes from 'prop-types';
-import React from 'react';
-import BaseEditor from './BaseEditor';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import {SelectFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes from 'prop-types'
+import React from 'react'
+import BaseEditor from './BaseEditor'
 
 export default class HindranceEditor extends React.Component {
 

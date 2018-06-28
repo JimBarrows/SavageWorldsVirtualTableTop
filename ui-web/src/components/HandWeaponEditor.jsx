@@ -1,7 +1,6 @@
-import React from 'react';
-import MundaneItemEditor from './MundaneItemEditor';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import React from 'react'
+import MundaneItemEditor from './MundaneItemEditor'
 
 export default class HandWeaponEditor extends MundaneItemEditor {
 

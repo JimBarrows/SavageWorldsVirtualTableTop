@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import DiceSelectFormGroup from './DiceSelectFormGroup';
-import NumberFormGroup from './NumberFormGroup';
-import SelectFormGroup from './SelectFormGroup';
-import TextFormGroup from './TextFormGroup';
+import {NumberFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes from 'prop-types'
+import React from 'react'
+import DiceSelectFormGroup from './DiceSelectFormGroup'
+import SelectFormGroup from './SelectFormGroup'
 
 export default class SelectedSkillEditor extends React.Component {
 

@@ -1,11 +1,10 @@
+import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
 import AttributeFormGroup from './AttributeFormGroup'
 import BaseEditor from './BaseEditor'
 import SelectedSkillList from './SelectedSkillList'
-import SelectFormGroup from './SelectFormGroup'
-import TextAreaFormGroup from './TextAreaFormGroup'
-import TextFormGroup from './TextFormGroup'
+
 
 export default class BeastEditor extends React.Component {
 

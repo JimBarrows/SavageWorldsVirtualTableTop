@@ -1,9 +1,8 @@
-import React from 'react';
-import BaseEditor from './BaseEditor';
-import EditorList from './EditorList';
-import EffectsEditor from './EffectsEditor';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import React from 'react'
+import BaseEditor from './BaseEditor'
+import EditorList from './EditorList'
+import EffectsEditor from './EffectsEditor'
 
 export default class TrappingsAndEffectsEditor extends React.Component {
 

@@ -1,8 +1,7 @@
-import {Alert, FormGroup} from 'bootstrap-react-components';
-import PropTypes from 'prop-types';
-import React from 'react';
-import DiceSelectFormGroup from './DiceSelectFormGroup';
-import NumberFormGroup from './NumberFormGroup';
+import {Alert, FormGroup, NumberFormGroup} from 'bootstrap-react-components'
+import PropTypes from 'prop-types'
+import React from 'react'
+import DiceSelectFormGroup from './DiceSelectFormGroup'
 
 export default class AttributeFormGroup extends React.Component {
 
