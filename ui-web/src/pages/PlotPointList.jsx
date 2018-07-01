@@ -1,8 +1,8 @@
-import {API} from 'aws-amplify';
-import {PageHeader} from 'bootstrap-react-components';
-import React from 'react';
-import {withRouter} from 'react-router';
-import PlotPointList from '../components/PlotPointList';
+import {API} from 'aws-amplify'
+import {PageHeader} from 'bootstrap-react-components'
+import React from 'react'
+import {withRouter} from 'react-router'
+import PlotPointList from '../components/lists/PlotPointList'
 
 class PlotPointListPage extends React.Component {
 
