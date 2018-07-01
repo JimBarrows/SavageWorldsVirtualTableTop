@@ -15,7 +15,6 @@ export default class SelectedSkillList extends React.Component {
 
 	addSkill = (e) => {
 		e.preventDefault();
-		console.log(`addSkill(e)`);
 		this.props.onChange([{  name: ' ', dice: ' ', bonus: 0, note: ' '}, ...this.props.skills])};
 
 	skillChanged = (indexOfChange, changedSkill) => {console.log(`skillChange(${indexOfChange}, ${changedSkill})`);this.props.onChange(this.props.skills.map( (skill, index) => indexOfChange === index ? changedSkill : skill));}

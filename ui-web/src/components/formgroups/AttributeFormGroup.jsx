@@ -1,60 +1,56 @@
-import {Alert, FormGroup, NumberFormGroup} from 'bootstrap-react-components'
+import {FormControl, FormGroup, InputGroup} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import DiceSelectFormGroup from './DiceSelectFormGroup'
+import DiceSelect from '../DiceSelect'
 
 export default class AttributeFormGroup extends React.Component {
 
-	static propTypes = {
-		id: PropTypes.string.isRequired
-	};
+  static propTypes = {
+    disabled         : PropTypes.bool,
+    id               : PropTypes.string.isRequired,
+    label            : PropTypes.string,
+    onChange         : PropTypes.func.isRequired,
+    required         : PropTypes.bool,
+    value            : PropTypes.shape({
+      dice : PropTypes.oneOf(['d4', 'd6', 'd8', 'd10', 'd12']),
+      bonus: PropTypes.number
+    }),
+    valid            : PropTypes.bool,
+    validationMessage: PropTypes.string
+  }
 
-	static defaultProps = {
-		value: {
-			dice : 'd4',
-			bonus: 0
-		}
-	};
+  static defaultProps = {
+    value: {
+      dice : '',
+      bonus: 0
+    }
+  }
 
-	diceChange  = e => {
-		console.log('e.target.value: ', e.target.value);
-		console.log('this.props.value: ', this.props.value);
-		console.log('Object.assign({}, this.props.value, {dice: e.target.value}): ', Object.assign({}, this.props.value, {dice: e.target.value}));
-		return this.props.onChange(Object.assign({}, this.props.value, {dice: e.target.value}));
-	};
-	bonusChange = e => {
-		console.log('bonus: ' + e.target.value);
-		console.log('value: ', this.props.value);
-		return this.props.onChange(Object.assign({}, this.props.value, {bonus: parseInt(e.target.value, 10)}));
-	};
+  diceChange = e => this.props.onChange(Object.assign({}, this.props.value, {dice: e.target.value}))
 
-	render() {
-		let {disabled, error, id, label, options, required, value} = this.props;
-		let validationStatus                                       = '';
-		let requiredText                                           = '';
-		let alert                                                  = '';
-		if (error) {
-			validationStatus = 'has-error';
-			alert            = <Alert id={id} type='danger' message={error}/>;
-		}
-		let childrenWithProps = this.props.children;
-		if (required) {
-			requiredText = (<small className='text-danger'>Required</small>);
-		}
+  bonusChange = e => this.props.onChange(Object.assign({}, this.props.value, {bonus: parseInt(e.target.value, 10)}))
 
-		return <div className="row">
-			<div id={id + 'FormGroup'} className={'form-group ' + validationStatus}>
-				<div className={"col-md-2"}>
-					<label id={id + 'Label'} className='control-label' htmlFor={id}>{label}&nbsp;{requiredText}</label>
-				</div>
-				<div className="col-md-2">
-					<DiceSelectFormGroup id={'dice_' + id} label={'Dice'} onChange={this.diceChange} value={value.dice}/>
-				</div>
-				<div className="col-md-2">
-					<NumberFormGroup id={'bonus_' + id} label={'Bonus'} onChange={this.bonusChange} value={value.bonus}/>
-				</div>
-			</div>
-		</div>;
-	}
+  render() {
+    let {disabled, id, label, onChange, required, value, valid, validationMessage} = this.props
+    let className                                                                  = 'form-control'
+    if (validationMessage) {
+      className += valid ? ' is-valid' : ' is-invalid'
+    }
+    let componentId    = 'AttributeFormGroup-'
+    let bonusComponent = ''
+    if ((value.bonus && value.bonus > 0) || (value.dice === 'd12')) {
+      bonusComponent = <FormControl id={componentId + 'Bonus-' + id} className={className} disabled={disabled} id={id}
+                                    onChange={this.bonusChange} type='number' value={value.bonus}/>
+    }
+    return <FormGroup id={componentId + id} label={label} required={required} valid={valid}
+                      validationMessage={validationMessage}>
+      <InputGroup id={componentId + 'InputGroup-' + id}>
+        <DiceSelect className={className} disabled={disabled} id={id} onChange={this.diceChange}
+                    required={required} value={value.dice}/>
+        {bonusComponent}
+
+      </InputGroup>
+    </FormGroup>
+  }
 }
 

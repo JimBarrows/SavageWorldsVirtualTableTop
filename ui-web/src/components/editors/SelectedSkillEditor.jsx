@@ -21,7 +21,6 @@ export default class SelectedSkillEditor extends React.Component {
 
   render() {
     let id = `selectedSkillEditor_${this.props.id}`;
-    console.log('editor: ', this.props.skill);
     return (<div id={'SelectedSkillEditorComponent_' + this.props.id} className={'row'}>
       <div className={'col-sm-3'}>
         <SelectFormGroup id={id} onChange={this.nameChanged} options={this.props.skillsAvailable} value={this.props.skill.name}/>

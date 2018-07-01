@@ -39,7 +39,7 @@
     "stop": "docker-compose down",
     "test": "npm run test:unit && npm run test:ui",
     "test:unit": "react-scripts test --env=jsdom",
-    "test:ui": "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
+    "test:ui" : "cucumber-js --require-module babel-core/register --require-module babel-polyfill"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
