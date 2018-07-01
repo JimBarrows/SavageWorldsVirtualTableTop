@@ -11,7 +11,6 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import App from './App'
 import aws_exports from './aws-exports.js'
-import './index.css'
 import reducers from './reducers'
 import registerServiceWorker from './registerServiceWorker'
 

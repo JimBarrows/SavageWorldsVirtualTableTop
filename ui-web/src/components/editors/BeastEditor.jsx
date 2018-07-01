@@ -42,7 +42,7 @@ export default class BeastEditor extends React.Component {
     let unselectedSkills = this.props.skillsAvailable//.filter(s => chosenSkillNames.includes(s.name))
     unselectedSkills = unselectedSkills.map((s, i) => ({
       label: `${s.name} (${s.attribute})`,
-      value: i,
+      value: i.toString(),
     }))
     return (
       <BaseEditor id={this.props.id} onDelete={this.delete}>
