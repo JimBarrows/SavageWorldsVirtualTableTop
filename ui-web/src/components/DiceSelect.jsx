@@ -18,9 +18,8 @@ export default class DiceSelect extends React.Component {
   render() {
     let {className, disabled, id, onChange, required, value} = this.props
     return (
-      <select className={className} disabled={disabled} id={'DiceSelect-' + id} onChange={onChange}
+      <select className={'form-control ' + className} disabled={disabled} id={'DiceSelect-' + id} onChange={onChange}
               required={required} value={value}>
-        <option/>
         <option value={'d4'}>d4</option>
         <option value={'d6'}>d6</option>
         <option value={'d8'}>d8</option>

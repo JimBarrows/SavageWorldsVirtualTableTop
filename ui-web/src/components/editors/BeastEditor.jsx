@@ -21,7 +21,10 @@ export default class BeastEditor extends React.Component {
     selected: ''
   }
 
-  agilityChange     = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index)
+  agilityChange     = e => {
+    console.log('agilitiy: ', e)
+    this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index)
+  }
   delete            = event => {
     event.preventDefault()
     this.props.onDelete(this.props.index)
