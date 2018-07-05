@@ -21,10 +21,8 @@ export default class BeastEditor extends React.Component {
     selected: ''
   }
 
-  agilityChange     = e => {
-    console.log('agilitiy: ', e)
-    this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index)
-  }
+  agilityChange = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index)
+
   delete            = event => {
     event.preventDefault()
     this.props.onDelete(this.props.index)
@@ -42,7 +40,7 @@ export default class BeastEditor extends React.Component {
   render() {
     let chosenSkillNames = this.props.item.skills.map(s => s.name)
     let unselectedSkills = this.props.skillsAvailable//.filter(s => chosenSkillNames.includes(s.name))
-    unselectedSkills = unselectedSkills.map((s, i) => ({
+    unselectedSkills     = unselectedSkills.map((s, i) => ({
       label: `${s.name} (${s.attribute})`,
       value: i.toString(),
     }))
