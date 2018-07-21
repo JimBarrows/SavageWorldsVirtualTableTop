@@ -30,8 +30,7 @@ export default class BeastsEditorList extends React.Component {
 								specialAttributes : [],
 								spirit            : {dice: 'd4', bonus: 0},
 								strength          : {dice: 'd4', bonus: 0},
-								vigor             : {dice: 'd4', bonus: 0},
-								skills            : []
+                vigor             : {dice: 'd4', bonus: 0}
 							})}
 							id={'beastsEditorList'}
 							list={this.props.beasts}

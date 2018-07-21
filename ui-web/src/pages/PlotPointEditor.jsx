@@ -7,6 +7,7 @@ import AmmunitionEditorList from '../components/lists/AmmunitionEditorList'
 import ArcaneBackgroundEditorList from '../components/lists/ArcaneBackgroundEditorList'
 import ArmorEditorList from '../components/lists/ArmorEditorList'
 import BeastsEditorList from '../components/lists/BeastsEditorList'
+import CharacterEditorList from '../components/lists/CharacterEditorList'
 import EdgeEditorList from '../components/lists/EdgeEditorList'
 import GroundVehiclesEditorList from '../components/lists/GroundVehiclesEditorList'
 import HandWeaponsEditorList from '../components/lists/HandWeaponsEditorList'
@@ -34,6 +35,7 @@ class PlotPointEditor extends React.Component {
     arcaneBackgrounds      : [],
     armor                  : [],
     beasts                 : [],
+    characters             : [],
     description            : ' ',
     edges                  : [],
     groundVehicles         : [],
@@ -60,6 +62,7 @@ class PlotPointEditor extends React.Component {
   arcaneBackgroundChange        = arcaneBackgrounds => this.setState({arcaneBackgrounds})
   armorChange                   = armor => this.setState({armor})
   beastsChange                  = beasts => this.setState({beasts})
+  charactersChange              = characters => this.setState({characters})
   cancel                        = e => {
     e.preventDefault()
     this.props.cancel()
@@ -87,20 +90,21 @@ class PlotPointEditor extends React.Component {
   save = async e => {
     e.preventDefault()
     let toSave = {
-      aircraft               : this.state.aircraft,
-      ammunition             : this.state.ammunition,
-      arcaneBackgrounds      : this.state.arcaneBackgrounds,
-      armor                  : this.state.armor,
-      beasts                 : this.state.beasts,
-      description            : this.state.description,
-      edges                  : this.state.edges,
-      groundVehicles         : this.state.groundVehicles,
-      handWeapons            : this.state.handWeapons,
-      hindrances             : this.state.hindrances,
-      maximumAttributePoints : this.state.maximumAttributePoints,
-      maximumMajorHindrances : this.state.maximumMajorHindrances,
-      maximumMinorHindrances : this.state.maximumMinorHindrances,
-      maximumSkillPoints     : this.state.maximumSkillPoints,
+      aircraft              : this.state.aircraft,
+      ammunition            : this.state.ammunition,
+      arcaneBackgrounds     : this.state.arcaneBackgrounds,
+      armor                 : this.state.armor,
+      beasts                : this.state.beasts,
+      characters            : this.state.characters,
+      description           : this.state.description,
+      edges                 : this.state.edges,
+      groundVehicles        : this.state.groundVehicles,
+      handWeapons           : this.state.handWeapons,
+      hindrances            : this.state.hindrances,
+      maximumAttributePoints: this.state.maximumAttributePoints,
+      maximumMajorHindrances: this.state.maximumMajorHindrances,
+      maximumMinorHindrances: this.state.maximumMinorHindrances,
+      maximumSkillPoints    : this.state.maximumSkillPoints,
       mundaneItems           : this.state.mundaneItems,
       name                   : this.state.name,
       powers                 : this.state.powers,
@@ -191,6 +195,8 @@ class PlotPointEditor extends React.Component {
         <BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}
                           skills={this.state.skills}/>
         <h1>Characters</h1>
+        <CharacterEditorList id={'PlotPoint'} characters={this.state.characters}
+                             charactersChange={this.charactersChange}/>
         <button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
         </button>
         <button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}

@@ -1,43 +1,55 @@
-import {NumberFormGroup, SelectFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {FormControl} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import DiceSelectFormGroup from '../formgroups/DiceSelectFormGroup'
+import AttributeComponent from '../AttributeComponent'
 
 export default class SelectedSkillEditor extends React.Component {
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
+    disabled         : PropTypes.bool,
+    id               : PropTypes.string.isRequired,
+    onChange         : PropTypes.func.isRequired,
+    required         : PropTypes.bool,
+    valid            : PropTypes.bool,
+    validationMessage: PropTypes.string,
+
     skillsAvailable: PropTypes.array.isRequired,
-    skill: PropTypes.object.isRequired
-  };
+    skill          : PropTypes.shape({
+      name: PropTypes.string,
+      rank: PropTypes.shape({
+        dice : PropTypes.oneOf(['d4', 'd6', 'd8', 'd10', 'd12']).isRequired,
+        bonus: PropTypes.number,
+      }).isRequired,
+      note: PropTypes.string
+    }).isRequired
+  }
 
-  static defaultProps = {};
+  static defaultProps = {}
 
-  bonusChanged = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {bonus: e.target.value}));
-  diceChanged  = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {dice: e.target.value}));
-  noteChanged  = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {note: e.target.value}));
-  nameChanged  = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {name: e.target.value}));
+  delete      = e => this.props.onDelete(this.props.index)
+  diceChanged = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {rank: e}))
+  noteChanged = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {note: e.target.value}))
+  nameChanged = e => this.props.onChange(this.props.index, Object.assign({}, this.props.skill, {name: e.target.value}))
 
   render() {
-    let id = `selectedSkillEditor_${this.props.id}`;
-    console.log('editor: ', this.props.skill);
-    return (<div id={'SelectedSkillEditorComponent_' + this.props.id} className={'row'}>
-      <div className={'col-sm-3'}>
-        <SelectFormGroup id={id} onChange={this.nameChanged} options={this.props.skillsAvailable} value={this.props.skill.name}/>
-      </div>
-      <div className={'col-sm-2'}>
-        <DiceSelectFormGroup id={id} onChange={this.diceChanged} value={this.props.skill.dice}/>
-      </div>
-      <div className={'col-sm-1'}>
-        <NumberFormGroup id={id} onChange={this.bonusChanged} value={this.props.skill.bonus}/>
-      </div>
-      <div className={'col-sm-5'}>
-        <TextFormGroup id={id} onChange={this.noteChanged} value={this.props.skill.note}/>
-      </div>
-      <div className={'col-sm-1'}>
-        <button type={'button'} className={'btn btn-default'} onChange={this.save}>Save</button>
-      </div>
-    </div>);
+    let {disabled, id, required, valid, validationMessage} = this.props
+    let componentId                                        = `SelectedSkillEditor-${id}`
+    let append                                             = <div id={'AppendAddon-' + componentId}
+                                                                  className={'input-group-append'}>
+      <button id={'Delete-' + componentId} type='button' onChange={this.delete}
+              className={'btn btn-outline-secondary'}>Delete
+      </button>
+    </div>
+    let prepend                                            = <div id={'prepend-' + componentId}
+                                                                  className={'input-group-prepend'}><select
+      className={'form-control'} disabled={disabled} id={componentId} onChange={this.nameChanged}
+      required={required} value={this.props.skill.name}>
+      {this.props.skillsAvailable.map((o, index) => <option key={index} value={o.value}>{o.label}</option>)}
+    </select></div>
+    return <AttributeComponent append={append} id={componentId} prepend={prepend} onChange={this.diceChanged}
+                               value={this.props.skill.rank}>
+      <FormControl cssClass='form-control' id={componentId} type={'text'} onChange={this.noteChanged}
+                   placeholder={'Specialization'} type={'text'} value={this.props.skill.notes}/>
+    </AttributeComponent>
   }
 }

@@ -1,35 +1,32 @@
-import {SelectFormGroup} from 'bootstrap-react-components'
+import {FormGroup} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
+import DiceSelect from '../DiceSelect'
 
 export default class DiceSelectFormGroup extends React.Component {
 
-	static propTypes = {
-		dice    : PropTypes.string,
-		id      : PropTypes.string.isRequired,
-		label   : PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired
-	};
+  static propTypes = {
+    disabled         : PropTypes.bool,
+    id               : PropTypes.string.isRequired,
+    label            : PropTypes.string,
+    onChange         : PropTypes.func.isRequired,
+    required         : PropTypes.bool,
+    value            : PropTypes.shape({
+      dice : PropTypes.oneOf(['d4', 'd6', 'd8', 'd10', 'd12']),
+      bonus: PropTypes.number
+    }),
+    valid            : PropTypes.bool,
+    validationMessage: PropTypes.string
+  }
 
-	static defaultProps = {
-		label   : ' ',
-		required: false
-	};
 
-	render() {
-		return (
-				<div id={'DiceFormGroupComponent_' + this.props.id}>
-					<SelectFormGroup id={'DiceFormGroupComponent_' + this.props.id}
-					                 label={this.props.label}
-					                 onChange={this.props.onChange}
-					                 options={[{label: 'd4', value: 'd4'},
-						                 {label: 'd6', value: 'd6'},
-						                 {label: 'd8', value: 'd8'},
-						                 {label: 'd10', value: 'd10'},
-						                 {label: 'd12', value: 'd12'}]}
-					                 required={this.props.required}
-					                 value={this.props.value}/>
-				</div>
-		);
-	}
+  render() {
+    let {disabled, id, label, onChange, required, value, valid, validationMessage} = this.props
+
+    return <FormGroup id={'DiceSelectFormGroup-' + id} label={label} required={required} valid={valid}
+                      validationMessage={validationMessage}>
+      <DiceSelect id={'DiceSelectFormGroup-' + id} onChange={onChange} value={value} required={required}
+                  disabled={disabled}/>
+    </FormGroup>
+  }
 }
