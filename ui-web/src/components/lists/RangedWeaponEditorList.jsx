@@ -29,7 +29,7 @@ export default class RangedWeaponEditorList extends React.Component {
 								rateOfFire     : 1,
 								shots          : 1,
 								minimumStrength: ' ',
-								notes          : ' ',
+								note           : ' ',
 								era            : ' ',
 								kind           : ' '
 							})}

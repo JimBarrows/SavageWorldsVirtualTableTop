@@ -26,7 +26,7 @@ export default class AircraftEditorList extends React.Component {
 								armor       : 1,
 								minimumCost : 1,
 								maximumCost : 2,
-								notes       : ' '
+								note        : ' '
 							})}
 							id={'aircraftEditorList'}
 							list={this.props.aircraft}

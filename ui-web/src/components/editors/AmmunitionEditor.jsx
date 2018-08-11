@@ -7,7 +7,7 @@ export default class AmmunitionEditor extends React.Component {
 	costChange        = e => this.props.onChange(Object.assign({}, this.props.item, {cost: e.target.value}), this.props.index);
 	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
 	nameChange        = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
-	noteChange        = e => this.props.onChange(Object.assign({}, this.props.item, {notes: e.target.value}), this.props.index);
+	noteChange        = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
 	delete            = event => {
 		event.preventDefault();
 		this.props.onDelete(this.props.index);
@@ -23,10 +23,10 @@ export default class AmmunitionEditor extends React.Component {
 			<TextFormGroup id={'ammunitionWeight'} label='Weight' onChange={this.weightChange} required={true}
 			               value={this.props.item.weight}/>
 			<TextAreaFormGroup id={'ammunitionNote'}
-			                   label='Notes'
+			                   label='note'
 			                   onChange={this.noteChange}
 			                   required={true}
-			                   value={this.props.item.notes}/>
+			                   value={this.props.item.note}/>
 		</BaseEditor>;
 	}
 }

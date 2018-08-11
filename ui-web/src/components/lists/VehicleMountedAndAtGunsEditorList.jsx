@@ -31,7 +31,7 @@ export default class VehicleMountedAndAtGunsEditorList extends React.Component {
             heBurstTemplate: ' ',
             heArmorPiercing: 1,
             rateOfFire     : 1,
-            notes          : ' ',
+	          note           : ' ',
             era            : ' ',
             kind           : ' '
           })}

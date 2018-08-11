@@ -13,15 +13,19 @@ export default class WatercraftEditorList extends React.Component {
 
 	static defaultProps = {
 		item: {
-			name        : ' ',
-			description : ' ',
 			acceleration: 1,
-			topSpeed    : 1,
-			toughness   : 2,
-			armor       : 1,
-			minimumCost : 1,
+			armor       : 0,
+			crew        : 1,
+			description : ' ',
+			era         : ' ',
+			kind        : ' ',
 			maximumCost : 2,
-			notes       : ' '
+			minimumCost : 1,
+			name        : ' ',
+			note        : ' ',
+			passengers  : 0,
+			topSpeed    : 1,
+			toughness   : 2
 		}
 	}
 

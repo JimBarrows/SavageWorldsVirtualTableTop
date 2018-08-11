@@ -31,7 +31,7 @@ export default class SpecialWeaponsEditorList extends React.Component {
 								rateOfFire     : 1,
 								minimumStrength: ' ',
 								burstTemplate  : ' ',
-								notes          : ' ',
+								note           : ' ',
 								era            : ' ',
 								kind           : ' '
 							})}

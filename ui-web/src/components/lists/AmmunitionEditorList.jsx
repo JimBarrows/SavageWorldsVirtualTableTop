@@ -21,7 +21,7 @@ export default class AmmunitionEditorList extends React.Component {
 								name  : ' ',
 								cost  : '1/2',
 								weight: '1/5',
-								notes : ' ',
+								note  : ' ',
 								era   : ' ',
 								kind  : ' '
 							})}

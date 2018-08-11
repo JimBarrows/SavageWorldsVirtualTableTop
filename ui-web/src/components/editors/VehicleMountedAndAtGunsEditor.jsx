@@ -14,7 +14,7 @@ export default class VehicleMountedAndAtGunsEditor extends React.Component {
 	longRangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {longRange: parseInt(e.target.value, 10)}), this.props.index);
 	mediumRangeChange     = e => this.props.onChange(Object.assign({}, this.props.item, {mediumRange: parseInt(e.target.value, 10)}), this.props.index);
 	nameChange            = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
-	noteChange            = e => this.props.onChange(Object.assign({}, this.props.item, {notes: e.target.value}), this.props.index);
+	noteChange            = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
 	rateOfFireChange      = e => this.props.onChange(Object.assign({}, this.props.item, {rateOfFire: parseInt(e.target.value, 10)}), this.props.index);
 	shortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index);
 	apDamageChange        = e => this.props.onChange(Object.assign({}, this.props.item, {apDamage: e.target.value}), this.props.index);
@@ -77,9 +77,9 @@ export default class VehicleMountedAndAtGunsEditor extends React.Component {
 			                 required={true}
 			                 value={this.props.item.rateOfFire}/>
 			<TextAreaFormGroup id={"vehicleMountedAndAtGunsNote"}
-			                   label="Notes"
+			                   label="note"
 			                   onChange={this.noteChange}
-			                   value={this.props.item.notes}/>
+			                   value={this.props.item.note}/>
 			<TextFormGroup id={'vehicleMountedAndAtGunsEra'}
 			               label={'Era'}
 			               onChange={this.eraChange}

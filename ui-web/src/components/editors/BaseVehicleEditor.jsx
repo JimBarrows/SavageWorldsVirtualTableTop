@@ -29,18 +29,18 @@ export default class BaseVehicleEditor extends React.Component {
 	crewChange         = e => this.props.onChange(Object.assign({}, this.props.item, {crew: parseInt(e.target.value, 10)}), this.props.index)
 	descriptionChange  = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index)
 	eraChange          = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index)
-	kindChange         = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index)
-	maximumCostChange  = e => this.props.onChange(Object.assign({}, this.props.item, {maximumCost: parseInt(e.target.value, 10)}), this.props.index)
-	minimumCostChange  = e => this.props.onChange(Object.assign({}, this.props.item, {minimumCost: parseInt(e.target.value, 10)}), this.props.index)
-	nameChange         = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index)
-	noteChange         = e => this.props.onChange(Object.assign({}, this.props.item, {notes: e.target.value}), this.props.index)
-	onDelete           = event => {
+	kindChange        = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index)
+	maximumCostChange = e => this.props.onChange(Object.assign({}, this.props.item, {maximumCost: parseInt(e.target.value, 10)}), this.props.index)
+	minimumCostChange = e => this.props.onChange(Object.assign({}, this.props.item, {minimumCost: parseInt(e.target.value, 10)}), this.props.index)
+	nameChange        = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index)
+	noteChange        = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
+	onDelete          = event => {
 		event.preventDefault()
 		this.props.onDelete(this.props.index)
 	}
-	passengersChange   = e => this.props.onChange(Object.assign({}, this.props.item, {passengers: parseInt(e.target.value, 10)}), this.props.index)
-	topSpeedChange     = e => this.props.onChange(Object.assign({}, this.props.item, {topSpeed: parseInt(e.target.value, 10)}), this.props.index)
-	toughnessChange    = e => this.props.onChange(Object.assign({}, this.props.item, {toughness: parseInt(e.target.value, 10)}), this.props.index)
+	passengersChange  = e => this.props.onChange(Object.assign({}, this.props.item, {passengers: parseInt(e.target.value, 10)}), this.props.index)
+	topSpeedChange    = e => this.props.onChange(Object.assign({}, this.props.item, {topSpeed: parseInt(e.target.value, 10)}), this.props.index)
+	toughnessChange   = e => this.props.onChange(Object.assign({}, this.props.item, {toughness: parseInt(e.target.value, 10)}), this.props.index)
 
 	render() {
 		console.log('BaseVehicleEditor: ', this.props.item)
@@ -51,7 +51,7 @@ export default class BaseVehicleEditor extends React.Component {
 			                   label="Description"
 			                   onChange={this.descriptionChange}
 			                   value={this.props.item.description}/>
-			<TextAreaFormGroup id={"baseVehicleNote"} label="Notes" onChange={this.noteChange} value={this.props.item.note}/>
+			<TextAreaFormGroup id={"baseVehicleNote"} label="note" onChange={this.noteChange} value={this.props.item.note}/>
 			<TextFormGroup id={'baseVehicleEra'} label={'Era'} onChange={this.eraChange} required={true}
 			               value={this.props.item.era}/>
 			<TextFormGroup id={'baseVehicleKind'} label={'Kind'} onChange={this.kindChange} required={true}

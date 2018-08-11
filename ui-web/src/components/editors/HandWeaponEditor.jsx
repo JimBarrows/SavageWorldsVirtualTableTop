@@ -7,7 +7,7 @@ export default class HandWeaponEditor extends MundaneItemEditor {
 	onDamageChange = e => this.props.onChange(Object.assign({}, this.props.item, {damage: e.target.value}), this.props.index);
 	onEraChange    = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index);
 	onKindChange   = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);
-	onNoteChange   = e => this.props.onChange(Object.assign({}, this.props.item, {notes: e.target.value}), this.props.index);
+	onNoteChange   = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
 
 
 	additionalFields = () => <div>
@@ -18,9 +18,9 @@ export default class HandWeaponEditor extends MundaneItemEditor {
 		<TextFormGroup id={'handWeaponKind'} label={'Kind'} onChange={this.onKindChange} required={true}
 		               value={this.props.item.kind}/>
 		<TextAreaFormGroup id={"handWeaponNote"}
-		                   label="Notes"
+		                   label="note"
 		                   onChange={this.onNoteChange}
-		                   value={this.props.item.notes}/>
+		                   value={this.props.item.note}/>
 	</div>;
 
 }

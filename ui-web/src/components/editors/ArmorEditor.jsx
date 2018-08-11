@@ -7,7 +7,7 @@ export default class ArmorEditor extends MundaneItemEditor {
 	onArmorChange = e => this.props.onChange(Object.assign({}, this.props.item, {armor: e.target.value}), this.props.index);
 	onEraChange   = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index);
 	onKindChange  = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);
-	onNoteChange  = e => this.props.onChange(Object.assign({}, this.props.item, {notes: e.target.value}), this.props.index);
+	onNoteChange  = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
 
 	additionalFields = () => <div id={'ArmorEditorComponent_' + this.props.id}>
 		<NumberFormGroup id={'armorArmor'} label={'Armor'} onChange={this.onArmorChange} required={true}
@@ -17,9 +17,9 @@ export default class ArmorEditor extends MundaneItemEditor {
 		<TextFormGroup id={'armorKind'} label={'Kind'} onChange={this.onKindChange} required={true}
 		               value={this.props.item.kind}/>
 		<TextAreaFormGroup id={"armorNote"}
-		                   label="Notes"
+		                   label="note"
 		                   onChange={this.onNoteChange}
-		                   value={this.props.item.notes}/>
+		                   value={this.props.item.note}/>
 	</div>;
 
 };

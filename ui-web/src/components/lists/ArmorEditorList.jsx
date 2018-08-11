@@ -23,7 +23,7 @@ export default class ArmorEditorList extends React.Component {
 								cost       : 1,
 								weight     : 1,
 								armor      : ' ',
-								notes      : ' ',
+								note       : ' ',
 								era        : ' ',
 								kind       : ' '
 							})}

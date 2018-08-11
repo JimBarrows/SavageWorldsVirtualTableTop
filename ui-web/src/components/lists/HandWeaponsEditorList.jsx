@@ -23,7 +23,7 @@ export default class HandWeaponsEditorList extends React.Component {
 								cost       : 1,
 								weight     : 1,
 								damage     : ' ',
-								notes      : ' ',
+								note       : ' ',
 								era        : ' ',
 								kind       : ' '
 							})}

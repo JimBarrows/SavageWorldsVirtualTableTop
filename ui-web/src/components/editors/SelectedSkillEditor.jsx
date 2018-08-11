@@ -49,7 +49,7 @@ export default class SelectedSkillEditor extends React.Component {
     return <AttributeComponent append={append} id={componentId} prepend={prepend} onChange={this.diceChanged}
                                value={this.props.skill.rank}>
       <FormControl cssClass='form-control' id={componentId} type={'text'} onChange={this.noteChanged}
-                   placeholder={'Specialization'} type={'text'} value={this.props.skill.notes}/>
+                   placeholder={'Specialization'} type={'text'} value={this.props.skill.note}/>
     </AttributeComponent>
   }
 }
