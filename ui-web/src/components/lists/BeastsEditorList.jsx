@@ -27,7 +27,7 @@ export default class BeastsEditorList extends React.Component {
 								pace              : 6,
 								skills            : [],
 								smarts            : {dice: 'd4', bonus: 0},
-								specialAttributes : [],
+								specialAbilities  : [],
 								spirit            : {dice: 'd4', bonus: 0},
 								strength          : {dice: 'd4', bonus: 0},
                 vigor             : {dice: 'd4', bonus: 0}

@@ -9,33 +9,40 @@ export default class GroundVehiclesEditorList extends React.Component {
 		id                  : PropTypes.string.isRequired,
 		groundVehicles      : PropTypes.array.isRequired,
 		groundVehiclesChange: PropTypes.func.isRequired
-	};
+	}
 
-	static defaultProps = {};
+	static defaultProps = {
+		item: {
+			acceleration: 1,
+			armor       : 0,
+			crew        : 1,
+			description : ' ',
+			era         : ' ',
+			kind        : ' ',
+			maximumCost : 2,
+			minimumCost : 1,
+			name        : ' ',
+			note        : ' ',
+			passengers  : 0,
+			topSpeed    : 1,
+			toughness   : 2
+		}
+	}
 
 	render() {
+		let component_id = `GroundVehiclesEditorListComponent-${this.props.id}`
 		return (
-				<div id={'GroundVehiclesEditorListComponent_' + this.props.id}>
-					<EditorList
-							emptyItem={({
-								name        : ' ',
-								description : ' ',
-								acceleration: 1,
-								topSpeed    : 1,
-								toughness   : 2,
-								armor       : 1,
-								minimumCost : 1,
-								maximumCost : 2,
-								notes       : ' '
-							})}
-							id={'groundVehiclesEditorList'}
-							list={this.props.groundVehicles}
-							onChange={this.props.groundVehiclesChange}
-							title={'Ground Vehicles'}>
-						<BaseVehicleEditor/>
-					</EditorList>
-				</div>
-		);
+			<div id={component_id}>
+				<EditorList
+					emptyItem={this.props.item}
+					id={component_id}
+					list={this.props.groundVehicles}
+					onChange={this.props.groundVehiclesChange}
+					title={'Ground Vehicles'}>
+					<BaseVehicleEditor item={this.props.item} onChange={(e) => console.log(e)}/>
+				</EditorList>
+			</div>
+		)
 	}
 }
 
