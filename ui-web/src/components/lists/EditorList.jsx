@@ -18,11 +18,8 @@ export default class EditorList extends React.Component {
 
 	add = event => {
 		event.preventDefault()
-		console.log('this.props.emptyItem: ', this.props.emptyItem)
 		let new_empty_item = Object.assign({}, this.props.emptyItem)
-		console.log('new_empty_item: ', new_empty_item)
 		let new_list = [new_empty_item, ...this.props.list]
-		console.log('new_list: ', new_list)
 		this.props.onChange(new_list)
 	}
 
@@ -42,7 +39,6 @@ export default class EditorList extends React.Component {
 			return <p>Nothing here</p>
 		} else {
 			return this.props.list.map((item, index) => {
-				console.log('item: ', item)
 				return React.cloneElement(this.props.children, {
 					id      : this.props.id,
 					index,

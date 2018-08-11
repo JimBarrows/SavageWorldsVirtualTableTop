@@ -43,7 +43,6 @@ export default class BaseVehicleEditor extends React.Component {
 	toughnessChange   = e => this.props.onChange(Object.assign({}, this.props.item, {toughness: parseInt(e.target.value, 10)}), this.props.index)
 
 	render() {
-		console.log('BaseVehicleEditor: ', this.props.item)
 		return <BaseEditor id={this.props.id} onDelete={this.onDelete}>
 			<TextFormGroup id='baseVehicleName' label='Name' onChange={this.nameChange} required={true}
 			               value={this.props.item.name}/>
@@ -51,7 +50,7 @@ export default class BaseVehicleEditor extends React.Component {
 			                   label="Description"
 			                   onChange={this.descriptionChange}
 			                   value={this.props.item.description}/>
-			<TextAreaFormGroup id={"baseVehicleNote"} label="note" onChange={this.noteChange} value={this.props.item.note}/>
+			<TextAreaFormGroup id={"baseVehicleNote"} label="Note" onChange={this.noteChange} value={this.props.item.note}/>
 			<TextFormGroup id={'baseVehicleEra'} label={'Era'} onChange={this.eraChange} required={true}
 			               value={this.props.item.era}/>
 			<TextFormGroup id={'baseVehicleKind'} label={'Kind'} onChange={this.kindChange} required={true}
