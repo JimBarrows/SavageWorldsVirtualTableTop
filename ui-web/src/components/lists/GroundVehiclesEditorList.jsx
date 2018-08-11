@@ -39,7 +39,7 @@ export default class GroundVehiclesEditorList extends React.Component {
 					list={this.props.groundVehicles}
 					onChange={this.props.groundVehiclesChange}
 					title={'Ground Vehicles'}>
-					<BaseVehicleEditor item={this.props.item} onChange={(e) => console.log(e)}/>
+					<BaseVehicleEditor item={this.props.item} onChange={e => console.log(e)}/>
 				</EditorList>
 			</div>
 		)
