@@ -19,7 +19,7 @@ export default class SpecialAbilitiesList extends React.Component {
 
 	addSpecialAbility = (e) => {
 		e.preventDefault()
-		this.props.onChange([{name: '', description: ''}, ...this.props.abilities])
+		this.props.onChange([{name: ' ', description: ' '}, ...this.props.abilities])
 	}
 
 	descriptionChange = indexOfChange => e => this.props.onChange(this.props.abilities.map((ability, index) =>

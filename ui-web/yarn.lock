@@ -1429,9 +1429,9 @@ boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
 
-bootstrap-react-components@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/bootstrap-react-components/-/bootstrap-react-components-1.1.0.tgz#6a27a409498ea04417d54fbcf65b36d5c9ee7baf"
+bootstrap-react-components@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-react-components/-/bootstrap-react-components-1.1.1.tgz#6682e64e8608d5fdfe351c5dc9f492cc34e382fe"
   dependencies:
     babel-eslint "^8.2.3"
     babel-plugin-css-modules-transform "^1.4.0"
