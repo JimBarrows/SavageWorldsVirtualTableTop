@@ -9,7 +9,7 @@ export default class SpecialAbilitiesList extends React.Component {
 	}
 
 	static propTypes = {
-		onAdd    : PropTypes.func.isRequired,
+		// onAdd    : PropTypes.func.isRequired,
 		abilities: PropTypes.arrayOf(PropTypes.shape({
 			name       : PropTypes.string.isRequired,
 			description: PropTypes.string.isRequired
@@ -34,12 +34,12 @@ export default class SpecialAbilitiesList extends React.Component {
 		return <div id={component_id}>
 			<h3>Special Abilities</h3>
 			<Button id={component_id} onClick={this.addSpecialAbility}>Add</Button>
-			<ListGroup id={component_id}>
+			<ListGroup id={component_id} context={'light'}>
 				{abilities.map((a, i) => <div key={i}>
 					<TextFormGroup id={component_id + `-Name-${i}`} label={'Name'} onChange={this.nameChange(i)}
 					               required={true} value={a.name}/>
-					<TextAreaFormGroup id={component_id + `-Name-${i}`} label={'Description'}
-					                   onChange={this.descriptionChange(i)}/>
+					<TextAreaFormGroup id={component_id + `-Description-${i}`} label={'Description'}
+					                   onChange={this.descriptionChange(i)} value={a.description}/>
 				</div>)}
 			</ListGroup>
 
