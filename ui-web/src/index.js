@@ -4,6 +4,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import createHistory from 'history/createBrowserHistory'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import 'react-quill/dist/quill.snow.css'
 import {Provider} from 'react-redux'
 import {ConnectedRouter, routerMiddleware} from 'react-router-redux'
 import {applyMiddleware, createStore} from 'redux'
@@ -21,20 +22,20 @@ const loggerMiddleware = createLogger()
 Amplify.configure(aws_exports)
 
 const store = createStore(
-  reducers,
-  applyMiddleware(
-    loggerMiddleware,
-    routerMiddleware(history),
-    thunkMiddleware
-  ))
+	reducers,
+	applyMiddleware(
+		loggerMiddleware,
+		routerMiddleware(history),
+		thunkMiddleware
+	))
 
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App/>
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root'))
+	<Provider store={store}>
+		<ConnectedRouter history={history}>
+			<App/>
+		</ConnectedRouter>
+	</Provider>,
+	document.getElementById('root'))
 
 registerServiceWorker()
