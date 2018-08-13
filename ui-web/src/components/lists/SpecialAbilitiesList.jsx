@@ -1,6 +1,7 @@
-import {Button, ListGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {Button, ListGroup} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
+import SpecialAbilityEditor from '../editors/SpecialAbilityEditor'
 
 export default class SpecialAbilitiesList extends React.Component {
 
@@ -22,6 +23,11 @@ export default class SpecialAbilitiesList extends React.Component {
 		this.props.onChange([{name: ' ', description: ' '}, ...this.props.abilities])
 	}
 
+	deleteSpecialAbility = specialAbility => {
+		let {abilities, onChange} = this.props
+		onChange(abilities.filter(sa => sa.name !== specialAbility.name && sa.description !== specialAbility.description))
+	}
+
 	descriptionChange = indexOfChange => e => this.props.onChange(this.props.abilities.map((ability, index) =>
 		indexOfChange === index ? Object.assign({}, ability, {description: e.target.value}) : ability))
 
@@ -30,17 +36,16 @@ export default class SpecialAbilitiesList extends React.Component {
 
 	render() {
 		let {abilities, id} = this.props
-		let component_id    = `SpecialAbilitiesList=${id}`
+		let component_id    = `SpecialAbilitiesList-${id}`
 		return <div id={component_id}>
 			<h3>Special Abilities</h3>
 			<Button id={component_id} onClick={this.addSpecialAbility}>Add</Button>
 			<ListGroup id={component_id} context={'light'}>
-				{abilities.map((a, i) => <div key={i}>
-					<TextFormGroup id={component_id + `-Name-${i}`} label={'Name'} onChange={this.nameChange(i)}
-					               required={true} value={a.name}/>
-					<TextAreaFormGroup id={component_id + `-Description-${i}`} label={'Description'}
-					                   onChange={this.descriptionChange(i)} value={a.description}/>
-				</div>)}
+				{abilities.map((a, i) => <SpecialAbilityEditor key={i} description={a.description}
+				                                               descriptionChange={this.descriptionChange(i)}
+				                                               id={`${component_id}-${i}`} name={a.name}
+				                                               nameChange={this.nameChange(i)}
+				                                               onDelete={this.deleteSpecialAbility}/>)}
 			</ListGroup>
 
 		</div>

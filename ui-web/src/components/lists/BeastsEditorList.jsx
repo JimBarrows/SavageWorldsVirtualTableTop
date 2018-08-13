@@ -15,10 +15,11 @@ export default class BeastsEditorList extends React.Component {
 	static defaultProps = {};
 
 	render() {
+		let component_id = `BeastsEditorListComponent_${this.props.id}`
 		return (
-				<div id={'BeastsEditorListComponent_' + this.props.id}>
+			<div id={component_id}>
 					<EditorList
-							emptyItem={({
+						emptyItem={({
 								agility           : {dice: 'd4', bonus: 0},
 								animalIntelligence: false,
 								name              : ' ',
@@ -32,12 +33,12 @@ export default class BeastsEditorList extends React.Component {
 								strength          : {dice: 'd4', bonus: 0},
                 vigor             : {dice: 'd4', bonus: 0}
 							})}
-							id={'beastsEditorList'}
-							list={this.props.beasts}
-							onChange={this.props.beastsChange}
-							headingLevel={1}
-							title={'Beasts'}>
-						<BeastEditor skillsAvailable={this.props.skills}/>
+						id={component_id}
+						list={this.props.beasts}
+						onChange={this.props.beastsChange}
+						headingLevel={1}
+						title={'Beasts'}>
+						<BeastEditor id={component_id} skillsAvailable={this.props.skills}/>
 					</EditorList>
 				</div>
 		);

@@ -14,10 +14,6 @@ export default class BeastEditor extends React.Component {
     skillsAvailable: PropTypes.array.isRequired
   }
 
-  static defaultProps = {
-    id: "BeastEditor"
-  }
-
   state = {
     selected: ''
   }
@@ -48,28 +44,29 @@ export default class BeastEditor extends React.Component {
       label: `${s.name} (${s.attribute})`,
       value: i.toString(),
     }))
+	  let component_id     = `BeastEditor-${this.props.id}`
     return (
       <BaseEditor id={this.props.id} onDelete={this.delete}>
-        <TextFormGroup id='beastName' label='Name' onChange={this.nameChange} required={true}
-                       value={this.props.item.name}/>
-        <TextAreaFormGroup id={'beastDescription'}
-                           label='Description'
-                           onChange={this.descriptionChange}
-                           required={false}
-                           value={this.props.item.description}/>
-        <AttributeFormGroup id={'agility'} label='Agility' value={this.props.item.agility}
-                            onChange={this.agilityChange}/>
-        <AttributeFormGroup id={'smarts'} label='Smarts' value={this.props.item.smarts}
-                            onChange={this.smartsChange}/>
-        <AttributeFormGroup id={'spirit'} label='Spirit' value={this.props.item.spirit}
-                            onChange={this.spiritChange}/>
-        <AttributeFormGroup id={'strength'} label='Strength' value={this.props.item.strength}
-                            onChange={this.strengthChange}/>
-        <AttributeFormGroup id={'vigor'} label='Vigor' value={this.props.item.vigor}
-                            onChange={this.vigorChange}/>
-        <SelectedSkillList id={'beastSkills'} skillsAvailable={unselectedSkills}
-                           skills={this.props.item.skills} onChange={this.skillListChanged}/>
-	      <SpecialAbilitiesList abilities={this.props.item.abilities} id={'beastSpecialAbilities'}
+	      <TextFormGroup id={component_id + '-Name'} label='Name' onChange={this.nameChange} required={true}
+	                     value={this.props.item.name}/>
+	      <TextAreaFormGroup id={component_id + '-Description'}
+	                         label='Description'
+	                         onChange={this.descriptionChange}
+	                         required={false}
+	                         value={this.props.item.description}/>
+	      <AttributeFormGroup id={component_id + '-Agility'} label='Agility' value={this.props.item.agility}
+	                          onChange={this.agilityChange}/>
+	      <AttributeFormGroup id={component_id + '-Smarts'} label='Smarts' value={this.props.item.smarts}
+	                          onChange={this.smartsChange}/>
+	      <AttributeFormGroup id={component_id + '-Spirit'} label='Spirit' value={this.props.item.spirit}
+	                          onChange={this.spiritChange}/>
+	      <AttributeFormGroup id={component_id + '-Strength'} label='Strength' value={this.props.item.strength}
+	                          onChange={this.strengthChange}/>
+	      <AttributeFormGroup id={component_id + '-Vigor'} label='Vigor' value={this.props.item.vigor}
+	                          onChange={this.vigorChange}/>
+	      <SelectedSkillList id={component_id + '-Skills'} skillsAvailable={unselectedSkills}
+	                         skills={this.props.item.skills} onChange={this.skillListChanged}/>
+	      <SpecialAbilitiesList abilities={this.props.item.abilities} id={component_id + '-SpecialAbilities'}
 	                            onChange={this.abilitiesChange}/>
       </BaseEditor>
     )
