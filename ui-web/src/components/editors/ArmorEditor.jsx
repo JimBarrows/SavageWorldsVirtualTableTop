@@ -4,7 +4,7 @@ import MundaneItemEditor from './MundaneItemEditor'
 
 export default class ArmorEditor extends MundaneItemEditor {
 
-	onArmorChange = e => this.props.onChange(Object.assign({}, this.props.item, {armor: e.target.value}), this.props.index);
+	onArmorChange = e => this.props.onChange(Object.assign({}, this.props.item, {armor: parseInt(e.target.value, 10)}), this.props.index)
 	onEraChange   = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index);
 	onKindChange  = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);
 	onNoteChange  = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)

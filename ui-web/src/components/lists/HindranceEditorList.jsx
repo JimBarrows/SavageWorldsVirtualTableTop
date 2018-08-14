@@ -16,7 +16,7 @@ export default class HindranceEditorList extends React.Component {
 	render() {
 		return (
 				<div id={'HindranceEditorListComponent_' + this.props.id}>
-					<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
+					<EditorList emptyItem={({name: ' ', description: ' ', severity: 'Minor'})}
 					            id={'HindrancesEditorList'}
 					            list={this.props.hindrances}
 					            onChange={this.props.hindrancesChange}
