@@ -19,18 +19,20 @@ export default class EdgeEditor extends React.Component {
 	requirementsChange = e => this.props.onChange(Object.assign({}, this.props.item, {requirements: e.target.value}), this.props.index)
 
 	render() {
+		let {id, item}  = this.props
+		let componentId = `EdgeEditor-${id}`
 		return (
-			<BaseEditor id={this.props.id} onDelete={this.onDelete}>
-				<TextFormGroup id='edgeName' label='Name' onChange={this.nameChange} required={true}
-				               value={this.props.item.name}/>
-				<TextFormGroup id='edgeCategory' label='Category' onChange={this.categoryChange} required={true}
-				               value={this.props.item.category}/>
-				<TextFormGroup id='edgeRequirements' label='Requirements' onChange={this.requirementsChange} required={true}
-				               value={this.props.item.requirements}/>
-				<TextAreaFormGroup id={'edgeDescription'} label={'Description'} onChange={this.descriptionChange}
-				                   value={this.props.item.description}/>
-				<TextFormGroup id='edgeEffects' label='Effects' onChange={this.effectsChange} required={true}
-				               value={this.props.item.effects}/>
+			<BaseEditor id={componentId} onDelete={this.onDelete}>
+				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
+				               value={item.name}/>
+				<TextFormGroup id={`${componentId}-Category`} label='Category' onChange={this.categoryChange} required={true}
+				               value={item.category}/>
+				<TextFormGroup id={`${componentId}-Requirements`} label='Requirements' onChange={this.requirementsChange}
+				               required={true} value={item.requirements}/>
+				<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
+				                   value={item.description}/>
+				<TextFormGroup id={`${componentId}-Effects`} label='Effects' onChange={this.effectsChange} required={true}
+				               value={item.effects}/>
 			</BaseEditor>
 		)
 	}

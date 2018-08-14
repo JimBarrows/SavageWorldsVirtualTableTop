@@ -9,22 +9,22 @@ export default class EdgeEditorList extends React.Component {
 		id         : PropTypes.string.isRequired,
 		edges      : PropTypes.array.isRequired,
 		edgesChange: PropTypes.func.isRequired
-	};
+	}
 
-	static defaultProps = {};
+	static defaultProps = {}
 
 	render() {
 		return (
-				<div id={'EdgeEditorListComponent_' + this.props.id}>
-					<EditorList emptyItem={({name: ' ', description: ' ', category: ' '})}
-					            id={'EdgeEditorList'}
-					            list={this.props.edges}
-					            onChange={this.props.edgesChange}
-					            title={'Edges'}>
-						<EdgeEditor/>
-					</EditorList>
-				</div>
-		);
+			<div id={'EdgeEditorListComponent_' + this.props.id}>
+				<EditorList emptyItem={({name: ' ', description: ' ', category: ' ', requirements: ' ', effects: ' '})}
+				            id={'EdgeEditorList'}
+				            list={this.props.edges}
+				            onChange={this.props.edgesChange}
+				            title={'Edges'}>
+					<EdgeEditor/>
+				</EditorList>
+			</div>
+		)
 	}
 }
 
