@@ -21,14 +21,10 @@ export default class AttributeFormGroup extends React.Component {
 
 
   render() {
-    let {disabled, id, label, onChange, required, value, valid, validationMessage} = this.props
-    let className                                                                  = 'form-control'
-    if (validationMessage) {
-      className += valid ? ' is-valid' : ' is-invalid'
-    }
-    let componentId    = 'AttributeFormGroup-'
+	  let {id, label, onChange, required, value, valid, validationMessage} = this.props
+	  let componentId                                                      = `AttributeFormGroup-${id}`
 
-    return <FormGroup id={componentId + id} label={label} required={required} valid={valid}
+	  return <FormGroup id={componentId} label={label} required={required} valid={valid}
                       validationMessage={validationMessage}>
       <AttributeComponent id={componentId + id} onChange={onChange} value={value}/>
     </FormGroup>
