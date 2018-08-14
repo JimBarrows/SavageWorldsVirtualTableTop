@@ -18,7 +18,7 @@ export default class HandWeaponEditor extends MundaneItemEditor {
 		<TextFormGroup id={'handWeaponKind'} label={'Kind'} onChange={this.onKindChange} required={true}
 		               value={this.props.item.kind}/>
 		<TextAreaFormGroup id={"handWeaponNote"}
-		                   label="note"
+		                   label="Note"
 		                   onChange={this.onNoteChange}
 		                   value={this.props.item.note}/>
 	</div>;
