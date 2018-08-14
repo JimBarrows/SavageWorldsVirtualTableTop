@@ -17,7 +17,7 @@ export default class AttributeSelectFormGroup extends React.Component {
 
 	render() {
 		return (
-				<div id={'AttributeFormGroupComponent_' + this.props.id}>
+			<div id={'AttributeSelectFormGroup-' + this.props.id}>
 					<SelectFormGroup id={this.props.id}
 					                 label={this.props.label}
 					                 onChange={this.props.onChange}

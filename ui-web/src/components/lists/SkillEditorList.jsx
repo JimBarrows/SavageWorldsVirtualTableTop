@@ -14,10 +14,11 @@ export default class SkillEditorList extends React.Component {
 	static defaultProps = {};
 
 	render() {
+		let componentId = `SkillEditorList-${this.props.id}`
 		return (
-				<div id={'SkillEditorListComponent_' + this.props.id}>
-					<EditorList emptyItem={({name: ' ', description: ' ', abilities: []})}
-					            id={'SkillEditorList'}
+			<div id={componentId}>
+				<EditorList emptyItem={({name: ' ', description: ' ', attribute: 'Agility'})}
+				            id={componentId}
 					            list={this.props.skills}
 					            onChange={this.props.skillsChange}
 					            title={'Skills'}>
