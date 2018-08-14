@@ -1,5 +1,5 @@
 import {API} from 'aws-amplify'
-import {NumberFormGroup, PageHeader, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {Button, NumberFormGroup, PageHeader, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import React from 'react'
 import {withRouter} from 'react-router'
 import AircraftEditorList from '../components/lists/AircraftEditorList'
@@ -16,6 +16,7 @@ import MundaneItemEditorList from '../components/lists/MundaneItemEditorList'
 import PowersEditorList from '../components/lists/PowersEditorList'
 import RaceEditorList from '../components/lists/RaceEditorList'
 import RangedWeaponEditorList from '../components/lists/RangedWeaponEditorList'
+import SettingRulesList from '../components/lists/SettingRules'
 import SkillEditorList from '../components/lists/SkillEditorList'
 import SpecialWeaponsEditorList from '../components/lists/SpecialWeaponsEditorList'
 import TrappingsAndEffectsEditorList from '../components/lists/TrappingsAndEffectsEditorList'
@@ -50,6 +51,7 @@ class PlotPointEditor extends React.Component {
 		powers                 : [],
 		races                  : [],
 		rangedWeapons          : [],
+		settingRules           : [],
 		skills                 : [],
 		specialWeapons         : [],
 		trappingsAndEffects    : [],
@@ -81,6 +83,7 @@ class PlotPointEditor extends React.Component {
 	powersChange                  = powers => this.setState({powers})
 	racesChange                   = races => this.setState({races})
 	rangedWeaponsChange           = rangedWeapons => this.setState({rangedWeapons})
+	settingRulesChange            = settingRules => this.setState({settingRules: settingRules})
 	skillsChange                  = skills => this.setState({skills})
 	specialWeaponsChange          = specialWeapons => this.setState({specialWeapons})
 	trappingsAndEffectsChange     = trappingsAndEffects => this.setState({trappingsAndEffects})
@@ -110,6 +113,7 @@ class PlotPointEditor extends React.Component {
 			powers                 : this.state.powers,
 			races                  : this.state.races,
 			rangedWeapons          : this.state.rangedWeapons,
+			settingRules           : this.state.settingRules,
 			skills                 : this.state.skills,
 			specialWeapons         : this.state.specialWeapons,
 			trappingsAndEffects    : this.state.trappingsAndEffects,
@@ -139,70 +143,69 @@ class PlotPointEditor extends React.Component {
 	};
 
 	render() {
-		let componentId = 'PlotPointEditor-${this.props.id}'
+		let componentId = `PlotPointEditor-${this.props.id}`
 		return <div id={componentId}>
-			<PageHeader id={this.props.id}><h1>Plot Point Editor</h1></PageHeader>
-			<form id='plotPointForm'>
-				<TextFormGroup id={componentId + '-Name'} label='Name' onChange={this.nameChange} required={true}
+			<PageHeader id={componentId}><h1>Plot Point Editor</h1></PageHeader>
+			<form id={`Form-${componentId}`}>
+				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
 				               value={this.state.name}/>
-				<TextAreaFormGroup id={componentId + 'Description'} label={'Description'} onChange={this.descriptionChange}
+				<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
 				                   value={this.state.description}/>
 				<h1>Basic Rules</h1>
-				<NumberFormGroup id={'maximumAttributePoints'} label={'Maximum Attribute Points'}
+				<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
 				                 onChange={this.maximumAttributePointsChange} required={true}
 				                 value={this.state.maximumAttributePoints}/>
-				<NumberFormGroup id={'maximumMajorHindrances'} label={'Maximum Number of Major Hindrances'}
+				<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
 				                 onChange={this.maximumMajorHindrancesChange} required={true}
 				                 value={this.state.maximumMajorHindrances}/>
-				<NumberFormGroup id={'maximumMinorHindrances'} label={'Maximum Number of Minor Hindrances'}
+				<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
 				                 onChange={this.maximumMinorHindrancesChange} required={true}
 				                 value={this.state.maximumMinorHindrances}/>
-				<NumberFormGroup id={'maximumSkillPoints'} label={'Maximum Skill Points'}
+				<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
 				                 onChange={this.maximumSkillPointsChange} required={true}
 				                 value={this.state.maximumSkillPoints}/>
+				<h1>Setting Rules</h1>
+				<SettingRulesList id={`${componentId}`} onChange={this.settingRulesChange} rules={this.state.settingRules}/>
 				<h1>Character Creation</h1>
-				<RaceEditorList id={'PlotPoint'} races={this.state.races} racesChange={this.racesChange}/>
-				<SkillEditorList id={'PlotPoint'} skills={this.state.skills} skillsChange={this.skillsChange}/>
-				<HindranceEditorList id={'PlotPoint'} hindrances={this.state.hindrances}
+				<RaceEditorList id={componentId} races={this.state.races} racesChange={this.racesChange}/>
+				<SkillEditorList id={componentId} skills={this.state.skills} skillsChange={this.skillsChange}/>
+				<HindranceEditorList id={componentId} hindrances={this.state.hindrances}
 				                     hindrancesChange={this.hindrancesChange}/>
-				<EdgeEditorList id={'PlotPoint'} edges={this.state.edges} edgesChange={this.edgesChange}/>
+				<EdgeEditorList id={componentId} edges={this.state.edges} edgesChange={this.edgesChange}/>
 				<h1>Gear</h1>
-				<MundaneItemEditorList id={'PlotPoint'} mundaneItems={this.state.mundaneItems}
+				<MundaneItemEditorList id={componentId} mundaneItems={this.state.mundaneItems}
 				                       mundaneItemsChange={this.mundaneItemsChange}/>
-				<HandWeaponsEditorList id={'PlotPoint'} handWeapons={this.state.handWeapons}
+				<HandWeaponsEditorList id={componentId} handWeapons={this.state.handWeapons}
 				                       handWeaponsChange={this.handWeaponsChange}/>
-				<ArmorEditorList id={'PlotPoint'} armor={this.state.armor} armorChange={this.armorChange}/>
-				<RangedWeaponEditorList id={'PlotPoint'} rangedWeapons={this.state.rangedWeapons}
+				<ArmorEditorList id={componentId} armor={this.state.armor} armorChange={this.armorChange}/>
+				<RangedWeaponEditorList id={componentId} rangedWeapons={this.state.rangedWeapons}
 				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
-				<VehicleMountedAndAtGunsEditorList id={'PlotPoint'}
+				<VehicleMountedAndAtGunsEditorList id={componentId}
 				                                   vehicleMountedAndAtGuns={this.state.vehicleMountedAndAtGuns}
 				                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
-				<AmmunitionEditorList id={'PlotPoint'} ammunition={this.state.ammunition}
+				<AmmunitionEditorList id={componentId} ammunition={this.state.ammunition}
 				                      ammunitionChange={this.ammunitionChange}/>
-				<SpecialWeaponsEditorList id={'PlotPoint'} specialWeapons={this.state.specialWeapons}
+				<SpecialWeaponsEditorList id={componentId} specialWeapons={this.state.specialWeapons}
 				                          specialWeaponsChange={this.specialWeaponsChange}/>
 				<h1>Vehicles</h1>
-				<GroundVehiclesEditorList id={'PlotPoint'} groundVehicles={this.state.groundVehicles}
+				<GroundVehiclesEditorList id={componentId} groundVehicles={this.state.groundVehicles}
 				                          groundVehiclesChange={this.groundVehiclesChange}/>
-				<WatercraftEditorList id={'PlotPoint'} watercraft={this.state.watercraft}
+				<WatercraftEditorList id={componentId} watercraft={this.state.watercraft}
 				                      watercraftChange={this.watercraftChange}/>
-				<AircraftEditorList id={'PlotPoint'} aircraft={this.state.aircraft} aircraftChange={this.aircraftChange}/>
+				<AircraftEditorList id={componentId} aircraft={this.state.aircraft} aircraftChange={this.aircraftChange}/>
 				<h1>Powers</h1>
-				<ArcaneBackgroundEditorList id={'PlotPoint'} arcaneBackgrounds={this.state.arcaneBackgrounds}
+				<ArcaneBackgroundEditorList id={componentId} arcaneBackgrounds={this.state.arcaneBackgrounds}
 				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
-				<TrappingsAndEffectsEditorList id={'PlotPoint'} trappingsAndEffects={this.state.trappingsAndEffects}
+				<TrappingsAndEffectsEditorList id={componentId} trappingsAndEffects={this.state.trappingsAndEffects}
 				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
-				<PowersEditorList id={'PlotPoint'} powers={this.state.powers} powersChange={this.powersChange}/>
-				<BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}
+				<PowersEditorList id={componentId} powers={this.state.powers} powersChange={this.powersChange}/>
+				<BeastsEditorList id={componentId} beasts={this.state.beasts} beastsChange={this.beastsChange}
 				                  skills={this.state.skills}/>
 				<h1>Characters</h1>
-				<CharacterEditorList id={'PlotPoint'} characters={this.state.characters}
+				<CharacterEditorList id={componentId} characters={this.state.characters}
 				                     charactersChange={this.charactersChange}/>
-				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
-				</button>
-				<button id={'cancelPlotPointButton'} type={'cancel'} className={'btn btn-default'}
-				        onClick={this.cancel}>Cancel
-				</button>
+				<Button id={componentId} onClick={this.save}>Save</Button>
+				<Button id={componentId} onClick={this.cancel}>Cancel</Button>
 			</form>
 		</div>
 	}
