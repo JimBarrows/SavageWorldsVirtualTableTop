@@ -9,12 +9,13 @@ export default class AircraftEditorList extends React.Component {
 		id            : PropTypes.string.isRequired,
 		aircraft      : PropTypes.array.isRequired,
 		aircraftChange: PropTypes.func.isRequired
-	};
+	}
 
 	static defaultProps = {
 		item: {
 			acceleration: 1,
 			armor       : 0,
+			climb       : 0,
 			crew        : 1,
 			description : ' ',
 			era         : ' ',
@@ -33,16 +34,16 @@ export default class AircraftEditorList extends React.Component {
 		let component_id = `AircraftEditorList-${this.props.id}`
 		return (
 			<div id={component_id}>
-					<EditorList
-						emptyItem={this.props.item}
-						id={component_id}
-						list={this.props.aircraft}
-						onChange={this.props.aircraftChange}
-						title={'Aircraft'}>
-						<AircraftEditor item={this.props.item} onChange={e => console.log(e)}/>
-					</EditorList>
-				</div>
-		);
+				<EditorList
+					emptyItem={this.props.item}
+					id={component_id}
+					list={this.props.aircraft}
+					onChange={this.props.aircraftChange}
+					title={'Aircraft'}>
+					<AircraftEditor item={this.props.item} onChange={e => console.log(e)}/>
+				</EditorList>
+			</div>
+		)
 	}
 }
 
