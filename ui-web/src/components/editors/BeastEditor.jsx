@@ -1,7 +1,7 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import AttributeFormGroup from '../formgroups/AttributeFormGroup'
+import DiceSelectFormGroup from '../formgroups/DiceSelectFormGroup'
 import SelectedSkillList from '../lists/SelectedSkillList'
 import SpecialAbilitiesList from '../lists/SpecialAbilitiesList'
 import BaseEditor from './BaseEditor'
@@ -54,16 +54,16 @@ export default class BeastEditor extends React.Component {
 	                         onChange={this.descriptionChange}
 	                         required={false}
 	                         value={this.props.item.description}/>
-	      <AttributeFormGroup id={component_id + '-Agility'} label='Agility' value={this.props.item.agility}
-	                          onChange={this.agilityChange}/>
-	      <AttributeFormGroup id={component_id + '-Smarts'} label='Smarts' value={this.props.item.smarts}
-	                          onChange={this.smartsChange}/>
-	      <AttributeFormGroup id={component_id + '-Spirit'} label='Spirit' value={this.props.item.spirit}
-	                          onChange={this.spiritChange}/>
-	      <AttributeFormGroup id={component_id + '-Strength'} label='Strength' value={this.props.item.strength}
-	                          onChange={this.strengthChange}/>
-	      <AttributeFormGroup id={component_id + '-Vigor'} label='Vigor' value={this.props.item.vigor}
-	                          onChange={this.vigorChange}/>
+	      <DiceSelectFormGroup id={component_id + '-Agility'} label='Agility' value={this.props.item.agility}
+	                           onChange={this.agilityChange}/>
+	      <DiceSelectFormGroup id={component_id + '-Smarts'} label='Smarts' value={this.props.item.smarts}
+	                           onChange={this.smartsChange}/>
+	      <DiceSelectFormGroup id={component_id + '-Spirit'} label='Spirit' value={this.props.item.spirit}
+	                           onChange={this.spiritChange}/>
+	      <DiceSelectFormGroup id={component_id + '-Strength'} label='Strength' value={this.props.item.strength}
+	                           onChange={this.strengthChange}/>
+	      <DiceSelectFormGroup id={component_id + '-Vigor'} label='Vigor' value={this.props.item.vigor}
+	                           onChange={this.vigorChange}/>
 	      <SelectedSkillList id={component_id + '-Skills'} skillsAvailable={unselectedSkills}
 	                         skills={this.props.item.skills} onChange={this.skillListChanged}/>
 	      <SpecialAbilitiesList abilities={this.props.item.abilities} id={component_id + '-SpecialAbilities'}
