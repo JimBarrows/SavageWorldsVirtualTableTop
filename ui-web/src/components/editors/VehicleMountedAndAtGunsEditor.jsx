@@ -77,7 +77,7 @@ export default class VehicleMountedAndAtGunsEditor extends React.Component {
 			                 required={true}
 			                 value={this.props.item.rateOfFire}/>
 			<TextAreaFormGroup id={"vehicleMountedAndAtGunsNote"}
-			                   label="note"
+			                   label="Note"
 			                   onChange={this.noteChange}
 			                   value={this.props.item.note}/>
 			<TextFormGroup id={'vehicleMountedAndAtGunsEra'}

@@ -23,7 +23,7 @@ export default class AmmunitionEditor extends React.Component {
 			<TextFormGroup id={'ammunitionWeight'} label='Weight' onChange={this.weightChange} required={true}
 			               value={this.props.item.weight}/>
 			<TextAreaFormGroup id={'ammunitionNote'}
-			                   label='note'
+			                   label='Note'
 			                   onChange={this.noteChange}
 			                   required={true}
 			                   value={this.props.item.note}/>

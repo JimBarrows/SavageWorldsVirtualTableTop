@@ -78,7 +78,7 @@ export default class SpecialWeaponsEditor extends React.Component {
 			               required={true}
 			               value={this.props.item.kind}/>
 			<TextAreaFormGroup id={"specialWeaponsNote"}
-			                   label="note"
+			                   label="Note"
 			                   onChange={this.onNoteChange}
 			                   value={this.props.item.note}/>
 		</BaseEditor>;
