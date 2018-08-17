@@ -18,7 +18,7 @@ export default class BeastEditor extends React.Component {
     selected: ''
   }
 
-	agilityChange     = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index)
+	agilityChange     = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e.target.value}), this.props.index)
 	abilitiesChange   = (abilities) => {
 		this.props.onChange(Object.assign({}, this.props.item, {
 			abilities
@@ -33,10 +33,10 @@ export default class BeastEditor extends React.Component {
 	skillListChanged  = skills => {
     this.props.onChange(Object.assign({}, this.props.item, {skills: skills}), this.props.index)
   }
-	smartsChange      = e => this.props.onChange(Object.assign({}, this.props.item, {smarts: e}), this.props.index)
-  spiritChange      = e => this.props.onChange(Object.assign({}, this.props.item, {spirit: e}), this.props.index)
-  strengthChange    = e => this.props.onChange(Object.assign({}, this.props.item, {strength: e}), this.props.index)
-  vigorChange       = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e}), this.props.index)
+	smartsChange      = e => this.props.onChange(Object.assign({}, this.props.item, {smarts: e.target.value}), this.props.index)
+	spiritChange      = e => this.props.onChange(Object.assign({}, this.props.item, {spirit: e.target.value}), this.props.index)
+	strengthChange    = e => this.props.onChange(Object.assign({}, this.props.item, {strength: e.target.value}), this.props.index)
+	vigorChange       = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e.target.value}), this.props.index)
 
   render() {
     let unselectedSkills = this.props.skillsAvailable//.filter(s => chosenSkillNames.includes(s.name))
@@ -44,7 +44,7 @@ export default class BeastEditor extends React.Component {
       label: `${s.name} (${s.attribute})`,
       value: i.toString(),
     }))
-	  let component_id     = `BeastEditor-${this.props.id}`
+	  let component_id     = `BeastEditor-${this.props.index}-${this.props.id}`
     return (
       <BaseEditor id={this.props.id} onDelete={this.delete}>
 	      <TextFormGroup id={component_id + '-Name'} label='Name' onChange={this.nameChange} required={true}
