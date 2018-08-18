@@ -135,7 +135,7 @@ class PlotPointEditor extends React.Component {
 
 	async componentDidMount() {
 		if (this.props.match.params.name) {
-			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`)
+			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`, {})
 			this.setState({
 				...plotPoint
 			})
