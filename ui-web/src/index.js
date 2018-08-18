@@ -1,7 +1,4 @@
 import Amplify from 'aws-amplify'
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'font-awesome/css/font-awesome.min.css'
-// import 'react-quill/dist/quill.snow.css'
 import createHistory from 'history/createBrowserHistory'
 import React from 'react'
 import ReactDOM from 'react-dom'

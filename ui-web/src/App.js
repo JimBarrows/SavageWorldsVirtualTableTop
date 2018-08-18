@@ -10,10 +10,10 @@ import PlotPointList from './pages/PlotPointList'
 class App extends Component {
   render() {
     return (
-      <div>
+	    <div>
         <Header/>
         <MessageDisplay id={'application'}/>
-        <div id={"layout"} className="container" role={"main"}>
+		    <div id={"layout"} className="container-fluid" role={"main"}>
           <Switch>
             <Route exact path="/" component={PlotPointList}/>
             <Route exact path='/plotPointEditor' component={PlotPointEditor}/>

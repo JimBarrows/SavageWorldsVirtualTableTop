@@ -22,6 +22,7 @@ import SpecialWeaponsEditorList from '../components/lists/SpecialWeaponsEditorLi
 import TrappingsAndEffectsEditorList from '../components/lists/TrappingsAndEffectsEditorList'
 import VehicleMountedAndAtGunsEditorList from '../components/lists/VehicleMountedAndAtGunsEditorList'
 import WatercraftEditorList from '../components/lists/WatercraftEditorList'
+import './PlotPointEditor.css'
 
 
 class PlotPointEditor extends React.Component {
@@ -144,69 +145,148 @@ class PlotPointEditor extends React.Component {
 
 	render() {
 		let componentId = `PlotPointEditor-${this.props.id}`
-		return <div id={componentId}>
+		return <div id={componentId} className='container-fluid'>
 			<PageHeader id={componentId}><h1>Plot Point Editor</h1></PageHeader>
-			<form id={`Form-${componentId}`}>
-				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
-				               value={this.state.name}/>
-				<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
-				                   value={this.state.description}/>
-				<h1>Basic Rules</h1>
-				<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
-				                 onChange={this.maximumAttributePointsChange} required={true}
-				                 value={this.state.maximumAttributePoints}/>
-				<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
-				                 onChange={this.maximumMajorHindrancesChange} required={true}
-				                 value={this.state.maximumMajorHindrances}/>
-				<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
-				                 onChange={this.maximumMinorHindrancesChange} required={true}
-				                 value={this.state.maximumMinorHindrances}/>
-				<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
-				                 onChange={this.maximumSkillPointsChange} required={true}
-				                 value={this.state.maximumSkillPoints}/>
-				<h1>Setting Rules</h1>
-				<SettingRulesList id={`${componentId}`} onChange={this.settingRulesChange} rules={this.state.settingRules}/>
-				<h1>Character Creation</h1>
-				<RaceEditorList id={componentId} races={this.state.races} racesChange={this.racesChange}/>
-				<SkillEditorList id={componentId} skills={this.state.skills} skillsChange={this.skillsChange}/>
-				<HindranceEditorList id={componentId} hindrances={this.state.hindrances}
-				                     hindrancesChange={this.hindrancesChange}/>
-				<EdgeEditorList id={componentId} edges={this.state.edges} edgesChange={this.edgesChange}/>
-				<h1>Gear</h1>
-				<MundaneItemEditorList id={componentId} mundaneItems={this.state.mundaneItems}
-				                       mundaneItemsChange={this.mundaneItemsChange}/>
-				<HandWeaponsEditorList id={componentId} handWeapons={this.state.handWeapons}
-				                       handWeaponsChange={this.handWeaponsChange}/>
-				<ArmorEditorList id={componentId} armor={this.state.armor} armorChange={this.armorChange}/>
-				<RangedWeaponEditorList id={componentId} rangedWeapons={this.state.rangedWeapons}
-				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
-				<VehicleMountedAndAtGunsEditorList id={componentId}
-				                                   vehicleMountedAndAtGuns={this.state.vehicleMountedAndAtGuns}
-				                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
-				<AmmunitionEditorList id={componentId} ammunition={this.state.ammunition}
-				                      ammunitionChange={this.ammunitionChange}/>
-				<SpecialWeaponsEditorList id={componentId} specialWeapons={this.state.specialWeapons}
-				                          specialWeaponsChange={this.specialWeaponsChange}/>
-				<h1>Vehicles</h1>
-				<GroundVehiclesEditorList id={componentId} groundVehicles={this.state.groundVehicles}
-				                          groundVehiclesChange={this.groundVehiclesChange}/>
-				<WatercraftEditorList id={componentId} watercraft={this.state.watercraft}
-				                      watercraftChange={this.watercraftChange}/>
-				<AircraftEditorList id={componentId} aircraft={this.state.aircraft} aircraftChange={this.aircraftChange}/>
-				<h1>Powers</h1>
-				<ArcaneBackgroundEditorList id={componentId} arcaneBackgrounds={this.state.arcaneBackgrounds}
-				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
-				<TrappingsAndEffectsEditorList id={componentId} trappingsAndEffects={this.state.trappingsAndEffects}
-				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
-				<PowersEditorList id={componentId} powers={this.state.powers} powersChange={this.powersChange}/>
-				<BeastsEditorList id={componentId} beasts={this.state.beasts} beastsChange={this.beastsChange}
-				                  skills={this.state.skills}/>
-				<h1>Characters</h1>
-				<CharacterEditorList id={componentId} characters={this.state.characters}
-				                     charactersChange={this.charactersChange}/>
-				<Button id={componentId} onClick={this.save}>Save</Button>
-				<Button id={componentId} onClick={this.cancel}>Cancel</Button>
-			</form>
+			<div class="row">
+				<nav className="col-md-2 d-none d-md-block bg-light sidebar">
+					<div className="sidebar-sticky">
+						<ul className="nav flex-column">
+							<li className="nav-item">
+								<a className="nav-link active" href="#">
+									<span data-feather="home"></span>
+									Dashboard <span className="sr-only">(current)</span>
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="file"></span>
+									Orders
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="shopping-cart"></span>
+									Products
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="users"></span>
+									Customers
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="bar-chart-2"></span>
+									Reports
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="layers"></span>
+									Integrations
+								</a>
+							</li>
+						</ul>
+
+						<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+							<span>Saved reports</span>
+							<a className="d-flex align-items-center text-muted" href="#">
+								<span data-feather="plus-circle"></span>
+							</a>
+						</h6>
+						<ul className="nav flex-column mb-2">
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="file-text"></span>
+									Current month
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="file-text"></span>
+									Last quarter
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="file-text"></span>
+									Social engagement
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="#">
+									<span data-feather="file-text"></span>
+									Year-end sale
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<div class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<form id={`Form-${componentId}`}>
+						<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
+						               value={this.state.name}/>
+						<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
+						                   value={this.state.description}/>
+						<h1>Basic Rules</h1>
+						<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
+						                 onChange={this.maximumAttributePointsChange} required={true}
+						                 value={this.state.maximumAttributePoints}/>
+						<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
+						                 onChange={this.maximumMajorHindrancesChange} required={true}
+						                 value={this.state.maximumMajorHindrances}/>
+						<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
+						                 onChange={this.maximumMinorHindrancesChange} required={true}
+						                 value={this.state.maximumMinorHindrances}/>
+						<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
+						                 onChange={this.maximumSkillPointsChange} required={true}
+						                 value={this.state.maximumSkillPoints}/>
+						<h1>Setting Rules</h1>
+						<SettingRulesList id={`${componentId}`} onChange={this.settingRulesChange} rules={this.state.settingRules}/>
+						<h1>Character Creation</h1>
+						<RaceEditorList id={componentId} races={this.state.races} racesChange={this.racesChange}/>
+						<SkillEditorList id={componentId} skills={this.state.skills} skillsChange={this.skillsChange}/>
+						<HindranceEditorList id={componentId} hindrances={this.state.hindrances}
+						                     hindrancesChange={this.hindrancesChange}/>
+						<EdgeEditorList id={componentId} edges={this.state.edges} edgesChange={this.edgesChange}/>
+						<h1>Gear</h1>
+						<MundaneItemEditorList id={componentId} mundaneItems={this.state.mundaneItems}
+						                       mundaneItemsChange={this.mundaneItemsChange}/>
+						<HandWeaponsEditorList id={componentId} handWeapons={this.state.handWeapons}
+						                       handWeaponsChange={this.handWeaponsChange}/>
+						<ArmorEditorList id={componentId} armor={this.state.armor} armorChange={this.armorChange}/>
+						<RangedWeaponEditorList id={componentId} rangedWeapons={this.state.rangedWeapons}
+						                        rangedWeaponsChange={this.rangedWeaponsChange}/>
+						<VehicleMountedAndAtGunsEditorList id={componentId}
+						                                   vehicleMountedAndAtGuns={this.state.vehicleMountedAndAtGuns}
+						                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
+						<AmmunitionEditorList id={componentId} ammunition={this.state.ammunition}
+						                      ammunitionChange={this.ammunitionChange}/>
+						<SpecialWeaponsEditorList id={componentId} specialWeapons={this.state.specialWeapons}
+						                          specialWeaponsChange={this.specialWeaponsChange}/>
+						<h1>Vehicles</h1>
+						<GroundVehiclesEditorList id={componentId} groundVehicles={this.state.groundVehicles}
+						                          groundVehiclesChange={this.groundVehiclesChange}/>
+						<WatercraftEditorList id={componentId} watercraft={this.state.watercraft}
+						                      watercraftChange={this.watercraftChange}/>
+						<AircraftEditorList id={componentId} aircraft={this.state.aircraft} aircraftChange={this.aircraftChange}/>
+						<h1>Powers</h1>
+						<ArcaneBackgroundEditorList id={componentId} arcaneBackgrounds={this.state.arcaneBackgrounds}
+						                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
+						<TrappingsAndEffectsEditorList id={componentId} trappingsAndEffects={this.state.trappingsAndEffects}
+						                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
+						<PowersEditorList id={componentId} powers={this.state.powers} powersChange={this.powersChange}/>
+						<BeastsEditorList id={componentId} beasts={this.state.beasts} beastsChange={this.beastsChange}
+						                  skills={this.state.skills}/>
+						<h1>Characters</h1>
+						<CharacterEditorList id={componentId} characters={this.state.characters}
+						                     charactersChange={this.charactersChange}/>
+						<Button id={componentId} onClick={this.save}>Save</Button>
+						<Button id={componentId} onClick={this.cancel}>Cancel</Button>
+					</form>
+				</div>
+			</div>
 		</div>
 	}
 }
