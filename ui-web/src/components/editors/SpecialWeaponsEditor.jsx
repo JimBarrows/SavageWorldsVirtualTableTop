@@ -67,7 +67,7 @@ export default class SpecialWeaponsEditor extends React.Component {
 			               value={this.props.item.minimumStrength}/>
 			<TextFormGroup id={'vehicleMountedAndAtGunsBurstTemplate'} label={'Burst Template'}
 			               onChange={this.onBurstTemplateChange}
-			               value={this.props.item.heBurstTemplate}/>
+			               value={this.props.item.burstTemplate}/>
 			<TextFormGroup id={'specialWeaponsEra'} label={'Era'}
 			               onChange={this.onEraChange}
 			               required={true}
