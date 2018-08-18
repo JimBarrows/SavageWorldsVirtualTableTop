@@ -11,7 +11,7 @@ export default class MundaneItemEditor extends React.Component {
 		event.preventDefault();
 		this.props.onDelete(this.props.index);
 	};
-	weightChange      = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
+	weightChange      = e => this.props.onChange(Object.assign({}, this.props.item, {weight: parseInt(e.target.value, 10)}), this.props.index)
 
 	render() {
 		return (
