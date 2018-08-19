@@ -73,71 +73,69 @@ export default class Form extends React.Component {
 	render() {
 		let {id, plotPoint} = this.props
 		let componentId     = `Form-${id}`
-		return (
-			<div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<form id={`${componentId}`}>
-					<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
-					               value={plotPoint.name}/>
-					<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
-					                   value={plotPoint.description}/>
-					<h1>Basic Rules</h1>
-					<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
-					                 onChange={this.maximumAttributePointsChange} required={true}
-					                 value={plotPoint.maximumAttributePoints}/>
-					<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
-					                 onChange={this.maximumMajorHindrancesChange} required={true}
-					                 value={plotPoint.maximumMajorHindrances}/>
-					<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
-					                 onChange={this.maximumMinorHindrancesChange} required={true}
-					                 value={plotPoint.maximumMinorHindrances}/>
-					<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
-					                 onChange={this.maximumSkillPointsChange} required={true}
-					                 value={plotPoint.maximumSkillPoints}/>
-					<h1>Setting Rules</h1>
-					<SettingRulesList id={`${componentId}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
-					<h1>Character Creation</h1>
-					<RaceEditorList id={componentId} races={plotPoint.races} racesChange={this.racesChange}/>
-					<SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
-					<HindranceEditorList id={componentId} hindrances={plotPoint.hindrances}
-					                     hindrancesChange={this.hindrancesChange}/>
-					<EdgeEditorList id={componentId} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
-					<h1>Gear</h1>
-					<MundaneItemEditorList id={componentId} mundaneItems={plotPoint.mundaneItems}
-					                       mundaneItemsChange={this.mundaneItemsChange}/>
-					<HandWeaponsEditorList id={componentId} handWeapons={plotPoint.handWeapons}
-					                       handWeaponsChange={this.handWeaponsChange}/>
-					<ArmorEditorList id={componentId} armor={plotPoint.armor} armorChange={this.armorChange}/>
-					<RangedWeaponEditorList id={componentId} rangedWeapons={plotPoint.rangedWeapons}
-					                        rangedWeaponsChange={this.rangedWeaponsChange}/>
-					<VehicleMountedAndAtGunsEditorList id={componentId}
-					                                   vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
-					                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
-					<AmmunitionEditorList id={componentId} ammunition={plotPoint.ammunition}
-					                      ammunitionChange={this.ammunitionChange}/>
-					<SpecialWeaponsEditorList id={componentId} specialWeapons={plotPoint.specialWeapons}
-					                          specialWeaponsChange={this.specialWeaponsChange}/>
-					<h1>Vehicles</h1>
-					<GroundVehiclesEditorList id={componentId} groundVehicles={plotPoint.groundVehicles}
-					                          groundVehiclesChange={this.groundVehiclesChange}/>
-					<WatercraftEditorList id={componentId} watercraft={plotPoint.watercraft}
-					                      watercraftChange={this.watercraftChange}/>
-					<AircraftEditorList id={componentId} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
-					<h1>Powers</h1>
-					<ArcaneBackgroundEditorList id={componentId} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
-					                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
-					<TrappingsAndEffectsEditorList id={componentId} trappingsAndEffects={plotPoint.trappingsAndEffects}
-					                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
-					<PowersEditorList id={componentId} powers={plotPoint.powers} powersChange={this.powersChange}/>
-					<BeastsEditorList id={componentId} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
-					                  skills={plotPoint.skills}/>
-					<h1>Characters</h1>
-					<CharacterEditorList id={componentId} characters={plotPoint.characters}
-					                     charactersChange={this.charactersChange}/>
-					<Button id={componentId} onClick={this.save}>Save</Button>
-					<Button id={componentId} onClick={this.cancel}>Cancel</Button>
-				</form>
-			</div>
-		)
+		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+			<form id={`${componentId}`}>
+				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
+				               value={plotPoint.name}/>
+				<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
+				                   value={plotPoint.description}/>
+				<h1>Basic Rules</h1>
+				<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
+				                 onChange={this.maximumAttributePointsChange} required={true}
+				                 value={plotPoint.maximumAttributePoints}/>
+				<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
+				                 onChange={this.maximumMajorHindrancesChange} required={true}
+				                 value={plotPoint.maximumMajorHindrances}/>
+				<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
+				                 onChange={this.maximumMinorHindrancesChange} required={true}
+				                 value={plotPoint.maximumMinorHindrances}/>
+				<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
+				                 onChange={this.maximumSkillPointsChange} required={true}
+				                 value={plotPoint.maximumSkillPoints}/>
+				<h1>Setting Rules</h1>
+				<SettingRulesList id={`${componentId}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
+				<h1>Character Creation</h1>
+				<RaceEditorList id={componentId} races={plotPoint.races} racesChange={this.racesChange}/>
+				<SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
+				<HindranceEditorList id={componentId} hindrances={plotPoint.hindrances}
+				                     hindrancesChange={this.hindrancesChange}/>
+				<EdgeEditorList id={componentId} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
+				<h1>Gear</h1>
+				<MundaneItemEditorList id={componentId} mundaneItems={plotPoint.mundaneItems}
+				                       mundaneItemsChange={this.mundaneItemsChange}/>
+				<HandWeaponsEditorList id={componentId} handWeapons={plotPoint.handWeapons}
+				                       handWeaponsChange={this.handWeaponsChange}/>
+				<ArmorEditorList id={componentId} armor={plotPoint.armor} armorChange={this.armorChange}/>
+				<RangedWeaponEditorList id={componentId} rangedWeapons={plotPoint.rangedWeapons}
+				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
+				<VehicleMountedAndAtGunsEditorList id={componentId}
+				                                   vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
+				                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
+				<AmmunitionEditorList id={componentId} ammunition={plotPoint.ammunition}
+				                      ammunitionChange={this.ammunitionChange}/>
+				<SpecialWeaponsEditorList id={componentId} specialWeapons={plotPoint.specialWeapons}
+				                          specialWeaponsChange={this.specialWeaponsChange}/>
+				<h1>Vehicles</h1>
+				<GroundVehiclesEditorList id={componentId} groundVehicles={plotPoint.groundVehicles}
+				                          groundVehiclesChange={this.groundVehiclesChange}/>
+				<WatercraftEditorList id={componentId} watercraft={plotPoint.watercraft}
+				                      watercraftChange={this.watercraftChange}/>
+				<AircraftEditorList id={componentId} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
+				<h1>Powers</h1>
+				<ArcaneBackgroundEditorList id={componentId} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
+				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
+				<TrappingsAndEffectsEditorList id={componentId} trappingsAndEffects={plotPoint.trappingsAndEffects}
+				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
+				<PowersEditorList id={componentId} powers={plotPoint.powers} powersChange={this.powersChange}/>
+				<BeastsEditorList id={componentId} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
+				                  skills={plotPoint.skills}/>
+				<h1>Characters</h1>
+				<CharacterEditorList id={componentId} characters={plotPoint.characters}
+				                     charactersChange={this.charactersChange}/>
+				<Button id={componentId} onClick={this.save}>Save</Button>
+				<Button id={componentId} onClick={this.cancel}>Cancel</Button>
+			</form>
+		</div>
 	}
 }
 
