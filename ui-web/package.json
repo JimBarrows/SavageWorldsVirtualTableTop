@@ -40,9 +40,15 @@
     "stop": "docker-compose down",
     "test": "npm run test:unit && npm run test:ui",
     "test:unit": "react-scripts test --env=jsdom",
-    "test:ui" : "cucumber-js --require-module babel-core/register --require-module babel-polyfill"
+    "test:ui" : "cucumber-js --require-module babel-core/register --require-module babel-polyfill",
+    "storybook" : "start-storybook -p 9009 -s public",
+    "build-storybook" : "build-storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addon-actions" : "^3.4.10",
+    "@storybook/addon-links" : "^3.4.10",
+    "@storybook/addons" : "^3.4.10",
+    "@storybook/react" : "^3.4.10",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "react-scripts": "^1.1.4"
