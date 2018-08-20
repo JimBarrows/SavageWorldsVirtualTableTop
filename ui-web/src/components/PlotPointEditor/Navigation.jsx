@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import ALink from '../ALink'
 
 export default class Navigation extends React.Component {
 
@@ -17,9 +18,9 @@ export default class Navigation extends React.Component {
 				<div className="sidebar-sticky">
 					<ul className="nav flex-column">
 						<li className="nav-item">
-							<a className="nav-link active" href="#">
+							<ALink id={component_id + 'PlotPoint'} className="nav-link active" href="#">
 								Plot Point <span className="sr-only">(current)</span>
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
 							<a className="nav-link" href="#">
