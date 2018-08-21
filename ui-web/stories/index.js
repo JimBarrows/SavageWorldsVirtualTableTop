@@ -1,19 +1,11 @@
 import {action} from '@storybook/addon-actions'
-import {linkTo} from '@storybook/addon-links'
-
 import {storiesOf} from '@storybook/react'
-
-import {Button, Welcome} from '@storybook/react/demo'
 import React from 'react'
+import Navigation from '../src/components/PlotPointEditor/Navigation'
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')}/>)
+storiesOf('Plot Point Editor/Navigation', module)
+	.addDecorator((story) => <div className="container-fluid">
+		<div className={'row'}>{story()}</div>
+	</div>)
+	.add('Basic', () => <Navigation id={'basic'} navigateTo={action('Basic Navigation changed')}/>)
 
-storiesOf('Button', module)
-	.add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-	.add('with some emoji', () => (
-		<Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-		</Button>
-	))

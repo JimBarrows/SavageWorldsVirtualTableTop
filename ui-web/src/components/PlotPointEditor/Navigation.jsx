@@ -10,6 +10,8 @@ export default class Navigation extends React.Component {
 		id: PropTypes.string.isRequired
 	}
 
+	navigateTo = name => this.props.navigateTo(name)
+
 	render() {
 		let {id}         = this.props
 		let component_id = `Navigation-${id}`
@@ -18,109 +20,113 @@ export default class Navigation extends React.Component {
 				<div className="sidebar-sticky">
 					<ul className="nav flex-column">
 						<li className="nav-item">
-							<ALink id={component_id + 'PlotPoint'} className="nav-link active" href="#">
+							<ALink id={component_id + 'PlotPoint'} className="nav-link active"
+							       onClick={e => {this.navigateTo('PlotPoint')}}>
 								Plot Point <span className="sr-only">(current)</span>
 							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'SettingRules'} className="nav-link"
+							       onClick={e => this.navigateTo('SettingRules')}>
 								Setting Rules
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Races'} className="nav-link" onClick={e => this.navigateTo('Races')}>
 								Races
-							</a>
+							</ALink>
 						</li>
 						<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 							<span>Gear</span>
-							<a className="d-flex align-items-center text-muted" href="#">
-							</a>
 						</h6>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'MundaneItems'} className="nav-link"
+							       onClick={e => this.navigateTo('MundaneItems')}>
 								Mundane Items
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'HandWeapons'} className="nav-link"
+							       onClick={e => this.navigateTo('HandWeapons')}>
 								Hand Weapons
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Armor'} className="nav-link" onClick={e => this.navigateTo('Armor')}>
 								Armor
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Armor'} className="nav-link" onClick={e => this.navigateTo('RangedWeapons')}>
 								Ranged Weapons
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'VehicleMountedAndAtGuns'} className="nav-link"
+							       onClick={e => this.navigateTo('VehicleMountedAndAtGuns')}>
 								Vehicle Mounted & AT Guns
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Ammunition'} className="nav-link" onClick={e => this.navigateTo('Ammunition')}>
 								Ammunition
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'SpecialWeapons'} className="nav-link"
+							       onClick={e => this.navigateTo('SpecialWeapons')}>
 								Special Weapons
-							</a>
+							</ALink>
 						</li>
 						<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 							<span>Vehicles</span>
-							<a className="d-flex align-items-center text-muted" href="#">
-							</a>
 						</h6>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'GroundVehicle'} className="nav-link"
+							       onClick={e => this.navigateTo('GroundVehicle')}>
 								Ground
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'WaterVehicle'} className="nav-link"
+							       onClick={e => this.navigateTo('WaterVehicle')}>
 								Water
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'AirVehicle'} className="nav-link" onClick={e => this.navigateTo('AirVehicle')}>
 								Air
-							</a>
+							</ALink>
 						</li>
 						<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 							<span>Powers</span>
-							<a className="d-flex align-items-center text-muted" href="#">
-							</a>
 						</h6>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'ArcaneBackground'} className="nav-link"
+							       onClick={e => this.navigateTo('ArcaneBackground')}>
 								Arcane Backgrounds
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Trapping'} className="nav-link" onClick={e => this.navigateTo('Trapping')}>
 								Trappings
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Powers'} className="nav-link" onClick={e => this.navigateTo('Powers')}>
 								Powers
-							</a>
+							</ALink>
 						</li>
+						<h6>Allies, Critters & Enemies</h6>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Beasts'} className="nav-link" onClick={e => this.navigateTo('Beasts')}>
 								Beasts
-							</a>
+							</ALink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<ALink id={component_id + 'Characters'} className="nav-link" onClick={e => this.navigateTo('Characters')}>
 								Characters
-							</a>
+							</ALink>
 						</li>
 					</ul>
 				</div>

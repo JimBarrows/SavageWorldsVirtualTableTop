@@ -8,25 +8,21 @@ export default class ALink extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		id       : PropTypes.string.isRequired,
-		href     : PropTypes.string,
-		onClick  : PropTypes.func
+		onClick  : PropTypes.func,
+		children : PropTypes.any.isRequired
 	}
 
+	onClick = e => {
+		e.preventDefault()
+		this.props.onClick(e)
+	}
+
+
 	render() {
-		let {className, href, id, onClick} = this.props
-		let componentId                    = `ALink-${id}`
-		let attributes                     = {
-			className
-		}
-		if (href) {
-			attributes = Object.assign({}, {href}, attributes)
-		} else if (onClick) {
-			attributes = Object.assign({}, {onclick: onClick}, attributes)
-		} else {
-			attributes = Object.assign({}, {href: '#'}, attributes)
-		}
+		let {className, id} = this.props
+		let componentId     = `ALink-${id}`
 		return (
-			<a id={componentId} {...attributes}>
+			<a id={componentId} href={'#'} onClick={this.onClick} className={className}>
 				{this.props.children}
 			</a>
 		)
