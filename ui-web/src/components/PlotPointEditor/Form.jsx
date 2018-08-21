@@ -1,4 +1,4 @@
-import {Button, NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {Button} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
 import AircraftEditorList from '../lists/AircraftEditorList'
@@ -15,12 +15,13 @@ import MundaneItemEditorList from '../lists/MundaneItemEditorList'
 import PowersEditorList from '../lists/PowersEditorList'
 import RaceEditorList from '../lists/RaceEditorList'
 import RangedWeaponEditorList from '../lists/RangedWeaponEditorList'
-import SettingRulesList from '../lists/SettingRules'
 import SkillEditorList from '../lists/SkillEditorList'
 import SpecialWeaponsEditorList from '../lists/SpecialWeaponsEditorList'
 import TrappingsAndEffectsEditorList from '../lists/TrappingsAndEffectsEditorList'
 import VehicleMountedAndAtGunsEditorList from '../lists/VehicleMountedAndAtGunsEditorList'
 import WatercraftEditorList from '../lists/WatercraftEditorList'
+import PlotPoint from './PlotPoint'
+import SettingRules from './SettingRules'
 
 export default class Form extends React.Component {
 
@@ -29,7 +30,8 @@ export default class Form extends React.Component {
 	static propTypes = {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
-		save     : PropTypes.func.isRequired
+		save     : PropTypes.func.isRequired,
+		show     : PropTypes.oneOf(['PlotPoint', 'SettingRules']).isRequired
 	}
 
 
@@ -60,40 +62,32 @@ export default class Form extends React.Component {
 	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.props.onChange(Object.assign({}, this.props.plotPoint, {vehicleMountedAndAtGuns}))
 	watercraftChange              = watercraft => this.props.onChange(Object.assign({}, this.props.plotPoint, {watercraft}))
 
-	cancel = e => {
+	cancel   = e => {
 		e.preventDefault()
 		this.props.cancel()
 	}
-	save   = e => {
+	onChange = plotPoint => this.props.onChange(Object.assign({}, this.props.plotPoint, plotPoint))
+	save     = e => {
 		e.preventDefault()
 		this.props.save(this.props.plotPoint)
 	}
 
 
 	render() {
-		let {id, plotPoint} = this.props
-		let componentId     = `Form-${id}`
+		let {id, plotPoint, show} = this.props
+		let componentId           = `Form-${id}`
+		let component             = <PlotPoint id={componentId}/>
+		switch (show) {
+			case 'PlotPoint':
+				component = <PlotPoint id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				break
+			case 'SettingRules' :
+				component = <SettingRules id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				break
+		}
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${componentId}`}>
-				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
-				               value={plotPoint.name}/>
-				<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
-				                   value={plotPoint.description}/>
-				<h1>Basic Rules</h1>
-				<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
-				                 onChange={this.maximumAttributePointsChange} required={true}
-				                 value={plotPoint.maximumAttributePoints}/>
-				<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
-				                 onChange={this.maximumMajorHindrancesChange} required={true}
-				                 value={plotPoint.maximumMajorHindrances}/>
-				<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
-				                 onChange={this.maximumMinorHindrancesChange} required={true}
-				                 value={plotPoint.maximumMinorHindrances}/>
-				<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
-				                 onChange={this.maximumSkillPointsChange} required={true}
-				                 value={plotPoint.maximumSkillPoints}/>
-				<h1>Setting Rules</h1>
-				<SettingRulesList id={`${componentId}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
+				{component}
 				<h1>Character Creation</h1>
 				<RaceEditorList id={componentId} races={plotPoint.races} racesChange={this.racesChange}/>
 				<SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
