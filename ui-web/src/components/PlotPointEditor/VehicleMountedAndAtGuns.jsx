@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import VehicleMountedAndAtGunsEditor from '../editors/VehicleMountedAndAtGunsEditor'
-import EditorList from './EditorList'
+import EditorList from '../EditorList'
 
 export default class VehicleMountedAndAtGunsEditorList extends React.Component {
 
@@ -45,4 +45,3 @@ export default class VehicleMountedAndAtGunsEditorList extends React.Component {
     )
   }
 }
-

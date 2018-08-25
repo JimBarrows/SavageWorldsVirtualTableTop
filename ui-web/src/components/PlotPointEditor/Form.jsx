@@ -19,7 +19,7 @@ import Skills from './Skills'
 import SettingRules from './SettingRules'
 import SpecialWeaponsEditorList from '../lists/SpecialWeaponsEditorList'
 import TrappingsAndEffectsEditorList from '../lists/TrappingsAndEffectsEditorList'
-import VehicleMountedAndAtGunsEditorList from '../lists/VehicleMountedAndAtGunsEditorList'
+import VehicleMountedAndAtGuns from './VehicleMountedAndAtGuns'
 import WatercraftEditorList from '../lists/WatercraftEditorList'
 import PlotPoint from './PlotPoint'
 
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft','Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Aircraft','Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'VehicleMountedAndAtGuns']).isRequired
 	}
 
 
@@ -49,6 +49,8 @@ export default class Form extends React.Component {
 	nameChange                    = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {name: e.target.value}))
 	powersChange                  = powers => this.props.onChange(Object.assign({}, this.props.plotPoint, {powers}))
 	rangedWeaponsChange           = rangedWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {rangedWeapons}))
+	racesChange           				= races => this.props.onChange(Object.assign({}, this.props.plotPoint, {races}))
+	settingRulesChange            = settingRules => this.props.onChange(Object.assign({}, this.props.plotPoint, {settingRules}))
 	skillsChange                  = skills => this.props.onChange(Object.assign({}, this.props.plotPoint, {skills}))
 	specialWeaponsChange          = specialWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {specialWeapons}))
 	trappingsAndEffectsChange     = trappingsAndEffects => this.props.onChange(Object.assign({}, this.props.plotPoint, {trappingsAndEffects}))
@@ -72,43 +74,35 @@ export default class Form extends React.Component {
 		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
 			case 'Aircraft': component = 	<Aircraft id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
-									break
+			break
 			case 'Armor': component = <Armor id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
-									break
+			break
 			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
-									break
-			case 'HandWeapons': component = <HandWeapons id={component_id} handWeapons={plotPoint.handWeapons}
-														 handWeaponsChange={this.handWeaponsChange}/>
-													 break
-			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances}
-													 hindrancesChange={this.hindrancesChange}/>
-												 break
-			case 'MundaneItems': component = <MundaneItems id={component_id} mundaneItems={plotPoint.mundaneItems}
-														 mundaneItemsChange={this.mundaneItemsChange}/>
-													 break
-			case 'RangedWeapons': component = <RangedWeapons id={component_id} rangedWeapons={plotPoint.rangedWeapons}
-															rangedWeaponsChange={this.rangedWeaponsChange}/>
-														break
-			case 'SettingRules' :
-				component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
-				break
-			case 'Skills' :
-					component = <Skills id={component_id} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
-					break
-			case 'Races' :
-				component = <Races id={component_id} races={plotPoint.races} onChange={this.onChange}/>
-				break
+			break
+			case 'HandWeapons': component = <HandWeapons id={component_id} handWeapons={plotPoint.handWeapons} handWeaponsChange={this.handWeaponsChange}/>
+			break
+			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances} hindrancesChange={this.hindrancesChange}/>
+			break
+			case 'MundaneItems': component = <MundaneItems id={component_id} mundaneItems={plotPoint.mundaneItems} mundaneItemsChange={this.mundaneItemsChange}/>
+			break
+			case 'Races' :component = <Races id={component_id} races={plotPoint.races} racesChange={this.racesChange}/>
+			break
+			case 'RangedWeapons': component = <RangedWeapons id={component_id} rangedWeapons={plotPoint.rangedWeapons} rangedWeaponsChange={this.rangedWeaponsChange}/>
+			break
+			case 'SettingRules' : component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
+			break
+			case 'Skills' : component = <Skills id={component_id} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
+			break
+			case 'VehicleMountedAndAtGuns': component = 	<VehicleMountedAndAtGuns id={component_id} vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns} vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
+			break
 			case 'PlotPoint':
 			default:
 				component = <PlotPoint id={component_id} plotPoint={plotPoint} onChange={this.onChange}/>
-				break
+			break
 		}
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${component_id}`}>
 				{component}
-				<VehicleMountedAndAtGunsEditorList id={component_id}
-				                                   vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
-				                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
 				<AmmunitionEditorList id={component_id} ammunition={plotPoint.ammunition}
 				                      ammunitionChange={this.ammunitionChange}/>
 				<SpecialWeaponsEditorList id={component_id} specialWeapons={plotPoint.specialWeapons}
