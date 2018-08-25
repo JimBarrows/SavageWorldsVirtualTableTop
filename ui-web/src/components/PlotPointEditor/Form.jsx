@@ -11,7 +11,7 @@ import Edges from './Edges'
 import GroundVehiclesEditorList from '../lists/GroundVehiclesEditorList'
 import HandWeaponsEditorList from '../lists/HandWeaponsEditorList'
 import Hindrances from './Hindrances'
-import MundaneItemEditorList from '../lists/MundaneItemEditorList'
+import MundaneItems from './MundaneItems'
 import PowersEditorList from '../lists/PowersEditorList'
 import Races from './Races'
 import RangedWeaponEditorList from '../lists/RangedWeaponEditorList'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft','Edges', 'Hindrances', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Aircraft','Edges', 'Hindrances', 'MundaneItems', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -78,6 +78,9 @@ export default class Form extends React.Component {
 			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances}
 													 hindrancesChange={this.hindrancesChange}/>
 												 break
+			case 'MundaneItems': component = <MundaneItems id={component_id} mundaneItems={plotPoint.mundaneItems}
+														 mundaneItemsChange={this.mundaneItemsChange}/>
+													 break
 			case 'SettingRules' :
 				component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
 				break
@@ -98,8 +101,6 @@ export default class Form extends React.Component {
 
 
 				<h1>Gear</h1>
-				<MundaneItemEditorList id={component_id} mundaneItems={plotPoint.mundaneItems}
-				                       mundaneItemsChange={this.mundaneItemsChange}/>
 				<HandWeaponsEditorList id={component_id} handWeapons={plotPoint.handWeapons}
 				                       handWeaponsChange={this.handWeaponsChange}/>
 				<ArmorEditorList id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>

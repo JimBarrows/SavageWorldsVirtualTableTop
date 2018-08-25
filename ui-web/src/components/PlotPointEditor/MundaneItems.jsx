@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import MundaneItemEditor from '../editors/MundaneItemEditor'
-import EditorList from './EditorList'
+import EditorList from '../EditorList'
 
 export default class MundaneItemEditorList extends React.Component {
 
@@ -27,4 +27,3 @@ export default class MundaneItemEditorList extends React.Component {
 		);
 	}
 }
-
