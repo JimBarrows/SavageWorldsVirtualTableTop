@@ -1,25 +1,30 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import SkillsList from '../lists/Skills'
+import SkillEditor from '../editors/SkillEditor'
+import EditorList from '../lists/EditorList'
 
-export default class Skills extends React.Component {
-
-	static defaultProps = {}
+export default class SkillEditorList extends React.Component {
 
 	static propTypes = {
-		id: PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired,
-		plotPoint: PropTypes.object.isRequired
-	}
+		id          : PropTypes.string.isRequired,
+		skills      : PropTypes.array.isRequired,
+		skillsChange: PropTypes.func.isRequired
+	};
 
-
+	static defaultProps = {};
 
 	render() {
-		let {id, plotPoint} = this.props
-		let component_id = `Skills-${id}`
-		return (<div id={component_id}>
-			<h1>Setting Rules</h1>
-			<SkillsList id={`${component_id}`} onChange={this.SkillsChange} rules={plotPoint.Skills}/>
-		</div>)
+		let componentId = `SkillEditorList-${this.props.id}`
+		return (
+			<div id={componentId}>
+				<EditorList emptyItem={({name: ' ', description: ' ', attribute: 'Agility'})}
+				            id={componentId}
+					            list={this.props.skills}
+					            onChange={this.props.skillsChange}
+					            title={'Skills'}>
+						<SkillEditor/>
+					</EditorList>
+				</div>
+		);
 	}
 }
