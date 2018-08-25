@@ -4,7 +4,7 @@ import React from 'react'
 import Aircraft from './Aircraft'
 import AmmunitionEditorList from '../lists/AmmunitionEditorList'
 import ArcaneBackgroundEditorList from '../lists/ArcaneBackgroundEditorList'
-import ArmorEditorList from '../lists/ArmorEditorList'
+import Armor from './Armor'
 import BeastsEditorList from '../lists/BeastsEditorList'
 import CharacterEditorList from '../lists/CharacterEditorList'
 import Edges from './Edges'
@@ -14,7 +14,7 @@ import Hindrances from './Hindrances'
 import MundaneItems from './MundaneItems'
 import PowersEditorList from '../lists/PowersEditorList'
 import Races from './Races'
-import RangedWeaponEditorList from '../lists/RangedWeaponEditorList'
+import RangedWeapons from './RangedWeapons'
 import Skills from './Skills'
 import SettingRules from './SettingRules'
 import SpecialWeaponsEditorList from '../lists/SpecialWeaponsEditorList'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft','Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Aircraft','Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -73,6 +73,8 @@ export default class Form extends React.Component {
 		switch (show) {
 			case 'Aircraft': component = 	<Aircraft id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
 									break
+			case 'Armor': component = <Armor id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
+									break
 			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
 									break
 			case 'HandWeapons': component = <HandWeapons id={component_id} handWeapons={plotPoint.handWeapons}
@@ -84,6 +86,9 @@ export default class Form extends React.Component {
 			case 'MundaneItems': component = <MundaneItems id={component_id} mundaneItems={plotPoint.mundaneItems}
 														 mundaneItemsChange={this.mundaneItemsChange}/>
 													 break
+			case 'RangedWeapons': component = <RangedWeapons id={component_id} rangedWeapons={plotPoint.rangedWeapons}
+															rangedWeaponsChange={this.rangedWeaponsChange}/>
+														break
 			case 'SettingRules' :
 				component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
 				break
@@ -91,7 +96,7 @@ export default class Form extends React.Component {
 					component = <Skills id={component_id} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
 					break
 			case 'Races' :
-				component = <Races id={component_id} plotPoint={plotPoint} onChange={this.onChange}/>
+				component = <Races id={component_id} races={plotPoint.races} onChange={this.onChange}/>
 				break
 			case 'PlotPoint':
 			default:
@@ -101,13 +106,6 @@ export default class Form extends React.Component {
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${component_id}`}>
 				{component}
-
-
-				<h1>Gear</h1>
-
-				<ArmorEditorList id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
-				<RangedWeaponEditorList id={component_id} rangedWeapons={plotPoint.rangedWeapons}
-				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
 				<VehicleMountedAndAtGunsEditorList id={component_id}
 				                                   vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
 				                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>

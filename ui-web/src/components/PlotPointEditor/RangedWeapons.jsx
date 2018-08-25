@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import RangedWeaponEditor from '../editors/RangedWeaponEditor'
-import EditorList from './EditorList'
+import EditorList from '../EditorList'
 
 export default class RangedWeaponEditorList extends React.Component {
 
@@ -43,4 +43,3 @@ export default class RangedWeaponEditorList extends React.Component {
 		);
 	}
 }
-

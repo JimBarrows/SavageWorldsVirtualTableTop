@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import ArmorEditor from '../editors/ArmorEditor'
-import EditorList from './EditorList'
+import EditorList from '../EditorList'
 
 export default class ArmorEditorList extends React.Component {
 
@@ -37,4 +37,3 @@ export default class ArmorEditorList extends React.Component {
 		);
 	}
 }
-
