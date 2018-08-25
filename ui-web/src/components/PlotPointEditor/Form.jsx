@@ -32,7 +32,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['PlotPoint', 'SettingRules']).isRequired
+		show     : PropTypes.oneOf(['Races', 'PlotPoint', 'SettingRules']).isRequired
 	}
 
 
@@ -75,7 +75,7 @@ export default class Form extends React.Component {
 			case 'SettingRules' :
 				component = <SettingRules id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
-			case 'Race' :
+			case 'Races' :
 				component = <Race id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
 			case 'PlotPoint':
