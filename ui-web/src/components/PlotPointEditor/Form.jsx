@@ -32,7 +32,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Races', 'PlotPoint', 'SettingRules']).isRequired
+		show     : PropTypes.oneOf(['Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -75,6 +75,9 @@ export default class Form extends React.Component {
 			case 'SettingRules' :
 				component = <SettingRules id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
+			case 'Skills' :
+					component = <SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
+					break
 			case 'Races' :
 				component = <Race id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
@@ -85,10 +88,7 @@ export default class Form extends React.Component {
 		}
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${componentId}`}>
-				{component}
-				<h1>Character Creation</h1>
-
-				<SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
+				{component}				
 				<HindranceEditorList id={componentId} hindrances={plotPoint.hindrances}
 				                     hindrancesChange={this.hindrancesChange}/>
 				<EdgeEditorList id={componentId} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
