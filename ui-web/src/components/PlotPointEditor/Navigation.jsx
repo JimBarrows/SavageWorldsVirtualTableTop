@@ -41,13 +41,18 @@ export default class Navigation extends React.Component {
 							</ALink>
 						</li>
 						<li className="nav-item">
-							<ALink id={component_id + 'Races'} className="nav-link" onClick={e => this.navigateTo('Skills')}>
+							<ALink id={component_id + 'Skills'} className="nav-link" onClick={e => this.navigateTo('Skills')}>
 								Skills
 							</ALink>
 						</li>
 						<li className="nav-item">
-							<ALink id={component_id + 'Races'} className="nav-link" onClick={e => this.navigateTo('Hindrances')}>
+							<ALink id={component_id + 'Hindrances'} className="nav-link" onClick={e => this.navigateTo('Hindrances')}>
 								Hindrances
+							</ALink>
+						</li>
+						<li className="nav-item">
+							<ALink id={component_id + 'Edgess'} className="nav-link" onClick={e => this.navigateTo('Edges')}>
+								Edges
 							</ALink>
 						</li>
 						<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

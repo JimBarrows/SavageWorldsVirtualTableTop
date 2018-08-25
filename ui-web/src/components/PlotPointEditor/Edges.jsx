@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import EdgeEditor from '../editors/EdgeEditor'
-import EditorList from './EditorList'
+import EditorList from '../lists/EditorList'
 
 export default class EdgeEditorList extends React.Component {
 
@@ -27,4 +27,3 @@ export default class EdgeEditorList extends React.Component {
 		)
 	}
 }
-

@@ -7,7 +7,7 @@ import ArcaneBackgroundEditorList from '../lists/ArcaneBackgroundEditorList'
 import ArmorEditorList from '../lists/ArmorEditorList'
 import BeastsEditorList from '../lists/BeastsEditorList'
 import CharacterEditorList from '../lists/CharacterEditorList'
-import EdgeEditorList from '../lists/EdgeEditorList'
+import Edges from './Edges'
 import GroundVehiclesEditorList from '../lists/GroundVehiclesEditorList'
 import HandWeaponsEditorList from '../lists/HandWeaponsEditorList'
 import Hindrances from './Hindrances'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Hindrances', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Edges', 'Hindrances', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -71,6 +71,8 @@ export default class Form extends React.Component {
 		let component_id           = `Form-${id}`
 		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
+			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
+									break
 			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances}
 													 hindrancesChange={this.hindrancesChange}/>
 												 break
@@ -92,7 +94,7 @@ export default class Form extends React.Component {
 			<form id={`${component_id}`}>
 				{component}
 
-				<EdgeEditorList id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
+
 				<h1>Gear</h1>
 				<MundaneItemEditorList id={component_id} mundaneItems={plotPoint.mundaneItems}
 				                       mundaneItemsChange={this.mundaneItemsChange}/>
