@@ -42,7 +42,8 @@ class PlotPointEditor extends React.Component {
 			trappingsAndEffects    : [],
 			vehicleMountedAndAtGuns: [],
 			watercraft             : []
-		}
+		},
+		section:  'PlotPoint'
 	}
 	onChange = plotPoint => this.setState({plotPoint})
 	save     = async body => {
@@ -59,6 +60,11 @@ class PlotPointEditor extends React.Component {
 
 		this.props.history.push('/')
 	}
+
+	sectionChange = section => this.setState(({
+		section
+	}))
+
 	cancel   = () => this.props.history.push('/')
 
 	async componentDidMount() {
@@ -79,9 +85,9 @@ class PlotPointEditor extends React.Component {
 				</div>
 			</div>
 			<div className="row">
-				<Navigation id={componentId}/>
+				<Navigation id={componentId} navigateTo={this.sectionChange}/>
 				<Form id={componentId} cancel={this.cancel} plotPoint={this.state.plotPoint} onChange={this.onChange}
-				      save={this.save}/>
+				      save={this.save} show={this.state.section}/>
 			</div>
 		</div>
 	}

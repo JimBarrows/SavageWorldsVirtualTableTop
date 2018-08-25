@@ -14,6 +14,7 @@ import HindranceEditorList from '../lists/HindranceEditorList'
 import MundaneItemEditorList from '../lists/MundaneItemEditorList'
 import PowersEditorList from '../lists/PowersEditorList'
 import RaceEditorList from '../lists/RaceEditorList'
+import Race from './Race'
 import RangedWeaponEditorList from '../lists/RangedWeaponEditorList'
 import SkillEditorList from '../lists/SkillEditorList'
 import SpecialWeaponsEditorList from '../lists/SpecialWeaponsEditorList'
@@ -41,21 +42,14 @@ export default class Form extends React.Component {
 	armorChange                   = armor => this.props.onChange(Object.assign({}, this.props.plotPoint, {armor}))
 	beastsChange                  = beasts => this.props.onChange(Object.assign({}, this.props.plotPoint, {beasts}))
 	charactersChange              = characters => this.props.onChange(Object.assign({}, this.props.plotPoint, {characters}))
-	descriptionChange             = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {description: e.target.value}))
 	edgesChange                   = edges => this.props.onChange(Object.assign({}, this.props.plotPoint, {edges}))
 	groundVehiclesChange          = groundVehicles => this.props.onChange(Object.assign({}, this.props.plotPoint, {groundVehicles}))
 	handWeaponsChange             = handWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {handWeapons}))
 	hindrancesChange              = hindrances => this.props.onChange(Object.assign({}, this.props.plotPoint, {hindrances}))
-	maximumAttributePointsChange  = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumAttributePoints: parseInt(e.target.value, 10)}))
-	maximumMajorHindrancesChange  = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumMajorHindrances: parseInt(e.target.value, 10)}))
-	maximumMinorHindrancesChange  = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumMinorHindrances: parseInt(e.target.value, 10)}))
-	maximumSkillPointsChange      = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumSkillPoints: parseInt(e.target.value, 10)}))
 	mundaneItemsChange            = mundaneItems => this.props.onChange(Object.assign({}, this.props.plotPoint, {mundaneItems}))
 	nameChange                    = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {name: e.target.value}))
 	powersChange                  = powers => this.props.onChange(Object.assign({}, this.props.plotPoint, {powers}))
-	racesChange                   = races => this.props.onChange(Object.assign({}, this.props.plotPoint, {races}))
 	rangedWeaponsChange           = rangedWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {rangedWeapons}))
-	settingRulesChange            = settingRules => this.props.onChange(Object.assign({}, this.props.plotPoint, {settingRules: settingRules}))
 	skillsChange                  = skills => this.props.onChange(Object.assign({}, this.props.plotPoint, {skills}))
 	specialWeaponsChange          = specialWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {specialWeapons}))
 	trappingsAndEffectsChange     = trappingsAndEffects => this.props.onChange(Object.assign({}, this.props.plotPoint, {trappingsAndEffects}))
@@ -76,20 +70,24 @@ export default class Form extends React.Component {
 	render() {
 		let {id, plotPoint, show} = this.props
 		let componentId           = `Form-${id}`
-		let component             = <PlotPoint id={componentId}/>
+		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
-			case 'PlotPoint':
-				component = <PlotPoint id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
-				break
 			case 'SettingRules' :
 				component = <SettingRules id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				break
+			case 'Race' :
+				component = <Race id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				break
+			case 'PlotPoint':
+			default:
+				component = <PlotPoint id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
 		}
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${componentId}`}>
 				{component}
 				<h1>Character Creation</h1>
-				<RaceEditorList id={componentId} races={plotPoint.races} racesChange={this.racesChange}/>
+
 				<SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
 				<HindranceEditorList id={componentId} hindrances={plotPoint.hindrances}
 				                     hindrancesChange={this.hindrancesChange}/>
@@ -132,4 +130,3 @@ export default class Form extends React.Component {
 		</div>
 	}
 }
-

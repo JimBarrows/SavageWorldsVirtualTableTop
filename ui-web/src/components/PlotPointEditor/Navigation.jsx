@@ -7,7 +7,8 @@ export default class Navigation extends React.Component {
 	static defaultProps = {}
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired,
+		navigateTo: PropTypes.func.isRequired
 	}
 
 	navigateTo = name => this.props.navigateTo(name)
@@ -134,4 +135,3 @@ export default class Navigation extends React.Component {
 		)
 	}
 }
-
