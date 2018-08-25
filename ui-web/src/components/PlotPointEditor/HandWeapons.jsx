@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import HandWeaponEditor from '../editors/HandWeaponEditor'
-import EditorList from './EditorList'
+import EditorList from '../EditorList'
 
 export default class HandWeaponsEditorList extends React.Component {
 
@@ -37,4 +37,3 @@ export default class HandWeaponsEditorList extends React.Component {
 		);
 	}
 }
-

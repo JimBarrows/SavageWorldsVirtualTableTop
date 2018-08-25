@@ -9,7 +9,7 @@ import BeastsEditorList from '../lists/BeastsEditorList'
 import CharacterEditorList from '../lists/CharacterEditorList'
 import Edges from './Edges'
 import GroundVehiclesEditorList from '../lists/GroundVehiclesEditorList'
-import HandWeaponsEditorList from '../lists/HandWeaponsEditorList'
+import HandWeapons from './HandWeapons'
 import Hindrances from './Hindrances'
 import MundaneItems from './MundaneItems'
 import PowersEditorList from '../lists/PowersEditorList'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft','Edges', 'Hindrances', 'MundaneItems', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Aircraft','Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -75,6 +75,9 @@ export default class Form extends React.Component {
 									break
 			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
 									break
+			case 'HandWeapons': component = <HandWeapons id={component_id} handWeapons={plotPoint.handWeapons}
+														 handWeaponsChange={this.handWeaponsChange}/>
+													 break
 			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances}
 													 hindrancesChange={this.hindrancesChange}/>
 												 break
@@ -101,8 +104,7 @@ export default class Form extends React.Component {
 
 
 				<h1>Gear</h1>
-				<HandWeaponsEditorList id={component_id} handWeapons={plotPoint.handWeapons}
-				                       handWeaponsChange={this.handWeaponsChange}/>
+
 				<ArmorEditorList id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
 				<RangedWeaponEditorList id={component_id} rangedWeapons={plotPoint.rangedWeapons}
 				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
