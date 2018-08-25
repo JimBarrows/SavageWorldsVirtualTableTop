@@ -14,15 +14,15 @@ import HindranceEditorList from '../lists/HindranceEditorList'
 import MundaneItemEditorList from '../lists/MundaneItemEditorList'
 import PowersEditorList from '../lists/PowersEditorList'
 import RaceEditorList from '../lists/RaceEditorList'
-import Race from './Race'
+import Races from './Race'
 import RangedWeaponEditorList from '../lists/RangedWeaponEditorList'
-import SkillEditorList from '../lists/SkillEditorList'
+import Skills from '../lists/SkillEditorList'
+import SettingRules from '../lists/SettingRules'
 import SpecialWeaponsEditorList from '../lists/SpecialWeaponsEditorList'
 import TrappingsAndEffectsEditorList from '../lists/TrappingsAndEffectsEditorList'
 import VehicleMountedAndAtGunsEditorList from '../lists/VehicleMountedAndAtGunsEditorList'
 import WatercraftEditorList from '../lists/WatercraftEditorList'
 import PlotPoint from './PlotPoint'
-import SettingRules from './SettingRules'
 
 export default class Form extends React.Component {
 
@@ -69,63 +69,63 @@ export default class Form extends React.Component {
 
 	render() {
 		let {id, plotPoint, show} = this.props
-		let componentId           = `Form-${id}`
+		let component_id           = `Form-${id}`
 		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
 			case 'SettingRules' :
-				component = <SettingRules id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
 				break
 			case 'Skills' :
-					component = <SkillEditorList id={componentId} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
+					component = <Skills id={component_id} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
 					break
 			case 'Races' :
-				component = <Race id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				component = <Races id={component_id} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
 			case 'PlotPoint':
 			default:
-				component = <PlotPoint id={componentId} plotPoint={plotPoint} onChange={this.onChange}/>
+				component = <PlotPoint id={component_id} plotPoint={plotPoint} onChange={this.onChange}/>
 				break
 		}
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-			<form id={`${componentId}`}>
-				{component}				
-				<HindranceEditorList id={componentId} hindrances={plotPoint.hindrances}
+			<form id={`${component_id}`}>
+				{component}
+				<HindranceEditorList id={component_id} hindrances={plotPoint.hindrances}
 				                     hindrancesChange={this.hindrancesChange}/>
-				<EdgeEditorList id={componentId} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
+				<EdgeEditorList id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
 				<h1>Gear</h1>
-				<MundaneItemEditorList id={componentId} mundaneItems={plotPoint.mundaneItems}
+				<MundaneItemEditorList id={component_id} mundaneItems={plotPoint.mundaneItems}
 				                       mundaneItemsChange={this.mundaneItemsChange}/>
-				<HandWeaponsEditorList id={componentId} handWeapons={plotPoint.handWeapons}
+				<HandWeaponsEditorList id={component_id} handWeapons={plotPoint.handWeapons}
 				                       handWeaponsChange={this.handWeaponsChange}/>
-				<ArmorEditorList id={componentId} armor={plotPoint.armor} armorChange={this.armorChange}/>
-				<RangedWeaponEditorList id={componentId} rangedWeapons={plotPoint.rangedWeapons}
+				<ArmorEditorList id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
+				<RangedWeaponEditorList id={component_id} rangedWeapons={plotPoint.rangedWeapons}
 				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
-				<VehicleMountedAndAtGunsEditorList id={componentId}
+				<VehicleMountedAndAtGunsEditorList id={component_id}
 				                                   vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
 				                                   vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
-				<AmmunitionEditorList id={componentId} ammunition={plotPoint.ammunition}
+				<AmmunitionEditorList id={component_id} ammunition={plotPoint.ammunition}
 				                      ammunitionChange={this.ammunitionChange}/>
-				<SpecialWeaponsEditorList id={componentId} specialWeapons={plotPoint.specialWeapons}
+				<SpecialWeaponsEditorList id={component_id} specialWeapons={plotPoint.specialWeapons}
 				                          specialWeaponsChange={this.specialWeaponsChange}/>
 				<h1>Vehicles</h1>
-				<GroundVehiclesEditorList id={componentId} groundVehicles={plotPoint.groundVehicles}
+				<GroundVehiclesEditorList id={component_id} groundVehicles={plotPoint.groundVehicles}
 				                          groundVehiclesChange={this.groundVehiclesChange}/>
-				<WatercraftEditorList id={componentId} watercraft={plotPoint.watercraft}
+				<WatercraftEditorList id={component_id} watercraft={plotPoint.watercraft}
 				                      watercraftChange={this.watercraftChange}/>
-				<AircraftEditorList id={componentId} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
+				<AircraftEditorList id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
 				<h1>Powers</h1>
-				<ArcaneBackgroundEditorList id={componentId} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
+				<ArcaneBackgroundEditorList id={component_id} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
 				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
-				<TrappingsAndEffectsEditorList id={componentId} trappingsAndEffects={plotPoint.trappingsAndEffects}
+				<TrappingsAndEffectsEditorList id={component_id} trappingsAndEffects={plotPoint.trappingsAndEffects}
 				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
-				<PowersEditorList id={componentId} powers={plotPoint.powers} powersChange={this.powersChange}/>
-				<BeastsEditorList id={componentId} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
+				<PowersEditorList id={component_id} powers={plotPoint.powers} powersChange={this.powersChange}/>
+				<BeastsEditorList id={component_id} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
 				                  skills={plotPoint.skills}/>
 				<h1>Characters</h1>
-				<CharacterEditorList id={componentId} characters={plotPoint.characters}
+				<CharacterEditorList id={component_id} characters={plotPoint.characters}
 				                     charactersChange={this.charactersChange}/>
-				<Button id={componentId} onClick={this.save}>Save</Button>
-				<Button id={componentId} onClick={this.cancel}>Cancel</Button>
+				<Button id={component_id} onClick={this.save}>Save</Button>
+				<Button id={component_id} onClick={this.cancel}>Cancel</Button>
 			</form>
 		</div>
 	}
