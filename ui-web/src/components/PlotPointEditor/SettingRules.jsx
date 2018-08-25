@@ -50,4 +50,3 @@ export default class SettingRulesList extends React.Component {
 		</div>
 	}
 }
-

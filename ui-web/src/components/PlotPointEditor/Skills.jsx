@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import SkillEditor from '../editors/SkillEditor'
-import EditorList from '../lists/EditorList'
+import EditorList from '../EditorList'
 
 export default class SkillEditorList extends React.Component {
 

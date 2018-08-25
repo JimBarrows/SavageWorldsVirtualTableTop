@@ -1,7 +1,7 @@
 import {Button} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import AircraftEditorList from '../lists/AircraftEditorList'
+import Aircraft from './Aircraft'
 import AmmunitionEditorList from '../lists/AmmunitionEditorList'
 import ArcaneBackgroundEditorList from '../lists/ArcaneBackgroundEditorList'
 import ArmorEditorList from '../lists/ArmorEditorList'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Edges', 'Hindrances', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Aircraft','Edges', 'Hindrances', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -71,6 +71,8 @@ export default class Form extends React.Component {
 		let component_id           = `Form-${id}`
 		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
+			case 'Aircraft': component = 	<Aircraft id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
+									break
 			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
 									break
 			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances}
@@ -115,7 +117,7 @@ export default class Form extends React.Component {
 				                          groundVehiclesChange={this.groundVehiclesChange}/>
 				<WatercraftEditorList id={component_id} watercraft={plotPoint.watercraft}
 				                      watercraftChange={this.watercraftChange}/>
-				<AircraftEditorList id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
+
 				<h1>Powers</h1>
 				<ArcaneBackgroundEditorList id={component_id} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
 				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>

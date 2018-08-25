@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import RaceEditor from '../editors/RaceEditor'
-import EditorList from '../lists/EditorList'
+import EditorList from '../EditorList'
 
 export default class RaceEditorList extends React.Component {
 

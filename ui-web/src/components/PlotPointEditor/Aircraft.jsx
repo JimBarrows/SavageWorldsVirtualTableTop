@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import AircraftEditor from '../editors/AircraftEditor'
-import EditorList from './EditorList'
+import EditorList from '../EditorList'
 
 export default class AircraftEditorList extends React.Component {
 
@@ -46,4 +46,3 @@ export default class AircraftEditorList extends React.Component {
 		)
 	}
 }
-
