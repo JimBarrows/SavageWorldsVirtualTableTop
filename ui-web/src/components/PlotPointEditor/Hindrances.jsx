@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import HindranceEditor from '../editors/HindranceEditor'
-import EditorList from './EditorList'
+import EditorList from '../lists/EditorList'
 
 export default class HindranceEditorList extends React.Component {
 
@@ -27,4 +27,3 @@ export default class HindranceEditorList extends React.Component {
 		);
 	}
 }
-

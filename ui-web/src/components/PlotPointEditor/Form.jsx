@@ -10,7 +10,7 @@ import CharacterEditorList from '../lists/CharacterEditorList'
 import EdgeEditorList from '../lists/EdgeEditorList'
 import GroundVehiclesEditorList from '../lists/GroundVehiclesEditorList'
 import HandWeaponsEditorList from '../lists/HandWeaponsEditorList'
-import HindranceEditorList from '../lists/HindranceEditorList'
+import Hindrances from './Hindrances'
 import MundaneItemEditorList from '../lists/MundaneItemEditorList'
 import PowersEditorList from '../lists/PowersEditorList'
 import Races from './Races'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
+		show     : PropTypes.oneOf(['Hindrances', 'Races', 'PlotPoint', 'SettingRules', 'Skills']).isRequired
 	}
 
 
@@ -71,6 +71,9 @@ export default class Form extends React.Component {
 		let component_id           = `Form-${id}`
 		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
+			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances}
+													 hindrancesChange={this.hindrancesChange}/>
+												 break
 			case 'SettingRules' :
 				component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
 				break
@@ -88,8 +91,7 @@ export default class Form extends React.Component {
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${component_id}`}>
 				{component}
-				<HindranceEditorList id={component_id} hindrances={plotPoint.hindrances}
-				                     hindrancesChange={this.hindrancesChange}/>
+
 				<EdgeEditorList id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
 				<h1>Gear</h1>
 				<MundaneItemEditorList id={component_id} mundaneItems={plotPoint.mundaneItems}
