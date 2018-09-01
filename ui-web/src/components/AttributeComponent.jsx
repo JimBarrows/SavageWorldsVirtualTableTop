@@ -16,6 +16,7 @@ export default class AttributeComponent extends React.Component {
 		disabled: PropTypes.bool,
 		id      : PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
+		prepend : PropTypes.any,
 		required: PropTypes.bool,
 		value   : PropTypes.shape({
 			dice : PropTypes.oneOf(['d4', 'd6', 'd8', 'd10', 'd12']),
@@ -34,9 +35,9 @@ export default class AttributeComponent extends React.Component {
 	bonusChange = e => this.props.onChange(Object.assign({}, this.props.value, {bonus: parseInt(e.target.value, 10)}))
 
 	render() {
-		let {append, className, disabled, id, prepend, required, value} = this.props
-		let bonusComponent                                              = ''
-		let componentId                                                 = `AttributeComponent-${id}`
+		let {append, className = '', disabled, id, prepend, required, value} = this.props
+		let bonusComponent                                                   = ''
+		let componentId                                                      = `AttributeComponent-${id}`
 
 		if (value.dice === 'd12') {
 			bonusComponent =

@@ -1,7 +1,13 @@
-import {CheckboxFormGroup, NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {
+	CheckboxFormGroup,
+	NumberFormGroup,
+	PrependAddon,
+	TextAreaFormGroup,
+	TextFormGroup
+} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import DiceSelectFormGroup from '../formgroups/DiceSelectFormGroup'
+import AttributeComponent from '../AttributeComponent'
 import SelectedSkills from '../PlotPointEditor/SelectedSkills'
 import SpecialAbilities from '../PlotPointEditor/SpecialAbilities'
 import BaseEditor from './BaseEditor'
@@ -18,7 +24,7 @@ export default class BeastEditor extends React.Component {
 		selected: ''
 	}
 
-	agilityChange            = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e.target.value}), this.props.index)
+	agilityChange            = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e}), this.props.index)
 	animalIntelligenceChange = e => this.props.onChange(Object.assign({}, this.props.item, {animalIntelligence: e.target.value}), this.props.index)
 	armorChange              = e => this.props.onChange(Object.assign({}, this.props.item, {armor: parseInt(e.target.value, 10)}), this.props.index)
 	charismaChange           = e => this.props.onChange(Object.assign({}, this.props.item, {charisma: parseInt(e.target.value, 10)}), this.props.index)
@@ -32,11 +38,11 @@ export default class BeastEditor extends React.Component {
 	skillListChanged         = skills => {
 		this.props.onChange(Object.assign({}, this.props.item, {skills: skills}), this.props.index)
 	}
-	smartsChange             = e => this.props.onChange(Object.assign({}, this.props.item, {smarts: e.target.value}), this.props.index)
+	smartsChange             = e => this.props.onChange(Object.assign({}, this.props.item, {smarts: e}), this.props.index)
 	specialAbilitiesChange   = specialAbilities => {this.props.onChange(Object.assign({}, this.props.item, {specialAbilities}), this.props.index)}
-	spiritChange             = e => this.props.onChange(Object.assign({}, this.props.item, {spirit: e.target.value}), this.props.index)
-	strengthChange           = e => this.props.onChange(Object.assign({}, this.props.item, {strength: e.target.value}), this.props.index)
-	vigorChange              = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e.target.value}), this.props.index)
+	spiritChange             = e => this.props.onChange(Object.assign({}, this.props.item, {spirit: e}), this.props.index)
+	strengthChange           = e => this.props.onChange(Object.assign({}, this.props.item, {strength: e}), this.props.index)
+	vigorChange              = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e}), this.props.index)
 
 	render() {
 		let unselectedSkills = this.props.skillsAvailable
@@ -54,18 +60,26 @@ export default class BeastEditor extends React.Component {
 				                   onChange={this.descriptionChange}
 				                   required={false}
 				                   value={this.props.item.description}/>
-				<DiceSelectFormGroup id={component_id + '-Agility'} label='Agility' value={this.props.item.agility}
-				                     onChange={this.agilityChange}/>
-				<DiceSelectFormGroup id={component_id + '-Smarts'} label='Smarts' value={this.props.item.smarts}
-				                     onChange={this.smartsChange}/>
-				<CheckboxFormGroup id={component_id + '-AnimalIntelligence'} label={'Animal Intelligence'}
-				                   value={this.props.item.animalIntelligence} onChange={this.animalIntelligenceChange}/>
-				<DiceSelectFormGroup id={component_id + '-Spirit'} label='Spirit' value={this.props.item.spirit}
+				<AttributeComponent id={component_id + '-Agility'} onChange={this.agilityChange} value={this.props.item.agility}
+				                    prepend={<PrependAddon>Agility</PrependAddon>}/>
+
+				<AttributeComponent id={component_id + '-Smarts'} prepend={<PrependAddon>Smarts</PrependAddon>}
+				                    value={this.props.item.smarts}
+				                    onChange={this.smartsChange}
+				                    append={<div className={'input-group-append'}><CheckboxFormGroup
+					                    id={component_id + '-AnimalIntelligence'} label={'Animal Intelligence'}
+					                    value={this.props.item.animalIntelligence} onChange={this.animalIntelligenceChange}/>
+				                    </div>}/>
+
+				<AttributeComponent id={component_id + '-Spirit'} prepend={<PrependAddon>Spirit</PrependAddon>}
+				                    value={this.props.item.spirit}
 				                     onChange={this.spiritChange}/>
-				<DiceSelectFormGroup id={component_id + '-Strength'} label='Strength' value={this.props.item.strength}
-				                     onChange={this.strengthChange}/>
-				<DiceSelectFormGroup id={component_id + '-Vigor'} label='Vigor' value={this.props.item.vigor}
-				                     onChange={this.vigorChange}/>
+				<AttributeComponent id={component_id + '-Strength'} prepend={<PrependAddon>Strength</PrependAddon>}
+				                    value={this.props.item.strength}
+				                    onChange={this.strengthChange}/>
+				<AttributeComponent id={component_id + '-Vigor'} prepend={<PrependAddon>Vigor</PrependAddon>}
+				                    value={this.props.item.vigor}
+				                    onChange={this.vigorChange}/>
 				<NumberFormGroup id={component_id + '-Charisma'} label={'Charisma'} value={this.props.item.charisma}
 				                 onChange={this.charismaChange}/>
 				<NumberFormGroup id={component_id + '-Pace'} label={'Pace'} value={this.props.item.pace}
