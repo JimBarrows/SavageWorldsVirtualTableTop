@@ -5,23 +5,20 @@ import BaseEditor from './BaseEditor'
 export default class VehicleMountedAndAtGunsEditor extends React.Component {
 
 	delete                = event => {
-		event.preventDefault();
-		this.props.onDelete(this.props.index);
-	};
-	descriptionChange     = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
-	eraChange             = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index);
-	kindChange            = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);
-	longRangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {longRange: parseInt(e.target.value, 10)}), this.props.index);
-	mediumRangeChange     = e => this.props.onChange(Object.assign({}, this.props.item, {mediumRange: parseInt(e.target.value, 10)}), this.props.index);
-	nameChange            = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
-	noteChange            = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
-	rateOfFireChange      = e => this.props.onChange(Object.assign({}, this.props.item, {rateOfFire: parseInt(e.target.value, 10)}), this.props.index);
-	shortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index);
-	apDamageChange        = e => this.props.onChange(Object.assign({}, this.props.item, {apDamage: e.target.value}), this.props.index);
-	apArmorPiercingChange = e => this.props.onChange(Object.assign({}, this.props.item, {apArmorPiercing: parseInt(e.target.value, 10)}), this.props.index);
-	heDamageChange        = e => this.props.onChange(Object.assign({}, this.props.item, {heDamage: e.target.value}), this.props.index);
-	heArmorPiercingChange = e => this.props.onChange(Object.assign({}, this.props.item, {heArmorPiercing: parseInt(e.target.value, 10)}), this.props.index);
-	heBurstTemplateChange = e => this.props.onChange(Object.assign({}, this.props.item, {heBurstTemplate: e.target.value}), this.props.index);
+		event.preventDefault()
+		this.props.onDelete(this.props.index)
+	}
+	descriptionChange     = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index)
+	longRangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {longRange: parseInt(e.target.value, 10)}), this.props.index)
+	mediumRangeChange     = e => this.props.onChange(Object.assign({}, this.props.item, {mediumRange: parseInt(e.target.value, 10)}), this.props.index)
+	nameChange            = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index)
+	rateOfFireChange      = e => this.props.onChange(Object.assign({}, this.props.item, {rateOfFire: parseInt(e.target.value, 10)}), this.props.index)
+	shortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index)
+	apDamageChange        = e => this.props.onChange(Object.assign({}, this.props.item, {apDamage: e.target.value}), this.props.index)
+	apArmorPiercingChange = e => this.props.onChange(Object.assign({}, this.props.item, {apArmorPiercing: parseInt(e.target.value, 10)}), this.props.index)
+	heDamageChange        = e => this.props.onChange(Object.assign({}, this.props.item, {heDamage: e.target.value}), this.props.index)
+	heArmorPiercingChange = e => this.props.onChange(Object.assign({}, this.props.item, {heArmorPiercing: parseInt(e.target.value, 10)}), this.props.index)
+	heBurstTemplateChange = e => this.props.onChange(Object.assign({}, this.props.item, {heBurstTemplate: e.target.value}), this.props.index)
 
 	render() {
 		return <BaseEditor id={this.props.id} onDelete={this.delete}>
@@ -76,20 +73,7 @@ export default class VehicleMountedAndAtGunsEditor extends React.Component {
 			                 onChange={this.rateOfFireChange}
 			                 required={true}
 			                 value={this.props.item.rateOfFire}/>
-			<TextAreaFormGroup id={"vehicleMountedAndAtGunsNote"}
-			                   label="Note"
-			                   onChange={this.noteChange}
-			                   value={this.props.item.note}/>
-			<TextFormGroup id={'vehicleMountedAndAtGunsEra'}
-			               label={'Era'}
-			               onChange={this.eraChange}
-			               required={true}
-			               value={this.props.item.era}/>
-			<TextFormGroup id={'vehicleMountedAndAtGunsKind'}
-			               label={'Kind'}
-			               onChange={this.kindChange}
-			               required={true}
-			               value={this.props.item.kind}/>
-		</BaseEditor>;
+
+		</BaseEditor>
 	}
 }

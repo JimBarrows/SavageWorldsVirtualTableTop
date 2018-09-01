@@ -31,7 +31,8 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft', 'Ammunition', 'Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'VehicleMountedAndAtGuns']).isRequired
+		show     : PropTypes.oneOf(['Aircraft', 'Ammunition', 'Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems',
+			'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'SpecialWeapons', 'VehicleMountedAndAtGuns']).isRequired
 	}
 
 

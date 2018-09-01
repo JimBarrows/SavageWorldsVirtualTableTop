@@ -6,15 +6,11 @@ export default class SpecialWeaponsEditor extends React.Component {
 
 	onApChange              = e => this.props.onChange(Object.assign({}, this.props.item, {armorPiercing: parseInt(e.target.value, 10)}), this.props.index);
 	onDamageChange          = e => this.props.onChange(Object.assign({}, this.props.item, {damage: e.target.value}), this.props.index);
-	onEraChange             = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index);
-	onKindChange            = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index);
 	onLongRangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {longRange: parseInt(e.target.value, 10)}), this.props.index);
 	onMediumRangeChange     = e => this.props.onChange(Object.assign({}, this.props.item, {mediumRange: parseInt(e.target.value, 10)}), this.props.index);
 	onMinimumStrengthChange = e => this.props.onChange(Object.assign({}, this.props.item, {minimumStrength: e.target.value}), this.props.index);
-	onNoteChange            = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
 	onRateOfFireChange      = e => this.props.onChange(Object.assign({}, this.props.item, {rateOfFire: parseInt(e.target.value, 10)}), this.props.index);
 	onShortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index);
-	onShotsChange           = e => this.props.onChange(Object.assign({}, this.props.item, {shots: parseInt(e.target.value, 10)}), this.props.index);
 	onBurstTemplateChange   = e => this.props.onChange(Object.assign({}, this.props.item, {burstTemplate: e.target.value}), this.props.index);
 	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
 	nameChange        = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
@@ -68,19 +64,6 @@ export default class SpecialWeaponsEditor extends React.Component {
 			<TextFormGroup id={'vehicleMountedAndAtGunsBurstTemplate'} label={'Burst Template'}
 			               onChange={this.onBurstTemplateChange}
 			               value={this.props.item.burstTemplate}/>
-			<TextFormGroup id={'specialWeaponsEra'} label={'Era'}
-			               onChange={this.onEraChange}
-			               required={true}
-			               value={this.props.item.era}/>
-			<TextFormGroup id={'specialWeaponsKind'}
-			               label={'Kind'}
-			               onChange={this.onKindChange}
-			               required={true}
-			               value={this.props.item.kind}/>
-			<TextAreaFormGroup id={"specialWeaponsNote"}
-			                   label="Note"
-			                   onChange={this.onNoteChange}
-			                   value={this.props.item.note}/>
 		</BaseEditor>;
 	}
 }

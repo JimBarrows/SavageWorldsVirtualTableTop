@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import MundaneItemEditor from '../editors/MundaneItemEditor'
 import EditorList from '../EditorList'
+import MundaneItemEditor from '../editors/MundaneItemEditor'
 
 export default class MundaneItemEditorList extends React.Component {
 
@@ -16,7 +16,7 @@ export default class MundaneItemEditorList extends React.Component {
 	render() {
 		return (
 				<div id={'MundaneItemEditorListComponent_' + this.props.id}>
-					<EditorList emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1})}
+					<EditorList emptyItem={({name: ' ', description: ' ', cost: 1, weight: 1, note: ' ', kind: ' ', era: ' '})}
 					            id={'MundaneItemEditorList'}
 					            list={this.props.mundaneItems}
 					            onChange={this.props.mundaneItemsChange}

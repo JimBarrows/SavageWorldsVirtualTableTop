@@ -1,16 +1,13 @@
-import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {NumberFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import React from 'react'
 import MundaneItemEditor from './MundaneItemEditor'
 
 export default class RangedWeaponEditor extends MundaneItemEditor {
 
 	onDamageChange          = e => this.props.onChange(Object.assign({}, this.props.item, {damage: e.target.value}), this.props.index)
-	onEraChange             = e => this.props.onChange(Object.assign({}, this.props.item, {era: e.target.value}), this.props.index)
-	onKindChange            = e => this.props.onChange(Object.assign({}, this.props.item, {kind: e.target.value}), this.props.index)
 	onLongRangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {longRange: parseInt(e.target.value, 10)}), this.props.index)
 	onMediumRangeChange     = e => this.props.onChange(Object.assign({}, this.props.item, {mediumRange: parseInt(e.target.value, 10)}), this.props.index)
 	onMinimumStrengthChange = e => this.props.onChange(Object.assign({}, this.props.item, {minimumStrength: e.target.value}), this.props.index)
-	onNoteChange            = e => this.props.onChange(Object.assign({}, this.props.item, {note: e.target.value}), this.props.index)
 	onRateOfFireChange      = e => this.props.onChange(Object.assign({}, this.props.item, {rateOfFire: parseInt(e.target.value, 10)}), this.props.index)
 	onShortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index)
 	onShotsChange           = e => this.props.onChange(Object.assign({}, this.props.item, {shots: parseInt(e.target.value, 10)}), this.props.index)
@@ -31,14 +28,6 @@ export default class RangedWeaponEditor extends MundaneItemEditor {
 		<TextFormGroup id={'rangedWeaponMinimumStrength'} label={'Minimum Strength'}
 		               onChange={this.onMinimumStrengthChange}
 		               required={true} value={this.props.item.minimumStrength}/>
-		<TextFormGroup id={'rangedWeaponEra'} label={'Era'} onChange={this.onEraChange} required={true}
-		               value={this.props.item.era}/>
-		<TextFormGroup id={'rangedWeaponKind'} label={'Kind'} onChange={this.onKindChange} required={true}
-		               value={this.props.item.kind}/>
-		<TextAreaFormGroup id={"rangedWeaponNote"}
-		                   label="Note"
-		                   onChange={this.onNoteChange}
-		                   value={this.props.item.note}/>
 	</div>
 
 }
