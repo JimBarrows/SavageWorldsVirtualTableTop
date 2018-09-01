@@ -49,7 +49,7 @@ export default class Form extends React.Component {
 	nameChange                    = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {name: e.target.value}))
 	powersChange                  = powers => this.props.onChange(Object.assign({}, this.props.plotPoint, {powers}))
 	rangedWeaponsChange           = rangedWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {rangedWeapons}))
-	racesChange           				= races => this.props.onChange(Object.assign({}, this.props.plotPoint, {races}))
+	racesChange                   = races => this.props.onChange(Object.assign({}, this.props.plotPoint, {races}))
 	settingRulesChange            = settingRules => this.props.onChange(Object.assign({}, this.props.plotPoint, {settingRules}))
 	skillsChange                  = skills => this.props.onChange(Object.assign({}, this.props.plotPoint, {skills}))
 	specialWeaponsChange          = specialWeapons => this.props.onChange(Object.assign({}, this.props.plotPoint, {specialWeapons}))
@@ -70,64 +70,96 @@ export default class Form extends React.Component {
 
 	render() {
 		let {id, plotPoint, show} = this.props
-		let component_id           = `Form-${id}`
+		let component_id          = `Form-${id}`
 		let component             = <div><h1>No Components</h1></div>
 		switch (show) {
-			case 'Aircraft': component = 	<Aircraft id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
-			break
+			case 'Aircraft':
+				component = <Aircraft id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
+				break
 			case 'Ammunition':
 				component =
 					<Ammunition id={component_id} ammunition={plotPoint.ammunition} ammunitionChange={this.ammunitionChange}/>
 				break
-			case 'Armor': component = <Armor id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
-			break
-			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
-			break
-			case 'HandWeapons': component = <HandWeapons id={component_id} handWeapons={plotPoint.handWeapons} handWeaponsChange={this.handWeaponsChange}/>
-			break
-			case 'Hindrances' : component = <Hindrances id={component_id} hindrances={plotPoint.hindrances} hindrancesChange={this.hindrancesChange}/>
-			break
-			case 'MundaneItems': component = <MundaneItems id={component_id} mundaneItems={plotPoint.mundaneItems} mundaneItemsChange={this.mundaneItemsChange}/>
-			break
-			case 'Races' :component = <Races id={component_id} races={plotPoint.races} racesChange={this.racesChange}/>
-			break
-			case 'RangedWeapons': component = <RangedWeapons id={component_id} rangedWeapons={plotPoint.rangedWeapons} rangedWeaponsChange={this.rangedWeaponsChange}/>
-			break
-			case 'SettingRules' : component =	<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
-			break
-			case 'Skills' : component = <Skills id={component_id} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
-			break
-			case 'VehicleMountedAndAtGuns': component = 	<VehicleMountedAndAtGuns id={component_id} vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns} vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
-			break
+			case 'ArcaneBackground':
+				component = <ArcaneBackgrounds id={component_id} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
+				                               arcaneBackgroundChange={this.arcaneBackgroundChange}/>
+				break
+			case 'Armor':
+				component = <Armor id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
+				break
+			case 'Beasts':
+				component = <Beasts id={component_id} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
+				                    skills={plotPoint.skills}/>
+				break
+			case 'Characters':
+				component = <Characters id={component_id} characters={plotPoint.characters}
+				                        charactersChange={this.charactersChange}/>
+				break
+			case 'Edges':
+				component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
+				break
+			case 'GroundVehicles':
+				component = <GroundVehicles id={component_id} groundVehicles={plotPoint.groundVehicles}
+				                            groundVehiclesChange={this.groundVehiclesChange}/>
+				break
+			case 'HandWeapons':
+				component = <HandWeapons id={component_id} handWeapons={plotPoint.handWeapons}
+				                         handWeaponsChange={this.handWeaponsChange}/>
+				break
+			case 'Hindrances' :
+				component =
+					<Hindrances id={component_id} hindrances={plotPoint.hindrances} hindrancesChange={this.hindrancesChange}/>
+				break
+			case 'MundaneItems':
+				component = <MundaneItems id={component_id} mundaneItems={plotPoint.mundaneItems}
+				                          mundaneItemsChange={this.mundaneItemsChange}/>
+				break
+			case 'Powers':
+				component = <Powers id={component_id} powers={plotPoint.powers} powersChange={this.powersChange}/>
+				break
+			case 'Races' :
+				component = <Races id={component_id} races={plotPoint.races} racesChange={this.racesChange}/>
+				break
+			case 'RangedWeapons':
+				component = <RangedWeapons id={component_id} rangedWeapons={plotPoint.rangedWeapons}
+				                           rangedWeaponsChange={this.rangedWeaponsChange}/>
+				break
+			case 'SettingRules' :
+				component =
+					<SettingRules id={`${component_id}`} onChange={this.settingRulesChange} rules={plotPoint.settingRules}/>
+				break
+			case 'Skills' :
+				component = <Skills id={component_id} skills={plotPoint.skills} skillsChange={this.skillsChange}/>
+				break
+			case 'SpecialWeapons' :
+				component = <SpecialWeapons id={component_id} specialWeapons={plotPoint.specialWeapons}
+				                            specialWeaponsChange={this.specialWeaponsChange}/>
+				break
+			case 'TrappingsAndEffects':
+				component = <TrappingsAndEffects id={component_id} trappingsAndEffects={plotPoint.trappingsAndEffects}
+				                                 trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
+				break
+			case 'VehicleMountedAndAtGuns':
+				component =
+					<VehicleMountedAndAtGuns id={component_id} vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
+					                         vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
+				break
+			case 'Watercraft':
+				component = <Watercraft id={component_id} watercraft={plotPoint.watercraft}
+				                        watercraftChange={this.watercraftChange}/>
+				break
 			case 'PlotPoint':
 			default:
 				component = <PlotPoint id={component_id} plotPoint={plotPoint} onChange={this.onChange}/>
-			break
+				break
 		}
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${component_id}`}>
+				<Button id={component_id + '-Save-Top'} onClick={this.save}>Save</Button>
+				<Button id={component_id + '-Cancel-Top'} onClick={this.cancel}>Cancel</Button>
 				{component}
-				<SpecialWeapons id={component_id} specialWeapons={plotPoint.specialWeapons}
-				                specialWeaponsChange={this.specialWeaponsChange}/>
-				<h1>Vehicles</h1>
-				<GroundVehicles id={component_id} groundVehicles={plotPoint.groundVehicles}
-				                groundVehiclesChange={this.groundVehiclesChange}/>
-				<Watercraft id={component_id} watercraft={plotPoint.watercraft}
-				            watercraftChange={this.watercraftChange}/>
-
-				<h1>Powers</h1>
-				<ArcaneBackgrounds id={component_id} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
-				                   arcaneBackgroundChange={this.arcaneBackgroundChange}/>
-				<TrappingsAndEffects id={component_id} trappingsAndEffects={plotPoint.trappingsAndEffects}
-				                     trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
-				<Powers id={component_id} powers={plotPoint.powers} powersChange={this.powersChange}/>
-				<Beasts id={component_id} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
-				        skills={plotPoint.skills}/>
-				<h1>Characters</h1>
-				<Characters id={component_id} characters={plotPoint.characters}
-				            charactersChange={this.charactersChange}/>
-				<Button id={component_id} onClick={this.save}>Save</Button>
-				<Button id={component_id} onClick={this.cancel}>Cancel</Button>
+				<Button id={component_id + '-Save-Bottom'} onClick={this.save}>Save</Button>
+				<Button id={component_id + '-Cancel-Bottom'} onClick={this.cancel}>Cancel</Button>
 			</form>
 		</div>
 	}

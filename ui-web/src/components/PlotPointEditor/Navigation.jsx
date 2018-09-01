@@ -7,7 +7,7 @@ export default class Navigation extends React.Component {
 	static defaultProps = {}
 
 	static propTypes = {
-		id: PropTypes.string.isRequired,
+		id        : PropTypes.string.isRequired,
 		navigateTo: PropTypes.func.isRequired
 	}
 
@@ -51,7 +51,7 @@ export default class Navigation extends React.Component {
 							</ALink>
 						</li>
 						<li className="nav-item">
-							<ALink id={component_id + 'Edgess'} className="nav-link" onClick={e => this.navigateTo('Edges')}>
+							<ALink id={component_id + 'Edges'} className="nav-link" onClick={e => this.navigateTo('Edges')}>
 								Edges
 							</ALink>
 						</li>
@@ -127,8 +127,9 @@ export default class Navigation extends React.Component {
 							</ALink>
 						</li>
 						<li className="nav-item">
-							<ALink id={component_id + 'Trapping'} className="nav-link" onClick={e => this.navigateTo('Trapping')}>
-								Trappings
+							<ALink id={component_id + 'Trapping'} className="nav-link"
+							       onClick={e => this.navigateTo('TrappingsAndEffects')}>
+								Trappings & Effects
 							</ALink>
 						</li>
 						<li className="nav-item">
@@ -136,7 +137,8 @@ export default class Navigation extends React.Component {
 								Powers
 							</ALink>
 						</li>
-						<h6>Allies, Critters & Enemies</h6>
+						<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+							<span>Allies, Critters & Enemies</span></h6>
 						<li className="nav-item">
 							<ALink id={component_id + 'Beasts'} className="nav-link" onClick={e => this.navigateTo('Beasts')}>
 								Beasts
