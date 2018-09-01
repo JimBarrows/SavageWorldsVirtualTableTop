@@ -3,7 +3,7 @@ import React from 'react'
 import SpecialWeaponsEditor from '../editors/SpecialWeaponsEditor'
 import EditorList from './EditorList'
 
-export default class SpecialWeaponsEditorList extends React.Component {
+export default class SpecialWeapons extends React.Component {
 
 	static propTypes = {
 		id                  : PropTypes.string.isRequired,

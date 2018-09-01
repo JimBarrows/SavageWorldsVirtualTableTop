@@ -3,7 +3,7 @@ import React from 'react'
 import PowerEditor from '../editors/PowerEditor'
 import EditorList from './EditorList'
 
-export default class PowersEditorList extends React.Component {
+export default class Powers extends React.Component {
 
 	static propTypes = {
 		id          : PropTypes.string.isRequired,

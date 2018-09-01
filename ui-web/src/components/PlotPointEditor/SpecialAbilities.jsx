@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import SpecialAbilityEditor from '../editors/SpecialAbilityEditor'
 
-export default class SpecialAbilitiesList extends React.Component {
+export default class SpecialAbilities extends React.Component {
 
 	static defaultProps = {
 		abilities: []

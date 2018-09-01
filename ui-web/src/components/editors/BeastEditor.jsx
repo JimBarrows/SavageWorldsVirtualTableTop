@@ -2,8 +2,8 @@ import {CheckboxFormGroup, NumberFormGroup, TextAreaFormGroup, TextFormGroup} fr
 import PropTypes from 'prop-types'
 import React from 'react'
 import DiceSelectFormGroup from '../formgroups/DiceSelectFormGroup'
-import SelectedSkillList from '../lists/SelectedSkillList'
-import SpecialAbilitiesList from '../lists/SpecialAbilitiesList'
+import SelectedSkills from '../PlotPointEditor/SelectedSkills'
+import SpecialAbilities from '../PlotPointEditor/SpecialAbilities'
 import BaseEditor from './BaseEditor'
 
 
@@ -72,10 +72,10 @@ export default class BeastEditor extends React.Component {
 				                 onChange={this.paceChange}/>
 				<NumberFormGroup id={component_id + '-Armor'} label={'Armor'} value={this.props.item.armor || 0}
 				                 onChange={this.armorChange}/>
-				<SelectedSkillList id={component_id + '-Skills'} skillsAvailable={unselectedSkills}
-				                   skills={this.props.item.skills} onChange={this.skillListChanged}/>
-				<SpecialAbilitiesList abilities={this.props.item.specialAbilities} id={component_id + '-SpecialAbilities'}
-				                      onChange={this.specialAbilitiesChange}/>
+				<SelectedSkills id={component_id + '-Skills'} skillsAvailable={unselectedSkills}
+				                skills={this.props.item.skills} onChange={this.skillListChanged}/>
+				<SpecialAbilities abilities={this.props.item.specialAbilities} id={component_id + '-SpecialAbilities'}
+				                  onChange={this.specialAbilitiesChange}/>
 			</BaseEditor>
 		)
 	}

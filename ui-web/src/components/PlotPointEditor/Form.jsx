@@ -2,26 +2,26 @@ import {Button} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Aircraft from './Aircraft'
-import AmmunitionEditorList from '../lists/AmmunitionEditorList'
-import ArcaneBackgroundEditorList from '../lists/ArcaneBackgroundEditorList'
+import Ammunition from './Ammunition'
+import ArcaneBackgrounds from './ArcaneBackgrounds'
 import Armor from './Armor'
-import BeastsEditorList from '../lists/BeastsEditorList'
-import CharacterEditorList from '../lists/CharacterEditorList'
+import Beasts from './Beasts'
+import Characters from './Characters'
 import Edges from './Edges'
-import GroundVehiclesEditorList from '../lists/GroundVehiclesEditorList'
+import GroundVehicles from './GroundVehicles'
 import HandWeapons from './HandWeapons'
 import Hindrances from './Hindrances'
 import MundaneItems from './MundaneItems'
-import PowersEditorList from '../lists/PowersEditorList'
+import PlotPoint from './PlotPoint'
+import Powers from './Powers'
 import Races from './Races'
 import RangedWeapons from './RangedWeapons'
-import Skills from './Skills'
 import SettingRules from './SettingRules'
-import SpecialWeaponsEditorList from '../lists/SpecialWeaponsEditorList'
-import TrappingsAndEffectsEditorList from '../lists/TrappingsAndEffectsEditorList'
+import Skills from './Skills'
+import SpecialWeapons from './SpecialWeapons'
+import TrappingsAndEffects from './TrappingsAndEffects'
 import VehicleMountedAndAtGuns from './VehicleMountedAndAtGuns'
-import WatercraftEditorList from '../lists/WatercraftEditorList'
-import PlotPoint from './PlotPoint'
+import Watercraft from './Watercraft'
 
 export default class Form extends React.Component {
 
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft','Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'VehicleMountedAndAtGuns']).isRequired
+		show     : PropTypes.oneOf(['Aircraft', 'Ammunition', 'Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems', 'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'VehicleMountedAndAtGuns']).isRequired
 	}
 
 
@@ -75,6 +75,10 @@ export default class Form extends React.Component {
 		switch (show) {
 			case 'Aircraft': component = 	<Aircraft id={component_id} aircraft={plotPoint.aircraft} aircraftChange={this.aircraftChange}/>
 			break
+			case 'Ammunition':
+				component =
+					<Ammunition id={component_id} ammunition={plotPoint.ammunition} ammunitionChange={this.ammunitionChange}/>
+				break
 			case 'Armor': component = <Armor id={component_id} armor={plotPoint.armor} armorChange={this.armorChange}/>
 			break
 			case 'Edges': component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
@@ -103,27 +107,25 @@ export default class Form extends React.Component {
 		return <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<form id={`${component_id}`}>
 				{component}
-				<AmmunitionEditorList id={component_id} ammunition={plotPoint.ammunition}
-				                      ammunitionChange={this.ammunitionChange}/>
-				<SpecialWeaponsEditorList id={component_id} specialWeapons={plotPoint.specialWeapons}
-				                          specialWeaponsChange={this.specialWeaponsChange}/>
+				<SpecialWeapons id={component_id} specialWeapons={plotPoint.specialWeapons}
+				                specialWeaponsChange={this.specialWeaponsChange}/>
 				<h1>Vehicles</h1>
-				<GroundVehiclesEditorList id={component_id} groundVehicles={plotPoint.groundVehicles}
-				                          groundVehiclesChange={this.groundVehiclesChange}/>
-				<WatercraftEditorList id={component_id} watercraft={plotPoint.watercraft}
-				                      watercraftChange={this.watercraftChange}/>
+				<GroundVehicles id={component_id} groundVehicles={plotPoint.groundVehicles}
+				                groundVehiclesChange={this.groundVehiclesChange}/>
+				<Watercraft id={component_id} watercraft={plotPoint.watercraft}
+				            watercraftChange={this.watercraftChange}/>
 
 				<h1>Powers</h1>
-				<ArcaneBackgroundEditorList id={component_id} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
-				                            arcaneBackgroundChange={this.arcaneBackgroundChange}/>
-				<TrappingsAndEffectsEditorList id={component_id} trappingsAndEffects={plotPoint.trappingsAndEffects}
-				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
-				<PowersEditorList id={component_id} powers={plotPoint.powers} powersChange={this.powersChange}/>
-				<BeastsEditorList id={component_id} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
-				                  skills={plotPoint.skills}/>
+				<ArcaneBackgrounds id={component_id} arcaneBackgrounds={plotPoint.arcaneBackgrounds}
+				                   arcaneBackgroundChange={this.arcaneBackgroundChange}/>
+				<TrappingsAndEffects id={component_id} trappingsAndEffects={plotPoint.trappingsAndEffects}
+				                     trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
+				<Powers id={component_id} powers={plotPoint.powers} powersChange={this.powersChange}/>
+				<Beasts id={component_id} beasts={plotPoint.beasts} beastsChange={this.beastsChange}
+				        skills={plotPoint.skills}/>
 				<h1>Characters</h1>
-				<CharacterEditorList id={component_id} characters={plotPoint.characters}
-				                     charactersChange={this.charactersChange}/>
+				<Characters id={component_id} characters={plotPoint.characters}
+				            charactersChange={this.charactersChange}/>
 				<Button id={component_id} onClick={this.save}>Save</Button>
 				<Button id={component_id} onClick={this.cancel}>Cancel</Button>
 			</form>

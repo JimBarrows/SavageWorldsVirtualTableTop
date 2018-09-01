@@ -1,6 +1,6 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import React from 'react'
-import EditorList from '../lists/EditorList'
+import EditorList from '../PlotPointEditor/EditorList'
 import BaseEditor from './BaseEditor'
 import EffectsEditor from './EffectsEditor'
 

@@ -3,7 +3,7 @@ import React from 'react'
 import BaseVehicleEditor from '../editors/BaseVehicleEditor'
 import EditorList from './EditorList'
 
-export default class GroundVehiclesEditorList extends React.Component {
+export default class GroundVehicles extends React.Component {
 
 	static propTypes = {
 		id                  : PropTypes.string.isRequired,

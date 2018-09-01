@@ -3,7 +3,7 @@ import React from 'react'
 import TrappingsAndEffectsEditor from '../editors/TrappingsAndEffectsEditor'
 import EditorList from './EditorList'
 
-export default class TrappingsAndEffectsEditorList extends React.Component {
+export default class TrappingsAndEffects extends React.Component {
 
 	static propTypes = {
 		id                       : PropTypes.string.isRequired,

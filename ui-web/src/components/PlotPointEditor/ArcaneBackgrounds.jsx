@@ -3,7 +3,7 @@ import React from 'react'
 import ArcaneBackgroundEditor from '../editors/ArcaneBackgroundEditor'
 import EditorList from './EditorList'
 
-export default class ArcaneBackgroundEditorList extends React.Component {
+export default class ArcaneBackgrounds extends React.Component {
 
 	static propTypes = {
 		id                    : PropTypes.string.isRequired,

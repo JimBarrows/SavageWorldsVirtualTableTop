@@ -3,7 +3,7 @@ import React from 'react'
 import WatercraftEditor from '../editors/WatercraftEditor'
 import EditorList from './EditorList'
 
-export default class WatercraftEditorList extends React.Component {
+export default class Watercraft extends React.Component {
 
 	static propTypes = {
 		id              : PropTypes.string.isRequired,

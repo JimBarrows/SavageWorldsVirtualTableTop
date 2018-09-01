@@ -3,7 +3,7 @@ import React from 'react'
 import BeastEditor from '../editors/BeastEditor'
 import EditorList from './EditorList'
 
-export default class BeastsEditorList extends React.Component {
+export default class Beasts extends React.Component {
 
 	static propTypes = {
 		id          : PropTypes.string.isRequired,

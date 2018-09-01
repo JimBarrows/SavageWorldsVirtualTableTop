@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import SelectedSkillEditor from '../editors/SelectedSkillEditor'
 
-export default class SelectedSkillList extends React.Component {
+export default class SelectedSkills extends React.Component {
 
 	static propTypes = {
 		id             : PropTypes.string.isRequired,
