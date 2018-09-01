@@ -102,13 +102,13 @@ export default class Navigation extends React.Component {
 						</h6>
 						<li className="nav-item">
 							<ALink id={component_id + 'GroundVehicle'} className="nav-link"
-							       onClick={e => this.navigateTo('GroundVehicle')}>
+							       onClick={e => this.navigateTo('GroundVehicles')}>
 								Ground
 							</ALink>
 						</li>
 						<li className="nav-item">
 							<ALink id={component_id + 'WaterVehicle'} className="nav-link"
-							       onClick={e => this.navigateTo('WaterVehicle')}>
+							       onClick={e => this.navigateTo('WaterVehicles')}>
 								Water
 							</ALink>
 						</li>

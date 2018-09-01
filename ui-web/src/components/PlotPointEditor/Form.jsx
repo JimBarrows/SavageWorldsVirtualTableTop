@@ -31,8 +31,8 @@ export default class Form extends React.Component {
 		id       : PropTypes.string.isRequired,
 		plotPoint: PropTypes.object.isRequired,
 		save     : PropTypes.func.isRequired,
-		show     : PropTypes.oneOf(['Aircraft', 'Ammunition', 'Armor', 'Edges', 'HandWeapons', 'Hindrances', 'MundaneItems',
-			'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'SpecialWeapons', 'VehicleMountedAndAtGuns']).isRequired
+		show     : PropTypes.oneOf(['Aircraft', 'Ammunition', 'Armor', 'Edges', 'GroundVehicles', 'HandWeapons', 'Hindrances', 'MundaneItems',
+			'Races', 'RangedWeapons', 'PlotPoint', 'SettingRules', 'Skills', 'SpecialWeapons', 'VehicleMountedAndAtGuns', 'WaterVehicles']).isRequired
 	}
 
 
@@ -145,7 +145,7 @@ export default class Form extends React.Component {
 					<VehicleMountedAndAtGuns id={component_id} vehicleMountedAndAtGuns={plotPoint.vehicleMountedAndAtGuns}
 					                         vehicleMountedAndAtGunsChange={this.vehicleMountedAndAtGunsChange}/>
 				break
-			case 'Watercraft':
+			case 'WaterVehicles':
 				component = <Watercraft id={component_id} watercraft={plotPoint.watercraft}
 				                        watercraftChange={this.watercraftChange}/>
 				break
