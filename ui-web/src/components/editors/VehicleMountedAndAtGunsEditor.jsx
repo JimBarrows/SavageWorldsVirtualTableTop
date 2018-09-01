@@ -1,17 +1,11 @@
-import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {NumberFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import React from 'react'
-import BaseEditor from './BaseEditor'
+import MundaneItemEditor from './MundaneItemEditor'
 
-export default class VehicleMountedAndAtGunsEditor extends React.Component {
+export default class VehicleMountedAndAtGunsEditor extends MundaneItemEditor {
 
-	delete                = event => {
-		event.preventDefault()
-		this.props.onDelete(this.props.index)
-	}
-	descriptionChange     = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index)
 	longRangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {longRange: parseInt(e.target.value, 10)}), this.props.index)
 	mediumRangeChange     = e => this.props.onChange(Object.assign({}, this.props.item, {mediumRange: parseInt(e.target.value, 10)}), this.props.index)
-	nameChange            = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index)
 	rateOfFireChange      = e => this.props.onChange(Object.assign({}, this.props.item, {rateOfFire: parseInt(e.target.value, 10)}), this.props.index)
 	shortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index)
 	apDamageChange        = e => this.props.onChange(Object.assign({}, this.props.item, {apDamage: e.target.value}), this.props.index)
@@ -20,17 +14,7 @@ export default class VehicleMountedAndAtGunsEditor extends React.Component {
 	heArmorPiercingChange = e => this.props.onChange(Object.assign({}, this.props.item, {heArmorPiercing: parseInt(e.target.value, 10)}), this.props.index)
 	heBurstTemplateChange = e => this.props.onChange(Object.assign({}, this.props.item, {heBurstTemplate: e.target.value}), this.props.index)
 
-	render() {
-		return <BaseEditor id={this.props.id} onDelete={this.delete}>
-			<TextFormGroup id='mundaneItemName'
-			               label='Name'
-			               onChange={this.nameChange}
-			               required={true}
-			               value={this.props.item.name}/>
-			<TextAreaFormGroup id={"mundaneItemDescription"}
-			                   label="Description"
-			                   onChange={this.descriptionChange}
-			                   value={this.props.item.description}/>
+	additionalFields = () => <div>
 			<NumberFormGroup id={'vehicleMountedAndAtGunsShort'}
 			                 label={'Short Range'}
 			                 onChange={this.shortRangeChange}
@@ -74,6 +58,5 @@ export default class VehicleMountedAndAtGunsEditor extends React.Component {
 			                 required={true}
 			                 value={this.props.item.rateOfFire}/>
 
-		</BaseEditor>
-	}
+	</div>
 }
