@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/react'
 import React from 'react'
 import Navigation from '../src/components/PlotPointEditor/Navigation'
 import PlotPoint from '../src/components/PlotPointEditor/PlotPoint'
-import SettingRules from '../src/components/PlotPointEditor/SettingRules'
+import SettingRules from '../src/components/PlotPointEditor/setting_rules/index'
 
 let plotPoint = {
 	aircraft               : [],

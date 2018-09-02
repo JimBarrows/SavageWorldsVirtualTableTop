@@ -2,7 +2,7 @@ import {API} from 'aws-amplify'
 import {PageHeader} from 'bootstrap-react-components'
 import React from 'react'
 import {withRouter} from 'react-router'
-import Form from '../components/PlotPointEditor/Form'
+import Form from '../components/PlotPointEditor/index'
 import Navigation from '../components/PlotPointEditor/Navigation'
 import './PlotPointEditor.css'
 

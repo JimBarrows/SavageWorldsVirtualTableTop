@@ -92,8 +92,8 @@ export default class Navigation extends React.Component {
 							</ALink>
 						</li>
 						<li className="nav-item">
-							<ALink id={component_id + 'SpecialWeapons'} className="nav-link"
-							       onClick={e => this.navigateTo('SpecialWeapons')}>
+							<ALink id={component_id + 'Index'} className="nav-link"
+							       onClick={e => this.navigateTo('Index')}>
 								Special Weapons
 							</ALink>
 						</li>
