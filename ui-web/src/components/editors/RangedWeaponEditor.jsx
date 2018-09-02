@@ -12,22 +12,28 @@ export default class RangedWeaponEditor extends MundaneItemEditor {
 	onShortRangeChange      = e => this.props.onChange(Object.assign({}, this.props.item, {shortRange: parseInt(e.target.value, 10)}), this.props.index)
 	onShotsChange           = e => this.props.onChange(Object.assign({}, this.props.item, {shots: parseInt(e.target.value, 10)}), this.props.index)
 
-	additionalFields = () => <div id={'RangedWeaponEditorComponent_' + this.props.id}>
-		<NumberFormGroup id={'rangedWeaponShort'} label={'Short Range'} onChange={this.onShortRangeChange}
+	additionalFields = () => <div id={`RangedWeaponEditor-${this.props.id}`}>
+		<NumberFormGroup id={`RangedWeaponEditor-${this.props.id}-ShortRange`} label={'Short Range'}
+		                 onChange={this.onShortRangeChange}
 		                 required={true} value={this.props.item.shortRange}/>
-		<NumberFormGroup id={'rangedWeaponMedium'} label={'Medium Range'} onChange={this.onMediumRangeChange}
+		<NumberFormGroup id={`RangedWeaponEditor-${this.props.id}-MediumRange`} label={'Medium Range'}
+		                 onChange={this.onMediumRangeChange}
 		                 required={true} value={this.props.item.mediumRange}/>
-		<NumberFormGroup id={'rangedWeaponLong'} label={'Long Range'} onChange={this.onLongRangeChange}
+		<NumberFormGroup id={`RangedWeaponEditor-${this.props.id}-LongRange`} label={'Long Range'}
+		                 onChange={this.onLongRangeChange}
 		                 required={true} value={this.props.item.longRange}/>
-		<TextFormGroup id={'rangedWeaponDamage'} label={'Damage'} onChange={this.onDamageChange} required={true}
+		<TextFormGroup id={`RangedWeaponEditor-${this.props.id}-Damage`} label={'Damage'} onChange={this.onDamageChange}
+		               required={true}
 		               value={this.props.item.damage}/>
-		<NumberFormGroup id={'rangedWeaponRateOfFire'} label={'Rate of Fire'} onChange={this.onRateOfFireChange}
+		<NumberFormGroup id={`RangedWeaponEditor-${this.props.id}-RateOfFire`} label={'Rate of Fire'}
+		                 onChange={this.onRateOfFireChange}
 		                 required={true} value={this.props.item.rateOfFire}/>
-		<NumberFormGroup id={'rangedWeaponShots'} label={'Shots'} onChange={this.onShotsChange}
+		<NumberFormGroup id={`RangedWeaponEditor-${this.props.id}-Shots`} label={'Shots'} onChange={this.onShotsChange}
 		                 required={true} value={this.props.item.shots}/>
-		<TextFormGroup id={'rangedWeaponMinimumStrength'} label={'Minimum Strength'}
+		<TextFormGroup id={`RangedWeaponEditor-${this.props.id}-MinimumStrength`} label={'Minimum Strength'}
 		               onChange={this.onMinimumStrengthChange}
 		               required={true} value={this.props.item.minimumStrength}/>
+		{this.additionalRangedWeaponFields ? this.additionalRangedWeaponFields() : ''}
 	</div>
 
 }
