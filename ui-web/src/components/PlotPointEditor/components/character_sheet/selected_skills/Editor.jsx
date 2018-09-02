@@ -1,7 +1,7 @@
 import {Button, FormControl} from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import AttributeComponent from '../../components/AttributeComponent'
+import AttributeComponent from '../../AttributeComponent'
 
 export default class Editor extends React.Component {
 

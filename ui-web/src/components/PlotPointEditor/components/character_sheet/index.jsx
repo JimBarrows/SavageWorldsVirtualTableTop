@@ -7,9 +7,9 @@ import {
 } from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
 import React from 'react'
-import SelectedSkills from '../beasts/selected_skills'
-import AttributeComponent from './AttributeComponent'
-import BaseEditor from './BaseEditor'
+import AttributeComponent from '../AttributeComponent'
+import BaseEditor from '../BaseEditor'
+import SelectedSkills from './selected_skills/index'
 
 export default class CharacterSheet extends React.Component {
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import CharacterSheet from '../components/CharacterSheet'
+import CharacterSheet from '../components/character_sheet/index'
 
 export default class Editor extends React.Component {
 
