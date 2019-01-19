@@ -7,35 +7,35 @@ features:
       PlotPointsCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: PlotPointsCRUD
-          requires-signin: true
+          requires-signin: false
           sdk-generation-stage-name: Development
         paths:
           /PlotPoints: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/PlotPoints-20180526075953.zip
+            codeFilename: uploads/PlotPoints-20180604082728.zip
             description: 'Handler for calls to resource path : /PlotPoints/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: t5rcyTZIB+K8o2KU83/GQ+45UxIQ/FDhDdUHH42D+60=
+            hashcode: YP8KTYk6otiRTq4vVWFf+pM2IKcDg8W9poXCtHVAgo4=
             memorySize: '128'
-            modified: '2018-05-26T13:01:03.649+0000'
+            modified: '2018-06-04T13:28:29.035+0000'
             name: PlotPoints
             runtime: nodejs6.10
             timeout: '3'
-            version: F6zOkbr35Lb_JquZtiZQ_fQCvQQSn.Sr
+            version: BGYuctWmTdqWygRiAjRy3h7N_IVDe9zL
           '/PlotPoints/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/PlotPoints-20180526075953.zip
+            codeFilename: uploads/PlotPoints-20180604082728.zip
             description: 'Handler for calls to resource path : /PlotPoints/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: t5rcyTZIB+K8o2KU83/GQ+45UxIQ/FDhDdUHH42D+60=
+            hashcode: YP8KTYk6otiRTq4vVWFf+pM2IKcDg8W9poXCtHVAgo4=
             memorySize: '128'
-            modified: '2018-05-26T13:01:03.649+0000'
+            modified: '2018-06-04T13:28:29.035+0000'
             name: PlotPoints
             runtime: nodejs6.10
             timeout: '3'
-            version: QnAhoJq1hbz.Rubu5GMsqPN0PCN2F7bR
+            version: bjrca7A0v340vWyg6R3aayMzxwQSo0ok
       sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: sampleCloudApi
@@ -43,31 +43,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /items: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180602072737.zip
+            codeFilename: uploads/sampleLambda-20180604083514.zip
             description: 'Handler for calls to resource path : /items/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: teStiB7OSuojIYDzoZAzZ9l7hGdYeI96HOtEUwmrUXw=
+            hashcode: 6b7xylZXre8Ds6CP+vPH/W9mfC10IN4kA+71f6lhzTg=
             memorySize: '128'
-            modified: '2018-06-02T12:28:19.407+0000'
+            modified: '2018-06-04T13:35:53.570+0000'
             name: sampleLambda
             runtime: nodejs6.10
             timeout: '3'
-            version: BD0fqsqrNf6pc7Y4smUgmkykmo4VNHm8
+            version: KK92iQH0L5fYV065oJzrsABAMl_bC73R
           '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180602072737.zip
+            codeFilename: uploads/sampleLambda-20180604083514.zip
             description: 'Handler for calls to resource path : /items/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: teStiB7OSuojIYDzoZAzZ9l7hGdYeI96HOtEUwmrUXw=
+            hashcode: 6b7xylZXre8Ds6CP+vPH/W9mfC10IN4kA+71f6lhzTg=
             memorySize: '128'
-            modified: '2018-06-02T12:28:19.407+0000'
+            modified: '2018-06-04T13:35:53.570+0000'
             name: sampleLambda
             runtime: nodejs6.10
             timeout: '3'
-            version: 9RjLLxpJPrlC.o4X8XYr2bRI14N3dycb
+            version: Ln9jmpXEI_yMDtDV98CLSA727T3YKesj
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -95,13 +95,14 @@ features:
   sign-in: !com.amazonaws.mobilehub.v0.SignIn 
     attributes:
       enabled: true
-      optional-sign-in: false
+      optional-sign-in: true
     components:
       sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
         attributes:
           alias-attributes:
             - email
-          mfa-configuration: OFF
+            - phone_number
+          mfa-configuration: ON
           name: userpool
           password-policy: !com.amazonaws.mobilehub.ConvertibleMap 
             min-length: '8'

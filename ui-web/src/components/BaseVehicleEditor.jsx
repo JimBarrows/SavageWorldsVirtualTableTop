@@ -1,8 +1,8 @@
-import React from 'react';
-import BaseEditor from './BaseEditor';
-import NumberFormGroup from './NumberFormGroup';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import NumberFormGroup   from 'bootstrap-react-components/distribution/formgroups/NumberFormGroup'
+import TextAreaFormGroup from 'bootstrap-react-components/distribution/formgroups/TextAreaFormGroup'
+import TextFormGroup     from 'bootstrap-react-components/distribution/formgroups/TextFormGroup'
+import React             from 'react'
+import BaseEditor        from './BaseEditor'
 
 export default class BaseVehicleEditor extends React.Component {
 

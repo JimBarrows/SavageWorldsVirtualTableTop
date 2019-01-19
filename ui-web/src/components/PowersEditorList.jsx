@@ -28,7 +28,7 @@ export default class PowersEditorList extends React.Component {
 							id={'powersEditorList'}
 							list={this.props.powers}
 							onChange={this.props.powersChange}
-							title={'PowersEditorList'}>
+							title={'Powers Editor List'}>
 						<PowerEditor/>
 					</EditorList>
 				</div>

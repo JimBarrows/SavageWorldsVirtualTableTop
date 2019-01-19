@@ -1,94 +1,90 @@
-import {API} from 'aws-amplify';
-import {PageHeader} from 'bootstrap-react-components';
-import React from 'react';
-import {withRouter} from 'react-router';
-import AircraftEditorList from '../components/AircraftEditorList';
-import AmmunitionEditorList from '../components/AmmunitionEditorList';
-import ArcaneBackgroundEditorList from '../components/ArcaneBackgroundEditorList';
-import ArmorEditorList from '../components/ArmorEditorList';
-import BeastsEditorList from '../components/BeastsEditorList';
-import EdgeEditorList from '../components/EdgeEditorList';
-import GroundVehiclesEditorList from '../components/GroundVehiclesEditorList';
-import HandWeaponsEditorList from '../components/HandWeaponsEditorList';
-import HindranceEditorList from '../components/HindranceEditorList';
-import MundaneItemEditorList from '../components/MundaneItemEditorList';
-import NumberFormGroup from '../components/NumberFormGroup';
-import PowersEditorList from '../components/PowersEditorList';
-import RaceEditorList from '../components/RaceEditorList';
-import RangedWeaponEditorList from '../components/RangedWeaponEditorList';
-import SkillEditorList from '../components/SkillEditorList';
-import SpecialWeaponsEditorList from '../components/SpecialWeaponsEditorList';
-import TextAreaFormGroup from '../components/TextAreaFormGroup';
-import TextFormGroup from '../components/TextFormGroup';
-import TrappingsAndEffectsEditorList from '../components/TrappingsAndEffectsEditorList';
-import VehicleMountedAndAtGunsEditorList from '../components/VehicleMountedAndAtGunsEditorList';
-import WatercraftEditorList from '../components/WatercraftEditorList';
+import {API}                             from 'aws-amplify'
+import {PageHeader}                      from 'bootstrap-react-components'
+import NumberFormGroup                   from 'bootstrap-react-components/distribution/formgroups/NumberFormGroup'
+import TextAreaFormGroup                 from 'bootstrap-react-components/distribution/formgroups/TextAreaFormGroup'
+import TextFormGroup                     from 'bootstrap-react-components/distribution/formgroups/TextFormGroup'
+import React                             from 'react'
+import AircraftEditorList                from '../components/AircraftEditorList'
+import AmmunitionEditorList              from '../components/AmmunitionEditorList'
+import ArcaneBackgroundEditorList        from '../components/ArcaneBackgroundEditorList'
+import ArmorEditorList                   from '../components/ArmorEditorList'
+import BeastsEditorList                  from '../components/BeastsEditorList'
+import EdgeEditorList                    from '../components/EdgeEditorList'
+import GroundVehiclesEditorList          from '../components/GroundVehiclesEditorList'
+import HandWeaponsEditorList             from '../components/HandWeaponsEditorList'
+import HindranceEditorList               from '../components/HindranceEditorList'
+import MundaneItemEditorList             from '../components/MundaneItemEditorList'
+import PowersEditorList                  from '../components/PowersEditorList'
+import RaceEditorList                    from '../components/RaceEditorList'
+import RangedWeaponEditorList            from '../components/RangedWeaponEditorList'
+import SkillEditorList                   from '../components/SkillEditorList'
+import SpecialWeaponsEditorList          from '../components/SpecialWeaponsEditorList'
+import TrappingsAndEffectsEditorList     from '../components/TrappingsAndEffectsEditorList'
+import VehicleMountedAndAtGunsEditorList from '../components/VehicleMountedAndAtGunsEditorList'
+import WatercraftEditorList              from '../components/WatercraftEditorList'
 
 
-class PlotPointEditor extends React.Component {
+export default class PlotPointEditor extends React.Component {
 
 	static defaultProps = {
 		id: 'PlotPointEditorPage'
-	};
+	}
 
-	state = {
-		aircraft               : [],
-		ammunition             : [],
-		arcaneBackgrounds      : [],
-		armor                  : [],
-		beasts                 : [],
-		description            : ' ',
-		edges                  : [],
-		groundVehicles         : [],
-		handWeapons            : [],
-		hindrances             : [],
-		maximumAttributePoints : 5,
-		maximumMajorHindrances : 1,
-		maximumMinorHindrances : 2,
-		maximumSkillPoints     : 15,
-		mundaneItems           : [],
-		name                   : ' ',
-		powers                 : [],
-		races                  : [],
-		rangedWeapons          : [],
-		skills                 : [],
-		specialWeapons         : [],
-		trappingsAndEffects    : [],
-		vehicleMountedAndAtGuns: [],
-		watercraft             : []
-	};
+	aircraftChange = aircraft => this.setState({aircraft})
 
-	aircraftChange                = aircraft => this.setState({aircraft});
-	ammunitionChange              = ammunition => this.setState({ammunition});
-	arcaneBackgroundChange        = arcaneBackgrounds => this.setState({arcaneBackgrounds});
-	armorChange                   = armor => this.setState({armor});
-	beastsChange                  = beasts => this.setState({beasts});
+	ammunitionChange = ammunition => this.setState({ammunition})
+
+	arcaneBackgroundChange = arcaneBackgrounds => this.setState({arcaneBackgrounds})
+
+	armorChange = armor => this.setState({armor})
+
+	beastsChange = beasts => this.setState({beasts})
+
 	cancel                        = e => {
-		e.preventDefault();
-		this.props.cancel();
-	};
-	descriptionChange             = e => this.setState({description: e.target.value});
-	edgesChange                   = edges => this.setState({edges});
-	groundVehiclesChange          = groundVehicles => this.setState({groundVehicles});
-	handWeaponsChange             = handWeapons => this.setState({handWeapons});
-	hindrancesChange              = hindrances => this.setState({hindrances});
-	maximumAttributePointsChange  = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)});
-	maximumMajorHindrancesChange  = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)});
-	maximumMinorHindrancesChange  = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)});
-	maximumSkillPointsChange      = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)});
-	mundaneItemsChange            = mundaneItems => this.setState({mundaneItems});
-	nameChange                    = e => this.setState({name: e.target.value});
-	powersChange                  = powers => this.setState({powers});
-	racesChange                   = races => this.setState({races});
-	rangedWeaponsChange           = rangedWeapons => this.setState({rangedWeapons});
-	skillsChange                  = skills => this.setState({skills});
-	specialWeaponsChange          = specialWeapons => this.setState({specialWeapons});
-	trappingsAndEffectsChange     = trappingsAndEffects => this.setState({trappingsAndEffects});
-	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.setState({vehicleMountedAndAtGuns});
-	watercraftChange              = watercraft => this.setState({watercraft});
+		e.preventDefault()
+		this.props.cancel()
+	}
+
+	descriptionChange = e => this.setState({description: e.target.value})
+
+	edgesChange = edges => this.setState({edges})
+
+	groundVehiclesChange = groundVehicles => this.setState({groundVehicles})
+
+	handWeaponsChange = handWeapons => this.setState({handWeapons})
+
+	hindrancesChange = hindrances => this.setState({hindrances})
+
+	maximumAttributePointsChange = e => this.setState({maximumAttributePoints: parseInt(e.target.value, 10)})
+
+	maximumMajorHindrancesChange = e => this.setState({maximumMajorHindrances: parseInt(e.target.value, 10)})
+
+	maximumMinorHindrancesChange = e => this.setState({maximumMinorHindrances: parseInt(e.target.value, 10)})
+
+	maximumSkillPointsChange = e => this.setState({maximumSkillPoints: parseInt(e.target.value, 10)})
+
+	mundaneItemsChange = mundaneItems => this.setState({mundaneItems})
+
+	nameChange = e => this.setState({name: e.target.value})
+
+	powersChange = powers => this.setState({powers})
+
+	racesChange = races => this.setState({races})
+
+	rangedWeaponsChange = rangedWeapons => this.setState({rangedWeapons})
+
+	skillsChange = skills => this.setState({skills})
+
+	specialWeaponsChange = specialWeapons => this.setState({specialWeapons})
+
+	trappingsAndEffectsChange = trappingsAndEffects => this.setState({trappingsAndEffects})
+
+	vehicleMountedAndAtGunsChange = vehicleMountedAndAtGuns => this.setState({vehicleMountedAndAtGuns})
+
+	watercraftChange = watercraft => this.setState({watercraft})
 
 	save = async e => {
-		e.preventDefault();
+		e.preventDefault()
 		let toSave = {
 			aircraft               : this.state.aircraft,
 			ammunition             : this.state.ammunition,
@@ -114,26 +110,26 @@ class PlotPointEditor extends React.Component {
 			trappingsAndEffects    : this.state.trappingsAndEffects,
 			vehicleMountedAndAtGuns: this.state.vehicleMountedAndAtGuns,
 			watercraft             : this.state.watercraft
-		};
+		}
 		if (this.props.match.params.name) {
 			await API.put('PlotPointsCRUD', `/PlotPoints`, {
 				body: {...toSave}
-			});
+			})
 		} else {
 			await API.post('PlotPointsCRUD', `/PlotPoints`, {
 				body: {...toSave}
-			});
+			})
 		}
 
-		this.props.history.push('/');
-	};
+		this.props.history.push('/')
+	}
 
 	async componentDidMount() {
 		if (this.props.match.params.name) {
-			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`);
+			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`)
 			this.setState({
 				...plotPoint
-			});
+										})
 		}
 	};
 
@@ -173,7 +169,8 @@ class PlotPointEditor extends React.Component {
 				<RangedWeaponEditorList id={'PlotPoint'} rangedWeapons={this.state.rangedWeapons}
 				                        rangedWeaponsChange={this.rangedWeaponsChange}/>
 				<VehicleMountedAndAtGunsEditorList id={'PlotPoint'}
-				                                   vehicleMountedAndAtGuns={this.state.vehicleMountedAndAtGuns}/>
+					vehicleMountedAndAtGuns={this.state.vehicleMountedAndAtGuns}
+					onChange={this.vehicleMountedAndAtGunsChange} />
 				<AmmunitionEditorList id={'PlotPoint'} ammunition={this.state.ammunition}
 				                      ammunitionChange={this.ammunitionChange}/>
 				<SpecialWeaponsEditorList id={'PlotPoint'} specialWeapons={this.state.specialWeapons}
@@ -190,7 +187,8 @@ class PlotPointEditor extends React.Component {
 				<TrappingsAndEffectsEditorList id={'PlotPoint'} trappingsAndEffects={this.state.trappingsAndEffects}
 				                               trappingsAndEffectsChange={this.trappingsAndEffectsChange}/>
 				<PowersEditorList id={'PlotPoint'} powers={this.state.powers} powersChange={this.powersChange}/>
-				<BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}/>
+				<BeastsEditorList id={'PlotPoint'} beasts={this.state.beasts} beastsChange={this.beastsChange}
+				                  skills={this.state.skills}/>
 				<h1>Characters</h1>
 				<button id={'savePlotPointButton'} type={'submit'} className={'btn btn-default'} onClick={this.save}>Save
 				</button>
@@ -198,8 +196,35 @@ class PlotPointEditor extends React.Component {
 				        onClick={this.cancel}>Cancel
 				</button>
 			</form>
-		</div>;
+		</div >
+	}
+
+	state = {
+		aircraft               : [],
+		ammunition             : [],
+		arcaneBackgrounds      : [],
+		armor                  : [],
+		beasts                 : [],
+		description            : '',
+		edges                  : [],
+		groundVehicles         : [],
+		handWeapons            : [],
+		hindrances             : [],
+		maximumAttributePoints : 5,
+		maximumMajorHindrances : 1,
+		maximumMinorHindrances : 2,
+		maximumSkillPoints     : 15,
+		mundaneItems           : [],
+		name                   : '',
+		powers                 : [],
+		races                  : [],
+		rangedWeapons          : [],
+		skills                 : [],
+		specialWeapons         : [],
+		trappingsAndEffects    : [],
+		vehicleMountedAndAtGuns: [],
+		watercraft             : []
 	}
 }
 
-export default withRouter(PlotPointEditor);
+

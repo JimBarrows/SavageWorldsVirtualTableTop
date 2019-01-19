@@ -1,8 +1,8 @@
-import React from 'react';
-import AttributeSelectFormGroup from './AttributeSelectFormGroup';
-import BaseEditor from './BaseEditor';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import TextAreaFormGroup        from 'bootstrap-react-components/distribution/formgroups/TextAreaFormGroup'
+import TextFormGroup            from 'bootstrap-react-components/distribution/formgroups/TextFormGroup'
+import React                    from 'react'
+import AttributeSelectFormGroup from './AttributeSelectFormGroup'
+import BaseEditor               from './BaseEditor'
 
 class SkillEditor extends React.Component {
 
