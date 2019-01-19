@@ -1,0 +1,495 @@
+{
+	"name": "Savage Worlds Virtual Table Top",
+	"projectId": "5016e856-dd8e-4c32-8054-f41704d69a4b",
+	"region": "us-west-2",
+	"state": "NORMAL",
+	"createdDate": "2018-05-05T15:52:05.024Z",
+	"lastUpdatedDate": "2018-06-04T13:35:41.826Z",
+	"consoleUrl": "https://console.aws.amazon.com/mobilehub/home#/5016e856-dd8e-4c32-8054-f41704d69a4b/build",
+	"resources": [
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "savageworldsvirtualt_nosqldatabase_MOBILEHUB_800734882",
+			"arn": null,
+			"feature": "database",
+			"attributes": {
+				"authType": "authenticated",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"role": "savageworldsvirtualt_auth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "savageworldsvirtualt_nosqldatabase_MOBILEHUB_800734882",
+			"arn": null,
+			"feature": "database",
+			"attributes": {
+				"authType": "unauthenticated",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"role": "savageworldsvirtualt_unauth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::DynamoDB::Table",
+			"name": "savageworldsvirtualt-mobilehub-800734882-PlotPoints",
+			"arn": "arn:aws:dynamodb:us-west-2:619369196935:table/savageworldsvirtualt-mobilehub-800734882-PlotPoints",
+			"feature": "database",
+			"attributes": {
+				"lastUpdateRequestID": "47da3076-ed2d-48d6-bb2f-d04c39cfe2e1"
+			}
+		},
+		{
+			"type": "AWS::Cognito::IdentityPool",
+			"name": "savageworldsvirtualt_MOBILEHUB_800734882",
+			"arn": "us-west-2:b0016b50-607e-4831-af7e-5f40abd252b8",
+			"feature": "user-signin",
+			"attributes": {
+				"lastUpdateRequestID": "f9871186-9d8e-44b9-8631-522cc53a48ae",
+				"poolid": "us-west-2:b0016b50-607e-4831-af7e-5f40abd252b8",
+				"roleARNs": "arn:aws:iam::619369196935:role/savageworldsvirtualt_auth_MOBILEHUB_800734882,arn:aws:iam::619369196935:role/savageworldsvirtualt_unauth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::IAM::Role",
+			"name": "savageworldsvirtualt_smsverification_MOBILEHUB_800734882",
+			"arn": "arn:aws:iam::619369196935:role/service-role/savageworldsvirtualt_smsverification_MOBILEHUB_800734882",
+			"feature": "user-signin",
+			"attributes": {
+				"lastUpdateRequestID": "f9871186-9d8e-44b9-8631-522cc53a48ae",
+				"user-pools-role-key": "user-pools-execution-role"
+			}
+		},
+		{
+			"type": "AWS::Cognito::UserPool",
+			"name": "savageworldsvirtualt_userpool_MOBILEHUB_800734882",
+			"arn": "us-west-2_29mjXEP3R",
+			"feature": "user-signin",
+			"attributes": {
+				"alias-attributes": "[\"email\",\"phone_number\"]",
+				"lastUpdateRequestID": "f9871186-9d8e-44b9-8631-522cc53a48ae",
+				"mfa-configuration": "ON",
+				"password-policy": "{\"minimumLength\":8,\"requireUppercase\":true,\"requireLowercase\":true,\"requireNumbers\":true,\"requireSymbols\":true}",
+				"region": "us-west-2",
+				"user-pools-client-id": "7ahsr0u92mik5u05b8jhi50u74",
+				"user-pools-client-secret": "1ngrf0pvgk00gogjfsh9e9dsahgo63f7lo6snknctq38gm707d42",
+				"user-pools-id": "us-west-2_29mjXEP3R",
+				"user-pools-web-client-id": "4i8d7pm4f9n5tq1ekl9nrc9oe3"
+			}
+		},
+		{
+			"type": "AWS::IAM::Role",
+			"name": "savageworldsvirtualt_auth_MOBILEHUB_800734882",
+			"arn": "arn:aws:iam::619369196935:role/savageworldsvirtualt_auth_MOBILEHUB_800734882",
+			"feature": "user-signin",
+			"attributes": {
+				"authType": "authenticated",
+				"lastUpdateRequestID": "f9871186-9d8e-44b9-8631-522cc53a48ae"
+			}
+		},
+		{
+			"type": "AWS::IAM::Role",
+			"name": "savageworldsvirtualt_unauth_MOBILEHUB_800734882",
+			"arn": "arn:aws:iam::619369196935:role/savageworldsvirtualt_unauth_MOBILEHUB_800734882",
+			"feature": "user-signin",
+			"attributes": {
+				"authType": "unauthenticated",
+				"lastUpdateRequestID": "6e5cb744-7e6e-41b5-97de-518b6c7efbc5"
+			}
+		},
+		{
+			"type": "AWS::Pinpoint::AnalyticsApplication",
+			"name": "savageworldsvirtualtabletop_MobileHub",
+			"arn": "d0ac95c6df274d508af51c6fcdc7ab00",
+			"feature": "analytics",
+			"attributes": {
+				"lastUpdateRequestID": "4473ab17-c20c-4d4f-a15e-4cc8ee1d2c17"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "savageworldsvirtualt_mobileanalytics_MOBILEHUB_800734882",
+			"arn": null,
+			"feature": "analytics",
+			"attributes": {
+				"authType": "authenticated",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"role": "savageworldsvirtualt_auth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "savageworldsvirtualt_mobileanalytics_MOBILEHUB_800734882",
+			"arn": null,
+			"feature": "analytics",
+			"attributes": {
+				"authType": "unauthenticated",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"role": "savageworldsvirtualt_unauth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::S3::Bucket",
+			"name": "savageworldsvirtualt-hosting-mobilehub-800734882",
+			"arn": null,
+			"feature": "hosting",
+			"attributes": {
+				"lastUpdateRequestID": "3c838e5b-3482-471f-9ec2-b5c4099d81c4",
+				"region": "us-west-2",
+				"s3-bucket-console-url": "https://s3.console.aws.amazon.com/s3/buckets/savageworldsvirtualt-hosting-mobilehub-800734882",
+				"s3-bucket-website-url": "https://s3.amazonaws.com/savageworldsvirtualt-hosting-mobilehub-800734882"
+			}
+		},
+		{
+			"type": "AWS::CloudFront::Distribution",
+			"name": "d17opd9sdou2db.cloudfront.net",
+			"arn": null,
+			"feature": "hosting",
+			"attributes": {
+				"id": "EV6CTCRHVEIHP",
+				"lastUpdateRequestID": "3c838e5b-3482-471f-9ec2-b5c4099d81c4"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "savageworldsvirtualt_hosting_MOBILEHUB_800734882",
+			"arn": null,
+			"feature": "hosting",
+			"attributes": {
+				"authType": "authenticated",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"role": "savageworldsvirtualt_auth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "savageworldsvirtualt_hosting_MOBILEHUB_800734882",
+			"arn": null,
+			"feature": "hosting",
+			"attributes": {
+				"authType": "unauthenticated",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"role": "savageworldsvirtualt_unauth_MOBILEHUB_800734882"
+			}
+		},
+		{
+			"type": "AWS::S3::File",
+			"name": "sampleCloudApi/api/sampleCloudApi.json",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"eTag": "932585cf7b8da55e276ba11ea10bf6a0",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"versionID": "abMfPsqN0qZNsAVziGpyr.YjUh5mvW8r"
+			}
+		},
+		{
+			"type": "AWS::S3::File",
+			"name": "PlotPointsCRUD/api/PlotPointsCRUD.json",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"eTag": "f326436cd8b519b2c623c21ec2c1da0a",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"versionID": "tGFAYUVBZqxt079Kr.DmxEUFOdTWfpTg"
+			}
+		},
+		{
+			"type": "AWS::S3::File",
+			"name": "uploads/sampleLambda-20180604083514.zip",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"eTag": "65671fa2a1be0ff1ce800bc14e4d6eda-3",
+				"lastUpdateRequestID": "9aa7947a-d086-40f6-8263-3345492606cf",
+				"versionID": "Ln9jmpXEI_yMDtDV98CLSA727T3YKesj"
+			}
+		},
+		{
+			"type": "AWS::S3::File",
+			"name": "uploads/PlotPoints-20180604082728.zip",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"eTag": "294c6e86f64b652ad4f3ffbc3a5a301d-3",
+				"lastUpdateRequestID": "6ae74ca2-d604-4c33-a3ad-9bc3870f0698",
+				"versionID": "bjrca7A0v340vWyg6R3aayMzxwQSo0ok"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "MOBIL-Poli-MAX7O6TXNVT7",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PolicysampleCloudApiMobileHub800734882",
+				"cfPhysicalID": "MOBIL-Poli-MAX7O6TXNVT7",
+				"lastUpdateTimestamp": "1528119175896",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "MOBIL-Poli-1JLREOUJF42F9",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PolicyPlotPointsCRUDMobileHub800734882",
+				"cfPhysicalID": "MOBIL-Poli-1JLREOUJF42F9",
+				"lastUpdateTimestamp": "1528119155649",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::Lambda::Alias",
+			"name": "sampleCloudApi-sampleLambda-Development-mobilehub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "DevelopmentsampleCloudApisampleLambdaaliasmobilehub800734882",
+				"cfPhysicalID": "arn:aws:lambda:us-west-2:619369196935:function:sampleCloudApi-sampleLambda-mobilehub-800734882:Development",
+				"deeplinkURL": "https://console.aws.amazon.com/lambda/home?region=us-west-2#/functions/sampleCloudApi-sampleLambda-mobilehub-800734882/Development",
+				"lastUpdateTimestamp": "1525541742503",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::Lambda::Alias",
+			"name": "PlotPointsCRUD-PlotPoints-Development-mobilehub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "DevelopmentPlotPointsCRUDPlotPointsaliasmobilehub800734882",
+				"cfPhysicalID": "arn:aws:lambda:us-west-2:619369196935:function:PlotPointsCRUD-PlotPoints-mobilehub-800734882:Development",
+				"deeplinkURL": "https://console.aws.amazon.com/lambda/home?region=us-west-2#/functions/PlotPointsCRUD-PlotPoints-mobilehub-800734882/Development",
+				"lastUpdateTimestamp": "1525541710279",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::Lambda::Permission",
+			"name": "MOBILEHUB-800734882-Development-CloudLogic-sampleCloudApisampleLambdapermissionmobile-8N90RL4X9Y0B",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "sampleCloudApisampleLambdapermissionmobilehub800734882",
+				"cfPhysicalID": "MOBILEHUB-800734882-Development-CloudLogic-sampleCloudApisampleLambdapermissionmobile-8N90RL4X9Y0B",
+				"lastUpdateTimestamp": "1525541754805",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::ApiGateway::RestApi",
+			"name": "PlotPointsCRUD-MobileHub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PlotPointsCRUDMobileHub800734882",
+				"cfPhysicalID": "w58uasm85l",
+				"configApiName": "PlotPointsCRUD",
+				"deeplinkURL": "https://console.aws.amazon.com/apigateway/home?region=us-west-2#/apis/w58uasm85l/resources",
+				"lastUpdateTimestamp": "1528119350241",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::IAM::Policy",
+			"name": "MOBIL-lamb-JF2VIOX0V07",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "lambdaexecutionpolicy",
+				"cfPhysicalID": "MOBIL-lamb-JF2VIOX0V07",
+				"lastUpdateTimestamp": "1525541701707",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::ApiGateway::Deployment",
+			"name": "PlotPointsCRUD-Developmentf326436cd8b519b2-MobileHub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PlotPointsCRUDDevelopmentf326436cd8b519b2MobileHub800734882",
+				"cfPhysicalID": "y5jwxb",
+				"lastUpdateTimestamp": "1528119384832",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::Lambda::Function",
+			"name": "PlotPointsCRUD-PlotPoints-mobilehub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PlotPointsCRUDPlotPointsmobilehub800734882",
+				"cfPhysicalID": "PlotPointsCRUD-PlotPoints-mobilehub-800734882",
+				"configApiName": "PlotPointsCRUD",
+				"configHandlerName": "PlotPoints",
+				"deeplinkURL": "https://console.aws.amazon.com/lambda/home?region=us-west-2#/functions/PlotPointsCRUD-PlotPoints-mobilehub-800734882",
+				"lastUpdateTimestamp": "1528119145056",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::Lambda::Function",
+			"name": "sampleCloudApi-sampleLambda-mobilehub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "sampleCloudApisampleLambdamobilehub800734882",
+				"cfPhysicalID": "sampleCloudApi-sampleLambda-mobilehub-800734882",
+				"configApiName": "sampleCloudApi",
+				"configHandlerName": "sampleLambda",
+				"deeplinkURL": "https://console.aws.amazon.com/lambda/home?region=us-west-2#/functions/sampleCloudApi-sampleLambda-mobilehub-800734882",
+				"lastUpdateTimestamp": "1528119354220",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::Lambda::Permission",
+			"name": "MOBILEHUB-800734882-Development-CloudLogic-PlotPointsCRUDPlotPointspermissionmobilehu-TEWJEA24SMPO",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PlotPointsCRUDPlotPointspermissionmobilehub800734882",
+				"cfPhysicalID": "MOBILEHUB-800734882-Development-CloudLogic-PlotPointsCRUDPlotPointspermissionmobilehu-TEWJEA24SMPO",
+				"lastUpdateTimestamp": "1525541722534",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::IAM::Role",
+			"name": "MOBILEHUB-800734882-Developmen-lambdaexecutionrole-14SR4JTDHUSFZ",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "lambdaexecutionrole",
+				"cfPhysicalID": "MOBILEHUB-800734882-Developmen-lambdaexecutionrole-14SR4JTDHUSFZ",
+				"deeplinkURL": "https://console.aws.amazon.com/iam/home?region=us-west-2#roles/MOBILEHUB-800734882-Developmen-lambdaexecutionrole-14SR4JTDHUSFZ",
+				"lastUpdateTimestamp": "1525541692491",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::CloudFormation::Stack",
+			"name": "arn:aws:cloudformation:us-west-2:619369196935:stack/MOBILEHUB-800734882-Development-CloudLogic-14T4R9HG2TLBW/94025590-508a-11e8-a52b-503ac9316899",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "CloudLogic",
+				"cfPhysicalID": "arn:aws:cloudformation:us-west-2:619369196935:stack/MOBILEHUB-800734882-Development-CloudLogic-14T4R9HG2TLBW/94025590-508a-11e8-a52b-503ac9316899",
+				"deeplinkURL": "https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stack/detail?stackId=arn:aws:cloudformation:us-west-2:619369196935:stack/MOBILEHUB-800734882-Development-CloudLogic-14T4R9HG2TLBW/94025590-508a-11e8-a52b-503ac9316899",
+				"lastUpdateTimestamp": "1528119407167",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::ApiGateway::Stage",
+			"name": "sampleCloudApi-Development-MobileHub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "sampleCloudApiDevelopmentMobileHub800734882",
+				"cfPhysicalID": "Development",
+				"lastUpdateTimestamp": "1528119357433",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::ApiGateway::RestApi",
+			"name": "sampleCloudApi-MobileHub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "sampleCloudApiMobileHub800734882",
+				"cfPhysicalID": "12p2eek3i8",
+				"configApiName": "sampleCloudApi",
+				"deeplinkURL": "https://console.aws.amazon.com/apigateway/home?region=us-west-2#/apis/12p2eek3i8/resources",
+				"lastUpdateTimestamp": "1528119349975",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::ApiGateway::Stage",
+			"name": "PlotPointsCRUD-Development-MobileHub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "PlotPointsCRUDDevelopmentMobileHub800734882",
+				"cfPhysicalID": "Development",
+				"lastUpdateTimestamp": "1528119388220",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "UPDATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::ApiGateway::Deployment",
+			"name": "sampleCloudApi-Development932585cf7b8da55e-MobileHub-800734882",
+			"arn": null,
+			"feature": "cloud-api",
+			"attributes": {
+				"cfLogicalID": "sampleCloudApiDevelopment932585cf7b8da55eMobileHub800734882",
+				"cfPhysicalID": "aq1i2a",
+				"lastUpdateTimestamp": "1528119354168",
+				"reason": "none",
+				"region": "us-west-2",
+				"status": "CREATE_COMPLETE"
+			}
+		},
+		{
+			"type": "AWS::S3::Bucket",
+			"name": "savageworldsvirtualt-deployments-mobilehub-800734882",
+			"arn": null,
+			"feature": "common",
+			"attributes": {
+				"region": "us-west-2",
+				"s3-bucket-console-url": "https://s3.console.aws.amazon.com/s3/buckets/savageworldsvirtualt-deployments-mobilehub-800734882"
+			}
+		},
+		{
+			"type": "AWS::CloudFormation::Stack",
+			"name": "Development",
+			"arn": "arn:aws:cloudformation:us-west-2:619369196935:stack/MOBILEHUB-800734882-Development/92199860-508a-11e8-9dcd-50d5ca11b856",
+			"feature": "cloud-api",
+			"attributes": {
+				"cfHash": "731860453",
+				"primary": "true",
+				"region": "us-west-2",
+				"stack-arn": "arn:aws:cloudformation:us-west-2:619369196935:stack/MOBILEHUB-800734882-Development/92199860-508a-11e8-9dcd-50d5ca11b856",
+				"stateDetails": "none",
+				"stateSummary": "UPDATE_COMPLETE"
+			}
+		}
+	]
+}
