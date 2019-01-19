@@ -1,8 +1,10 @@
 {
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
-      "ecmaVersion": 7,
-      "sourceType": "module",
       "jsx": true,
       "modules": true
     }
@@ -10,11 +12,5 @@
   "plugins": [
     "react"
   ],
-  "rules": {
-    "babel/new-cap": 1,
-    "babel/object-curly-spacing": 1,
-    "babel/no-await-in-loop": 1,
-    "babel/flow-object-type": 1,
-    "babel/no-invalid-this": 1
-  }
+  "parser": "babel-eslint"
 }

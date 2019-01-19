@@ -6,7 +6,6 @@
  ],
  "plugins" : [
 	"css-modules-transform",
-	"css-modules-transform",
 	"transform-react-jsx",
 	"transform-class-properties",
 	"react-html-attrs"

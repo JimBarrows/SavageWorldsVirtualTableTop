@@ -6,7 +6,6 @@
     "name": "Jim Barrows",
     "email": "Jim.Barrows@gmail.com"
   },
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
@@ -20,8 +19,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.9"
+    "react-router-dom": "^4.2.2"
   },
   "scripts": {
     "build": "react-scripts build",
