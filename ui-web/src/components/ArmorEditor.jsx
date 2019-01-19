@@ -1,8 +1,8 @@
-import React from 'react';
-import MundaneItemEditor from './MundaneItemEditor';
-import NumberFormGroup from './NumberFormGroup';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import NumberFormGroup   from 'bootstrap-react-components/distribution/formgroups/NumberFormGroup'
+import TextAreaFormGroup from 'bootstrap-react-components/distribution/formgroups/TextAreaFormGroup'
+import TextFormGroup     from 'bootstrap-react-components/distribution/formgroups/TextFormGroup'
+import React             from 'react'
+import MundaneItemEditor from './MundaneItemEditor'
 
 export default class ArmorEditor extends MundaneItemEditor {
 
@@ -13,7 +13,7 @@ export default class ArmorEditor extends MundaneItemEditor {
 
 	additionalFields = () => <div id={'ArmorEditorComponent_' + this.props.id}>
 		<NumberFormGroup id={'armorArmor'} label={'Armor'} onChange={this.onArmorChange} required={true}
-		                 value={this.props.item.damage}/>
+			value={this.props.item.damage || 0} />
 		<TextFormGroup id={'armorEra'} label={'Era'} onChange={this.onEraChange} required={true}
 		               value={this.props.item.era}/>
 		<TextFormGroup id={'armorKind'} label={'Kind'} onChange={this.onKindChange} required={true}

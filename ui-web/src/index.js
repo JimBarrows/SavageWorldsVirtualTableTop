@@ -1,42 +1,34 @@
-import 'bootstrap/dist/css/bootstrap-theme.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "font-awesome/css/font-awesome.min.css";
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
-import createHistory from 'history/createBrowserHistory';
-import {ConnectedRouter, routerMiddleware} from 'react-router-redux';
-import {createLogger} from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
-import Amplify from 'aws-amplify';
-import aws_exports from './aws-exports.js';
-import App from './App';
-import './index.css';
-import reducers from './reducers';
-import registerServiceWorker from './registerServiceWorker';
+import {library}                                        from '@fortawesome/fontawesome-svg-core'
+import {faBan, faEdit, faPlus, faSave, faSync, faTrash} from '@fortawesome/free-solid-svg-icons'
+import Amplify                                          from 'aws-amplify'
+import 'bootstrap/dist/css/bootstrap.css'
+import React                                            from 'react'
+import ReactDOM                                         from 'react-dom'
+import 'react-quill/dist/quill.snow.css'
+import {BrowserRouter}                                  from 'react-router-dom'
+import App                                              from './App'
+import aws_exports                                      from './aws-exports.js'
+import './index.css'
+import registerServiceWorker                            from './registerServiceWorker'
 
-const history = createHistory();
 
-const loggerMiddleware = createLogger();
+library.add(
+	faBan,
+	faEdit,
+	faPlus,
+	faSave,
+	faSync,
+	faTrash
+)
 
-Amplify.configure(aws_exports);
 
-const store = createStore(
-		reducers,
-		applyMiddleware(
-				loggerMiddleware,
-				routerMiddleware(history),
-				thunkMiddleware
-		));
-
+Amplify.configure(aws_exports)
 
 ReactDOM.render(
-		<Provider store={store}>
-			<ConnectedRouter history={history}>
-				<App/>
-			</ConnectedRouter>
-		</Provider>,
-		document.getElementById('root'));
+	<BrowserRouter >
+		<App />
+	</BrowserRouter >,
 
-registerServiceWorker();
+	document.getElementById('root'))
+
+registerServiceWorker()

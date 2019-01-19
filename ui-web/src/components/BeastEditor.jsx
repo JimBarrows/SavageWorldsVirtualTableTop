@@ -1,11 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import AttributeFormGroup from './AttributeFormGroup';
-import BaseEditor from './BaseEditor';
-import SelectedSkillList from './SelectedSkillList';
-import SelectFormGroup from './SelectFormGroup';
-import TextAreaFormGroup from './TextAreaFormGroup';
-import TextFormGroup from './TextFormGroup';
+import TextAreaFormGroup  from 'bootstrap-react-components/distribution/formgroups/TextAreaFormGroup'
+import TextFormGroup      from 'bootstrap-react-components/distribution/formgroups/TextFormGroup'
+import PropTypes          from 'prop-types'
+import React              from 'react'
+import AttributeFormGroup from './AttributeFormGroup'
+import BaseEditor         from './BaseEditor'
+import SelectedSkillList  from './SelectedSkillList'
 
 export default class BeastEditor extends React.Component {
 
@@ -30,7 +29,7 @@ export default class BeastEditor extends React.Component {
 	};
 	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
 	nameChange        = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}), this.props.index);
-	skillListChanged  = (idx, skill) => this.props.onChange(Object.assign({}, this.props.item, {skills: this.props.skills.map((s, i) => i == idx ? skill : s)}));
+	skillListChanged  = (idx, skill) => this.props.onChange(Object.assign({}, this.props.item, {skills: this.props.skills.map((s, i) => i === idx ? skill : s)}))
 	smartsChange      = e => this.props.onChange(Object.assign({}, this.props.item, {smarts: e}), this.props.index);
 	spiritChange      = e => this.props.onChange(Object.assign({}, this.props.item, {spirit: e}), this.props.index);
 	strengthChange    = e => this.props.onChange(Object.assign({}, this.props.item, {strength: e}), this.props.index);

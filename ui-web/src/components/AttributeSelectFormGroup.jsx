@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import SelectFormGroup from './SelectFormGroup';
+import SelectFormGroup from 'bootstrap-react-components/distribution/formgroups/SelectFormGroup'
+import PropTypes       from 'prop-types'
+import React           from 'react'
 
 export default class AttributeSelectFormGroup extends React.Component {
 

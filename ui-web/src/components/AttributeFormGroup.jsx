@@ -1,8 +1,7 @@
-import {Alert, FormGroup} from 'bootstrap-react-components';
-import PropTypes from 'prop-types';
-import React from 'react';
-import DiceSelectFormGroup from './DiceSelectFormGroup';
-import NumberFormGroup from './NumberFormGroup';
+import NumberFormGroup     from 'bootstrap-react-components/distribution/formgroups/NumberFormGroup'
+import PropTypes           from 'prop-types'
+import React               from 'react'
+import DiceSelectFormGroup from './DiceSelectFormGroup'
 
 export default class AttributeFormGroup extends React.Component {
 
@@ -30,15 +29,9 @@ export default class AttributeFormGroup extends React.Component {
 	};
 
 	render() {
-		let {disabled, error, id, label, options, required, value} = this.props;
-		let validationStatus                                       = '';
-		let requiredText                                           = '';
-		let alert                                                  = '';
-		if (error) {
-			validationStatus = 'has-error';
-			alert            = <Alert id={id} type='danger' message={error}/>;
-		}
-		let childrenWithProps = this.props.children;
+		let {id, label, required, value} = this.props
+		let validationStatus             = '';
+		let requiredText                 = '';
 		if (required) {
 			requiredText = (<small className='text-danger'>Required</small>);
 		}

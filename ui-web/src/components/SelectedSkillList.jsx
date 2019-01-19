@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SelectedSkillEditor from './SelectedSkillEditor';
-import SelectFormGroup from './SelectFormGroup';
+import PropTypes           from 'prop-types'
+import React               from 'react'
+import SelectedSkillEditor from './SelectedSkillEditor'
 
 export default class SelectedSkillList extends React.Component {
 

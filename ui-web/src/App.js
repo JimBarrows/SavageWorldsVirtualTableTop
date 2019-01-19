@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
-import { withAuthenticator } from 'aws-amplify-react';
-import './App.css';
-import Header from './components/Header';
-import MessageDisplay from './components/MessageDisplay';
-import PlotPointEditor from './pages/PlotPointEditor';
-import PlotPointList from './pages/PlotPointList';
+import {withAuthenticator} from 'aws-amplify-react'
+import React, {Component}  from 'react'
+import {Route, Switch}     from 'react-router-dom'
+import './App.css'
+import Header              from './components/Header'
+import PlotPointEditor     from './pages/PlotPointEditor'
+import PlotPointList       from './pages/PlotPointList'
 
 
 class App extends Component {
@@ -13,7 +12,6 @@ class App extends Component {
 		return (
 				<div>
 					<Header/>
-					<MessageDisplay id={'application'}/>
 					<div id={"layout"} className="container" role={"main"}>
 						<Switch>
 							<Route exact path="/" component={PlotPointList}/>

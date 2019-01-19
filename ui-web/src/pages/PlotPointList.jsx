@@ -1,10 +1,9 @@
-import {API} from 'aws-amplify';
-import {PageHeader} from 'bootstrap-react-components';
-import React from 'react';
-import {withRouter} from 'react-router';
-import PlotPointList from '../components/PlotPointList';
+import {API}         from 'aws-amplify'
+import {PageHeader}  from 'bootstrap-react-components'
+import React         from 'react'
+import PlotPointList from '../components/PlotPointList'
 
-class PlotPointListPage extends React.Component {
+export default class PlotPointListPage extends React.Component {
 
 	state                  = {
 		plotPoints: [],
@@ -32,4 +31,3 @@ class PlotPointListPage extends React.Component {
 
 }
 
-export default withRouter(PlotPointListPage);

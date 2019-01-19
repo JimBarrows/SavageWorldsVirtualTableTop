@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import BeastEditor from './BeastEditor';
-import EditorList from './EditorList';
+import PropTypes   from 'prop-types'
+import React       from 'react'
+import BeastEditor from './BeastEditor'
+import EditorList  from './EditorList'
 
 export default class BeastsEditorList extends React.Component {
 
@@ -30,8 +30,7 @@ export default class BeastsEditorList extends React.Component {
 								specialAttributes : [],
 								spirit            : {dice: 'd4', bonus: 0},
 								strength          : {dice: 'd4', bonus: 0},
-								vigor             : {dice: 'd4', bonus: 0},
-								skills            : []
+								vigor             : {dice: 'd4', bonus: 0}
 							})}
 							id={'beastsEditorList'}
 							list={this.props.beasts}
