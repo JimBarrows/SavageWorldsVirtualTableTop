@@ -2202,7 +2202,7 @@ Finally, make sure **GitHub Pages** option in your GitHub project settings is se
 
 You can configure a custom domain with GitHub Pages by adding a `CNAME` file to the `public/` folder.
 
-#### Notes on client-side routing
+#### note on client-side routing
 
 GitHub Pages doesn’t support routers that use the HTML5 `pushState` history API under the hood (for example, React Router using `browserHistory`). This is because when there is a fresh page load for a url like `http://user.github.io/todomvc/todos/42`, where `/todos/42` is a frontend route, the GitHub Pages server returns 404 because it knows nothing of `/todos/42`. If you want to add a router to a project hosted on GitHub Pages, here are a couple of solutions:
 

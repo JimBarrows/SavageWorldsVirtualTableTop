@@ -124,6 +124,12 @@ export default class PlotPointEditor extends React.Component {
 		this.props.history.push('/')
 	}
 
+	sectionChange = section => this.setState(({
+		section
+	}))
+
+	cancel   = () => this.props.history.push('/')
+
 	async componentDidMount() {
 		if (this.props.match.params.name) {
 			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`)

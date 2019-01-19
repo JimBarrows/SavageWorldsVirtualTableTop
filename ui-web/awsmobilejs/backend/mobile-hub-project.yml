@@ -10,64 +10,64 @@ features:
           requires-signin: false
           sdk-generation-stage-name: Development
         paths:
-          /PlotPoints: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/PlotPoints-20180604082728.zip
+          /PlotPoints: !com.amazonaws.mobilehub.v0.Function
+            codeFilename: uploads/PlotPoints-20180721122001.zip
             description: 'Handler for calls to resource path : /PlotPoints/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: YP8KTYk6otiRTq4vVWFf+pM2IKcDg8W9poXCtHVAgo4=
+            hashcode: GQbiEVyzd2MkCnaboJHAjPi4LMHz7xtJW6BxIGVd0NQ=
             memorySize: '128'
-            modified: '2018-06-04T13:28:29.035+0000'
+            modified: '2018-07-21T17:20:52.710+0000'
             name: PlotPoints
             runtime: nodejs6.10
             timeout: '3'
-            version: BGYuctWmTdqWygRiAjRy3h7N_IVDe9zL
-          '/PlotPoints/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/PlotPoints-20180604082728.zip
+            version: Y202GaB9rdAqT.ScyrqrD1XunzcjNs9F
+          '/PlotPoints/{proxy+}': !com.amazonaws.mobilehub.v0.Function
+            codeFilename: uploads/PlotPoints-20180721122001.zip
             description: 'Handler for calls to resource path : /PlotPoints/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: YP8KTYk6otiRTq4vVWFf+pM2IKcDg8W9poXCtHVAgo4=
+            hashcode: GQbiEVyzd2MkCnaboJHAjPi4LMHz7xtJW6BxIGVd0NQ=
             memorySize: '128'
-            modified: '2018-06-04T13:28:29.035+0000'
+            modified: '2018-07-21T17:20:52.710+0000'
             name: PlotPoints
             runtime: nodejs6.10
             timeout: '3'
-            version: bjrca7A0v340vWyg6R3aayMzxwQSo0ok
+            version: m0.6XiYND9U.Bp1ujFeAfP34EdIrHgJy
       sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: sampleCloudApi
           requires-signin: false
           sdk-generation-stage-name: Development
         paths:
-          /items: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180604083514.zip
+          /items: !com.amazonaws.mobilehub.v0.Function
+            codeFilename: uploads/sampleLambda-20180721123454.zip
             description: 'Handler for calls to resource path : /items/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 6b7xylZXre8Ds6CP+vPH/W9mfC10IN4kA+71f6lhzTg=
+            hashcode: xqGmgqWHHXPZNDZIFSl0ma5gVlhm85iTz3vkmNogwXo=
             memorySize: '128'
-            modified: '2018-06-04T13:35:53.570+0000'
+            modified: '2018-07-21T17:32:33.285+0000'
             name: sampleLambda
             runtime: nodejs6.10
             timeout: '3'
-            version: KK92iQH0L5fYV065oJzrsABAMl_bC73R
-          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180604083514.zip
+            version: TO1X.mI_703pSylcDqHX60oeSIA0FWWw
+          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function
+            codeFilename: uploads/sampleLambda-20180721123454.zip
             description: 'Handler for calls to resource path : /items/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 6b7xylZXre8Ds6CP+vPH/W9mfC10IN4kA+71f6lhzTg=
+            hashcode: xqGmgqWHHXPZNDZIFSl0ma5gVlhm85iTz3vkmNogwXo=
             memorySize: '128'
-            modified: '2018-06-04T13:35:53.570+0000'
+            modified: '2018-07-21T17:32:33.285+0000'
             name: sampleLambda
             runtime: nodejs6.10
             timeout: '3'
-            version: Ln9jmpXEI_yMDtDV98CLSA727T3YKesj
+            version: Km5roag9ygyYzT3_29RMn9pSZkeqAvQF
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
