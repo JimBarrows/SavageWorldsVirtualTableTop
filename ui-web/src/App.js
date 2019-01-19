@@ -2,7 +2,7 @@ import {withAuthenticator} from 'aws-amplify-react'
 import React, {Component}  from 'react'
 import {Route, Switch}     from 'react-router-dom'
 import './App.css'
-import Header              from './components/Header'
+import Header              from './components/layout/Header'
 import PlotPointEditor     from './pages/PlotPointEditor'
 import PlotPointList       from './pages/PlotPointList'
 
