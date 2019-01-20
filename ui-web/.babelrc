@@ -1,8 +1,7 @@
 {
  "presets" : [
-	"env",
-	"react",
-	"stage-0"
+	 "@babel/env",
+	 "@babel/react"
  ],
  "plugins" : [
 	"css-modules-transform",

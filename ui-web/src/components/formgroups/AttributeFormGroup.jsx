@@ -17,9 +17,7 @@ export default class AttributeFormGroup extends React.Component {
 	};
 
 	diceChange  = e => {
-		console.log('e.target.value: ', e.target.value);
-		console.log('this.props.value: ', this.props.value);
-		console.log('Object.assign({}, this.props.value, {dice: e.target.value}): ', Object.assign({}, this.props.value, {dice: e.target.value}));
+		console.log('Object.assign({}, this.props.value, {dice: e.target.value}): ', Object.assign({}, this.props.value, {dice: e.target.value}))
 		return this.props.onChange(Object.assign({}, this.props.value, {dice: e.target.value}));
 	};
 	bonusChange = e => {
