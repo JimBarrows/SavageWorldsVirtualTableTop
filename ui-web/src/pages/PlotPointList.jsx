@@ -1,20 +1,20 @@
-import {PageHeader}  from 'bootstrap-react-components'
-import React         from 'react'
-import PlotPointList from '../components/PlotPointList'
+import {FontAwesomeIcon}    from '@fortawesome/react-fontawesome'
+import {Button, PageHeader} from 'bootstrap-react-components'
+import React                from 'react'
+import PlotPointList        from '../components/plotpoints'
 
 export default class PlotPointListPage extends React.Component {
 
 	navigateToNewPlotPoint = () => this.props.history.push('/plotPointEditor')
 
-	plotPointList          = () => <PlotPointList id={'mainPlotPointList'} plotPoints={this.state.plotPoints}
-		page={this.props.page} links={this.props.links} />
+	plotPointList = () => <PlotPointList id={'mainPlotPointList'} plotPoints={this.state.plotPoints} />
 
-	render                 = () =>
+	render = () =>
 		<div id='PlotPointListPage' >
 			<PageHeader id='PlotPointListPage' ><h1 >Plot Points</h1 ></PageHeader >
-			<button className={'btn btn-default'} id='addPlotPointButton' type={'button'}
-				onClick={this.navigateToNewPlotPoint} >Add
-			</button >
+			<Button id='addPlotPoint' onClick={this.navigateToNewPlotPoint} >
+				<FontAwesomeIcon icon={'plus'} />&nbsp;Add
+			</Button >
 			{this.state.plotPoints.length > 0 ? this.plotPointList() : <p >There are no plot points, please add one</p >}
 		</div >
 

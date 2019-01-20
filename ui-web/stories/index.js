@@ -1,9 +1,9 @@
-import {action} from '@storybook/addon-actions'
-import {storiesOf} from '@storybook/react'
-import React from 'react'
-import Navigation from '../src/components/PlotPointEditor/Navigation'
-import PlotPoint from '../src/components/PlotPointEditor/PlotPoint'
-import SettingRules from '../src/components/PlotPointEditor/setting_rules/index'
+import {action}     from '@storybook/addon-actions'
+import {storiesOf}  from '@storybook/react'
+import React        from 'react'
+import Navigation   from '../src/components/plotpoints/Editor/Navigation'
+import PlotPoint    from '../src/components/plotpoints/Editor/PlotPoint'
+import SettingRules from '../src/components/plotpoints/Editor/setting_rules/index'
 
 let plotPoint = {
 	aircraft               : [],
@@ -38,13 +38,13 @@ let plotPoint = {
 	watercraft             : []
 }
 
-storiesOf('Plot Point Editor/Navigation', module)
+storiesOf('Plot Point Form/Navigation', module)
 	.addDecorator((story) => <div className="container-fluid">
 		<div className={'row'}>{story()}</div>
 	</div>)
 	.add('Basic', () => <Navigation id={'basic'} navigateTo={action('Basic Navigation changed')}/>)
 
-storiesOf('Plot Point Editor/Form', module)
+storiesOf('Plot Point Form/Form', module)
 	.addDecorator((story) => <div className="container-fluid">
 		<div className={'row'}>{story()}</div>
 	</div>)
