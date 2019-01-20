@@ -1,7 +1,7 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import React                              from 'react'
-import BaseEditor                         from '../components/BaseEditor'
-import EditorList                         from '../components/EditorList'
+import BaseEditor                         from '../../../BaseEditor'
+import EditorList                         from '../../../EditorList'
 import EffectsEditor                      from './EffectsEditor'
 
 export default class Editor extends React.Component {

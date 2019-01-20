@@ -7,8 +7,8 @@ import {
 }                         from 'bootstrap-react-components'
 import PropTypes          from 'prop-types'
 import React              from 'react'
-import AttributeComponent from '../components/AttributeComponent'
-import BaseEditor         from '../components/BaseEditor'
+import AttributeComponent from '../../../AttributeComponent'
+import BaseEditor         from '../../../BaseEditor'
 import SelectedSkills     from './selected_skills/index'
 import Index              from './special_abilities/index'
 

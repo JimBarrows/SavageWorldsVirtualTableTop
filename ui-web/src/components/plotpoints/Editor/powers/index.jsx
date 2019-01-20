@@ -1,6 +1,6 @@
 import PropTypes  from 'prop-types'
 import React      from 'react'
-import EditorList from '../components/EditorList'
+import EditorList from '../../../EditorList'
 import Form       from './Form'
 
 export default class Powers extends React.Component {

@@ -1,6 +1,6 @@
 import PropTypes     from 'prop-types'
 import React         from 'react'
-import EditorList    from '../../components/EditorList'
+import EditorList    from '../../../../EditorList'
 import VehicleEditor from '../VehicleEditor'
 
 export default class GroundVehicles extends React.Component {

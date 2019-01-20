@@ -1,7 +1,7 @@
 import {FormControl} from 'bootstrap-react-components'
 import PropTypes     from 'prop-types'
 import React         from 'react'
-import DiceSelect    from '../../../DiceSelect'
+import DiceSelect    from './DiceSelect'
 
 export default class AttributeComponent extends React.Component {
 

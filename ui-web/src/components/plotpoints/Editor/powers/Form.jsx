@@ -1,7 +1,7 @@
 import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import React                                               from 'react'
+import BaseEditor                                          from '../../../BaseEditor'
 import RankSelectFormGroup                                 from '../../../formgroups/RankSelectFormGroup'
-import BaseEditor                                          from '../components/BaseEditor'
 
 
 export default class Form extends React.Component {
