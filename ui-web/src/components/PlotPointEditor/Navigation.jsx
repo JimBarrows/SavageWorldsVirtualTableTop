@@ -1,7 +1,7 @@
+import Nav       from 'bootstrap-react-components/distribution/bootstrap/components/Nav'
+import NavItem   from 'bootstrap-react-components/distribution/bootstrap/components/Nav/NavItem'
 import PropTypes from 'prop-types'
 import React     from 'react'
-import Nav       from 'bootstrap-react-components/bootstrap/components/Nav'
-import NavItem   from 'bootstrap-react-components/bootstrap/components/Nav/NavItem'
 
 export default class Navigation extends React.Component {
 
@@ -12,30 +12,37 @@ export default class Navigation extends React.Component {
 		navigateTo: PropTypes.func.isRequired
 	}
 
-	navigateTo = name => this.props.navigateTo(name)
+	navigateTo = (name) => () => {
+		this.setState({active: name})
+		return this.props.navigateTo(name)
+	}
 
 	render () {
 		let {id}         = this.props
 		let component_id = `Navigation-${id}`
-		return (<Nav id={component_id} look={'tabs'} >
-			<NavItem id={component_id + '-basic-rules'} onClick={this.navigateTo('PlotPoint')} label={'Basic Rules'}/>
+		return (<Nav id={component_id} position={'vertical'} look={'tabs'} >
+			<NavItem id={component_id + '-basic-rules'} onClick={this.navigateTo('BasicRules')} label={'Basic Rules'}
+				state={this.state.active === 'BasicRules' ? 'active' : ''} />
+			<NavItem id={component_id + '-setting-rules'} onClick={this.navigateTo('SettingRules')} label={'Setting Rules'}
+				state={this.state.active === 'SettingRules' ? 'active' : ''} />
+			<NavItem id={component_id + '-skills'} onClick={this.navigateTo('Skills')} label={'Skills'}
+				state={this.state.active === 'Skills' ? 'active' : ''} />
+			<NavItem id={component_id + '-edges'} onClick={this.navigateTo('Edges')} label={'Edges'}
+				state={this.state.active === 'Edges' ? 'active' : ''} />
+			<NavItem id={component_id + '-hindrances'} onClick={this.navigateTo('Hindrances')} label={'Hindrances'}
+				state={this.state.active === 'Hindrances' ? 'active' : ''} />
+			<NavItem id={component_id + '-gear'} onClick={this.navigateTo('Gear')} label={'Gear'}
+				state={this.state.active === 'Gear' ? 'active' : ''} />
+			<NavItem id={component_id + '-powers'} onClick={this.navigateTo('Powers')} label={'Powers'}
+				state={this.state.active === 'Powers' ? 'active' : ''} />
+			<NavItem id={component_id + '-races'} onClick={this.navigateTo('Races')} label={'Races'}
+				state={this.state.active === 'Races' ? 'active' : ''} />
+			<NavItem id={component_id + '-beasts'} onClick={this.navigateTo('Beasts')} label={'Beasts'}
+				state={this.state.active === 'Beasts' ? 'active' : ''} />
+			<NavItem id={component_id + '-characters'} onClick={this.navigateTo('Characters')} label={'Characters'}
+				state={this.state.active === 'Characters' ? 'active' : ''} />
 		</Nav >)
-		// <nav id={component_id} className="col-md-2 d-none d-md-block bg-light sidebar">
-		// 	<div className="sidebar-sticky">
-		// 		<ul className="nav flex-column">
-		// 			<li className="nav-item">
-		// 				<ALink id={component_id + 'PlotPoint'} className="nav-link active"
-		// 				       onClick={e => {this.navigateTo('PlotPoint')}}>
-		// 					Plot Point <span className="sr-only">(current)</span>
-		// 				</ALink>
-		// 			</li>
-		// 			<li className="nav-item">
-		// 				<ALink id={component_id + 'SettingRules'} className="nav-link"
-		// 				       onClick={e => this.navigateTo('SettingRules')}>
-		// 					Setting Rules
-		// 				</ALink>
-		// 			</li>
-		// 			<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+
 		// 				<span>Character Creation</span>
 		// 			</h6>
 		// 			<li className="nav-item">
@@ -156,5 +163,9 @@ export default class Navigation extends React.Component {
 		// 	</div>
 		// </nav>
 
+	}
+
+	state = {
+		active: 'BasicRules'
 	}
 }

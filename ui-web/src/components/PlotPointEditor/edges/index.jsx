@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes  from 'prop-types'
+import React      from 'react'
 import EditorList from '../components/EditorList'
-import Editor from './Editor'
+import Editor     from './Editor'
 
-export default class EdgeEditorList extends React.Component {
+export default class Edges extends React.Component {
 
 	static propTypes = {
 		id         : PropTypes.string.isRequired,
@@ -13,17 +13,17 @@ export default class EdgeEditorList extends React.Component {
 
 	static defaultProps = {}
 
-	render() {
+	render () {
 		return (
-			<div id={'EdgeEditorListComponent_' + this.props.id}>
+			<div id={'EdgeEditorListComponent_' + this.props.id} >
 				<EditorList emptyItem={({name: ' ', description: ' ', category: ' ', requirements: ' ', effects: ' '})}
-				            id={'EdgeEditorList'}
-				            list={this.props.edges}
-				            onChange={this.props.edgesChange}
-				            title={'Edges'}>
-					<Editor/>
-				</EditorList>
-			</div>
+					id={'EdgeEditorList'}
+					list={this.props.edges}
+					onChange={this.props.edgesChange}
+					title={'Edges'} >
+					<Editor />
+				</EditorList >
+			</div >
 		)
 	}
 }

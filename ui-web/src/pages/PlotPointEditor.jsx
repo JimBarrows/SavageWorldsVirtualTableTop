@@ -1,4 +1,3 @@
-import {API}        from 'aws-amplify'
 import {PageHeader} from 'bootstrap-react-components'
 import React        from 'react'
 import PlotPoint    from '../components/PlotPointEditor/PlotPoint'
@@ -15,8 +14,41 @@ export default class PlotPointEditor extends React.Component {
 		this.save = this.save.bind(this)
 	}
 
+	state = {
+		aircraft               : [],
+		ammunition             : [],
+		arcaneBackgrounds      : [],
+		armor                  : [],
+		basicRules             : {
+			maximumAttributePoints: 5,
+			maximumMajorHindrances: 1,
+			maximumMinorHindrances: 2,
+			maximumSkillPoints    : 15
+		},
+		beasts                 : [],
+		description            : '',
+		edges                  : [],
+		groundVehicles         : [],
+		handWeapons            : [],
+		hindrances             : [],
+		maximumAttributePoints : 5,
+		maximumMajorHindrances : 1,
+		maximumMinorHindrances : 2,
+		maximumSkillPoints     : 15,
+		mundaneItems           : [],
+		name                   : '',
+		powers                 : [],
+		races                  : [],
+		rangedWeapons          : [],
+		settingRules           : [],
+		skills                 : [],
+		specialWeapons         : [],
+		trappingsAndEffects    : [],
+		vehicleMountedAndAtGuns: [],
+		watercraft             : []
+	}
+
 	save = async e => {
-		console.log('save: ', e)
 		let toSave = {
 			aircraft               : this.state.aircraft,
 			ammunition             : this.state.ammunition,
@@ -44,24 +76,15 @@ export default class PlotPointEditor extends React.Component {
 			watercraft             : this.state.watercraft
 		}
 		if (this.props.match.params.name) {
-			await API.put('PlotPointsCRUD', `/PlotPoints`, {
-				body: {...toSave}
-			})
+			// await API.put('PlotPointsCRUD', `/PlotPoints`, {
+			// 	body: {...toSave}
+			// })
 		} else {
-			await API.post('PlotPointsCRUD', `/PlotPoints`, {
-				body: {...toSave}
-			})
+			// await API.post('PlotPointsCRUD', `/PlotPoints`, {
+			// 	body: {...toSave}
+			// })
 		}
 	}
-
-	async componentDidMount () {
-		if (this.props.match.params.name) {
-			let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`)
-			this.setState({
-											...plotPoint
-										})
-		}
-	};
 
 	render () {
 		return <div id={this.props.id} >
@@ -72,32 +95,15 @@ export default class PlotPointEditor extends React.Component {
 		</div >
 	}
 
-	state = {
-		aircraft               : [],
-		ammunition             : [],
-		arcaneBackgrounds      : [],
-		armor                  : [],
-		beasts                 : [],
-		description            : '',
-		edges                  : [],
-		groundVehicles         : [],
-		handWeapons            : [],
-		hindrances             : [],
-		maximumAttributePoints : 5,
-		maximumMajorHindrances : 1,
-		maximumMinorHindrances : 2,
-		maximumSkillPoints     : 15,
-		mundaneItems           : [],
-		name                   : '',
-		powers                 : [],
-		races                  : [],
-		rangedWeapons          : [],
-		skills                 : [],
-		specialWeapons         : [],
-		trappingsAndEffects    : [],
-		vehicleMountedAndAtGuns: [],
-		watercraft             : []
-	}
+	async componentDidMount () {
+		if (this.props.match.params.name) {
+			// let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`)
+			let plotPoint = {}
+			this.setState({
+											...plotPoint
+										})
+		}
+	};
 }
 
 

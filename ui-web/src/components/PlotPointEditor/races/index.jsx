@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes  from 'prop-types'
+import React      from 'react'
 import EditorList from '../components/EditorList'
-import Editor from './Editor'
+import Editor     from './Editor'
 
-export default class RaceEditorList extends React.Component {
+export default class Races extends React.Component {
 
 	static propTypes = {
 		id         : PropTypes.string.isRequired,

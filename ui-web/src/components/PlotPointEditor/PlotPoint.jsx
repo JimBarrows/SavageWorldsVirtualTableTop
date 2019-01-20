@@ -1,7 +1,17 @@
-import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
-import PropTypes                                           from 'prop-types'
-import React                                               from 'react'
-import Navigation                                          from './Navigation'
+import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes                          from 'prop-types'
+import React                              from 'react'
+import BasicRules                         from './BasicRules'
+import Beasts                             from './beasts'
+import Characters                         from './characters'
+import Edges                              from './edges'
+import Gear                               from './gear'
+import Hindrances                         from './hindrances'
+import Navigation                         from './Navigation'
+import Powers                             from './powers'
+import Races                              from './races'
+import SettingRulesList                   from './setting_rules'
+import Skills                             from './skills'
 
 export default class PlotPoint extends React.Component {
 
@@ -13,13 +23,48 @@ export default class PlotPoint extends React.Component {
 		plotPoint: PropTypes.object.isRequired
 	}
 
-	descriptionChange            = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {description: e.target.value}))
-	maximumAttributePointsChange = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumAttributePoints: parseInt(e.target.value, 10)}))
-	maximumMajorHindrancesChange = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumMajorHindrances: parseInt(e.target.value, 10)}))
-	maximumMinorHindrancesChange = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumMinorHindrances: parseInt(e.target.value, 10)}))
-	maximumSkillPointsChange     = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {maximumSkillPoints: parseInt(e.target.value, 10)}))
-	nameChange                   = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {name: e.target.value}))
-	showSection                  = section => console.log('section: ', section)
+	basicRulesChange   = basicRules => this.props.onChange(Object.assign({}, this.props.plotPoint, {basicRules}))
+	beastsChange       = beasts => this.props.onChange(Object.assign({}, this.props.plotPoint, {beasts}))
+	charactersChange   = characters => this.props.onChange(Object.assign({}, this.props.plotPoint, {characters}))
+	descriptionChange  = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {description: e.target.value}))
+	edgesChange        = edges => this.props.onChange(Object.assign({}, this.props.plotPoint, {edges}))
+	gearChange         = gear => this.props.onChange(Object.assign({}, this.props.plotPoint, {gear}))
+	hindrancesChange   = hindrances => this.props.onChange(Object.assign({}, this.props.plotPoint, {hindrances}))
+	nameChange         = e => this.props.onChange(Object.assign({}, this.props.plotPoint, {name: e.target.value}))
+	powersChange       = powers => this.props.onChange(Object.assign({}, this.props.plotPoint, {powers}))
+	racesChange        = races => this.props.onChange(Object.assign({}, this.props.plotPoint, {races}))
+	settingRulesChange = settingRules => this.props.onChange(Object.assign({}, this.props.plotPoint, {settingRules}))
+	skillsChange       = skills => this.props.onChange(Object.assign({}, this.props.plotPoint, {skills}))
+
+	sectionChange = section => this.setState({section})
+	showSection   = (componentId) => {
+		switch (this.state.section) {
+			case 'BasicRules':
+				return (<BasicRules plotPoint={this.props.plotPoint} onChange={this.basicRulesChange} id={componentId} />)
+			case 'SettingRules':
+				return (
+					<SettingRulesList rules={this.props.plotPoint.rules} onChange={this.settingRulesChange} id={componentId} />)
+			case 'Skills':
+				return (
+					<Skills rules={this.props.plotPoint.skills} onChange={this.skillsChange} id={componentId} />)
+			case 'Edges':
+				return (<Edges edges={this.props.plotPoint.edges} onChange={this.edgesChange} id={componentId} />)
+			case 'Hindrances':
+				return (
+					<Hindrances edges={this.props.plotPoint.hindrances} onChange={this.hindrancesChange} id={componentId} />)
+			case 'Gear':
+				return (<Gear gear={this.props.plotPoint.gear} onChange={this.gearChange} id={componentId} />)
+			case 'Powers':
+				return (<Powers powers={this.props.plotPoint.powers} onChange={this.powersChange} id={componentId} />)
+			case 'Races':
+				return (<Races races={this.props.plotPoint.races} onChange={this.racesChange} id={componentId} />)
+			case 'Beasts':
+				return (<Beasts beasts={this.props.plotPoint.beasts} onChange={this.beastsChange} id={componentId} />)
+			case 'Characters':
+				return (
+					<Characters characters={this.props.plotPoint.characters} onChange={this.charactersChange} id={componentId} />)
+		}
+	}
 
 	render () {
 		let {id, plotPoint} = this.props
@@ -30,23 +75,20 @@ export default class PlotPoint extends React.Component {
 					value={plotPoint.name} />
 				<TextAreaFormGroup id={`${componentId}-Description`} label={'Description'} onChange={this.descriptionChange}
 					value={plotPoint.description} />
-				<Navigation id={componentId} navigateTo={this.showSection} />
-				<h1 >Basic Rules</h1 >
-				<NumberFormGroup id={`${componentId}-MaximumAttributePoints`} label={'Maximum Attribute Points'}
-					onChange={this.maximumAttributePointsChange} required={true}
-					value={plotPoint.maximumAttributePoints} />
-				<NumberFormGroup id={`${componentId}-MaximumMajorHindrances`} label={'Maximum Number of Major Hindrances'}
-					onChange={this.maximumMajorHindrancesChange} required={true}
-					value={plotPoint.maximumMajorHindrances} />
-				<NumberFormGroup id={`${componentId}-MaximumMinorHindrances`} label={'Maximum Number of Minor Hindrances'}
-					onChange={this.maximumMinorHindrancesChange} required={true}
-					value={plotPoint.maximumMinorHindrances} />
-				<NumberFormGroup id={`${componentId}-MaximumSkillPoints`} label={'Maximum Skill Points'}
-					onChange={this.maximumSkillPointsChange} required={true}
-					value={plotPoint.maximumSkillPoints} />
-
+				<div className={'row'} >
+					<div className="col-2" >
+						<Navigation id={componentId} navigateTo={this.sectionChange} />
+					</div >
+					<div className="col-10" >
+						{this.showSection(componentId)}
+					</div >
+				</div >
 			</div >
 		)
+	}
+
+	state = {
+		section: 'BasicRules'
 	}
 }
 
