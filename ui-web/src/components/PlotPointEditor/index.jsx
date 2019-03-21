@@ -95,7 +95,7 @@ export default class Form extends React.Component {
 				break
 			case 'Characters':
 				component = <Characters id={component_id} characters={plotPoint.characters}
-				                        charactersChange={this.charactersChange} skills={plotPoint.skills}/>
+				                        charactersChange={this.charactersChange} skills={plotPoint.skills} edges={plotPoint.edges}/>
 				break
 			case 'Edges':
 				component = <Edges id={component_id} edges={plotPoint.edges} edgesChange={this.edgesChange}/>
