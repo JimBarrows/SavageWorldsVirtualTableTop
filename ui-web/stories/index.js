@@ -1,8 +1,9 @@
-import {action} from '@storybook/addon-actions'
-import {storiesOf} from '@storybook/react'
-import React from 'react'
-import Navigation from '../src/components/PlotPointEditor/Navigation'
-import PlotPoint from '../src/components/PlotPointEditor/PlotPoint'
+import {action}     from '@storybook/addon-actions'
+import {storiesOf}  from '@storybook/react'
+import React        from 'react'
+import Characters   from '../src/components/PlotPointEditor/characters'
+import Navigation   from '../src/components/PlotPointEditor/Navigation'
+import PlotPoint    from '../src/components/PlotPointEditor/PlotPoint'
 import SettingRules from '../src/components/PlotPointEditor/setting_rules/index'
 
 let plotPoint = {
@@ -39,18 +40,23 @@ let plotPoint = {
 }
 
 storiesOf('Plot Point Editor/Navigation', module)
-	.addDecorator((story) => <div className="container-fluid">
-		<div className={'row'}>{story()}</div>
-	</div>)
-	.add('Basic', () => <Navigation id={'basic'} navigateTo={action('Basic Navigation changed')}/>)
+	.addDecorator((story) => <div className="container-fluid" >
+		<div className={'row'} >{story()}</div >
+	</div >)
+	.add('Basic', () => <Navigation id={'basic'} navigateTo={action('Basic Navigation changed')} />)
 
 storiesOf('Plot Point Editor/Form', module)
-	.addDecorator((story) => <div className="container-fluid">
-		<div className={'row'}>{story()}</div>
-	</div>)
+	.addDecorator((story) => <div className="container-fluid" >
+		<div className={'row'} >{story()}</div >
+	</div >)
 	.add('Plot Point', () => <PlotPoint id={'plotpoint'} onChange={pp => action(`pp: ${pp}`)} plotPoint={plotPoint}
-	                                    show={'PlotPoint'}/>)
+		show={'PlotPoint'} />)
 	.add('Setting Rules', () => <SettingRules id={'settingrules'} onChange={pp => action(`pp: ${pp}`)}
-	                                          plotPoint={plotPoint} show={'SettingRules'}/>)
+		plotPoint={plotPoint} show={'SettingRules'} />)
+	.add('Characters', () => <Characters id={'characters'} characters={plotPoint.characters}
+		charactersChange={characters => plotPoint = Object.assign({}, plotPoint, {characters})}
+		skills={plotPoint.skills} />)
+
+
 
 

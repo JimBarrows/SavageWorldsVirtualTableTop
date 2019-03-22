@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes  from 'prop-types'
+import React      from 'react'
 import EditorList from '../components/EditorList'
-import Editor from './Editor'
+import Editor     from './Editor'
 
 export default class Characters extends React.Component {
 
@@ -14,10 +14,10 @@ export default class Characters extends React.Component {
 		skills          : PropTypes.array.isRequired
 	}
 
-	render() {
+	render () {
 		let component_id = `Characters-${this.props.id}`
 		return (
-			<div id={component_id}>
+			<div id={component_id} >
 				<EditorList
 					emptyItem={({
 						agility           : {dice: 'd4', bonus: 0},
@@ -38,10 +38,14 @@ export default class Characters extends React.Component {
 					list={this.props.characters}
 					onChange={this.props.charactersChange}
 					headingLevel={1}
-					title={'Characters'}>
-					<Editor id={component_id} index={-1} item={({})} skillsAvailable={this.props.skills}/>
-				</EditorList>
-			</div>
+					title={'Characters'} >
+					<Editor id={component_id}
+						index={-1}
+						item={({})}
+						skillsAvailable={this.props.skills}
+						edgesAvailable={this.props.edges} />
+				</EditorList >
+			</div >
 		)
 	}
 }

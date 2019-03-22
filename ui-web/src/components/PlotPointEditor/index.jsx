@@ -1,27 +1,27 @@
-import {Button} from 'bootstrap-react-components'
-import PropTypes from 'prop-types'
-import React from 'react'
-import ArcaneBackgrounds from './arcane_backgrounds/index'
-import Armor from './armor/index'
-import Beasts from './beasts/index'
-import Characters from './characters/index'
-import Edges from './edges/index'
-import Ammunition from './gear/ammunition/index'
-import HandWeapons from './gear/hand_weapons/index'
-import MundaneItems from './gear/mundane_items/index'
-import RangedWeapons from './gear/ranged_weapons/index'
-import Index from './gear/special_weapons/index'
+import {Button}                from 'bootstrap-react-components'
+import PropTypes               from 'prop-types'
+import React                   from 'react'
+import ArcaneBackgrounds       from './arcane_backgrounds/index'
+import Armor                   from './armor/index'
+import Beasts                  from './beasts/index'
+import Characters              from './characters/index'
+import Edges                   from './edges/index'
+import Ammunition              from './gear/ammunition/index'
+import HandWeapons             from './gear/hand_weapons/index'
+import MundaneItems            from './gear/mundane_items/index'
+import RangedWeapons           from './gear/ranged_weapons/index'
+import Index                   from './gear/special_weapons/index'
 import VehicleMountedAndAtGuns from './gear/vehicle_mounted_and_at_guns/index'
-import Hindrances from './hindrances/index'
-import PlotPoint from './PlotPoint'
-import Powers from './powers/index'
-import Races from './races/index'
-import SettingRules from './setting_rules/index'
-import Skills from './skills/index'
-import TrappingsAndEffects from './trappings_and_effects/index'
-import Aircraft from './vehicles/aircraft/index'
-import GroundVehicles from './vehicles/ground_vehicles/index'
-import Watercraft from './vehicles/watercraft/index'
+import Hindrances              from './hindrances/index'
+import PlotPoint               from './PlotPoint'
+import Powers                  from './powers/index'
+import Races                   from './races/index'
+import SettingRules            from './setting_rules/index'
+import Skills                  from './skills/index'
+import TrappingsAndEffects     from './trappings_and_effects/index'
+import Aircraft                from './vehicles/aircraft/index'
+import GroundVehicles          from './vehicles/ground_vehicles/index'
+import Watercraft              from './vehicles/watercraft/index'
 
 export default class Form extends React.Component {
 
@@ -94,7 +94,7 @@ export default class Form extends React.Component {
 				                    skills={plotPoint.skills}/>
 				break
 			case 'Characters':
-				component = <Characters id={component_id} characters={plotPoint.characters}
+				component = <Characters id={component_id} characters={plotPoint.characters || []}
 				                        charactersChange={this.charactersChange} skills={plotPoint.skills} edges={plotPoint.edges}/>
 				break
 			case 'Edges':

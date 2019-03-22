@@ -1,7 +1,7 @@
-import {Button} from 'bootstrap-react-components'
+import {Button}  from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
-import React from 'react'
-import Editor from './Editor'
+import React     from 'react'
+import Editor    from './Editor'
 
 export default class Index extends React.Component {
 
@@ -37,8 +37,11 @@ export default class Index extends React.Component {
 	                                                                                skillsAvailable={this.props.skillsAvailable}/>)
 
 	render() {
-		let componentId = `SelectedSkillList-${this.props.id}`
-
+		const componentId = `SelectedSkillList-${this.props.id}`
+		// const unselectedSkills     = unselectedSkills.map((s, i) => ({
+		// 	label: `${s.name} (${s.attribute})`,
+		// 	value: i.toString(),
+		// }))
 		return <div id={componentId}>
 			<h3>Skills</h3>
 			<Button id={`${componentId}-AddButton`} onClick={this.addSkill}>Add</Button>
