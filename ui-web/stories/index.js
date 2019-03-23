@@ -1,10 +1,11 @@
-import {action}     from '@storybook/addon-actions'
-import {storiesOf}  from '@storybook/react'
-import React        from 'react'
-import Characters   from '../src/components/PlotPointEditor/characters'
-import Navigation   from '../src/components/PlotPointEditor/Navigation'
-import PlotPoint    from '../src/components/PlotPointEditor/PlotPoint'
-import SettingRules from '../src/components/PlotPointEditor/setting_rules/index'
+import {action}       from '@storybook/addon-actions'
+import {storiesOf}    from '@storybook/react'
+import React          from 'react'
+import Characters     from '../src/components/PlotPointEditor/characters'
+import SelectedSkills from '../src/components/PlotPointEditor/characters/selected_skills'
+import Navigation     from '../src/components/PlotPointEditor/Navigation'
+import PlotPoint      from '../src/components/PlotPointEditor/PlotPoint'
+import SettingRules   from '../src/components/PlotPointEditor/setting_rules/index'
 
 let plotPoint = {
 	aircraft               : [],
@@ -56,6 +57,39 @@ storiesOf('Plot Point Editor/Form', module)
 	.add('Characters', () => <Characters id={'characters'} characters={plotPoint.characters}
 		charactersChange={characters => plotPoint = Object.assign({}, plotPoint, {characters})}
 		skills={plotPoint.skills} />)
+
+storiesOf('Plot Point Editor/Character Components', module)
+	.addDecorator((story) => <div className="container-fluid" >
+		<div className={'row'} >{story()}</div >
+	</div >)
+	.add('Adding a Skill', () => <SelectedSkills
+		id='selectedskilltest'
+		skills={[
+			{
+				skill: {
+					name       : 'Strength Skill',
+					description: 'Strength skill description',
+					attribute  : 'Strength'
+				},
+				rank : {
+					dice : 'd4',
+					bonus: null
+				},
+				note : 'This is a note'
+			}
+		]}
+		skillsAvailable={[
+			{
+				name       : 'Agility Skill',
+				description: 'Agility skill description',
+				attribute  : 'Agility'
+			}, {
+				name       : 'Strength Skill',
+				description: 'Strength skill description',
+				attribute  : 'Strength'
+			}
+		]}
+		onChange={action('skills changed')} />)
 
 
 
