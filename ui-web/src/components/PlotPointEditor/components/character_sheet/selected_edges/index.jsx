@@ -1,7 +1,7 @@
-import {Button} from 'bootstrap-react-components'
+import {Button}  from 'bootstrap-react-components'
 import PropTypes from 'prop-types'
-import React from 'react'
-import Editor from './Editor'
+import React     from 'react'
+import Editor    from './Editor'
 
 export default class Index extends React.Component {
 

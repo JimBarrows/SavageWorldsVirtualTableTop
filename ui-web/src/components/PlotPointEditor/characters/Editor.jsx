@@ -17,10 +17,6 @@ export default class Editor extends React.Component {
 
 	render () {
 		let component_id    = `CharacterEditor-${this.props.index}-${this.props.id}`
-		let unselectedEdges = this.props.edgesAvailable.map((s, i) => ({
-			label: `${s.name} (${s.attribute})`,
-			value: i.toString(),
-		}))
 		return (
 			<CharacterSheet id={component_id}
 				item={this.props.item}
