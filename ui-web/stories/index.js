@@ -2,6 +2,7 @@ import {action}       from '@storybook/addon-actions'
 import {storiesOf}    from '@storybook/react'
 import React          from 'react'
 import Characters     from '../src/components/PlotPointEditor/characters'
+import SelectedEdges  from '../src/components/PlotPointEditor/components/character_sheet/selected_edges'
 import SelectedSkills from '../src/components/PlotPointEditor/components/character_sheet/selected_skills'
 import Navigation     from '../src/components/PlotPointEditor/Navigation'
 import PlotPoint      from '../src/components/PlotPointEditor/PlotPoint'
@@ -62,7 +63,7 @@ storiesOf('Plot Point Editor/Character Components', module)
 	.addDecorator((story) => <div className="container-fluid" >
 		<div className={'row'} >{story()}</div >
 	</div >)
-	.add('Adding a Skill', () => <SelectedSkills
+	.add('Skills', () => <SelectedSkills
 		id='selectedskilltest'
 		skills={[
 			{
@@ -90,6 +91,37 @@ storiesOf('Plot Point Editor/Character Components', module)
 			}
 		]}
 		onChange={action('skills changed')} />)
+	.add('Edges', () => <SelectedEdges
+		id='selectededgetest'
+		edges={[
+			{
+				edge: {
+					name        : 'Edge 1',
+					description : 'Edge 1 description',
+					category    : 'Category 1',
+					requirements: 'requirements 1',
+					effects     : 'Effects 1'
+				},
+				note: 'This is a note'
+			}
+		]}
+		edgesAvailable={[
+			{
+				name        : 'Edge 1',
+				description : 'Edge 1 description',
+				category    : 'Category 1',
+				requirements: 'requirements 1',
+				effects     : 'Effects 1'
+
+			}, {
+				name        : 'Edge 2',
+				description : 'Edge 2 description',
+				category    : 'Category 2',
+				requirements: 'Requirements 2',
+				effects     : 'Effects 2'
+			}
+		]}
+		onChange={action('edges changed')} />)
 
 
 

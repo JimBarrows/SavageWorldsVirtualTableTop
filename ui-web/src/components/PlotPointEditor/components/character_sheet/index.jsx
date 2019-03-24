@@ -33,6 +33,7 @@ export default class CharacterSheet extends React.Component {
 		this.props.onDelete(this.props.index)
 	}
 	descriptionChange        = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}))
+	edgeListChanged          = edges => this.props.onChange(Object.assign({}, this.props.item, {edges: edges}))
 	nameChange               = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}))
 	paceChange               = e => this.props.onChange(Object.assign({}, this.props.item, {pace: parseInt(e.target.value, 10)}))
 	skillListChanged         = skills => this.props.onChange(Object.assign({}, this.props.item, {skills: skills}))
@@ -43,8 +44,6 @@ export default class CharacterSheet extends React.Component {
 
 	render () {
 		let {id}             = this.props
-		let unselectedSkills = this.props.skillsAvailable
-
 		let component_id     = `CharacterSheet-${id}`
 		return (
 			<BaseEditor id={this.props.id} onDelete={this.delete} >
@@ -86,6 +85,8 @@ export default class CharacterSheet extends React.Component {
 					onChange={this.charismaChange} />
 				<NumberFormGroup id={component_id + '-Pace'} label={'Pace'} value={this.props.item.pace}
 					onChange={this.paceChange} />
+				<SelectedEdges id={component_id} edgesAvailable={this.props.edgesAvailable} edges={this.props.item.edges}
+					onChange={this.edgeListChanged} />
 				<SelectedSkills id={component_id} skillsAvailable={this.props.skillsAvailable}
 					skills={this.props.item.skills} onChange={this.skillListChanged} />
 				{this.props.children}

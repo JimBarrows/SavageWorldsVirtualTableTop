@@ -5,26 +5,29 @@ import AttributeComponent                      from '../../AttributeComponent'
 
 export default class Index extends React.Component {
 
-	static propTypes        = {
+	static propTypes    = {
 		id             : PropTypes.string.isRequired,
 		skillsAvailable: PropTypes.array.isRequired,
 		skills         : PropTypes.array.isRequired,
 		onChange       : PropTypes.func.isRequired
 	}
-	static defaultProps     = {}
-				 attributeChange  = (skill, index) => e => {
-					 skill.rank = Object.assign({}, skill.rank, e)
-					 this.props.onChange(this.props.skills)
-				 }
-				 addSkill         = e => {
-					 this.props.onChange([...this.props.skills, {
-						 skill: this.state.selectedSkill,
-						 rank : {dice: 'd4', bonus: null},
-						 note : ''
-					 }].sort((l, r) => l.skill.name < r.skill.name ? -1 : l.skill.name < r.skill.name ? 1 : 0))
-					 this.setState({selectedSkill: null})
-				 }
-				 newSkillSelected = e => this.setState({selectedSkill: this.props.skillsAvailable.find(skill => skill.name === e.target.value)})
+	static defaultProps = {}
+
+	attributeChange = skill => e => {
+		skill.rank = Object.assign({}, skill.rank, e)
+		this.props.onChange(this.props.skills)
+	}
+
+	addSkill = e => {
+		this.props.onChange([...this.props.skills, {
+			skill: this.state.selectedSkill,
+			rank : {dice: 'd4', bonus: null},
+			note : ''
+		}].sort((l, r) => l.skill.name < r.skill.name ? -1 : l.skill.name < r.skill.name ? 1 : 0))
+		this.setState({selectedSkill: null})
+	}
+
+	newSkillSelected = e => this.setState({selectedSkill: this.props.skillsAvailable.find(skill => skill.name === e.target.value)})
 
 	render () {
 		const component_id     = `SelectedSkillList-${this.props.id}`
