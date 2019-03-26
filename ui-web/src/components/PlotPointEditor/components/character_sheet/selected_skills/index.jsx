@@ -1,7 +1,7 @@
 import {Button, PrependAddon, SelectFormGroup} from 'bootstrap-react-components'
 import PropTypes                               from 'prop-types'
 import React                                   from 'react'
-import AttributeComponent                      from '../../AttributeComponent'
+import AttributeComponent                      from '../../../../AttributeComponent'
 
 export default class Index extends React.Component {
 
