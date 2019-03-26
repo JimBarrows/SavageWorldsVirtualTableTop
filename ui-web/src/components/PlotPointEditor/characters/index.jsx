@@ -26,6 +26,8 @@ export default class Characters extends React.Component {
 						background        : ' ',
 						charisma          : 0,
 						description       : ' ',
+						edges             : [],
+						hindrances        : [],
 						name              : ' ',
 						pace              : 6,
 						skills            : [],
@@ -42,8 +44,10 @@ export default class Characters extends React.Component {
 					<Editor id={component_id}
 						index={-1}
 						item={({})}
+						edgesAvailable={this.props.edges}
+						hindrancesAvailable={this.props.hindrances}
 						skillsAvailable={this.props.skills}
-						edgesAvailable={this.props.edges} />
+					/>
 				</EditorList >
 			</div >
 		)

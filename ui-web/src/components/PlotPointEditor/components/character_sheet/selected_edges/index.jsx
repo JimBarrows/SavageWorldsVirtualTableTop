@@ -46,7 +46,7 @@ export default class Index extends React.Component {
 															 <div key={index} class="selectedEdge" >
 																 <h4 >{edge.edge.name}</h4 >
 																 {edge.edge.description}
-																 <TextAreaFormGroup id={`${component_id}-Description`} label={'Description'}
+																 <TextAreaFormGroup id={`${component_id}-Note`} label={'Note'}
 																	 onChange={this.edgeNoteChange(edge)}
 																	 value={edge.note} />
 															 </div >

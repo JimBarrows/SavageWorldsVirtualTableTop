@@ -1,12 +1,13 @@
-import {action}       from '@storybook/addon-actions'
-import {storiesOf}    from '@storybook/react'
-import React          from 'react'
-import Characters     from '../src/components/PlotPointEditor/characters'
-import SelectedEdges  from '../src/components/PlotPointEditor/components/character_sheet/selected_edges'
-import SelectedSkills from '../src/components/PlotPointEditor/components/character_sheet/selected_skills'
-import Navigation     from '../src/components/PlotPointEditor/Navigation'
-import PlotPoint      from '../src/components/PlotPointEditor/PlotPoint'
-import SettingRules   from '../src/components/PlotPointEditor/setting_rules/index'
+import {action}           from '@storybook/addon-actions'
+import {storiesOf}        from '@storybook/react'
+import React              from 'react'
+import Characters         from '../src/components/PlotPointEditor/characters'
+import SelectedEdges      from '../src/components/PlotPointEditor/components/character_sheet/selected_edges'
+import SelectedHindrances from '../src/components/PlotPointEditor/components/character_sheet/selected_hindrances'
+import SelectedSkills     from '../src/components/PlotPointEditor/components/character_sheet/selected_skills'
+import Navigation         from '../src/components/PlotPointEditor/Navigation'
+import PlotPoint          from '../src/components/PlotPointEditor/PlotPoint'
+import SettingRules       from '../src/components/PlotPointEditor/setting_rules/index'
 
 let plotPoint = {
 	aircraft               : [],
@@ -122,6 +123,31 @@ storiesOf('Plot Point Editor/Character Components', module)
 			}
 		]}
 		onChange={action('edges changed')} />)
+	.add('Hindrances', () => <SelectedHindrances
+		id='selectedhindrancestest'
+		hindrances={[
+			{
+				hindrance: {
+					name       : 'Hindrance 1',
+					description: 'Hindrance 1 description',
+					severity   : 'Major or Minor'
+				},
+				note     : 'This is a note'
+			}
+		]}
+		hindrancesAvailable={[
+			{
+				name       : 'Hindrance 1',
+				description: 'Hindrance 1 description',
+				severity   : 'Major or Minor'
+
+			}, {
+				name       : 'Hindrance 2',
+				description: 'Hindrance 2 description',
+				severity   : 'Major or Minor'
+			}
+		]}
+		onChange={action('hindrances changed')} />)
 
 
 

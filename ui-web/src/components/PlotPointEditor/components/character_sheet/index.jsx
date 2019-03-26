@@ -9,15 +9,18 @@ import PropTypes          from 'prop-types'
 import React              from 'react'
 import AttributeComponent from '../AttributeComponent'
 import BaseEditor         from '../BaseEditor'
+import SelectedEdges      from './selected_edges/index'
+import SelectedHindrances from './selected_hindrances'
 import SelectedSkills     from './selected_skills/index'
 
 export default class CharacterSheet extends React.Component {
 
 	static propTypes = {
-		edgesAvailable : PropTypes.array.isRequired,
-		id             : PropTypes.string.isRequired,
-		item           : PropTypes.object.isRequired,
-		skillsAvailable: PropTypes.array.isRequired,
+		edgesAvailable     : PropTypes.array.isRequired,
+		hindrancesAvailable: PropTypes.array.isRequired,
+		id                 : PropTypes.string.isRequired,
+		item               : PropTypes.object.isRequired,
+		skillsAvailable    : PropTypes.array.isRequired,
 
 	}
 
@@ -34,6 +37,7 @@ export default class CharacterSheet extends React.Component {
 	}
 	descriptionChange        = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}))
 	edgeListChanged          = edges => this.props.onChange(Object.assign({}, this.props.item, {edges: edges}))
+	hindranceListChanged     = hindrances => this.props.onChange(Object.assign({}, this.props.item, {hindrances: hindrances}))
 	nameChange               = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}))
 	paceChange               = e => this.props.onChange(Object.assign({}, this.props.item, {pace: parseInt(e.target.value, 10)}))
 	skillListChanged         = skills => this.props.onChange(Object.assign({}, this.props.item, {skills: skills}))
@@ -43,8 +47,8 @@ export default class CharacterSheet extends React.Component {
 	vigorChange              = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e}))
 
 	render () {
-		let {id}             = this.props
-		let component_id     = `CharacterSheet-${id}`
+		let {id}         = this.props
+		let component_id = `CharacterSheet-${id}`
 		return (
 			<BaseEditor id={this.props.id} onDelete={this.delete} >
 				<TextFormGroup id={component_id + '-Name'} label='Name' onChange={this.nameChange} required={true}
@@ -85,10 +89,18 @@ export default class CharacterSheet extends React.Component {
 					onChange={this.charismaChange} />
 				<NumberFormGroup id={component_id + '-Pace'} label={'Pace'} value={this.props.item.pace}
 					onChange={this.paceChange} />
-				<SelectedEdges id={component_id} edgesAvailable={this.props.edgesAvailable} edges={this.props.item.edges}
+				<SelectedHindrances id={component_id}
+					hindrancesAvailable={this.props.hindrancesAvailable || []}
+					hindrances={this.props.item.hindrances || []}
+					onChange={this.hindranceListChanged} />
+				<SelectedEdges id={component_id}
+					edgesAvailable={this.props.edgesAvailable || []}
+					edges={this.props.item.edges || []}
 					onChange={this.edgeListChanged} />
-				<SelectedSkills id={component_id} skillsAvailable={this.props.skillsAvailable}
-					skills={this.props.item.skills} onChange={this.skillListChanged} />
+				<SelectedSkills id={component_id}
+					skillsAvailable={this.props.skillsAvailable || []}
+					skills={this.props.item.skills || []}
+					onChange={this.skillListChanged} />
 				{this.props.children}
 			</BaseEditor >
 		)
