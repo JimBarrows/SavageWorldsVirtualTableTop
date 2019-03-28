@@ -1,11 +1,11 @@
 import {FontAwesomeIcon}    from '@fortawesome/react-fontawesome'
 import {Button, PageHeader} from 'bootstrap-react-components'
 import React                from 'react'
-import PlotPointList        from '../components/plotpoints'
+import PlotPointList        from '../components/plotpoint/list/index'
 
 export default class PlotPointListPage extends React.Component {
 
-	navigateToNewPlotPoint = () => this.props.history.push('/plotPointEditor')
+	navigateToNewPlotPoint = () => this.props.history.push('/plot_point/add')
 
 	plotPointList = () => <PlotPointList id={'mainPlotPointList'} plotPoints={this.state.plotPoints} />
 

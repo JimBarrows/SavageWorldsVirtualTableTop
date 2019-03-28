@@ -1,7 +1,7 @@
 import {PageHeader}   from 'bootstrap-react-components'
 import * as PropTypes from 'prop-types'
 import React          from 'react'
-import PlotPointForm  from '../components/plotpoints/Editor'
+import PlotPointForm  from '../components/plotpoint/editor'
 
 
 export default class PlotPointEdit extends React.Component {

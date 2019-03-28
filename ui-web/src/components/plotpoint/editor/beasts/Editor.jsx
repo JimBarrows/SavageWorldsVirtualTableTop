@@ -1,7 +1,7 @@
 import {NumberFormGroup,} from 'bootstrap-react-components'
 import PropTypes          from 'prop-types'
 import React              from 'react'
-import CharacterSheet     from '../../../PlotPointEditor/components/character_sheet/index'
+import CharacterSheet     from '../../../character_sheet/index'
 import SpecialAbilities   from './special_abilities/index'
 
 

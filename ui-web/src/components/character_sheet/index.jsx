@@ -7,10 +7,10 @@ import {
 }                         from 'bootstrap-react-components'
 import PropTypes          from 'prop-types'
 import React              from 'react'
-import AttributeComponent from '../../../AttributeComponent'
-import BaseEditor         from '../../../BaseEditor'
+import AttributeComponent from '../AttributeComponent'
+import BaseEditor         from '../BaseEditor'
 import SelectedEdges      from './selected_edges/index'
-import SelectedHindrances from './selected_hindrances'
+import SelectedHindrances from './selected_hindrances/index'
 import SelectedSkills     from './selected_skills/index'
 
 export default class CharacterSheet extends React.Component {

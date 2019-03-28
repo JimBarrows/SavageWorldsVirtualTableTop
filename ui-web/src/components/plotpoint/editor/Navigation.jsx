@@ -20,27 +20,27 @@ export default class Navigation extends React.Component {
 	render () {
 		let {id}         = this.props
 		let component_id = `Navigation-${id}`
-		return (<Nav id={component_id} position={'vertical'} look={'tabs'} >
+		return (<Nav id={component_id} position={'verticle'} look={'tabs'} >
 			<NavItem id={component_id + '-basic-rules'} onClick={this.navigateTo('BasicRules')} label={'Basic Rules'}
-				state={this.state.active === 'BasicRules' ? 'active' : ''} />
+				state={this.state.active === 'BasicRules' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-setting-rules'} onClick={this.navigateTo('SettingRules')} label={'Setting Rules'}
-				state={this.state.active === 'SettingRules' ? 'active' : ''} />
+				state={this.state.active === 'SettingRules' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-skills'} onClick={this.navigateTo('Skills')} label={'Skills'}
-				state={this.state.active === 'Skills' ? 'active' : ''} />
+				state={this.state.active === 'Skills' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-edges'} onClick={this.navigateTo('Edges')} label={'Edges'}
-				state={this.state.active === 'Edges' ? 'active' : ''} />
+				state={this.state.active === 'Edges' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-hindrances'} onClick={this.navigateTo('Hindrances')} label={'Hindrances'}
-				state={this.state.active === 'Hindrances' ? 'active' : ''} />
+				state={this.state.active === 'Hindrances' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-gear'} onClick={this.navigateTo('Gear')} label={'Gear'}
-				state={this.state.active === 'Gear' ? 'active' : ''} />
+				state={this.state.active === 'Gear' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-powers'} onClick={this.navigateTo('Powers')} label={'Powers'}
-				state={this.state.active === 'Powers' ? 'active' : ''} />
+				state={this.state.active === 'Powers' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-races'} onClick={this.navigateTo('Races')} label={'Races'}
-				state={this.state.active === 'Races' ? 'active' : ''} />
+				state={this.state.active === 'Races' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-beasts'} onClick={this.navigateTo('Beasts')} label={'Beasts'}
-				state={this.state.active === 'Beasts' ? 'active' : ''} />
+				state={this.state.active === 'Beasts' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-characters'} onClick={this.navigateTo('Characters')} label={'Characters'}
-				state={this.state.active === 'Characters' ? 'active' : ''} />
+				state={this.state.active === 'Characters' ? 'active' : 'enabled'} />
 		</Nav >)
 
 		// 				<span>Character Creation</span>

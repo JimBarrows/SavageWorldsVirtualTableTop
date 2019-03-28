@@ -1,13 +1,9 @@
-var {
-			defineSupportCode
-		} = require('cucumber')
+import {setWorldConstructor} from 'cucumber'
+import PlotPoint             from './PlotPoint'
 
 function CustomWorld () {
 
+	this.expected_plot_point = new PlotPoint()
 }
 
-defineSupportCode(function ({
-															setWorldConstructor
-														}) {
-	setWorldConstructor(CustomWorld)
-})
+setWorldConstructor(CustomWorld)

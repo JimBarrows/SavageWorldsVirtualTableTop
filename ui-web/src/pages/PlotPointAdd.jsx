@@ -1,10 +1,11 @@
 import {PageHeader}   from 'bootstrap-react-components'
 import * as PropTypes from 'prop-types'
 import React          from 'react'
-import PlotPointForm  from '../components/plotpoints/Editor'
+import PlotPointForm  from '../components/plotpoint/editor'
+import PlotPoint      from '../models/PlotPoint'
 
 
-export default class PlotPointEdit extends React.Component {
+export default class PlotPointAdd extends React.Component {
 
 	static propTypes    = {
 		id: PropTypes.string
@@ -17,55 +18,18 @@ export default class PlotPointEdit extends React.Component {
 
 	}
 
-	async componentDidMount () {
-
-	}
-
 	save = async () => {
 	}
 
 	render () {
 		return <div id={this.props.id} >
 			<PageHeader id={this.props.id} ><h1 >New Plot Point</h1 ></PageHeader >
-			<PlotPointForm id={'plotPointForm'} onSave={this.save} onCancel={this.cancel} onChange={this.save}
-				plotPoint={this.state} />
+			<PlotPointForm id={'plotPointForm'}
+				onSave={this.save}
+				onCancel={this.cancel}
+				plotPoint={new PlotPoint()} />
 		</div >
 	}
-
-	state = {
-		basicRules  : {
-			maximumAttributePoints: 5,
-			maximumMajorHindrances: 1,
-			maximumMinorHindrances: 2,
-			maximumSkillPoints    : 15
-		},
-		beasts      : [],
-		description : '',
-		edges       : [],
-		gear        : {
-			aircraft               : [],
-			ammunition             : [],
-			armor                  : [],
-			groundVehicles         : [],
-			handWeapons            : [],
-			mundaneItems           : [],
-			rangedWeapons          : [],
-			skills                 : [],
-			specialWeapons         : [],
-			trappingsAndEffects    : [],
-			vehicleMountedAndAtGuns: [],
-			watercraft             : []
-		},
-		hindrances  : [],
-		name        : '',
-		powers      : {
-			arcaneBackgrounds: [],
-		},
-		races       : [],
-		settingRules: []
-	}
-
-
 }
 
 
