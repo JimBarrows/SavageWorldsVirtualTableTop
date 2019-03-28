@@ -11,31 +11,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /PlotPoints: !com.amazonaws.mobilehub.v0.Function
-            codeFilename: uploads/PlotPoints-20190321225024.zip
+            codeFilename: uploads/PlotPoints-20180721122001.zip
             description: 'Handler for calls to resource path : /PlotPoints/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: MeXOyP5pHz/uJsu2/5FUdUzS7mPRQ7YByZfVincu3FI=
+            hashcode: GQbiEVyzd2MkCnaboJHAjPi4LMHz7xtJW6BxIGVd0NQ=
             memorySize: '128'
-            modified: '2019-03-22T03:48:40.366+0000'
+            modified: '2018-07-21T17:20:52.710+0000'
             name: PlotPoints
             runtime: nodejs6.10
             timeout: '3'
-            version: 9TKsjdLwYQGqBXi.bg8Vr2e4gUhLYcaz
+            version: Y202GaB9rdAqT.ScyrqrD1XunzcjNs9F
           '/PlotPoints/{proxy+}': !com.amazonaws.mobilehub.v0.Function
-            codeFilename: uploads/PlotPoints-20190321225024.zip
+            codeFilename: uploads/PlotPoints-20180721122001.zip
             description: 'Handler for calls to resource path : /PlotPoints/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: MeXOyP5pHz/uJsu2/5FUdUzS7mPRQ7YByZfVincu3FI=
+            hashcode: GQbiEVyzd2MkCnaboJHAjPi4LMHz7xtJW6BxIGVd0NQ=
             memorySize: '128'
-            modified: '2019-03-22T03:48:40.366+0000'
+            modified: '2018-07-21T17:20:52.710+0000'
             name: PlotPoints
             runtime: nodejs6.10
             timeout: '3'
-            version: nwIWPqkS9E4zG7Omkv8FcQRuQHrWNQAj
+            version: m0.6XiYND9U.Bp1ujFeAfP34EdIrHgJy
       sampleCloudApi: !com.amazonaws.mobilehub.v0.API
         attributes:
           name: sampleCloudApi
@@ -43,31 +43,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /items: !com.amazonaws.mobilehub.v0.Function
-            codeFilename: uploads/sampleLambda-20190321225024.zip
+            codeFilename: uploads/sampleLambda-20180721123454.zip
             description: 'Handler for calls to resource path : /items/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 917hCrG97+rfHei0cFVVOYyePPkv2OBEiKPTmG86UK8=
+            hashcode: xqGmgqWHHXPZNDZIFSl0ma5gVlhm85iTz3vkmNogwXo=
             memorySize: '128'
-            modified: '2019-03-22T03:48:40.713+0000'
+            modified: '2018-07-21T17:32:33.285+0000'
             name: sampleLambda
             runtime: nodejs6.10
             timeout: '3'
-            version: InHvYgD_b1qyxIn4ITHlr8h31zuzFTsK
+            version: TO1X.mI_703pSylcDqHX60oeSIA0FWWw
           '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function
-            codeFilename: uploads/sampleLambda-20190321225024.zip
+            codeFilename: uploads/sampleLambda-20180721123454.zip
             description: 'Handler for calls to resource path : /items/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 917hCrG97+rfHei0cFVVOYyePPkv2OBEiKPTmG86UK8=
+            hashcode: xqGmgqWHHXPZNDZIFSl0ma5gVlhm85iTz3vkmNogwXo=
             memorySize: '128'
-            modified: '2019-03-22T03:48:40.713+0000'
+            modified: '2018-07-21T17:32:33.285+0000'
             name: sampleLambda
             runtime: nodejs6.10
             timeout: '3'
-            version: 9v3mVF8IJtlytXoNty2pZqRr5C5anwBO
+            version: Km5roag9ygyYzT3_29RMn9pSZkeqAvQF
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery
     attributes:
       enabled: true
@@ -80,15 +80,15 @@ features:
         tables:
         - !com.amazonaws.mobilehub.v0.NoSQLTable
           attributes:
-              description: S
-              name: S
-              userId: S
-            hashKeyName: userId
-            hashKeyType: S
-            rangeKeyName: name
-            rangeKeyType: S
-            tableName: ___DYNAMIC_PREFIX___-PlotPoints
-            tablePrivacy: private
+            description: S
+            name: S
+            userId: S
+          hashKeyName: userId
+          hashKeyType: S
+          rangeKeyName: name
+          rangeKeyType: S
+          tableName: ___DYNAMIC_PREFIX___-PlotPoints
+          tablePrivacy: private
   mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint
     components:
       analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
@@ -100,8 +100,8 @@ features:
       sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider
         attributes:
           alias-attributes:
-            - email
-            - phone_number
+          - email
+          - phone_number
           mfa-configuration: ON
           name: userpool
           password-policy: !com.amazonaws.mobilehub.ConvertibleMap
