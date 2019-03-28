@@ -1,3 +1,4 @@
+import {API}          from 'aws-amplify'
 import {PageHeader}   from 'bootstrap-react-components'
 import * as PropTypes from 'prop-types'
 import React          from 'react'
@@ -17,11 +18,19 @@ export default class PlotPointEdit extends React.Component {
 
 	}
 
-	async componentDidMount () {
+	save = async plotPoint => {
 
+		await API.put('PlotPointsCRUD', `/PlotPoints`, {
+			plotPoint
+		})
+		this.props.history.push('/')
 	}
 
-	save = async () => {
+	async componentDidMount () {
+		let plotPoint = await API.get('PlotPointsCRUD', `/PlotPoints/object/${this.props.match.params.name}`, {})
+		this.setState({
+										plotPoint
+									})
 	}
 
 	render () {

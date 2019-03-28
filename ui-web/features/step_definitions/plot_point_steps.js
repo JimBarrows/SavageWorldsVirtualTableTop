@@ -17,7 +17,7 @@ Given('a plot point name of {string}', async function (plot_point_name) {
 Given('a plot point description of {string}', async function (description) {
 	this.expected_plot_point.description = description
 	const browser                        = this.browser
-	await browser.findElement(By.id('FormControl-text-TextFormGroup-PlotPoint-plotPointForm-Name')).sendKeys(this.expected_plot_point.description)
+	await browser.findElement(By.css('#TextAreaFormGroup-PlotPoint-plotPointForm-Description > div.ql-container.ql-snow > div.ql-editor.ql-blank')).sendKeys(this.expected_plot_point.description)
 })
 
 When('I save the plot point', async function () {

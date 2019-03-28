@@ -1,22 +1,19 @@
-import {FontAwesomeIcon}       from '@fortawesome/react-fontawesome'
-import {Button, TextFormGroup} from 'bootstrap-react-components'
-import {func, string}          from 'prop-types'
-import React                   from 'react'
-import RichTextEditor          from 'react-rte'
-
-import '../../../../node_modules/draft-js/dist/Draft.css'
-import PlotPointPropType       from '../../../propTypes/PlotPoint'
-import BasicRules              from './BasicRules'
-import Beasts                  from './beasts'
-import Characters              from './characters'
-import Edges                   from './edges'
-import Gear                    from './gear'
-import Hindrances              from './hindrances'
-import Navigation              from './Navigation'
-import Powers                  from './powers'
-import Races                   from './races'
-import SettingRulesList        from './setting_rules'
-import Skills                  from './skills'
+import {FontAwesomeIcon}                          from '@fortawesome/react-fontawesome'
+import {Button, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {func, string}                             from 'prop-types'
+import React                                      from 'react'
+import PlotPointPropType                          from '../../../propTypes/PlotPoint'
+import BasicRules                                 from './BasicRules'
+import Beasts                                     from './beasts'
+import Characters                                 from './characters'
+import Edges                                      from './edges'
+import Gear                                       from './gear'
+import Hindrances                                 from './hindrances'
+import Navigation                                 from './Navigation'
+import Powers                                     from './powers'
+import Races                                      from './races'
+import SettingRulesList                           from './setting_rules'
+import Skills                                     from './skills'
 
 export default class PlotPointForm extends React.Component {
 
@@ -29,20 +26,20 @@ export default class PlotPointForm extends React.Component {
 		plotPoint: PlotPointPropType.isRequired
 	}
 
-	basicRulesChange   = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
-	beastsChange       = beasts => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {beasts})})
-	charactersChange   = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
-	descriptionChange  = editorState => this.setState({editorState})
-	edgesChange        = edges => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {edges})})
-	gearChange         = gear => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {gear})})
-	hindrancesChange   = hindrances => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {hindrances})})
-	nameChange         = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {name: e.target.value})})
-	powersChange       = powers => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {powers})})
+	basicRulesChange  = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
+	beastsChange      = beasts => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {beasts})})
+	charactersChange  = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
+	descriptionChange = e => this.setState({plotPoint: Object.assign({}, this.props.plotPoint, {description: e.target.value})})
+	edgesChange       = edges => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {edges})})
+	gearChange        = gear => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {gear})})
+	hindrancesChange  = hindrances => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {hindrances})})
+	nameChange        = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {name: e.target.value})})
+	powersChange      = powers => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {powers})})
 	racesChange        = races => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {races})})
 	settingRulesChange = settingRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {settingRules})})
 	skillsChange       = skills => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {skills})})
 	sectionChange      = section => this.setState({section})
-	showSection        = (componentId) => {
+	showSection       = (componentId) => {
 		switch (this.state.section) {
 			case 'BasicRules':
 				return (<BasicRules plotPoint={this.props.plotPoint} onChange={this.basicRulesChange} id={componentId} />)
@@ -77,18 +74,14 @@ export default class PlotPointForm extends React.Component {
 		const componentId = `PlotPoint-${id}`
 		return (
 			<form id={componentId} >
-				<div className={'row'} >
-					<div className={'col-12'} >
-						<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
-							value={plotPoint.name} />
-					</div >
-				</div >
-				<div className={'row'} >
-					<div className={'col-12'} >
-						<label >Description:</label >
-						<RichTextEditor value={this.state.editorState} onChange={this.descriptionChange} />
-					</div >
-				</div >
+				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
+					value={plotPoint.name} />
+
+				<TextAreaFormGroup id={`${componentId}-Description`}
+					label={'Description'}
+					onChange={this.descriptionChange}
+					value={plotPoint.description} />
+
 				<div className={'row'} >
 					<div className="col-2" >
 						<Navigation id={componentId} navigateTo={this.sectionChange} />
@@ -116,9 +109,8 @@ export default class PlotPointForm extends React.Component {
 	}
 
 	state = {
-		section    : 'BasicRules',
-		editorState: RichTextEditor.createEmptyValue(),
-		plotPoint  : this.props.plotPoint
+		section  : 'BasicRules',
+		plotPoint: this.props.plotPoint
 	}
 
 }

@@ -1,3 +1,4 @@
+import {API}          from 'aws-amplify'
 import {PageHeader}   from 'bootstrap-react-components'
 import * as PropTypes from 'prop-types'
 import React          from 'react'
@@ -15,16 +16,20 @@ export default class PlotPointAdd extends React.Component {
 	}
 
 	cancel = async () => {
-
+		this.props.history.push('/')
 	}
 
-	save = async () => {
+	save = async plotPoint => {
+		await API.post('PlotPointsCRUD', `/PlotPoints`, {
+			plotPoint
+		})
+		this.props.history.push('/')
 	}
 
 	render () {
 		return <div id={this.props.id} >
 			<PageHeader id={this.props.id} ><h1 >New Plot Point</h1 ></PageHeader >
-			<PlotPointForm id={'plotPointForm'}
+			<PlotPointForm id={'plotPointAdd'}
 				onSave={this.save}
 				onCancel={this.cancel}
 				plotPoint={new PlotPoint()} />
