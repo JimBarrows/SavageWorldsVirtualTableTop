@@ -132,6 +132,25 @@ export const onCreatePlotPoint = `subscription OnCreatePlotPoint {
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -165,25 +184,6 @@ export const onCreatePlotPoint = `subscription OnCreatePlotPoint {
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -239,7 +239,7 @@ export const onCreatePlotPoint = `subscription OnCreatePlotPoint {
     }
   }
 }
-`
+`;
 export const onUpdatePlotPoint = `subscription OnUpdatePlotPoint {
   onUpdatePlotPoint {
     id
@@ -371,6 +371,25 @@ export const onUpdatePlotPoint = `subscription OnUpdatePlotPoint {
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -404,25 +423,6 @@ export const onUpdatePlotPoint = `subscription OnUpdatePlotPoint {
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -478,7 +478,7 @@ export const onUpdatePlotPoint = `subscription OnUpdatePlotPoint {
     }
   }
 }
-`
+`;
 export const onDeletePlotPoint = `subscription OnDeletePlotPoint {
   onDeletePlotPoint {
     id
@@ -610,6 +610,25 @@ export const onDeletePlotPoint = `subscription OnDeletePlotPoint {
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -643,25 +662,6 @@ export const onDeletePlotPoint = `subscription OnDeletePlotPoint {
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -717,4 +717,4 @@ export const onDeletePlotPoint = `subscription OnDeletePlotPoint {
     }
   }
 }
-`
+`;

@@ -26,20 +26,28 @@ export default class PlotPointForm extends React.Component {
 		plotPoint: PlotPointPropType.isRequired
 	}
 
-	basicRulesChange  = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
-	beastsChange      = beasts => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {beasts})})
-	charactersChange  = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
-	descriptionChange = e => this.setState({plotPoint: Object.assign({}, this.props.plotPoint, {description: e.target.value})})
-	edgesChange       = edges => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {edges})})
-	gearChange        = gear => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {gear})})
-	hindrancesChange  = hindrances => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {hindrances})})
-	nameChange        = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {name: e.target.value})})
-	powersChange      = powers => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {powers})})
+	basicRulesChange   = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
+	beastsChange       = beasts => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {beasts})})
+	cancel             = e => {
+		e.preventDefault()
+		this.props.onCancel()
+	}
+	charactersChange   = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
+	descriptionChange  = e => this.setState({plotPoint: Object.assign({}, this.props.plotPoint, {description: e.target.value})})
+	edgesChange        = edges => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {edges})})
+	gearChange         = gear => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {gear})})
+	hindrancesChange   = hindrances => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {hindrances})})
+	nameChange         = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {name: e.target.value})})
+	powersChange       = powers => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {powers})})
 	racesChange        = races => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {races})})
+	save               = e => {
+		e.preventDefault()
+		this.props.onSave(this.state.plotPoint)
+	}
 	settingRulesChange = settingRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {settingRules})})
 	skillsChange       = skills => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {skills})})
 	sectionChange      = section => this.setState({section})
-	showSection       = (componentId) => {
+	showSection        = (componentId) => {
 		switch (this.state.section) {
 			case 'BasicRules':
 				return (<BasicRules plotPoint={this.props.plotPoint} onChange={this.basicRulesChange} id={componentId} />)
@@ -68,6 +76,7 @@ export default class PlotPointForm extends React.Component {
 		}
 	}
 
+
 	render () {
 		const {id}        = this.props
 		const {plotPoint} = this.state
@@ -94,10 +103,10 @@ export default class PlotPointForm extends React.Component {
 					<div className="col" >
 					</div >
 					<div className="col" >
-						<Button id={'save-' + componentId} onClick={this.props.onSave} >
+						<Button id={'save-' + componentId} onClick={this.save} >
 							<FontAwesomeIcon icon={'save'} />&nbsp;Save
 						</Button >
-						<Button id={'cancel-' + componentId} onClick={this.props.onCancel} >
+						<Button id={'cancel-' + componentId} onClick={this.cancel} >
 							<FontAwesomeIcon icon={'ban'} />&nbsp;Cancel
 						</Button >
 					</div >

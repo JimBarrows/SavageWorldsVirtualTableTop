@@ -132,6 +132,25 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -165,25 +184,6 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -239,7 +239,7 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
     }
   }
 }
-`
+`;
 export const listPlotPoints = `query ListPlotPoints(
   $filter: ModelPlotPointFilterInput
   $limit: Int
@@ -291,6 +291,17 @@ export const listPlotPoints = `query ListPlotPoints(
         cost
         weight
         note
+        ... on Ammunition {
+          armor
+        }
+        ... on RangedWeapon {
+          shortRange
+          mediumRange
+          longRange
+          rateOfFire
+          shots
+          minimumStrength
+        }
         ... on VehicleAndAtMounted {
           shortRange
           mediumRange
@@ -312,17 +323,6 @@ export const listPlotPoints = `query ListPlotPoints(
           burstTemplate
           military
           armorPiercing
-        }
-        ... on Ammunition {
-          armor
-        }
-        ... on RangedWeapon {
-          shortRange
-          mediumRange
-          longRange
-          rateOfFire
-          shots
-          minimumStrength
         }
       }
       hindrances {
@@ -356,4 +356,4 @@ export const listPlotPoints = `query ListPlotPoints(
     nextToken
   }
 }
-`
+`;

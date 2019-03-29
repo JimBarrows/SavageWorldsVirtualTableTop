@@ -132,6 +132,25 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -165,25 +184,6 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -239,7 +239,7 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
     }
   }
 }
-`
+`;
 export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPointInput!) {
   updatePlotPoint(input: $input) {
     id
@@ -371,6 +371,25 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -404,25 +423,6 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -478,7 +478,7 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
     }
   }
 }
-`
+`;
 export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPointInput!) {
   deletePlotPoint(input: $input) {
     id
@@ -610,6 +610,25 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
         name
         description
       }
+      ... on HandWeapons {
+        damage {
+          attribute
+        }
+      }
+      ... on Ammunition {
+        armor
+      }
+      ... on RangedWeapon {
+        shortRange
+        mediumRange
+        longRange
+        damage {
+          attribute
+        }
+        rateOfFire
+        shots
+        minimumStrength
+      }
       ... on VehicleAndAtMounted {
         shortRange
         mediumRange
@@ -643,25 +662,6 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
         burstTemplate
         military
         armorPiercing
-      }
-      ... on Ammunition {
-        armor
-      }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
-      }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
       }
     }
     hindrances {
@@ -717,4 +717,4 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
     }
   }
 }
-`
+`;
