@@ -74,7 +74,7 @@ interface Vehicle {
     toughness: Int
 }
 
-type Aircraft implements Vehicle {
+type AirVehicle implements Vehicle {
     acceleration: Int
     armor: Int
     crew: Int
@@ -122,7 +122,7 @@ type ArcaneBackground implements BaseEdge {
 }
 
 type BasicRules {
-    maximumTraitPoints: Int!
+    maximumAttributePoints: Int!
     maximumMajorHindrances: Int!
     maximumMinorHindrances: Int!
     maximumSkillPoints: Int!
@@ -224,7 +224,7 @@ type Hindrance {
     severity: HindranceSeverity!
 }
 
-type HandWeapons implements Gear {
+type HandWeapon implements Gear {
     name: String!
     description: String
     cost: Int
@@ -252,18 +252,28 @@ type PlotPoint
         id: ID!
         name: String!
         description: String
-        basic_rules: BasicRules!
+        basicRules: BasicRules!
         beasts: [Beast]
         characters: [Character]
         edges: [Edge]
         gear_eras: [GearEra]
         gear_kinds: [GearKind]
-        gear: [Gear]
+        ammunition: [Ammunition]
+        armor:[Armor]
+        mundaneItems: [MundaneItem]
+        handWeapons: [HandWeapon]
+        rangedWeapons: [RangedWeapon]
+        specialWeapons: [SpecialWeapon]
+        vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeapon]
         hindrances: [Hindrance]
         powers: [Power]
         arcaneBackgrounds: [ArcaneBackground]
         races: [Race]
         settingRules: [SettingRule]
+        skills:[Skill]
+        airVehicles: [AirVehicle]
+        waterVehicles: [WaterVehicle]
+        groundVehicles: [GroundVehicle]
     }
 
 type Power {
@@ -338,7 +348,7 @@ type RangedWeapon implements Gear {
     shortRange: Int!
     mediumRange: Int!
     longRange: Int!
-    damage: Damage!
+    damage: Damage
     rateOfFire: Int!
     shots: Int!
     minimumStrength: DiceType!
@@ -355,7 +365,7 @@ type SpecialWeapon implements Gear {
     shortRange: Int!
     mediumRange: Int!
     longRange: Int!
-    damage: Damage!
+    damage: Damage
     rateOfFire: Int!
     shots: Int!
     minimumStrength: DiceType!
@@ -380,7 +390,7 @@ type TrappingEffect {
     description: String!
 }
 
-type VehicleAndAtMounted implements Gear {
+type VehicleAndAtMountedWeapon implements Gear {
     name: String!
     description: String
     cost: Int
@@ -391,7 +401,7 @@ type VehicleAndAtMounted implements Gear {
     shortRange: Int!
     mediumRange: Int!
     longRange: Int!
-    damage: Damage!
+    damage: Damage
     rateOfFire: Int!
     shots: Int!
     minimumStrength: DiceType!

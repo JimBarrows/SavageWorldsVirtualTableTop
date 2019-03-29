@@ -6,8 +6,8 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
     id
     name
     description
-    basic_rules {
-      maximumTraitPoints
+    basicRules {
+      maximumAttributePoints
       maximumMajorHindrances
       maximumMinorHindrances
       maximumSkillPoints
@@ -118,7 +118,7 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
       name
       description
     }
-    gear {
+    ammunition {
       name
       description
       cost
@@ -132,59 +132,139 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
         name
         description
       }
-      ... on HandWeapons {
-        damage {
-          attribute
-        }
+      armor
+    }
+    armor {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
       }
-      ... on Ammunition {
-        armor
+      kind {
+        name
+        description
       }
-      ... on RangedWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
+    }
+    mundaneItems {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
       }
-      ... on VehicleAndAtMounted {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
-        apDamage {
-          attribute
-        }
-        apArmorPiercing
-        heDamage {
-          attribute
-        }
-        heBurstTemplate
-        heArmorPiercing
+      kind {
+        name
+        description
       }
-      ... on SpecialWeapon {
-        shortRange
-        mediumRange
-        longRange
-        damage {
-          attribute
-        }
-        rateOfFire
-        shots
-        minimumStrength
-        burstTemplate
-        military
-        armorPiercing
+    }
+    handWeapons {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
       }
+      kind {
+        name
+        description
+      }
+      damage {
+        attribute
+      }
+    }
+    rangedWeapons {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      shortRange
+      mediumRange
+      longRange
+      damage {
+        attribute
+      }
+      rateOfFire
+      shots
+      minimumStrength
+    }
+    specialWeapons {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      shortRange
+      mediumRange
+      longRange
+      damage {
+        attribute
+      }
+      rateOfFire
+      shots
+      minimumStrength
+      burstTemplate
+      military
+      armorPiercing
+    }
+    vehicleAndAtMountedWeapons {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      shortRange
+      mediumRange
+      longRange
+      damage {
+        attribute
+      }
+      rateOfFire
+      shots
+      minimumStrength
+      apDamage {
+        attribute
+      }
+      apArmorPiercing
+      heDamage {
+        attribute
+      }
+      heBurstTemplate
+      heArmorPiercing
     }
     hindrances {
       name
@@ -237,6 +317,75 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
       name
       description
     }
+    skills {
+      name
+      description
+      attribute
+    }
+    airVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+      climb
+    }
+    waterVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+    }
+    groundVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+    }
   }
 }
 `;
@@ -250,8 +399,8 @@ export const listPlotPoints = `query ListPlotPoints(
       id
       name
       description
-      basic_rules {
-        maximumTraitPoints
+      basicRules {
+        maximumAttributePoints
         maximumMajorHindrances
         maximumMinorHindrances
         maximumSkillPoints
@@ -285,45 +434,79 @@ export const listPlotPoints = `query ListPlotPoints(
         name
         description
       }
-      gear {
+      ammunition {
         name
         description
         cost
         weight
         note
-        ... on Ammunition {
-          armor
-        }
-        ... on RangedWeapon {
-          shortRange
-          mediumRange
-          longRange
-          rateOfFire
-          shots
-          minimumStrength
-        }
-        ... on VehicleAndAtMounted {
-          shortRange
-          mediumRange
-          longRange
-          rateOfFire
-          shots
-          minimumStrength
-          apArmorPiercing
-          heBurstTemplate
-          heArmorPiercing
-        }
-        ... on SpecialWeapon {
-          shortRange
-          mediumRange
-          longRange
-          rateOfFire
-          shots
-          minimumStrength
-          burstTemplate
-          military
-          armorPiercing
-        }
+        armor
+      }
+      armor {
+        name
+        description
+        cost
+        weight
+        note
+      }
+      mundaneItems {
+        name
+        description
+        cost
+        weight
+        note
+      }
+      handWeapons {
+        name
+        description
+        cost
+        weight
+        note
+      }
+      rangedWeapons {
+        name
+        description
+        cost
+        weight
+        note
+        shortRange
+        mediumRange
+        longRange
+        rateOfFire
+        shots
+        minimumStrength
+      }
+      specialWeapons {
+        name
+        description
+        cost
+        weight
+        note
+        shortRange
+        mediumRange
+        longRange
+        rateOfFire
+        shots
+        minimumStrength
+        burstTemplate
+        military
+        armorPiercing
+      }
+      vehicleAndAtMountedWeapons {
+        name
+        description
+        cost
+        weight
+        note
+        shortRange
+        mediumRange
+        longRange
+        rateOfFire
+        shots
+        minimumStrength
+        apArmorPiercing
+        heBurstTemplate
+        heArmorPiercing
       }
       hindrances {
         name
@@ -351,6 +534,51 @@ export const listPlotPoints = `query ListPlotPoints(
       settingRules {
         name
         description
+      }
+      skills {
+        name
+        description
+        attribute
+      }
+      airVehicles {
+        acceleration
+        armor
+        crew
+        description
+        maximumCost
+        minimumCost
+        name
+        note
+        passengers
+        topSpeed
+        toughness
+        climb
+      }
+      waterVehicles {
+        acceleration
+        armor
+        crew
+        description
+        maximumCost
+        minimumCost
+        name
+        note
+        passengers
+        topSpeed
+        toughness
+      }
+      groundVehicles {
+        acceleration
+        armor
+        crew
+        description
+        maximumCost
+        minimumCost
+        name
+        note
+        passengers
+        topSpeed
+        toughness
       }
     }
     nextToken

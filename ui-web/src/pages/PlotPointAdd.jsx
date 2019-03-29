@@ -27,7 +27,8 @@ export default class PlotPointAdd extends React.Component {
 
 	save = async plotPoint => {
 		try {
-			let response = await API.graphql(graphqlOperation(createPlotPoint, plotPoint))
+			console.log('plotPoint: ', plotPoint)
+			let response = await API.graphql(graphqlOperation(createPlotPoint, {input: plotPoint}))
 			console.log('response: ', response)
 			if( response.data){
 				this.props.history.push('/')
