@@ -9,12 +9,11 @@ import PlotPoint               from '../models/PlotPoint'
 
 export default class PlotPointAdd extends React.Component {
 
-	state = {
-		errors:[]
-	}
-
-	static propTypes    = {
+	static propTypes = {
 		id: PropTypes.string
+	}
+	state            = {
+		errors: []
 	}
 
 	static defaultProps = {
@@ -27,10 +26,8 @@ export default class PlotPointAdd extends React.Component {
 
 	save = async plotPoint => {
 		try {
-			console.log('plotPoint: ', plotPoint)
 			let response = await API.graphql(graphqlOperation(createPlotPoint, {input: plotPoint}))
-			console.log('response: ', response)
-			if( response.data){
+			if (response.data) {
 				this.props.history.push('/')
 			} else {
 				this.setState({errors: response.errors})
