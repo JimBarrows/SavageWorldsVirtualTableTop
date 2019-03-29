@@ -1,5 +1,5 @@
 import {FontAwesomeIcon}                          from '@fortawesome/react-fontawesome'
-import {Button, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import {Alert, Button, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
 import {func, string}                             from 'prop-types'
 import React                                      from 'react'
 import PlotPointPropType                          from '../../../propTypes/PlotPoint'
@@ -81,8 +81,13 @@ export default class PlotPointForm extends React.Component {
 		const {id}        = this.props
 		const {plotPoint} = this.state
 		const componentId = `PlotPoint-${id}`
+		let errors = ''
+		if(this.props.errors && this.props.errors.length > 0) {
+			errors = this.props.errors.map(error => (<Alert id={id} context={'danger'}>{error.message}</Alert>))
+		}
 		return (
 			<form id={componentId} >
+				{errors}
 				<TextFormGroup id={`${componentId}-Name`} label='Name' onChange={this.nameChange} required={true}
 					value={plotPoint.name} />
 

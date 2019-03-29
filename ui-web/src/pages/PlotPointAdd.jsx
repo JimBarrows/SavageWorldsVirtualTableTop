@@ -9,9 +9,14 @@ import PlotPoint               from '../models/PlotPoint'
 
 export default class PlotPointAdd extends React.Component {
 
+	state = {
+		errors:[]
+	}
+
 	static propTypes    = {
 		id: PropTypes.string
 	}
+
 	static defaultProps = {
 		id: 'PlotPointEditorPage'
 	}
@@ -24,9 +29,14 @@ export default class PlotPointAdd extends React.Component {
 		try {
 			let response = await API.graphql(graphqlOperation(createPlotPoint, plotPoint))
 			console.log('response: ', response)
-			this.props.history.push('/')
+			if( response.data){
+				this.props.history.push('/')
+			} else {
+				this.setState({errors: response.errors})
+			}
+
 		} catch (err) {
-			console.log(err)
+			this.setState({errors: err.errors})
 		}
 	}
 
@@ -34,6 +44,7 @@ export default class PlotPointAdd extends React.Component {
 		return <div id={this.props.id} >
 			<PageHeader id={this.props.id} ><h1 >New Plot Point</h1 ></PageHeader >
 			<PlotPointForm id={'plotPointAdd'}
+				errors={this.state.errors}
 				onSave={this.save}
 				onCancel={this.cancel}
 				plotPoint={new PlotPoint()} />
