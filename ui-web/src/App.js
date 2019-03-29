@@ -1,13 +1,17 @@
-import React, {Component} from 'react'
-import {Route, Switch}    from 'react-router-dom'
+import Amplify             from 'aws-amplify'
+import {withAuthenticator} from 'aws-amplify-react'
+import React, {Component}  from 'react'
+import {Route, Switch}     from 'react-router-dom'
 import './App.css'
-import Header             from './components/layout/Header'
-import PlotPointAdd       from './pages/PlotPointAdd'
-import PlotPointEdit      from './pages/PlotPointEdit'
-import PlotPointList      from './pages/PlotPointList'
+import awsmobile           from './aws-exports'
+import Header              from './components/layout/Header'
+import PlotPointAdd        from './pages/PlotPointAdd'
+import PlotPointEdit       from './pages/PlotPointEdit'
+import PlotPointList       from './pages/PlotPointList'
 
+Amplify.configure(awsmobile)
 
-export default class App extends Component {
+class App extends Component {
 
 	gotoIndex = () => this.props.history.push('/')
 
@@ -26,4 +30,6 @@ export default class App extends Component {
 		)
 	}
 }
+
+export default withAuthenticator(App, true)
 

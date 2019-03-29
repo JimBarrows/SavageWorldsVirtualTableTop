@@ -1,5 +1,6 @@
 import PropTypes  from 'prop-types'
 import React      from 'react'
+import Character  from '../../../../models/Character'
 import EditorList from '../../../EditorList'
 import Editor     from './Editor'
 
