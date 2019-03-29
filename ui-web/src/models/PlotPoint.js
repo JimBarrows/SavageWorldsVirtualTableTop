@@ -5,6 +5,7 @@ import Powers     from './Powers'
 export default class PlotPoint {
 	basicRules   = new BasicRules()
 	beasts       = []
+	characters   = []
 	description  = ''
 	edges        = []
 	gear         = new Gear()
@@ -14,4 +15,8 @@ export default class PlotPoint {
 	races        = []
 	settingRules = []
 	skills       = []
+
+	addBeast     = beast => this.beasts.push(beast)
+	addCharacter = character => this.characters.push(character)
+
 }

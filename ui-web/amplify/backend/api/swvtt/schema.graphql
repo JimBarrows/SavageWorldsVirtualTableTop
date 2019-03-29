@@ -1,0 +1,426 @@
+enum Attributes {
+    strength
+    agility
+    vigor
+    smarts
+    spirit
+}
+
+enum BurstTemplate {
+    small
+    medium
+    large
+}
+
+enum SelectedSeverity {
+    minor
+    major
+}
+
+enum DiceType{
+    d4
+    d6
+    d8
+    d10
+    d12
+}
+
+enum HindranceSeverity {
+    minor
+    major
+    either
+}
+
+enum Rank {
+    novice
+    seasoned
+    veteran
+    heroic
+    legendary
+
+}
+
+interface BaseEdge {
+    name: String!
+    description: String!
+    category: EdgeCategory!
+    requirements: [EdgeRequirement]
+    effects: String!
+}
+
+interface Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+}
+
+interface Vehicle {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEra!
+    kind: GearKind!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+}
+
+type Aircraft implements Vehicle {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEra!
+    kind: GearKind!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+    climb: Int
+}
+
+type Ammunition implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+    armor: Int!
+}
+
+type Armor implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+}
+
+type ArcaneBackground implements BaseEdge {
+    name: String!
+    description: String!
+    category: EdgeCategory!
+    requirements: [EdgeRequirement]
+    effects: String!
+    skillName: String!
+}
+
+type BasicRules {
+    maximumTraitPoints: Int!
+    maximumMajorHindrances: Int!
+    maximumMinorHindrances: Int!
+    maximumSkillPoints: Int!
+}
+
+type Beast {
+    agility: Trait!
+    animalIntelligence: Boolean
+    armor: Int
+    charimsa: Int
+    description: String
+    name: String!
+    pace: Int
+    skills: [Skill]
+    smarts:Trait!
+    specialAbilities: [SpecialAbility]
+    spirit:Trait!
+    strength:Trait!
+    vigor:Trait!
+}
+
+type Character {
+    agility: Trait!
+    animalIntelligence: Boolean
+    armor: Int
+    charimsa: Int
+    description: String
+    edges: [SelectedEdge]
+    gear: [SelectedGear]
+    hindrances: [SelectedHindrance]
+    name: String!
+    pace: Int
+    skills: [Skill]
+    smarts:Trait!
+    specialAbilities: [SpecialAbility]
+    spirit:Trait!
+    strength:Trait!
+    vigor:Trait!
+}
+
+type Dice {
+    type: DiceType!
+    howMany: Int!
+}
+
+type Damage {
+    attribute: Attributes
+    dice: [Dice]!
+}
+
+type Edge implements BaseEdge {
+    name: String!
+    description: String!
+    category: EdgeCategory!
+    requirements: [EdgeRequirement]
+    effects: String!
+}
+
+type EdgeCategory {
+    name: String!
+    description: String!
+}
+
+type EdgeRequirement {
+    name: String!
+    description: String!
+    edge: Edge
+}
+
+type GearEra {
+    name: String!
+    description: String
+}
+
+type GearKind {
+    name: String!
+    description: String
+}
+
+type GroundVehicle {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEra!
+    kind: GearKind!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+}
+
+type Hindrance {
+    name: String!
+    description: String!
+    severity: HindranceSeverity!
+}
+
+type HandWeapons implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+    damage: Damage
+}
+
+type MundaneItem implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+}
+
+type PlotPoint
+    @model
+    @auth(rules: [{allow: owner}])
+    {
+        id: ID!
+        name: String!
+        description: String
+        basic_rules: BasicRules!
+        beasts: [Beast]
+        characters: [Character]
+        edges: [Edge]
+        gear_eras: [GearEra]
+        gear_kinds: [GearKind]
+        gear: [Gear]
+        hindrances: [Hindrance]
+        powers: [Power]
+        arcaneBackgrounds: [ArcaneBackground]
+        races: [Race]
+        settingRules: [SettingRule]
+    }
+
+type Power {
+    name: String!
+    description: String!
+    rank: Rank!
+    powerPoints: Int!
+    range: String
+    duration: String
+    availableTo: [ArcaneBackground]
+    trappings: [Trapping]
+}
+
+type Race {
+    name: String!
+    description: String!
+    abilities: [RaceAbility]
+}
+
+type RaceAbility implements BaseEdge {
+    name: String!
+    description: String!
+    category: EdgeCategory!
+    requirements: [EdgeRequirement]
+    effects: String!
+    cost: Int!
+
+}
+
+type SelectedEdge {
+    edge: Edge!
+    description: String!
+}
+
+type SelectedGear {
+    gear: Gear!
+    quantity: Int!
+    notes: String
+}
+
+type SelectedHindrance {
+    hindrance: Hindrance!
+    selectedSeverity: SelectedSeverity!
+    description: String!
+
+}
+
+type SettingRule {
+    name: String!
+    description: String!
+}
+
+type Skill {
+    name: String!
+    description: String
+    attribute: Attributes!
+}
+
+type SpecialAbility {
+    name: String!
+    description: String
+}
+
+type RangedWeapon implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+    shortRange: Int!
+    mediumRange: Int!
+    longRange: Int!
+    damage: Damage!
+    rateOfFire: Int!
+    shots: Int!
+    minimumStrength: DiceType!
+}
+
+type SpecialWeapon implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+    shortRange: Int!
+    mediumRange: Int!
+    longRange: Int!
+    damage: Damage!
+    rateOfFire: Int!
+    shots: Int!
+    minimumStrength: DiceType!
+    burstTemplate: BurstTemplate
+    military: Boolean
+    armorPiercing: Int!
+}
+
+type Trait {
+    dice: DiceType!
+    bonus: Int
+}
+
+type Trapping {
+    name: String!
+    description: String!
+    effects: [TrappingEffect]
+}
+
+type TrappingEffect {
+    name: String!
+    description: String!
+}
+
+type VehicleAndAtMounted implements Gear {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEra
+    kind: GearKind
+    shortRange: Int!
+    mediumRange: Int!
+    longRange: Int!
+    damage: Damage!
+    rateOfFire: Int!
+    shots: Int!
+    minimumStrength: DiceType!
+    apDamage: Damage
+    apArmorPiercing: Int
+    heDamage: Damage
+    heBurstTemplate: BurstTemplate
+    heArmorPiercing: Int
+}
+
+type WaterVehicle implements Vehicle {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEra!
+    kind: GearKind!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+}
+
+
+
+
+
+
+

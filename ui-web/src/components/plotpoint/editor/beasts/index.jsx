@@ -1,5 +1,6 @@
 import PropTypes  from 'prop-types'
 import React      from 'react'
+import Beast      from '../../../../models/Beast'
 import EditorList from '../../../EditorList'
 import Editor     from './Editor'
 
@@ -19,21 +20,7 @@ export default class Beasts extends React.Component {
 		return (
 			<div id={component_id}>
 				<EditorList
-					emptyItem={({
-						agility           : {dice: 'd4', bonus: 0},
-						animalIntelligence: false,
-						armor             : 0,
-						charisma          : 0,
-						description       : ' ',
-						name              : ' ',
-						pace              : 6,
-						skills            : [],
-						smarts            : {dice: 'd4', bonus: 0},
-						specialAbilities  : [],
-						spirit            : {dice: 'd4', bonus: 0},
-						strength          : {dice: 'd4', bonus: 0},
-						vigor             : {dice: 'd4', bonus: 0}
-					})}
+					emptyItem={new Beast()}
 					id={component_id}
 					list={this.props.beasts}
 					onChange={this.props.beastsChange}

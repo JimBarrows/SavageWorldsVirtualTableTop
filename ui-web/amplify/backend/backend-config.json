@@ -1,0 +1,17 @@
+{
+  "auth": {
+    "cognitoa93b841a": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "api": {
+    "swvtt": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "securityType": "AMAZON_COGNITO_USER_POOLS"
+      }
+    }
+  }
+}

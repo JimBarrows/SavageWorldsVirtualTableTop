@@ -20,23 +20,7 @@ export default class Characters extends React.Component {
 		return (
 			<div id={component_id} >
 				<EditorList
-					emptyItem={({
-						agility           : {dice: 'd4', bonus: 0},
-						animalIntelligence: false,
-						armor             : 0,
-						background        : ' ',
-						charisma          : 0,
-						description       : ' ',
-						edges             : [],
-						hindrances        : [],
-						name              : ' ',
-						pace              : 6,
-						skills            : [],
-						smarts            : {dice: 'd4', bonus: 0},
-						spirit            : {dice: 'd4', bonus: 0},
-						strength          : {dice: 'd4', bonus: 0},
-						vigor             : {dice: 'd4', bonus: 0}
-					})}
+					emptyItem={new Character()}
 					id={component_id}
 					list={this.props.characters}
 					onChange={this.props.charactersChange}
