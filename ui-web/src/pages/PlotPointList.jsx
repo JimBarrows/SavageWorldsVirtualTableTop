@@ -27,10 +27,9 @@ export default class PlotPointListPage extends React.Component {
 	}
 
 	async componentDidMount () {
-		let plotPoints = await API.graphql(graphqlOperation(listPlotPoints))
-		if (plotPoints) {
-			this.setState({plotPoints})
-		}
+		let response = await API.graphql(graphqlOperation(listPlotPoints))
+		console.log('response: ', response)
+		this.setState({plotPoints: response.data.listPlotPoints.items})
 	}
 
 }
