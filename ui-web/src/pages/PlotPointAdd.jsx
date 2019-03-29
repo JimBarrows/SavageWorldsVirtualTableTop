@@ -1,9 +1,10 @@
-import {API}          from 'aws-amplify'
-import {PageHeader}   from 'bootstrap-react-components'
-import * as PropTypes from 'prop-types'
-import React          from 'react'
-import PlotPointForm  from '../components/plotpoint/editor'
-import PlotPoint      from '../models/PlotPoint'
+import {API, graphqlOperation} from 'aws-amplify'
+import {PageHeader}            from 'bootstrap-react-components'
+import * as PropTypes          from 'prop-types'
+import React                   from 'react'
+import PlotPointForm           from '../components/plotpoint/editor'
+import {createPlotPoint}       from '../graphql/mutations'
+import PlotPoint               from '../models/PlotPoint'
 
 
 export default class PlotPointAdd extends React.Component {
@@ -20,9 +21,7 @@ export default class PlotPointAdd extends React.Component {
 	}
 
 	save = async plotPoint => {
-		await API.post('PlotPointsCRUD', `/PlotPoints`, {
-			plotPoint
-		})
+		await await API.graphql(graphqlOperation(createPlotPoint, plotPoint))
 		this.props.history.push('/')
 	}
 

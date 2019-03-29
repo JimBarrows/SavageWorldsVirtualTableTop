@@ -1,8 +1,9 @@
-import {FontAwesomeIcon}    from '@fortawesome/react-fontawesome'
-import {API}                from 'aws-amplify'
-import {Button, PageHeader} from 'bootstrap-react-components'
-import React                from 'react'
-import PlotPointList        from '../components/plotpoint/list/index'
+import {FontAwesomeIcon}       from '@fortawesome/react-fontawesome'
+import {API, graphqlOperation} from 'aws-amplify'
+import {Button, PageHeader}    from 'bootstrap-react-components'
+import React                   from 'react'
+import PlotPointList           from '../components/plotpoint/list/index'
+import {listPlotPoints}        from '../graphql/queries'
 
 export default class PlotPointListPage extends React.Component {
 
@@ -26,7 +27,7 @@ export default class PlotPointListPage extends React.Component {
 	}
 
 	async componentDidMount () {
-		let plotPoints = await API.get('PlotPointsCRUD', '/PlotPoints')
+		let plotPoints = await API.graphql(graphqlOperation(listPlotPoints))
 		if (plotPoints) {
 			this.setState({plotPoints})
 		}

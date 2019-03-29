@@ -1,4 +1,4 @@
-import Amplify             from 'aws-amplify'
+import Amplify, {Storage}  from 'aws-amplify'
 import {withAuthenticator} from 'aws-amplify-react'
 import React, {Component}  from 'react'
 import {Route, Switch}     from 'react-router-dom'
@@ -10,6 +10,7 @@ import PlotPointEdit       from './pages/PlotPointEdit'
 import PlotPointList       from './pages/PlotPointList'
 
 Amplify.configure(awsmobile)
+Storage.configure({level: 'private'})
 
 class App extends Component {
 
