@@ -12,6 +12,7 @@ export default class PlotPointAdd extends React.Component {
 	static propTypes = {
 		id: PropTypes.string
 	}
+
 	state            = {
 		errors: []
 	}
@@ -26,6 +27,7 @@ export default class PlotPointAdd extends React.Component {
 
 	save = async plotPoint => {
 		try {
+			delete (plotPoint.id)
 			let response = await API.graphql(graphqlOperation(createPlotPoint, {input: plotPoint}))
 			if (response.data) {
 				this.props.history.push('/')
