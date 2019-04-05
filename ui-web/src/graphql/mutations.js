@@ -3,9 +3,73 @@
 
 export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPointInput!) {
   createPlotPoint(input: $input) {
-    id
-    name
-    description
+    airVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+      climb
+    }
+    ammunition {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      armor
+    }
+    arcaneBackgrounds {
+      name
+      description
+      category {
+        name
+        description
+      }
+      requirements {
+        name
+        description
+      }
+      effects
+      skillName
+    }
+    armor {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
     basicRules {
       maximumAttributePoints
       maximumMajorHindrances
@@ -97,6 +161,7 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
         bonus
       }
     }
+    description
     edges {
       name
       description
@@ -110,36 +175,19 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
       }
       effects
     }
-    gear_eras {
+    gearEras {
       name
       description
     }
-    gear_kinds {
+    gearKinds {
       name
       description
     }
-    ammunition {
-      name
-      description
-      cost
-      weight
-      note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+    groundVehicles {
+      acceleration
       armor
-    }
-    armor {
-      name
+      crew
       description
-      cost
-      weight
-      note
       era {
         name
         description
@@ -148,21 +196,13 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
         name
         description
       }
-    }
-    mundaneItems {
+      maximumCost
+      minimumCost
       name
-      description
-      cost
-      weight
       note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+      passengers
+      topSpeed
+      toughness
     }
     handWeapons {
       name
@@ -180,6 +220,56 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
       }
       damage {
         attribute
+      }
+    }
+    hindrances {
+      name
+      description
+      severity
+    }
+    id
+    mundaneItems {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
+    name
+    powers {
+      name
+      description
+      rank
+      powerPoints
+      range
+      duration
+      availableTo {
+        name
+        description
+        effects
+        skillName
+      }
+      trappings {
+        name
+        description
+      }
+    }
+    races {
+      name
+      description
+      abilities {
+        name
+        description
+        effects
+        cost
       }
     }
     rangedWeapons {
@@ -205,6 +295,15 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
       rateOfFire
       shots
       minimumStrength
+    }
+    settingRules {
+      name
+      description
+    }
+    skills {
+      name
+      description
+      attribute
     }
     specialWeapons {
       name
@@ -266,106 +365,7 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
       heBurstTemplate
       heArmorPiercing
     }
-    hindrances {
-      name
-      description
-      severity
-    }
-    powers {
-      name
-      description
-      rank
-      powerPoints
-      range
-      duration
-      availableTo {
-        name
-        description
-        effects
-        skillName
-      }
-      trappings {
-        name
-        description
-      }
-    }
-    arcaneBackgrounds {
-      name
-      description
-      category {
-        name
-        description
-      }
-      requirements {
-        name
-        description
-      }
-      effects
-      skillName
-    }
-    races {
-      name
-      description
-      abilities {
-        name
-        description
-        effects
-        cost
-      }
-    }
-    settingRules {
-      name
-      description
-    }
-    skills {
-      name
-      description
-      attribute
-    }
-    airVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-      climb
-    }
     waterVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-    }
-    groundVehicles {
       acceleration
       armor
       crew
@@ -391,9 +391,73 @@ export const createPlotPoint = `mutation CreatePlotPoint($input: CreatePlotPoint
 `;
 export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPointInput!) {
   updatePlotPoint(input: $input) {
-    id
-    name
-    description
+    airVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+      climb
+    }
+    ammunition {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      armor
+    }
+    arcaneBackgrounds {
+      name
+      description
+      category {
+        name
+        description
+      }
+      requirements {
+        name
+        description
+      }
+      effects
+      skillName
+    }
+    armor {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
     basicRules {
       maximumAttributePoints
       maximumMajorHindrances
@@ -485,6 +549,7 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
         bonus
       }
     }
+    description
     edges {
       name
       description
@@ -498,36 +563,19 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
       }
       effects
     }
-    gear_eras {
+    gearEras {
       name
       description
     }
-    gear_kinds {
+    gearKinds {
       name
       description
     }
-    ammunition {
-      name
-      description
-      cost
-      weight
-      note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+    groundVehicles {
+      acceleration
       armor
-    }
-    armor {
-      name
+      crew
       description
-      cost
-      weight
-      note
       era {
         name
         description
@@ -536,21 +584,13 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
         name
         description
       }
-    }
-    mundaneItems {
+      maximumCost
+      minimumCost
       name
-      description
-      cost
-      weight
       note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+      passengers
+      topSpeed
+      toughness
     }
     handWeapons {
       name
@@ -568,6 +608,56 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
       }
       damage {
         attribute
+      }
+    }
+    hindrances {
+      name
+      description
+      severity
+    }
+    id
+    mundaneItems {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
+    name
+    powers {
+      name
+      description
+      rank
+      powerPoints
+      range
+      duration
+      availableTo {
+        name
+        description
+        effects
+        skillName
+      }
+      trappings {
+        name
+        description
+      }
+    }
+    races {
+      name
+      description
+      abilities {
+        name
+        description
+        effects
+        cost
       }
     }
     rangedWeapons {
@@ -593,6 +683,15 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
       rateOfFire
       shots
       minimumStrength
+    }
+    settingRules {
+      name
+      description
+    }
+    skills {
+      name
+      description
+      attribute
     }
     specialWeapons {
       name
@@ -654,106 +753,7 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
       heBurstTemplate
       heArmorPiercing
     }
-    hindrances {
-      name
-      description
-      severity
-    }
-    powers {
-      name
-      description
-      rank
-      powerPoints
-      range
-      duration
-      availableTo {
-        name
-        description
-        effects
-        skillName
-      }
-      trappings {
-        name
-        description
-      }
-    }
-    arcaneBackgrounds {
-      name
-      description
-      category {
-        name
-        description
-      }
-      requirements {
-        name
-        description
-      }
-      effects
-      skillName
-    }
-    races {
-      name
-      description
-      abilities {
-        name
-        description
-        effects
-        cost
-      }
-    }
-    settingRules {
-      name
-      description
-    }
-    skills {
-      name
-      description
-      attribute
-    }
-    airVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-      climb
-    }
     waterVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-    }
-    groundVehicles {
       acceleration
       armor
       crew
@@ -779,9 +779,73 @@ export const updatePlotPoint = `mutation UpdatePlotPoint($input: UpdatePlotPoint
 `;
 export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPointInput!) {
   deletePlotPoint(input: $input) {
-    id
-    name
-    description
+    airVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+      climb
+    }
+    ammunition {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      armor
+    }
+    arcaneBackgrounds {
+      name
+      description
+      category {
+        name
+        description
+      }
+      requirements {
+        name
+        description
+      }
+      effects
+      skillName
+    }
+    armor {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
     basicRules {
       maximumAttributePoints
       maximumMajorHindrances
@@ -873,6 +937,7 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
         bonus
       }
     }
+    description
     edges {
       name
       description
@@ -886,36 +951,19 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
       }
       effects
     }
-    gear_eras {
+    gearEras {
       name
       description
     }
-    gear_kinds {
+    gearKinds {
       name
       description
     }
-    ammunition {
-      name
-      description
-      cost
-      weight
-      note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+    groundVehicles {
+      acceleration
       armor
-    }
-    armor {
-      name
+      crew
       description
-      cost
-      weight
-      note
       era {
         name
         description
@@ -924,21 +972,13 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
         name
         description
       }
-    }
-    mundaneItems {
+      maximumCost
+      minimumCost
       name
-      description
-      cost
-      weight
       note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+      passengers
+      topSpeed
+      toughness
     }
     handWeapons {
       name
@@ -956,6 +996,56 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
       }
       damage {
         attribute
+      }
+    }
+    hindrances {
+      name
+      description
+      severity
+    }
+    id
+    mundaneItems {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
+    name
+    powers {
+      name
+      description
+      rank
+      powerPoints
+      range
+      duration
+      availableTo {
+        name
+        description
+        effects
+        skillName
+      }
+      trappings {
+        name
+        description
+      }
+    }
+    races {
+      name
+      description
+      abilities {
+        name
+        description
+        effects
+        cost
       }
     }
     rangedWeapons {
@@ -981,6 +1071,15 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
       rateOfFire
       shots
       minimumStrength
+    }
+    settingRules {
+      name
+      description
+    }
+    skills {
+      name
+      description
+      attribute
     }
     specialWeapons {
       name
@@ -1042,106 +1141,7 @@ export const deletePlotPoint = `mutation DeletePlotPoint($input: DeletePlotPoint
       heBurstTemplate
       heArmorPiercing
     }
-    hindrances {
-      name
-      description
-      severity
-    }
-    powers {
-      name
-      description
-      rank
-      powerPoints
-      range
-      duration
-      availableTo {
-        name
-        description
-        effects
-        skillName
-      }
-      trappings {
-        name
-        description
-      }
-    }
-    arcaneBackgrounds {
-      name
-      description
-      category {
-        name
-        description
-      }
-      requirements {
-        name
-        description
-      }
-      effects
-      skillName
-    }
-    races {
-      name
-      description
-      abilities {
-        name
-        description
-        effects
-        cost
-      }
-    }
-    settingRules {
-      name
-      description
-    }
-    skills {
-      name
-      description
-      attribute
-    }
-    airVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-      climb
-    }
     waterVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-    }
-    groundVehicles {
       acceleration
       armor
       crew

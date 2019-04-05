@@ -7,10 +7,10 @@ export default class PlotPointList extends React.Component {
 
 	static propTypes = {
 		id        : PropTypes.string.isRequired,
-		plotPoints: PropTypes.arrayOf(PropTypes.shape(PlotPoint))
+		plotPoints: PropTypes.arrayOf(PlotPoint)
 	}
-	static
-	defaultProps     = {
+
+	static defaultProps = {
 		plotPoints: []
 	}
 

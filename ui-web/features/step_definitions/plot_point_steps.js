@@ -22,7 +22,7 @@ Given('a plot point description of {string}', async function (description) {
 
 When('I save the plot point', async function () {
 	const browser = this.browser
-	await browser.findElement(By.id('button-save-PlotPoint-plotPointForm')).click()
+	await browser.findElement(By.id('button-save-PlotPoint-plotPointAdd')).click()
 })
 
 Then('the operation is successful', function () {

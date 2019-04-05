@@ -3,9 +3,73 @@
 
 export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
   getPlotPoint(id: $id) {
-    id
-    name
-    description
+    airVehicles {
+      acceleration
+      armor
+      crew
+      description
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      maximumCost
+      minimumCost
+      name
+      note
+      passengers
+      topSpeed
+      toughness
+      climb
+    }
+    ammunition {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+      armor
+    }
+    arcaneBackgrounds {
+      name
+      description
+      category {
+        name
+        description
+      }
+      requirements {
+        name
+        description
+      }
+      effects
+      skillName
+    }
+    armor {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
     basicRules {
       maximumAttributePoints
       maximumMajorHindrances
@@ -97,6 +161,7 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
         bonus
       }
     }
+    description
     edges {
       name
       description
@@ -110,36 +175,19 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
       }
       effects
     }
-    gear_eras {
+    gearEras {
       name
       description
     }
-    gear_kinds {
+    gearKinds {
       name
       description
     }
-    ammunition {
-      name
-      description
-      cost
-      weight
-      note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+    groundVehicles {
+      acceleration
       armor
-    }
-    armor {
-      name
+      crew
       description
-      cost
-      weight
-      note
       era {
         name
         description
@@ -148,21 +196,13 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
         name
         description
       }
-    }
-    mundaneItems {
+      maximumCost
+      minimumCost
       name
-      description
-      cost
-      weight
       note
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
+      passengers
+      topSpeed
+      toughness
     }
     handWeapons {
       name
@@ -180,6 +220,56 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
       }
       damage {
         attribute
+      }
+    }
+    hindrances {
+      name
+      description
+      severity
+    }
+    id
+    mundaneItems {
+      name
+      description
+      cost
+      weight
+      note
+      era {
+        name
+        description
+      }
+      kind {
+        name
+        description
+      }
+    }
+    name
+    powers {
+      name
+      description
+      rank
+      powerPoints
+      range
+      duration
+      availableTo {
+        name
+        description
+        effects
+        skillName
+      }
+      trappings {
+        name
+        description
+      }
+    }
+    races {
+      name
+      description
+      abilities {
+        name
+        description
+        effects
+        cost
       }
     }
     rangedWeapons {
@@ -205,6 +295,15 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
       rateOfFire
       shots
       minimumStrength
+    }
+    settingRules {
+      name
+      description
+    }
+    skills {
+      name
+      description
+      attribute
     }
     specialWeapons {
       name
@@ -266,106 +365,7 @@ export const getPlotPoint   = `query GetPlotPoint($id: ID!) {
       heBurstTemplate
       heArmorPiercing
     }
-    hindrances {
-      name
-      description
-      severity
-    }
-    powers {
-      name
-      description
-      rank
-      powerPoints
-      range
-      duration
-      availableTo {
-        name
-        description
-        effects
-        skillName
-      }
-      trappings {
-        name
-        description
-      }
-    }
-    arcaneBackgrounds {
-      name
-      description
-      category {
-        name
-        description
-      }
-      requirements {
-        name
-        description
-      }
-      effects
-      skillName
-    }
-    races {
-      name
-      description
-      abilities {
-        name
-        description
-        effects
-        cost
-      }
-    }
-    settingRules {
-      name
-      description
-    }
-    skills {
-      name
-      description
-      attribute
-    }
-    airVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-      climb
-    }
     waterVehicles {
-      acceleration
-      armor
-      crew
-      description
-      era {
-        name
-        description
-      }
-      kind {
-        name
-        description
-      }
-      maximumCost
-      minimumCost
-      name
-      note
-      passengers
-      topSpeed
-      toughness
-    }
-    groundVehicles {
       acceleration
       armor
       crew
@@ -396,9 +396,41 @@ export const listPlotPoints = `query ListPlotPoints(
 ) {
   listPlotPoints(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
-      id
-      name
-      description
+      airVehicles {
+        acceleration
+        armor
+        crew
+        description
+        maximumCost
+        minimumCost
+        name
+        note
+        passengers
+        topSpeed
+        toughness
+        climb
+      }
+      ammunition {
+        name
+        description
+        cost
+        weight
+        note
+        armor
+      }
+      arcaneBackgrounds {
+        name
+        description
+        effects
+        skillName
+      }
+      armor {
+        name
+        description
+        cost
+        weight
+        note
+      }
       basicRules {
         maximumAttributePoints
         maximumMajorHindrances
@@ -421,40 +453,32 @@ export const listPlotPoints = `query ListPlotPoints(
         name
         pace
       }
+      description
       edges {
         name
         description
         effects
       }
-      gear_eras {
+      gearEras {
         name
         description
       }
-      gear_kinds {
+      gearKinds {
         name
         description
       }
-      ammunition {
-        name
-        description
-        cost
-        weight
-        note
+      groundVehicles {
+        acceleration
         armor
-      }
-      armor {
-        name
+        crew
         description
-        cost
-        weight
-        note
-      }
-      mundaneItems {
+        maximumCost
+        minimumCost
         name
-        description
-        cost
-        weight
         note
+        passengers
+        topSpeed
+        toughness
       }
       handWeapons {
         name
@@ -462,6 +486,32 @@ export const listPlotPoints = `query ListPlotPoints(
         cost
         weight
         note
+      }
+      hindrances {
+        name
+        description
+        severity
+      }
+      id
+      mundaneItems {
+        name
+        description
+        cost
+        weight
+        note
+      }
+      name
+      powers {
+        name
+        description
+        rank
+        powerPoints
+        range
+        duration
+      }
+      races {
+        name
+        description
       }
       rangedWeapons {
         name
@@ -475,6 +525,15 @@ export const listPlotPoints = `query ListPlotPoints(
         rateOfFire
         shots
         minimumStrength
+      }
+      settingRules {
+        name
+        description
+      }
+      skills {
+        name
+        description
+        attribute
       }
       specialWeapons {
         name
@@ -508,66 +567,7 @@ export const listPlotPoints = `query ListPlotPoints(
         heBurstTemplate
         heArmorPiercing
       }
-      hindrances {
-        name
-        description
-        severity
-      }
-      powers {
-        name
-        description
-        rank
-        powerPoints
-        range
-        duration
-      }
-      arcaneBackgrounds {
-        name
-        description
-        effects
-        skillName
-      }
-      races {
-        name
-        description
-      }
-      settingRules {
-        name
-        description
-      }
-      skills {
-        name
-        description
-        attribute
-      }
-      airVehicles {
-        acceleration
-        armor
-        crew
-        description
-        maximumCost
-        minimumCost
-        name
-        note
-        passengers
-        topSpeed
-        toughness
-        climb
-      }
       waterVehicles {
-        acceleration
-        armor
-        crew
-        description
-        maximumCost
-        minimumCost
-        name
-        note
-        passengers
-        topSpeed
-        toughness
-      }
-      groundVehicles {
         acceleration
         armor
         crew

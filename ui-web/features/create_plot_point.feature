@@ -3,6 +3,14 @@ Feature: As a plot point creator
   I want to create a plot point
   So that I can use it to run a game
 
+  Background:
+    Given I have started the application
+    And I'm presented with an authentication challenge
+    And I provide a username of "ChesterTester"
+    And I provide a password of "ChesterTester1!"
+    When I authenticate
+    Then I am directed to the list of plot points
+
   Scenario: I can create a minimal plot point
     Given I want to add a plot point
     And a plot point name of "This is a plot point"

@@ -11,7 +11,7 @@ Before(async function () {
 
 After(async function (scenario) {
 	const browser = this.browser
-	if (scenario.result.status === Status.Failed) {
+	if (scenario.result.status === Status.FAILED) {
 		const image = await browser.takeScreenshot()
 		writeFile('out.png', image, 'base64', function (err) {
 			console.log(err)

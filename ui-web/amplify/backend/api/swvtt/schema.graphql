@@ -249,31 +249,32 @@ type PlotPoint
     @model
     @auth(rules: [{allow: owner}])
     {
-        id: ID!
-        name: String!
-        description: String
+        airVehicles: [AirVehicle]
+        ammunition: [Ammunition]
+        arcaneBackgrounds: [ArcaneBackground]
+        armor:[Armor]
         basicRules: BasicRules!
         beasts: [Beast]
         characters: [Character]
+        description: String
         edges: [Edge]
-        gear_eras: [GearEra]
-        gear_kinds: [GearKind]
-        ammunition: [Ammunition]
-        armor:[Armor]
-        mundaneItems: [MundaneItem]
+        gearEras: [GearEra]
+        gearKinds: [GearKind]
+        groundVehicles: [GroundVehicle]
         handWeapons: [HandWeapon]
-        rangedWeapons: [RangedWeapon]
-        specialWeapons: [SpecialWeapon]
-        vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeapon]
         hindrances: [Hindrance]
+        id: ID
+
+        mundaneItems: [MundaneItem]
+        name: String!
         powers: [Power]
-        arcaneBackgrounds: [ArcaneBackground]
         races: [Race]
+        rangedWeapons: [RangedWeapon]
         settingRules: [SettingRule]
         skills:[Skill]
-        airVehicles: [AirVehicle]
+        specialWeapons: [SpecialWeapon]
+        vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeapon]
         waterVehicles: [WaterVehicle]
-        groundVehicles: [GroundVehicle]
     }
 
 type Power {
