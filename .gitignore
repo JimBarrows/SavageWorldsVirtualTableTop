@@ -61,3 +61,5 @@ temp/
 *.sqlite3
 /uiserver/public/javascripts/client.min.js
 /uiserver/public/javascirpts/*.svg
+/ui-web/out.png
+ui-web/out.png
