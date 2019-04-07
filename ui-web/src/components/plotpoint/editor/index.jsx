@@ -1,19 +1,19 @@
-import {FontAwesomeIcon}                          from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon}                                 from '@fortawesome/react-fontawesome'
 import {Alert, Button, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
-import {func, string}                             from 'prop-types'
-import React                                      from 'react'
-import PlotPointPropType                          from '../../../propTypes/PlotPoint'
-import BasicRules                                 from './BasicRules'
-import Beasts                                     from './beasts'
-import Characters                                 from './characters'
-import Edges                                      from './edges'
-import Gear                                       from './gear'
-import Hindrances                                 from './hindrances'
-import Navigation                                 from './Navigation'
-import Powers                                     from './powers'
-import Races                                      from './races'
-import SettingRulesList                           from './setting_rules'
-import Skills                                     from './skills'
+import {func, string}                                    from 'prop-types'
+import React                                             from 'react'
+import PlotPointPropType                                 from '../../../propTypes/PlotPoint'
+import BasicRules                                        from './BasicRules'
+import Beasts                                            from './beasts'
+import Characters                                        from './characters'
+import Edges                                             from './edges'
+import Gear                                              from './gear'
+import Hindrances                                        from './hindrances'
+import Navigation                                        from './Navigation'
+import Powers                                            from './powers'
+import Races                                             from './races'
+import SettingRulesList                                  from './setting_rules'
+import Skills                                            from './skills'
 
 export default class PlotPointForm extends React.Component {
 
@@ -33,7 +33,7 @@ export default class PlotPointForm extends React.Component {
 		this.props.onCancel()
 	}
 	charactersChange   = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
-	descriptionChange  = e => this.setState({plotPoint: Object.assign({}, this.props.plotPoint, {description: e.target.value})})
+	descriptionChange  = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {description: e.target.value})})
 	edgesChange        = edges => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {edges})})
 	gearChange         = gear => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {gear})})
 	hindrancesChange   = hindrances => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {hindrances})})
@@ -50,29 +50,30 @@ export default class PlotPointForm extends React.Component {
 	showSection        = (componentId) => {
 		switch (this.state.section) {
 			case 'BasicRules':
-				return (<BasicRules plotPoint={this.props.plotPoint} onChange={this.basicRulesChange} id={componentId} />)
+				return (
+					<BasicRules basicRules={this.state.plotPoint.basicRules} onChange={this.basicRulesChange} id={componentId} />)
 			case 'SettingRules':
 				return (
-					<SettingRulesList rules={this.props.plotPoint.rules} onChange={this.settingRulesChange} id={componentId} />)
+					<SettingRulesList rules={this.state.plotPoint.rules} onChange={this.settingRulesChange} id={componentId} />)
 			case 'Skills':
 				return (
-					<Skills rules={this.props.plotPoint.skills} onChange={this.skillsChange} id={componentId} />)
+					<Skills skills={this.state.plotPoint.skills} onChange={this.skillsChange} id={componentId} />)
 			case 'Edges':
-				return (<Edges edges={this.props.plotPoint.edges} onChange={this.edgesChange} id={componentId} />)
+				return (<Edges edges={this.state.plotPoint.edges} onChange={this.edgesChange} id={componentId} />)
 			case 'Hindrances':
 				return (
-					<Hindrances edges={this.props.plotPoint.hindrances} onChange={this.hindrancesChange} id={componentId} />)
+					<Hindrances edges={this.state.plotPoint.hindrances} onChange={this.hindrancesChange} id={componentId} />)
 			case 'Gear':
-				return (<Gear gear={this.props.plotPoint.gear} onChange={this.gearChange} id={componentId} />)
+				return (<Gear gear={this.state.plotPoint.gear} onChange={this.gearChange} id={componentId} />)
 			case 'Powers':
-				return (<Powers powers={this.props.plotPoint.powers} onChange={this.powersChange} id={componentId} />)
+				return (<Powers powers={this.state.plotPoint.powers} onChange={this.powersChange} id={componentId} />)
 			case 'Races':
-				return (<Races races={this.props.plotPoint.races} onChange={this.racesChange} id={componentId} />)
+				return (<Races races={this.state.plotPoint.races} onChange={this.racesChange} id={componentId} />)
 			case 'Beasts':
-				return (<Beasts beasts={this.props.plotPoint.beasts} onChange={this.beastsChange} id={componentId} />)
+				return (<Beasts beasts={this.state.plotPoint.beasts} onChange={this.beastsChange} id={componentId} />)
 			case 'Characters':
 				return (
-					<Characters characters={this.props.plotPoint.characters} onChange={this.charactersChange} id={componentId} />)
+					<Characters characters={this.state.plotPoint.characters} onChange={this.charactersChange} id={componentId} />)
 		}
 	}
 
@@ -81,9 +82,9 @@ export default class PlotPointForm extends React.Component {
 		const {id}        = this.props
 		const {plotPoint} = this.state
 		const componentId = `PlotPoint-${id}`
-		let errors = ''
-		if(this.props.errors && this.props.errors.length > 0) {
-			errors = this.props.errors.map(error => (<Alert id={id} context={'danger'}>{error.message}</Alert>))
+		let errors        = ''
+		if (this.props.errors && this.props.errors.length > 0) {
+			errors = this.props.errors.map(error => (<Alert id={id} context={'danger'} >{error.message}</Alert >))
 		}
 		return (
 			<form id={componentId} >

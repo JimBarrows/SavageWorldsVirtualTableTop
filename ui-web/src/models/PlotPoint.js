@@ -14,8 +14,8 @@ export default class PlotPoint {
 	rangedWeapons              = []
 	specialWeapons             = []
 	vehicleAndAtMountedWeapons = []
-	gear_eras                  = []
-	gear_kinds                 = []
+	gearEras                   = []
+	gearKinds                  = []
 	hindrances                 = []
 	id                         = ''
 	name                       = ''

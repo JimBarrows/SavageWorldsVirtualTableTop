@@ -8,10 +8,10 @@ export default class BasicRules extends React.Component {
 		id        : PropTypes.string.isRequired,
 		onChange  : PropTypes.func.isRequired,
 		basicRules: PropTypes.shape({
-																	maximumAttributePoints: PropTypes.number.isRequired,
-																	maximumMajorHindrances: PropTypes.number.isRequired,
-																	maximumMinorHindrances: PropTypes.number.isRequired,
-																	maximumSkillPoints    : PropTypes.number.isRequired
+																	maximumAttributePoints: PropTypes.number,
+																	maximumMajorHindrances: PropTypes.number,
+																	maximumMinorHindrances: PropTypes.number,
+																	maximumSkillPoints    : PropTypes.number
 																}).isRequired
 	}
 
