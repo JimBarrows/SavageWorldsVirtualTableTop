@@ -1,7 +1,8 @@
-import {Button, ListGroup} from 'bootstrap-react-components'
-import PropTypes           from 'prop-types'
-import React               from 'react'
-import Editor              from './Editor'
+import {Button, ListGroup}   from 'bootstrap-react-components'
+import PropTypes             from 'prop-types'
+import React                 from 'react'
+import SettingRulesPropTypes from '../../../../propTypes/SettingRules'
+import Editor                from './Editor'
 
 export default class SettingRulesList extends React.Component {
 
@@ -11,14 +12,11 @@ export default class SettingRulesList extends React.Component {
 
 	static propTypes = {
 		onChange: PropTypes.func.isRequired,
-		rules   : PropTypes.arrayOf(PropTypes.shape({
-																									name       : PropTypes.string.isRequired,
-																									description: PropTypes.string.isRequired
-																								})),
+		rules   : SettingRulesPropTypes,
 		id      : PropTypes.string.isRequired
 	}
 
-	addSettingRule = (e) => {
+	addSettingRule = e => {
 		e.preventDefault()
 		this.props.onChange([{name: ' ', description: ' '}, ...this.props.rules])
 	}

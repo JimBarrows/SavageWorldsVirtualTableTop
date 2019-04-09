@@ -14,7 +14,7 @@ Feature: As a plot point creator
   Scenario: I can create a minimal plot point
     Given I want to add a plot point
     And a plot point name of "This is a plot point"
-    And a plot point description of "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id bibendum est, id suscipit arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer sit amet eros eu lectus volutpat commodo sed fermentum urna. Sed accumsan ut felis pretium vestibulum. Vivamus dignissim, tortor id malesuada aliquam, odio nisi laoreet orci, lacinia euismod est lorem vel felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel arcu quam. Ut hendrerit aliquam ligula, eu tincidunt lacus elementum a. Pellentesque dictum dui elementum lacinia dictum. Ut mattis blandit orci non blandit. Sed non eros quis est auctor ornare. Curabitur tincidunt risus ut egestas aliquam."
+    And a plot point description of "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
     When I save the plot point
     Then the operation is successful
     And the plot point is in the data store
@@ -22,7 +22,7 @@ Feature: As a plot point creator
   Scenario: I can create a plot point with basic rules
     Given I want to add a plot point
     And a plot point name of "This is a plot point"
-    And a plot point description of "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id bibendum est, id suscipit arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer sit amet eros eu lectus volutpat commodo sed fermentum urna. Sed accumsan ut felis pretium vestibulum. Vivamus dignissim, tortor id malesuada aliquam, odio nisi laoreet orci, lacinia euismod est lorem vel felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel arcu quam. Ut hendrerit aliquam ligula, eu tincidunt lacus elementum a. Pellentesque dictum dui elementum lacinia dictum. Ut mattis blandit orci non blandit. Sed non eros quis est auctor ornare. Curabitur tincidunt risus ut egestas aliquam."
+    And a plot point description of "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
     And I want the maximum attribute points to be 100
     And I want the maximum number of major hindrances to be 200
     And I want the maximum number of minor hindrances to be 300
@@ -35,3 +35,13 @@ Feature: As a plot point creator
     And the maximum number of minor hindrances is 300
     And the maximum skill points is 400
 
+  Scenario: I can create a plot point with setting rules
+    Given I want to add a plot point
+    And a plot point name of "This is a plot point"
+    And a plot point description of "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    And I want to add these setting rules:
+      | Setting rule 1 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien leo, |
+    When I save the plot point
+    Then the operation is successful
+    And the plot point is in the data store
+    And the setting rules are in the datastore

@@ -54,7 +54,8 @@ export default class PlotPointForm extends React.Component {
 					<BasicRules basicRules={this.state.plotPoint.basicRules} onChange={this.basicRulesChange} id={componentId} />)
 			case 'SettingRules':
 				return (
-					<SettingRulesList rules={this.state.plotPoint.rules} onChange={this.settingRulesChange} id={componentId} />)
+					<SettingRulesList rules={this.state.plotPoint.settingRules} onChange={this.settingRulesChange}
+						id={componentId} />)
 			case 'Skills':
 				return (
 					<Skills skills={this.state.plotPoint.skills} onChange={this.skillsChange} id={componentId} />)
@@ -84,7 +85,8 @@ export default class PlotPointForm extends React.Component {
 		const componentId = `PlotPoint-${id}`
 		let errors        = ''
 		if (this.props.errors && this.props.errors.length > 0) {
-			errors = this.props.errors.map(error => (<Alert id={id} context={'danger'} >{error.message}</Alert >))
+			errors = this.props.errors.map((error, idx) => (
+				<Alert key={idx} id={id} context={'danger'} >{error.message}</Alert >))
 		}
 		return (
 			<form id={componentId} >

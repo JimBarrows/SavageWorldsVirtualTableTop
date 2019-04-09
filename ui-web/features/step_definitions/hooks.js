@@ -10,6 +10,7 @@ Before(async function () {
 	this.browser = await new Builder()
 		.forBrowser('chrome')
 		.build()
+	await this.browser.manage().setTimeouts({implicit: 45 * 1000, pageLoad: 45 * 1000})
 })
 
 After(async function (scenario) {

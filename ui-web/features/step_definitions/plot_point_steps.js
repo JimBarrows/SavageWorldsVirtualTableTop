@@ -3,6 +3,7 @@ import {Given, Then, When}     from 'cucumber'
 import {By, until}             from 'selenium-webdriver'
 import sleep                   from 'sleep'
 import * as queries            from '../../src/graphql/queries'
+import SettingRule             from '../support/SettingRule'
 
 
 Given('I want to add a plot point', async function () {
@@ -55,6 +56,36 @@ Given('I want the maximum skill points to be {int}', async function (maximumSkil
 	await element.sendKeys(this.expected_plot_point.basic_rules.maximumSkillPoints)
 })
 
+async function setName (browser, index, name) {
+	const nameElementId = `FormControl-text-TextFormGroup-SettingRuleEditor-SettingRules-PlotPoint-plotPointAdd-${index}-Name`
+	const nameElement   = await browser.findElement(By.id(nameElementId))
+	await nameElement.clear()
+	await nameElement.sendKeys(name)
+}
+
+async function setDescription (browser, index, description) {
+	const descriptionElement = await browser.findElement(By.css(`#TextAreaFormGroup-SettingRuleEditor-SettingRules-PlotPoint-plotPointAdd-${index}-Description > div.ql-container.ql-snow > div.ql-editor`)).catch(error => console.log('error: ', error))
+	await descriptionElement.clear()
+	await descriptionElement.sendKeys(description)
+}
+
+Given('I want to add these setting rules:', async function (dataTable) {
+	let table = dataTable.rawTable
+	const tab = await this.browser.findElement(By.id('NavItem-Navigation-PlotPoint-plotPointAdd-setting-rules'))
+	await tab.click()
+	await this.browser.wait(until.elementLocated(By.id('SettingRules-PlotPoint-plotPointAdd')))
+	await Promise.all(table.map(async (row, index) => {
+		const settingRule       = new SettingRule()
+		settingRule.name        = row[0]
+		settingRule.description = row[1]
+		const button            = await this.browser.findElement(By.id('button-SettingRules-PlotPoint-plotPointAdd'))
+		await button.click()
+		await setName(this.browser, index, settingRule.name)
+		await setDescription(this.browser, index, settingRule.description)
+		this.expected_plot_point.setting_rules.push(settingRule)
+	}))
+})
+
 
 When('I save the plot point', async function () {
 	const browser = this.browser
@@ -100,3 +131,14 @@ Then('the maximum skill points is {int}', async function (maximumNumberSkillPoin
 	expect(plotPoint.basicRules.maximumSkillPoints).to.be.equal(maximumNumberSkillPoints)
 })
 
+Then('the setting rules are in the datastore', async function () {
+	const plotPointListResponse           = await API.graphql(graphqlOperation(queries.listPlotPoints))
+	const plotPoint                       = plotPointListResponse.data.listPlotPoints.items.filter(plotPoint => plotPoint.name === this.expected_plot_point.name)[0]
+	const settingRules                    = plotPoint.settingRules
+	const actualSettingRuleNames          = settingRules.map(sr => sr.name)
+	const actualSettingRuleDescriptions   = settingRules.map(sr => sr.description)
+	const expectedSettingRuleNames        = this.expected_plot_point.setting_rules.map(sr => sr.name)
+	const expectedSettingRuleDescriptions = this.expected_plot_point.setting_rules.map(sr => `<p>${sr.description} </p>`)
+	actualSettingRuleNames.forEach(name => expect(name).to.be.oneOf(expectedSettingRuleNames))
+	actualSettingRuleDescriptions.forEach(description => expect(description).to.be.oneOf(expectedSettingRuleDescriptions))
+})

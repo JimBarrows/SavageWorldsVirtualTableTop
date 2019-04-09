@@ -1,6 +1,7 @@
 import {array, shape, string} from 'prop-types'
 import BasicRules             from './BasicRules'
 import Gear                   from './Gear'
+import SettingRules           from './SettingRules'
 
 export default shape({
 											 airVehicles               : array,
@@ -23,7 +24,7 @@ export default shape({
 											 powers                    : array,
 											 races                     : array,
 											 rangedWeapons             : array,
-											 settingRules              : array,
+											 settingRules              : SettingRules,
 											 skills                    : array,
 											 specialWeapons            : array,
 											 vehicleAndAtMountedWeapons: array,
