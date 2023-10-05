@@ -22,7 +22,7 @@
     "graphql": "^15.5.0",
     "history": "^5.0.0",
     "npm": "^6.2.0",
-    "postcss": "^8.2.4",
+    "postcss": "^8.4.31",
     "prop-types": "^15.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
