@@ -8,6 +8,7 @@
   },
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "@aws-amplify/ui": "^5.2.0",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
@@ -40,7 +41,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "serve": "^14.1.2",
-    "sleep": "^6.0.0"
+    "sleep": "^6.0.0",
+    "xstate": "^4.34.0"
   },
   "scripts": {
     "build": "react-scripts build",
@@ -66,5 +68,17 @@
     "node-fetch": "^2.6.7",
     "react-scripts": "^4.0.1",
     "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

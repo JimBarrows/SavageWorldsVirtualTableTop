@@ -1,11 +1,11 @@
 {
-	"AppSyncApiName": "swvtt",
-	"DynamoDBBillingMode": "PAY_PER_REQUEST",
-	"DynamoDBEnableServerSideEncryption": false,
-	"AuthCognitoUserPoolId": {
-		"Fn::GetAtt": [
-			"authswvtt9e8d353f",
-			"Outputs.UserPoolId"
-		]
-	}
+  "AppSyncApiName": "swvtt",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authswvtt9e8d353f",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

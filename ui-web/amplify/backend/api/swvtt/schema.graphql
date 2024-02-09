@@ -22,7 +22,7 @@ enum SelectedSeverity {
     major
 }
 
-enum DiceType{
+enum DiceType {
     d4
     d6
     d8
@@ -42,7 +42,6 @@ enum Rank {
     veteran
     heroic
     legendary
-
 }
 
 interface BaseEdge {
@@ -79,7 +78,7 @@ interface Vehicle {
     toughness: Int
 }
 
-type AirVehicle implements Vehicle {
+type AirVehicle implements Vehicle @aws_cognito_user_pools {
     acceleration: Int
     armor: Int
     crew: Int
@@ -96,7 +95,7 @@ type AirVehicle implements Vehicle {
     climb: Int
 }
 
-type Ammunition implements Gear {
+type Ammunition implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -107,7 +106,7 @@ type Ammunition implements Gear {
     armor: Int!
 }
 
-type Armor implements Gear {
+type Armor implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -117,7 +116,7 @@ type Armor implements Gear {
     kind: GearKind
 }
 
-type ArcaneBackground implements BaseEdge {
+type ArcaneBackground implements BaseEdge @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String!
     category: EdgeCategory!
@@ -126,14 +125,14 @@ type ArcaneBackground implements BaseEdge {
     skillName: String!
 }
 
-type BasicRules {
+type BasicRules @aws_cognito_user_pools {
     maximumAttributePoints: Int!
     maximumMajorHindrances: Int!
     maximumMinorHindrances: Int!
     maximumSkillPoints: Int!
 }
 
-type Beast {
+type Beast @aws_cognito_user_pools {
     agility: Trait!
     animalIntelligence: Boolean
     armor: Int
@@ -142,14 +141,14 @@ type Beast {
     name: String!
     pace: Int
     skills: [Skill]
-    smarts:Trait!
+    smarts: Trait!
     specialAbilities: [SpecialAbility]
-    spirit:Trait!
-    strength:Trait!
-    vigor:Trait!
+    spirit: Trait!
+    strength: Trait!
+    vigor: Trait!
 }
 
-type Character {
+type Character @aws_cognito_user_pools {
     agility: Trait!
     animalIntelligence: Boolean
     armor: Int
@@ -161,24 +160,24 @@ type Character {
     name: String!
     pace: Int
     skills: [Skill]
-    smarts:Trait!
+    smarts: Trait!
     specialAbilities: [SpecialAbility]
-    spirit:Trait!
-    strength:Trait!
-    vigor:Trait!
+    spirit: Trait!
+    strength: Trait!
+    vigor: Trait!
 }
 
-type Dice {
+type Dice @aws_cognito_user_pools @aws_api_key {
     type: DiceType!
     howMany: Int!
 }
 
-type Damage {
+type Damage @aws_cognito_user_pools @aws_api_key {
     attribute: Attributes
     dice: [Dice]!
 }
 
-type Edge implements BaseEdge {
+type Edge implements BaseEdge @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String!
     category: EdgeCategory!
@@ -186,28 +185,28 @@ type Edge implements BaseEdge {
     effects: String!
 }
 
-type EdgeCategory {
+type EdgeCategory @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String!
 }
 
-type EdgeRequirement {
+type EdgeRequirement @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String!
     edge: Edge
 }
 
-type GearEra {
+type GearEra @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String
 }
 
-type GearKind {
+type GearKind @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String
 }
 
-type GroundVehicle {
+type GroundVehicle @aws_cognito_user_pools {
     acceleration: Int
     armor: Int
     crew: Int
@@ -223,13 +222,13 @@ type GroundVehicle {
     toughness: Int
 }
 
-type Hindrance {
+type Hindrance @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String!
     severity: HindranceSeverity!
 }
 
-type HandWeapon implements Gear {
+type HandWeapon implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -240,7 +239,7 @@ type HandWeapon implements Gear {
     damage: Damage
 }
 
-type MundaneItem implements Gear {
+type MundaneItem implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -250,14 +249,11 @@ type MundaneItem implements Gear {
     kind: GearKind
 }
 
-type PlotPoint
-@model
-@auth(rules: [{allow: owner}])
-{
+type PlotPoint @aws_cognito_user_pools {
     airVehicles: [AirVehicle]
     ammunition: [Ammunition]
     arcaneBackgrounds: [ArcaneBackground]
-    armor:[Armor]
+    armor: [Armor]
     basicRules: BasicRules!
     beasts: [Beast]
     characters: [Character]
@@ -269,20 +265,22 @@ type PlotPoint
     handWeapons: [HandWeapon]
     hindrances: [Hindrance]
     id: ID
-
     mundaneItems: [MundaneItem]
     name: String!
     powers: [Power]
     races: [Race]
     rangedWeapons: [RangedWeapon]
     settingRules: [SettingRule]
-    skills:[Skill]
+    skills: [Skill]
     specialWeapons: [SpecialWeapon]
     vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeapon]
     waterVehicles: [WaterVehicle]
+    createdAt: AWSDateTime!
+    updatedAt: AWSDateTime!
+    owner: String
 }
 
-type Power {
+type Power @aws_cognito_user_pools {
     name: String!
     description: String!
     rank: Rank!
@@ -293,57 +291,55 @@ type Power {
     trappings: [Trapping]
 }
 
-type Race {
+type Race @aws_cognito_user_pools {
     name: String!
     description: String!
     abilities: [RaceAbility]
 }
 
-type RaceAbility implements BaseEdge {
+type RaceAbility implements BaseEdge @aws_cognito_user_pools {
     name: String!
     description: String!
     category: EdgeCategory!
     requirements: [EdgeRequirement]
     effects: String!
     cost: Int!
-
 }
 
-type SelectedEdge {
+type SelectedEdge @aws_cognito_user_pools {
     edge: Edge!
     description: String!
 }
 
-type SelectedGear {
+type SelectedGear @aws_cognito_user_pools {
     gear: Gear!
     quantity: Int!
     notes: String
 }
 
-type SelectedHindrance {
+type SelectedHindrance @aws_cognito_user_pools {
     hindrance: Hindrance!
     selectedSeverity: SelectedSeverity!
     description: String!
-
 }
 
-type SettingRule {
+type SettingRule @aws_cognito_user_pools {
     name: String!
     description: String!
 }
 
-type Skill {
+type Skill @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String
     attribute: Attributes!
 }
 
-type SpecialAbility {
+type SpecialAbility @aws_cognito_user_pools @aws_api_key {
     name: String!
     description: String
 }
 
-type RangedWeapon implements Gear {
+type RangedWeapon implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -360,7 +356,7 @@ type RangedWeapon implements Gear {
     minimumStrength: DiceType!
 }
 
-type SpecialWeapon implements Gear {
+type SpecialWeapon implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -380,23 +376,23 @@ type SpecialWeapon implements Gear {
     armorPiercing: Int!
 }
 
-type Trait {
+type Trait @aws_cognito_user_pools @aws_api_key {
     dice: DiceType!
     bonus: Int
 }
 
-type Trapping {
+type Trapping @aws_cognito_user_pools {
     name: String!
     description: String!
     effects: [TrappingEffect]
 }
 
-type TrappingEffect {
+type TrappingEffect @aws_cognito_user_pools {
     name: String!
     description: String!
 }
 
-type VehicleAndAtMountedWeapon implements Gear {
+type VehicleAndAtMountedWeapon implements Gear @aws_cognito_user_pools {
     name: String!
     description: String
     cost: Int
@@ -418,7 +414,7 @@ type VehicleAndAtMountedWeapon implements Gear {
     heArmorPiercing: Int
 }
 
-type WaterVehicle implements Vehicle {
+type WaterVehicle implements Vehicle @aws_cognito_user_pools {
     acceleration: Int
     armor: Int
     crew: Int
@@ -434,6 +430,593 @@ type WaterVehicle implements Vehicle {
     toughness: Int
 }
 
+input ModelStringInput {
+    ne: String
+    eq: String
+    le: String
+    lt: String
+    ge: String
+    gt: String
+    contains: String
+    notContains: String
+    between: [String]
+    beginsWith: String
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+    size: ModelSizeInput
+}
+
+input ModelIntInput {
+    ne: Int
+    eq: Int
+    le: Int
+    lt: Int
+    ge: Int
+    gt: Int
+    between: [Int]
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+    ne: Float
+    eq: Float
+    le: Float
+    lt: Float
+    ge: Float
+    gt: Float
+    between: [Float]
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+    ne: Boolean
+    eq: Boolean
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+    ne: ID
+    eq: ID
+    le: ID
+    lt: ID
+    ge: ID
+    gt: ID
+    contains: ID
+    notContains: ID
+    between: [ID]
+    beginsWith: ID
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+    size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+    ne: String
+    eq: String
+    le: String
+    lt: String
+    ge: String
+    gt: String
+    contains: String
+    notContains: String
+    between: [String]
+    beginsWith: String
+    in: [String]
+    notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+    ne: Int
+    eq: Int
+    le: Int
+    lt: Int
+    ge: Int
+    gt: Int
+    between: [Int]
+    in: [Int]
+    notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+    ne: Float
+    eq: Float
+    le: Float
+    lt: Float
+    ge: Float
+    gt: Float
+    between: [Float]
+    in: [Float]
+    notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+    ne: Boolean
+    eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+    ne: ID
+    eq: ID
+    le: ID
+    lt: ID
+    ge: ID
+    gt: ID
+    contains: ID
+    notContains: ID
+    between: [ID]
+    beginsWith: ID
+    in: [ID]
+    notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+    binary
+    binarySet
+    bool
+    list
+    map
+    number
+    numberSet
+    string
+    stringSet
+    _null
+}
+
+input ModelSizeInput {
+    ne: Int
+    eq: Int
+    le: Int
+    lt: Int
+    ge: Int
+    gt: Int
+    between: [Int]
+}
+
+enum ModelSortDirection {
+    ASC
+    DESC
+}
+
+input GearInput {
+    name: String!
+    description: String!
+    cost: Int!
+    weight: Int!
+    note: String
+    era: GearEraInput!
+    kind: GearKindInput!
+}
+
+input AirVehicleInput {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEraInput!
+    kind: GearKindInput!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+    climb: Int
+}
+
+input GearEraInput {
+    name: String!
+    description: String
+}
+
+input GearKindInput {
+    name: String!
+    description: String
+}
+
+input AmmunitionInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+    armor: Int!
+}
+
+input ArcaneBackgroundInput {
+    name: String!
+    description: String!
+    category: EdgeCategoryInput!
+    requirements: [EdgeRequirementInput]
+    effects: String!
+    skillName: String!
+}
+
+input EdgeCategoryInput {
+    name: String!
+    description: String!
+}
+
+input EdgeRequirementInput {
+    name: String!
+    description: String!
+    edge: EdgeInput
+}
+
+input EdgeInput {
+    name: String!
+    description: String!
+    category: EdgeCategoryInput!
+    requirements: [EdgeRequirementInput]
+    effects: String!
+}
+
+input ArmorInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+}
+
+input BasicRulesInput {
+    maximumAttributePoints: Int!
+    maximumMajorHindrances: Int!
+    maximumMinorHindrances: Int!
+    maximumSkillPoints: Int!
+}
+
+input BeastInput {
+    agility: TraitInput!
+    animalIntelligence: Boolean
+    armor: Int
+    charimsa: Int
+    description: String
+    name: String!
+    pace: Int
+    skills: [SkillInput]
+    smarts: TraitInput!
+    specialAbilities: [SpecialAbilityInput]
+    spirit: TraitInput!
+    strength: TraitInput!
+    vigor: TraitInput!
+}
+
+input TraitInput {
+    dice: DiceType!
+    bonus: Int
+}
+
+input SkillInput {
+    name: String!
+    description: String
+    attribute: Attributes!
+}
+
+input SpecialAbilityInput {
+    name: String!
+    description: String
+}
+
+input CharacterInput {
+    agility: TraitInput!
+    animalIntelligence: Boolean
+    armor: Int
+    charimsa: Int
+    description: String
+    edges: [SelectedEdgeInput]
+    gear: [SelectedGearInput]
+    hindrances: [SelectedHindranceInput]
+    name: String!
+    pace: Int
+    skills: [SkillInput]
+    smarts: TraitInput!
+    specialAbilities: [SpecialAbilityInput]
+    spirit: TraitInput!
+    strength: TraitInput!
+    vigor: TraitInput!
+}
+
+input SelectedEdgeInput {
+    edge: EdgeInput!
+    description: String!
+}
+
+input SelectedGearInput {
+    gear: GearInput!
+    quantity: Int!
+    notes: String
+}
+
+input SelectedHindranceInput {
+    hindrance: HindranceInput!
+    selectedSeverity: SelectedSeverity!
+    description: String!
+}
+
+input HindranceInput {
+    name: String!
+    description: String!
+    severity: HindranceSeverity!
+}
+
+input GroundVehicleInput {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEraInput!
+    kind: GearKindInput!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+}
+
+input HandWeaponInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+    damage: DamageInput
+}
+
+input DamageInput {
+    attribute: Attributes
+    dice: [DiceInput]!
+}
+
+input DiceInput {
+    type: DiceType!
+    howMany: Int!
+}
+
+input MundaneItemInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+}
+
+input PowerInput {
+    name: String!
+    description: String!
+    rank: Rank!
+    powerPoints: Int!
+    range: String
+    duration: String
+    availableTo: [ArcaneBackgroundInput]
+    trappings: [TrappingInput]
+}
+
+input TrappingInput {
+    name: String!
+    description: String!
+    effects: [TrappingEffectInput]
+}
+
+input TrappingEffectInput {
+    name: String!
+    description: String!
+}
+
+input RaceInput {
+    name: String!
+    description: String!
+    abilities: [RaceAbilityInput]
+}
+
+input RaceAbilityInput {
+    name: String!
+    description: String!
+    category: EdgeCategoryInput!
+    requirements: [EdgeRequirementInput]
+    effects: String!
+    cost: Int!
+}
+
+input RangedWeaponInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+    shortRange: Int!
+    mediumRange: Int!
+    longRange: Int!
+    damage: DamageInput
+    rateOfFire: Int!
+    shots: Int!
+    minimumStrength: DiceType!
+}
+
+input SettingRuleInput {
+    name: String!
+    description: String!
+}
+
+input SpecialWeaponInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+    shortRange: Int!
+    mediumRange: Int!
+    longRange: Int!
+    damage: DamageInput
+    rateOfFire: Int!
+    shots: Int!
+    minimumStrength: DiceType!
+    burstTemplate: BurstTemplate
+    military: Boolean
+    armorPiercing: Int!
+}
+
+input VehicleAndAtMountedWeaponInput {
+    name: String!
+    description: String
+    cost: Int
+    weight: Int
+    note: String
+    era: GearEraInput
+    kind: GearKindInput
+    shortRange: Int!
+    mediumRange: Int!
+    longRange: Int!
+    damage: DamageInput
+    rateOfFire: Int!
+    shots: Int!
+    minimumStrength: DiceType!
+    apDamage: DamageInput
+    apArmorPiercing: Int
+    heDamage: DamageInput
+    heBurstTemplate: BurstTemplate
+    heArmorPiercing: Int
+}
+
+input WaterVehicleInput {
+    acceleration: Int
+    armor: Int
+    crew: Int
+    description: String
+    era: GearEraInput!
+    kind: GearKindInput!
+    maximumCost: Int
+    minimumCost: Int
+    name: String!
+    note: String!
+    passengers: Int
+    topSpeed: Int
+    toughness: Int
+}
+
+type ModelPlotPointConnection @aws_cognito_user_pools {
+    items: [PlotPoint]!
+    nextToken: String
+}
+
+input ModelPlotPointFilterInput {
+    description: ModelStringInput
+    id: ModelIDInput
+    name: ModelStringInput
+    and: [ModelPlotPointFilterInput]
+    or: [ModelPlotPointFilterInput]
+    not: ModelPlotPointFilterInput
+}
+
+type Query {
+    getPlotPoint(id: ID!): PlotPoint @aws_cognito_user_pools
+    listPlotPoints(filter: ModelPlotPointFilterInput, limit: Int, nextToken: String): ModelPlotPointConnection @aws_cognito_user_pools
+}
+
+input ModelPlotPointConditionInput {
+    description: ModelStringInput
+    name: ModelStringInput
+    and: [ModelPlotPointConditionInput]
+    or: [ModelPlotPointConditionInput]
+    not: ModelPlotPointConditionInput
+}
+
+input CreatePlotPointInput {
+    airVehicles: [AirVehicleInput]
+    ammunition: [AmmunitionInput]
+    arcaneBackgrounds: [ArcaneBackgroundInput]
+    armor: [ArmorInput]
+    basicRules: BasicRulesInput!
+    beasts: [BeastInput]
+    characters: [CharacterInput]
+    description: String
+    edges: [EdgeInput]
+    gearEras: [GearEraInput]
+    gearKinds: [GearKindInput]
+    groundVehicles: [GroundVehicleInput]
+    handWeapons: [HandWeaponInput]
+    hindrances: [HindranceInput]
+    id: ID
+    mundaneItems: [MundaneItemInput]
+    name: String!
+    powers: [PowerInput]
+    races: [RaceInput]
+    rangedWeapons: [RangedWeaponInput]
+    settingRules: [SettingRuleInput]
+    skills: [SkillInput]
+    specialWeapons: [SpecialWeaponInput]
+    vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeaponInput]
+    waterVehicles: [WaterVehicleInput]
+}
+
+input UpdatePlotPointInput {
+    airVehicles: [AirVehicleInput]
+    ammunition: [AmmunitionInput]
+    arcaneBackgrounds: [ArcaneBackgroundInput]
+    armor: [ArmorInput]
+    basicRules: BasicRulesInput
+    beasts: [BeastInput]
+    characters: [CharacterInput]
+    description: String
+    edges: [EdgeInput]
+    gearEras: [GearEraInput]
+    gearKinds: [GearKindInput]
+    groundVehicles: [GroundVehicleInput]
+    handWeapons: [HandWeaponInput]
+    hindrances: [HindranceInput]
+    id: ID!
+    mundaneItems: [MundaneItemInput]
+    name: String
+    powers: [PowerInput]
+    races: [RaceInput]
+    rangedWeapons: [RangedWeaponInput]
+    settingRules: [SettingRuleInput]
+    skills: [SkillInput]
+    specialWeapons: [SpecialWeaponInput]
+    vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeaponInput]
+    waterVehicles: [WaterVehicleInput]
+}
+
+input DeletePlotPointInput {
+    id: ID!
+}
+
+type Mutation {
+    createPlotPoint(input: CreatePlotPointInput!, condition: ModelPlotPointConditionInput): PlotPoint @aws_cognito_user_pools
+    updatePlotPoint(input: UpdatePlotPointInput!, condition: ModelPlotPointConditionInput): PlotPoint @aws_cognito_user_pools
+    deletePlotPoint(input: DeletePlotPointInput!, condition: ModelPlotPointConditionInput): PlotPoint @aws_cognito_user_pools
+}
+
+input ModelSubscriptionPlotPointFilterInput {
+    description: ModelSubscriptionStringInput
+    id: ModelSubscriptionIDInput
+    name: ModelSubscriptionStringInput
+    and: [ModelSubscriptionPlotPointFilterInput]
+    or: [ModelSubscriptionPlotPointFilterInput]
+}
+
+type Subscription {
+    onCreatePlotPoint(filter: ModelSubscriptionPlotPointFilterInput, owner: String): PlotPoint @aws_subscribe(mutations: ["createPlotPoint"]) @aws_cognito_user_pools
+    onUpdatePlotPoint(filter: ModelSubscriptionPlotPointFilterInput, owner: String): PlotPoint @aws_subscribe(mutations: ["updatePlotPoint"]) @aws_cognito_user_pools
+    onDeletePlotPoint(filter: ModelSubscriptionPlotPointFilterInput, owner: String): PlotPoint @aws_subscribe(mutations: ["deletePlotPoint"]) @aws_cognito_user_pools
+}
 
 
 
