@@ -1,3 +1,8 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+
 enum Attributes {
     strength
     agility
@@ -246,36 +251,36 @@ type MundaneItem implements Gear {
 }
 
 type PlotPoint
-    @model
-    @auth(rules: [{allow: owner}])
-    {
-        airVehicles: [AirVehicle]
-        ammunition: [Ammunition]
-        arcaneBackgrounds: [ArcaneBackground]
-        armor:[Armor]
-        basicRules: BasicRules!
-        beasts: [Beast]
-        characters: [Character]
-        description: String
-        edges: [Edge]
-        gearEras: [GearEra]
-        gearKinds: [GearKind]
-        groundVehicles: [GroundVehicle]
-        handWeapons: [HandWeapon]
-        hindrances: [Hindrance]
-        id: ID
+@model
+@auth(rules: [{allow: owner}])
+{
+    airVehicles: [AirVehicle]
+    ammunition: [Ammunition]
+    arcaneBackgrounds: [ArcaneBackground]
+    armor:[Armor]
+    basicRules: BasicRules!
+    beasts: [Beast]
+    characters: [Character]
+    description: String
+    edges: [Edge]
+    gearEras: [GearEra]
+    gearKinds: [GearKind]
+    groundVehicles: [GroundVehicle]
+    handWeapons: [HandWeapon]
+    hindrances: [Hindrance]
+    id: ID
 
-        mundaneItems: [MundaneItem]
-        name: String!
-        powers: [Power]
-        races: [Race]
-        rangedWeapons: [RangedWeapon]
-        settingRules: [SettingRule]
-        skills:[Skill]
-        specialWeapons: [SpecialWeapon]
-        vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeapon]
-        waterVehicles: [WaterVehicle]
-    }
+    mundaneItems: [MundaneItem]
+    name: String!
+    powers: [Power]
+    races: [Race]
+    rangedWeapons: [RangedWeapon]
+    settingRules: [SettingRule]
+    skills:[Skill]
+    specialWeapons: [SpecialWeapon]
+    vehicleAndAtMountedWeapons: [VehicleAndAtMountedWeapon]
+    waterVehicles: [WaterVehicle]
+}
 
 type Power {
     name: String!

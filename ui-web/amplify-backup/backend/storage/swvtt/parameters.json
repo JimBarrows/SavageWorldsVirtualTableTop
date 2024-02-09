@@ -1,0 +1,5 @@
+{
+	"tableName": "plotpoints",
+	"partitionKeyName": "id",
+	"partitionKeyType": "S"
+}
