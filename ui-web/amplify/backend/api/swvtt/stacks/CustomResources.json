@@ -47,9 +47,9 @@
     },
     "AlwaysFalse": {
       "Fn::Equals": [
-        "true",
-        "false"
-      ]
+				"true",
+				"false"
+			]
     }
   },
   "Outputs": {
