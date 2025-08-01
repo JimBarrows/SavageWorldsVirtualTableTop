@@ -7,6 +7,7 @@ class AbilityEditor extends React.Component {
 
 	static propTypes = {
 		ability : PropTypes.object.isRequired,
+		index   : PropTypes.number.isRequired,
 		onChange: PropTypes.func.isRequired,
 		onDelete: PropTypes.func.isRequired
 	};

@@ -3,10 +3,7 @@
  */
 import {library}                                        from '@fortawesome/fontawesome-svg-core'
 import {faBan, faEdit, faPlus, faSave, faSync, faTrash} from '@fortawesome/free-solid-svg-icons'
-
-import {configure} from 'enzyme'
-import Adapter     from 'enzyme-adapter-react-16'
-import 'jest-enzyme'
+import '@testing-library/jest-dom'
 
 
 library.add(
@@ -17,4 +14,3 @@ library.add(
 	faSync,
 	faTrash
 )
-configure({adapter: new Adapter()})

@@ -15,7 +15,8 @@ export default class Index extends React.Component {
 			name       : PropTypes.string.isRequired,
 			description: PropTypes.string.isRequired
 		})),
-		id       : PropTypes.string.isRequired
+		id       : PropTypes.string.isRequired,
+		onChange : PropTypes.func.isRequired
 	}
 
 	addSpecialAbility = (e) => {

@@ -13,6 +13,9 @@ export default class AttributeComponent extends React.Component {
 	}
 
 	static propTypes = {
+		append  : PropTypes.node,
+		children: PropTypes.node,
+		className: PropTypes.string,
 		disabled: PropTypes.bool,
 		id      : PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,

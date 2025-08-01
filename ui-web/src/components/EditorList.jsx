@@ -5,11 +5,13 @@ import React     from 'react'
 export default class EditorList extends React.Component {
 
 	static propTypes = {
-		id       : PropTypes.string.isRequired,
-		emptyItem: PropTypes.object.isRequired,
-		list     : PropTypes.array.isRequired,
-		onChange : PropTypes.func.isRequired,
-		title    : PropTypes.string.isRequired
+		children    : PropTypes.node,
+		headingLevel: PropTypes.number,
+		id          : PropTypes.string.isRequired,
+		emptyItem   : PropTypes.object.isRequired,
+		list        : PropTypes.array.isRequired,
+		onChange    : PropTypes.func.isRequired,
+		title       : PropTypes.string.isRequired
 	}
 
 	static defaultProps = {

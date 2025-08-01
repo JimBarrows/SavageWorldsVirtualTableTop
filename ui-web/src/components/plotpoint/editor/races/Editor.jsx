@@ -1,9 +1,28 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes                          from 'prop-types'
 import React                              from 'react'
 import BaseEditor                         from '../../../BaseEditor'
 import AbilityEditor                      from './AbilityEditor'
 
 export default class Editor extends React.Component {
+
+	static propTypes = {
+		onChange        : PropTypes.func.isRequired,
+		item            : PropTypes.shape({
+			name       : PropTypes.string.isRequired,
+			description: PropTypes.string.isRequired,
+			abilities  : PropTypes.arrayOf(PropTypes.shape({
+				name       : PropTypes.string.isRequired,
+				description: PropTypes.string.isRequired,
+				cost       : PropTypes.number.isRequired
+			})).isRequired
+		}).isRequired,
+		index           : PropTypes.number.isRequired,
+		onDelete        : PropTypes.func.isRequired,
+		descriptionError: PropTypes.string,
+		nameError       : PropTypes.string,
+		id              : PropTypes.string
+	};
 
 	static defaultProps = {
 		id: 'Editor'

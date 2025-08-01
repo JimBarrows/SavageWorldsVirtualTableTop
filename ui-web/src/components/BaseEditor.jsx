@@ -5,6 +5,7 @@ import React                                         from 'react'
 export default class BaseEditor extends React.Component {
 
   static propTypes = {
+    children: PropTypes.node,
     id      : PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired
   }

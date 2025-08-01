@@ -14,7 +14,7 @@ export default class Index extends React.Component {
 
 	static defaultProps = {}
 
-	addHindrance = e => {
+	addHindrance = () => {
 		this.props.onChange([...this.props.hindrances, {
 			hindrance: this.state.selectedHindrance,
 			note     : ''
@@ -34,7 +34,7 @@ export default class Index extends React.Component {
 				label: hindrance.name,
 				value: hindrance.name
 			}))
-		return <div id={component_id} class={component_class} >
+		return <div id={component_id} className={component_class} >
 			<h3 >Hindrances</h3 >
 			<SelectFormGroup id={component_id} label={'Hindrances'} onChange={this.newHindranceSelected}
 				options={hindrances_remaining}

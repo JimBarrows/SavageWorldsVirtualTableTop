@@ -13,7 +13,9 @@ export default class Characters extends React.Component {
 		id              : PropTypes.string.isRequired,
 		characters      : PropTypes.array.isRequired,
 		charactersChange: PropTypes.func.isRequired,
-		skills          : PropTypes.array.isRequired
+		skills          : PropTypes.array.isRequired,
+		edges           : PropTypes.array.isRequired,
+		hindrances      : PropTypes.array.isRequired
 	}
 
 	render () {

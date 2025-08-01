@@ -13,7 +13,7 @@ export default class Index extends React.Component {
 
 	static defaultProps = {}
 
-	addEdge = e => {
+	addEdge = () => {
 		this.props.onChange([...this.props.edges, {
 			edge: this.state.selectedEdge,
 			note: ''
@@ -36,14 +36,14 @@ export default class Index extends React.Component {
 				label: edge.name,
 				value: edge.name
 			}))
-		return <div id={component_id} class={component_class} >
+		return <div id={component_id} className={component_class} >
 			<h3 >Edges</h3 >
 			<SelectFormGroup id={component_id} label={'Edges'} onChange={this.newEdgeSelected} options={edges_remaining}
 				value={this.state.selectedEdge ? this.state.selectedEdge.name : ''} />
 			<Button id={`${component_id}-AddButton`} onClick={this.addEdge} >Add</Button >
 			{
 				this.props.edges.map((edge, index) =>
-															 <div key={index} class="selectedEdge" >
+															 <div key={index} className="selectedEdge" >
 																 <h4 >{edge.edge.name}</h4 >
 																 {edge.edge.description}
 																 <TextAreaFormGroup id={`${component_id}-Note`} label={'Note'}

@@ -1,4 +1,5 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes                          from 'prop-types'
 import React                              from 'react'
 import BaseEditor                         from '../../../BaseEditor'
 
@@ -6,6 +7,20 @@ export default class Editor extends React.Component {
 
 	static defaultProps = {
 		id: 'Editor'
+	}
+
+	static propTypes = {
+		id: PropTypes.string,
+		index: PropTypes.number.isRequired,
+		item: PropTypes.shape({
+			name: PropTypes.string,
+			category: PropTypes.string,
+			requirements: PropTypes.string,
+			description: PropTypes.string,
+			effects: PropTypes.string
+		}).isRequired,
+		onChange: PropTypes.func.isRequired,
+		onDelete: PropTypes.func.isRequired
 	}
 
 	categoryChange     = e => this.props.onChange(Object.assign({}, this.props.item, {category: e.target.value}), this.props.index)

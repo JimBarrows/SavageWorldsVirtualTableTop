@@ -1,0 +1,28 @@
+# Docker Compose Override Example
+# Copy this file to docker-compose.override.yml for local customizations
+# This file is automatically loaded by docker-compose and overrides settings
+
+version: '3.8'
+
+services:
+  # Example: Change ports if defaults are in use
+  # postgres:
+  #   ports:
+  #     - "5433:5432"
+  
+  # Example: Add additional environment variables
+  # api:
+  #   environment:
+  #     - DEBUG=true
+  #     - LOG_LEVEL=debug
+  
+  # Example: Mount additional volumes for development
+  # frontend:
+  #   volumes:
+  #     - ./ui-web/src:/app/src
+  #     - ./ui-web/public:/app/public
+  
+  # Example: Disable a service
+  # pgadmin:
+  #   deploy:
+  #     replicas: 0

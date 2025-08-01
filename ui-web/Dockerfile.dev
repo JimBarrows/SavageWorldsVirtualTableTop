@@ -1,0 +1,21 @@
+# Development Dockerfile for React with hot reload
+FROM node:20-alpine
+
+# Install Python and build dependencies
+RUN apk add --no-cache python3 make g++ py3-pip
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY yarn.lock ./
+
+# Install dependencies with increased network timeout
+RUN yarn install --network-timeout 300000
+
+# Expose ports
+EXPOSE 3000
+
+# Start development server
+CMD ["yarn", "start"]

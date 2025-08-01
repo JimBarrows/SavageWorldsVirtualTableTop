@@ -21,7 +21,10 @@ export default class CharacterSheet extends React.Component {
 		id                 : PropTypes.string.isRequired,
 		item               : PropTypes.object.isRequired,
 		skillsAvailable    : PropTypes.array.isRequired,
-
+		onChange           : PropTypes.func.isRequired,
+		onDelete           : PropTypes.func.isRequired,
+		index              : PropTypes.number.isRequired,
+		children           : PropTypes.node
 	}
 
 	state = {

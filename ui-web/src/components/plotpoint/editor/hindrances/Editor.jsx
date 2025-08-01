@@ -6,7 +6,15 @@ import BaseEditor                                          from '../../../BaseEd
 export default class Editor extends React.Component {
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired,
+		onChange: PropTypes.func.isRequired,
+		onDelete: PropTypes.func.isRequired,
+		item: PropTypes.shape({
+			name: PropTypes.string,
+			severity: PropTypes.string,
+			description: PropTypes.string
+		}).isRequired,
+		index: PropTypes.number.isRequired
 	};
 
 	static defaultProps = {

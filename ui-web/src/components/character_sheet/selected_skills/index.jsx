@@ -18,7 +18,7 @@ export default class Index extends React.Component {
 		this.props.onChange(this.props.skills)
 	}
 
-	addSkill = e => {
+	addSkill = () => {
 		this.props.onChange([...this.props.skills, {
 			skill: this.state.selectedSkill,
 			rank : {dice: 'd4', bonus: null},

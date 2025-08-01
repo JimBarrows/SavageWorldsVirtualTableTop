@@ -33,7 +33,7 @@ export default function PlotPointAdd({ id = 'PlotPointEditorPage' }) {
 
   const save = async (plotPoint) => {
     // Remove id if it exists (for new plot points)
-    const { id, ...plotPointData } = plotPoint;
+    const { id: _id, ...plotPointData } = plotPoint;
     
     // Clear previous errors
     setErrors([]);

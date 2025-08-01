@@ -12,6 +12,7 @@ export default class Editor extends React.Component {
 		id                 : PropTypes.string.isRequired,
 		index              : PropTypes.number.isRequired,
 		item               : PropTypes.object.isRequired,
+		onChange           : PropTypes.func.isRequired,
 		skillsAvailable    : PropTypes.array.isRequired
 	}
 

@@ -1,10 +1,26 @@
 import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes                                           from 'prop-types'
 import React                                               from 'react'
 import BaseEditor                                          from '../../../BaseEditor'
 import RankSelectFormGroup                                 from '../../../formgroups/RankSelectFormGroup'
 
 
 export default class Form extends React.Component {
+
+	static propTypes = {
+		id      : PropTypes.string.isRequired,
+		index   : PropTypes.number.isRequired,
+		item    : PropTypes.shape({
+			description : PropTypes.string,
+			duration    : PropTypes.string,
+			name        : PropTypes.string,
+			powerPoints : PropTypes.number,
+			range       : PropTypes.string,
+			rank        : PropTypes.string
+		}).isRequired,
+		onChange: PropTypes.func.isRequired,
+		onDelete: PropTypes.func.isRequired
+	}
 
 	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index);
 	durationChange    = e => this.props.onChange(Object.assign({}, this.props.item, {duration: e.target.value}), this.props.index);

@@ -1,9 +1,22 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes                          from 'prop-types'
 import React                              from 'react'
 import BaseEditor                         from '../../../BaseEditor'
 import AttributeSelectFormGroup           from '../../../formgroups/AttributeSelectFormGroup'
 
 class Editor extends React.Component {
+
+	static propTypes = {
+		id: PropTypes.string,
+		index: PropTypes.number.isRequired,
+		item: PropTypes.shape({
+			name: PropTypes.string,
+			attribute: PropTypes.string,
+			description: PropTypes.string
+		}).isRequired,
+		onChange: PropTypes.func.isRequired,
+		onDelete: PropTypes.func.isRequired
+	};
 
 	static defaultProps = {
 		id: 'Editor'

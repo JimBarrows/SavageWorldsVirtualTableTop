@@ -8,7 +8,8 @@ export default class RankSelectFormGroup extends React.Component {
 		rank    : PropTypes.string,
 		id      : PropTypes.string.isRequired,
 		label   : PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired
+		onChange: PropTypes.func.isRequired,
+		required: PropTypes.bool
 	};
 
 	static defaultProps = {
