@@ -1,6 +1,6 @@
 import {FontAwesomeIcon}                                 from '@fortawesome/react-fontawesome'
 import {Alert, Button, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
-import {func, string}                                    from 'prop-types'
+import {func, string, arrayOf, object, bool}            from 'prop-types'
 import React                                             from 'react'
 import PlotPointPropType                                 from '../../../propTypes/PlotPoint'
 import BasicRules                                        from './BasicRules'
@@ -17,13 +17,18 @@ import Skills                                            from './skills'
 
 export default class PlotPointForm extends React.Component {
 
-	static defaultProps = {}
+	static defaultProps = {
+		errors: [],
+		disabled: false
+	}
 
 	static propTypes = {
 		id       : string.isRequired,
 		onCancel : func.isRequired,
 		onSave   : func.isRequired,
-		plotPoint: PlotPointPropType.isRequired
+		plotPoint: PlotPointPropType.isRequired,
+		errors   : arrayOf(object),
+		disabled : bool
 	}
 
 	basicRulesChange   = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
@@ -85,8 +90,10 @@ export default class PlotPointForm extends React.Component {
 		const componentId = `PlotPoint-${id}`
 		let errors        = ''
 		if (this.props.errors && this.props.errors.length > 0) {
-			errors = this.props.errors.map((error, idx) => (
-				<Alert key={idx} id={id} context={'danger'} >{error.message}</Alert >))
+			errors = this.props.errors.map((error, idx) => {
+				const errorMessage = typeof error === 'string' ? error : (error.message || 'An error occurred')
+				return <Alert key={idx} id={`${id}-error-${idx}`} context={'danger'} >{errorMessage}</Alert >
+			})
 		}
 		return (
 			<form id={componentId} >
@@ -111,10 +118,10 @@ export default class PlotPointForm extends React.Component {
 					<div className="col" >
 					</div >
 					<div className="col" >
-						<Button id={'save-' + componentId} onClick={this.save} >
+						<Button id={'save-' + componentId} onClick={this.save} disabled={this.props.disabled} >
 							<FontAwesomeIcon icon={'save'} />&nbsp;Save
 						</Button >
-						<Button id={'cancel-' + componentId} onClick={this.cancel} >
+						<Button id={'cancel-' + componentId} onClick={this.cancel} disabled={this.props.disabled} >
 							<FontAwesomeIcon icon={'ban'} />&nbsp;Cancel
 						</Button >
 					</div >

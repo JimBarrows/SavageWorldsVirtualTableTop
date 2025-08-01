@@ -2,9 +2,8 @@ import {library}                                        from '@fortawesome/fonta
 import {faBan, faEdit, faPlus, faSave, faSync, faTrash} from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 import React                                            from 'react'
-import ReactDOM                                         from 'react-dom'
+import { createRoot }                                   from 'react-dom/client'
 import 'react-quill/dist/quill.snow.css'
-import {BrowserRouter}                                  from 'react-router-dom'
 import App                                              from './App'
 import './index.css'
 import registerServiceWorker                            from './registerServiceWorker'
@@ -19,11 +18,11 @@ library.add(
 	faTrash
 )
 
-ReactDOM.render(
-	<BrowserRouter >
-		<App />
-	</BrowserRouter >,
+const container = document.getElementById('root')
+const root = createRoot(container)
 
-	document.getElementById('root'))
+root.render(
+	<App />
+)
 
 registerServiceWorker()

@@ -16,103 +16,137 @@ A web-based virtual tabletop application for the Savage Worlds role-playing game
 
 ## Technology Stack
 
-- **Frontend**: React 18.2.0
-- **Backend**: AWS Amplify with GraphQL (AppSync)
-- **Authentication**: AWS Cognito
-- **Storage**: AWS S3
+- **Frontend**: React 18.2.0 with React Query for state management
+- **Backend**: Go 1.21 REST API with JWT authentication
+- **Database**: PostgreSQL 15
+- **Containerization**: Docker & Docker Compose
 - **Testing**: Jest, Cucumber.js, Storybook
 - **UI Framework**: Bootstrap React Components
 
 ## Prerequisites
 
-- Node.js (v14 or higher recommended)
+### Option 1: Docker Setup (Recommended)
+- Docker Desktop (version 20.10 or higher)
+- Docker Compose (version 2.0 or higher)
+- 4GB of available RAM
+
+### Option 2: Local Development
+- Node.js (v18 or higher)
+- Go 1.21 or higher
+- PostgreSQL 15
 - npm or yarn
-- AWS account (for backend services)
-- AWS Amplify CLI (`npm install -g @aws-amplify/cli`)
 
 ## Getting Started
 
-### 1. Clone the Repository
+### Quick Start with Docker (Recommended)
 
-```bash
-git clone https://github.com/[your-username]/SavageWorldsVirtualTableTop.git
-cd SavageWorldsVirtualTableTop
-```
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/[your-username]/SavageWorldsVirtualTableTop.git
+   cd SavageWorldsVirtualTableTop
+   ```
 
-### 2. Install Dependencies
+2. **Configure Environment**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your settings (optional, defaults work for development)
+   ```
 
-**Important**: There's currently a merge conflict in `ui-web/package.json` (lines 25-31) that needs to be resolved before installation.
+3. **Start All Services**
+   ```bash
+   ./scripts/start.sh
+   ```
 
-```bash
-cd ui-web
-# Resolve the merge conflict in package.json first
-npm install
-```
+The application will be available at:
+- Frontend: `http://localhost:3000`
+- API: `http://localhost:8080`
+- PgAdmin: `http://localhost:5050`
 
-### 3. Configure AWS Amplify
+For detailed Docker setup instructions, see [DOCKER_README.md](DOCKER_README.md).
 
-```bash
-# Initialize Amplify (if not already configured)
-amplify init
+### Manual Setup (Alternative)
 
-# Pull the backend environment
-amplify pull
+1. **Clone and Install Dependencies**
+   ```bash
+   git clone https://github.com/[your-username]/SavageWorldsVirtualTableTop.git
+   cd SavageWorldsVirtualTableTop
+   ```
 
-# Push any local backend changes
-amplify push
-```
+2. **Setup Database**
+   ```bash
+   # Create PostgreSQL database
+   createdb swvtt_db
+   # Run migrations
+   cd database
+   ./migrate.sh up
+   ```
 
-### 4. Start Development Server
+3. **Start Backend**
+   ```bash
+   cd savage-worlds-api
+   go mod download
+   go run cmd/api/main.go
+   ```
 
-```bash
-# Using AWS Mobile CLI (recommended)
-npm start
-
-# Or use React development server directly
-npm run start:react
-```
-
-The application will be available at `http://localhost:3000`
+4. **Start Frontend**
+   ```bash
+   cd ui-web
+   npm install
+   npm start
+   ```
 
 ## Available Scripts
 
-In the `ui-web` directory, you can run:
+### Docker Commands (Recommended)
+- `./scripts/start.sh [dev|prod]` - Start all services
+- `./scripts/stop.sh [dev|prod]` - Stop all services
+- `./scripts/logs.sh [service]` - View service logs
+- `./scripts/backup.sh` - Backup database
 
-### Development
-- `npm start` - Start the development server using AWS Mobile CLI
-- `npm run start:react` - Start React development server directly
-- `npm run start:docker` - Start using Docker Compose
-- `npm run stop` - Stop Docker containers
-
-### Testing
-- `npm test` - Run all tests (unit + integration)
+### Frontend Scripts (in `ui-web` directory)
+- `npm start` - Start React development server
+- `npm test` - Run all tests
 - `npm run test:unit` - Run unit tests only
 - `npm run test:ui` - Run Cucumber BDD tests
-- `npm run storybook` - Start Storybook for component development
+- `npm run build` - Build for production
+- `npm run storybook` - Start Storybook
 
-### Building
-- `npm run build` - Build the app for production
-- `npm run build-storybook` - Build Storybook static files
+### Backend Scripts (in `savage-worlds-api` directory)
+- `go run cmd/api/main.go` - Start API server
+- `go test ./...` - Run all tests
+- `make build` - Build binary
+- `make test` - Run tests with coverage
 
 ## Project Structure
 
 ```
 SavageWorldsVirtualTableTop/
-├── ui-web/                      # Main web application
-│   ├── src/                     # Source code
-│   │   ├── components/          # Reusable UI components
-│   │   ├── pages/              # Page-level components
-│   │   ├── models/             # Data models
-│   │   ├── graphql/            # GraphQL operations (auto-generated)
-│   │   └── propTypes/          # PropType definitions
-│   ├── features/               # Cucumber BDD test scenarios
-│   ├── stories/                # Storybook component stories
-│   ├── amplify/                # AWS Amplify backend configuration
-│   └── public/                 # Static assets
-├── docs/                       # Documentation
-│   └── diagrams/              # Architecture and design diagrams
-├── CLAUDE.md                   # Development guide for Claude Code
-└── README.md                   # This file
+├── savage-worlds-api/          # Go REST API backend
+│   ├── cmd/api/               # Application entry point
+│   ├── internal/              # Internal packages
+│   │   ├── handlers/         # HTTP request handlers
+│   │   ├── models/           # Data models
+│   │   ├── repository/       # Database access layer
+│   │   └── middleware/       # HTTP middleware
+│   └── config/               # Configuration management
+├── ui-web/                    # React frontend application
+│   ├── src/                  # Source code
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/           # Page-level components
+│   │   ├── services/        # API service layer
+│   │   ├── hooks/           # Custom React hooks
+│   │   └── contexts/        # React contexts
+│   └── features/            # Cucumber BDD test scenarios
+├── database/                 # Database migrations and scripts
+│   ├── migrations/          # SQL migration files
+│   └── init/               # Initial setup scripts
+├── scripts/                 # Docker and utility scripts
+├── docs/                   # Documentation
+│   └── diagrams/          # Architecture diagrams
+├── docker-compose.yml     # Main Docker configuration
+├── docker-compose.dev.yml # Development Docker config
+├── docker-compose.prod.yml # Production Docker config
+└── DOCKER_README.md      # Docker setup guide
 ```
 
 ## Architecture Documentation
@@ -123,19 +157,25 @@ Detailed architecture diagrams and documentation are available in the `docs/diag
 - **[Sequence Diagrams](docs/diagrams/sequence-diagrams.md)** - Key workflows including CRUD operations, authentication, and testing flows
 - **[Architecture Diagrams](docs/diagrams/architecture-diagram.md)** - System architecture, component hierarchy, and deployment structure
 
-## GraphQL API
+## REST API
 
-The application uses AWS AppSync for its GraphQL API. The endpoint is:
-```
-https://eipwvq2dufahpaygkjpx4x3r5m.appsync-api.us-west-2.amazonaws.com/graphql
-```
+The application provides a RESTful API built with Go. Default endpoint: `http://localhost:8080/api/v1`
 
-### Key Operations
-- `listPlotPoints` - Retrieve all plot points
-- `getPlotPoint` - Get a specific plot point
-- `createPlotPoint` - Create a new plot point
-- `updatePlotPoint` - Update an existing plot point
-- `deletePlotPoint` - Remove a plot point
+### Key Endpoints
+- `GET /health` - Health check endpoint
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `GET /plot-points` - List all plot points
+- `GET /plot-points/:id` - Get specific plot point
+- `POST /plot-points` - Create plot point
+- `PUT /plot-points/:id` - Update plot point
+- `DELETE /plot-points/:id` - Delete plot point
+
+### Authentication
+The API uses JWT tokens for authentication. Include the token in the Authorization header:
+```
+Authorization: Bearer <your-jwt-token>
+```
 
 ## Testing
 
@@ -159,22 +199,42 @@ npm run storybook
 
 ## Deployment
 
-1. Build the production bundle:
+### Docker Deployment
+
+1. **Production Build**:
    ```bash
+   ./scripts/start.sh production
+   ```
+
+2. **With Docker Swarm**:
+   ```bash
+   docker stack deploy -c docker-compose.prod.yml swvtt
+   ```
+
+3. **With Kubernetes**:
+   See `kubernetes/` directory for Helm charts (if available)
+
+### Manual Deployment
+
+1. **Build Frontend**:
+   ```bash
+   cd ui-web
    npm run build
    ```
 
-2. Deploy to AWS Amplify:
+2. **Build Backend**:
    ```bash
-   amplify publish
+   cd savage-worlds-api
+   make build
    ```
+
+3. **Deploy to your infrastructure**
 
 ## Known Issues
 
-1. **Authentication Disabled**: The authentication wrapper is currently commented out in `App.js`
-2. **Package.json Conflict**: There's an unresolved merge conflict that needs resolution before installation
-3. **Limited Test Coverage**: Currently only 2 unit test files exist
-4. **Legacy Configuration**: Both `awsmobilejs` (legacy) and `amplify` directories are present
+1. **Frontend Node Version**: The frontend Dockerfile uses Node 18, ensure compatibility
+2. **Hot Reload on Windows**: May need to set `CHOKIDAR_USEPOLLING=true` for file watching
+3. **Database Migrations**: Ensure migrations run before starting the API
 
 ## Contributing
 

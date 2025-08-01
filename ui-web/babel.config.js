@@ -6,7 +6,10 @@ module.exports = function (api) {
 	const plugins = ["css-modules-transform",
 									 "transform-react-jsx",
 									 "transform-class-properties",
-									 "react-html-attrs"]
+									 "react-html-attrs",
+									 "@babel/plugin-proposal-nullish-coalescing-operator",
+									 "@babel/plugin-proposal-class-properties",
+									 "@babel/plugin-proposal-private-methods"]
 
 	return {
 		presets,

@@ -1,40 +1,157 @@
-import Amplify, {Storage}                       from 'aws-amplify'
-import {withAuthenticator}                      from 'aws-amplify-react'
-import React, {Component}                       from 'react'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-import './App.css'
-// import awsmobile                                from './aws-exports'
-import Header                                   from './components/layout/Header'
-import PlotPointAdd                             from './pages/PlotPointAdd'
-import PlotPointEdit                            from './pages/PlotPointEdit'
-import PlotPointList                            from './pages/PlotPointList'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import './App.css';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Header from './components/layout/Header';
+import PlotPointAdd from './pages/PlotPointAdd';
+import PlotPointEdit from './pages/PlotPointEdit';
+import PlotPointList from './pages/PlotPointList';
+import Register from './components/layout/Register';
+import ErrorBoundary from './components/ErrorBoundary';
 
-// Amplify.configure(awsmobile)
-Storage.configure({level: 'private'})
+import config from './config';
 
-var gotoIndex = () => this.props.history.push('/')
+// Configure React Query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: config.query,
+  },
+});
 
-export default function App () {
-// class App extends Component {
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return children;
+};
 
+// Login Component
+const Login = () => {
+  const { login, error, loading } = useAuth();
+  const [credentials, setCredentials] = React.useState({ email: '', password: '' });
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await login(credentials);
+    if (result.success) {
+      window.location.href = '/';
+    }
+  };
+  
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-header">
+              <h3>Login</h3>
+            </div>
+            <div className="card-body">
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+              <form onSubmit={handleSubmit}>
+                <div className="form-group mb-3">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    value={credentials.email}
+                    onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="form-group mb-3">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    value={credentials.password}
+                    onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? 'Logging in...' : 'Login'}
+                </button>
+                <a href="/register" className="btn btn-link">
+                  Need an account? Register
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-	// render () {
-	return (
-		<Router >
-			<div >
-				<Header id = {'app'} indexLinkClicked = {gotoIndex()} />
-				<div id = {"layout"} className = "container" role = {"main"} >
-					<Routes >
-						<Route exact path = "/" element = {<PlotPointList />} />
-						<Route exact path = "/plot_point/add" element = {<PlotPointAdd />} />
-						<Route exact path = {"/plot_point/:name/edit"} element = {<PlotPointEdit />} />
-					</Routes >
-				</div >
-			</div >
-		</Router >
-	)
-	// }
+// Main App Component
+function AppContent() {
+  const { isAuthenticated } = useAuth();
+  
+  return (
+    <Router>
+      <div>
+        {isAuthenticated && <Header id={'app'} />}
+        <div id="layout" className="container" role="main">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <PlotPointList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/plot_point/add"
+              element={
+                <ProtectedRoute>
+                  <PlotPointAdd />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/plot_point/:name/edit"
+              element={
+                <ProtectedRoute>
+                  <PlotPointEdit />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
 }
 
-// export default withAuthenticator(App, true)
-
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+}

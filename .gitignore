@@ -63,3 +63,19 @@ temp/
 /uiserver/public/javascirpts/*.svg
 /ui-web/out.png
 ui-web/out.png
+
+# Docker
+.env
+docker-compose.override.yml
+backups/
+*.sql
+*.sql.gz
+
+# Go
+savage-worlds-api/tmp/
+savage-worlds-api/air.log
+go.work
+
+# IDE
+.vscode/
+.idea/

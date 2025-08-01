@@ -1,17 +1,21 @@
-FROM node:9.5
+# Development Dockerfile for React with hot reload
+FROM node:18-alpine
 
-ADD yarn.lock /yarn.lock
-ADD package.json /package.json
-
-ENV NODE_PATH=/node_modules
-ENV PATH=$PATH:/node_modules/.bin
-RUN yarn
-
+# Set working directory
 WORKDIR /app
-ADD . /app
 
+# Copy package files
+COPY package*.json ./
+COPY yarn.lock ./
+
+# Install dependencies
+RUN yarn install --frozen-lockfile
+
+# Copy application files
+COPY . .
+
+# Expose ports
 EXPOSE 3000
-EXPOSE 35729
 
-ENTRYPOINT ['/bin/bash', '/app/run.sh']
-CMD ['start']
+# Start development server
+CMD ["yarn", "start"]

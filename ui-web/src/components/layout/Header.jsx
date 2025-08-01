@@ -1,24 +1,48 @@
-import Navbar    from 'bootstrap-react-components/distribution/bootstrap/components/Navbar'
-import Brand     from 'bootstrap-react-components/distribution/bootstrap/components/Navbar/Brand'
-import PropTypes from 'prop-types'
-import React     from 'react'
+import Navbar from 'bootstrap-react-components/distribution/bootstrap/components/Navbar';
+import Brand from 'bootstrap-react-components/distribution/bootstrap/components/Navbar/Brand';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
-export default class Header extends React.Component {
+export default function Header({ id }) {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-	static propTypes = {
-		id              : PropTypes.string.isRequired,
-		indexLinkClicked: PropTypes.func.isRequired,
-	}
+  const brandClicked = () => {
+    navigate('/');
+  };
 
-	static defaultProps = {}
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
 
-	brandClicked = () => this.props.indexLinkClicked
-
-	render () {
-		return (
-			<Navbar id={'header-' + this.props.id} >
-				<Brand id={'header-' + this.props.id} onClick={this.brandClicked} >Savage Worlds</Brand >
-			</Navbar >)
-	}
+  return (
+    <Navbar id={`header-${id}`}>
+      <Brand id={`header-${id}`} onClick={brandClicked}>
+        Savage Worlds
+      </Brand>
+      
+      <div className="navbar-nav ms-auto">
+        {user && (
+          <>
+            <span className="navbar-text me-3">
+              Welcome, {user.email || user.username}
+            </span>
+            <button 
+              className="btn btn-outline-secondary btn-sm" 
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+    </Navbar>
+  );
 }
 
+Header.propTypes = {
+  id: PropTypes.string.isRequired,
+};
