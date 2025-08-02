@@ -10,6 +10,7 @@ import PlotPointAdd from './pages/PlotPointAdd';
 import PlotPointEdit from './pages/PlotPointEdit';
 import PlotPointList from './pages/PlotPointList';
 import SignupPage from './pages/SignupPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import RememberMe from './components/RememberMe';
 
@@ -142,9 +143,14 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary" disabled={isLoading}>
                   {isLoading ? 'Logging in...' : 'Login'}
                 </button>
-                <a href="/signup" className="btn btn-link">
-                  Need an account? Sign up
-                </a>
+                <div className="mt-3">
+                  <a href="/signup" className="btn btn-link">
+                    Don't have an account? Sign up
+                  </a>
+                  <a href="/reset-password" className="btn btn-link">
+                    Forgot password?
+                  </a>
+                </div>
               </form>
             </div>
           </div>
@@ -166,6 +172,7 @@ function AppContent() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route
               path="/"
               element={
