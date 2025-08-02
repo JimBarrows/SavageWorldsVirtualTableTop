@@ -79,3 +79,7 @@ go.work
 # IDE
 .vscode/
 .idea/
+
+# ui-web
+ui-web/screenshots/*
+ui-web/coverage/*
