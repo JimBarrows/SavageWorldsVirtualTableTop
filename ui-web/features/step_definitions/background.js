@@ -42,12 +42,12 @@ Given('I provide a password of {string}', async function (password) {
 	this.credentials.password = password
 	// Try multiple selectors to find the password input
 	try {
-		// First try by name
-		await this.browser.findElement(By.name('password')).sendKeys(password)
+		// First try by id (most common)
+		await this.browser.findElement(By.id('password')).sendKeys(password)
 	} catch (e) {
 		try {
-			// Then try by id
-			await this.browser.findElement(By.id('password')).sendKeys(password)
+			// Then try by name
+			await this.browser.findElement(By.name('password')).sendKeys(password)
 		} catch (e2) {
 			try {
 				// Try by the form control id that bootstrap-react-components uses

@@ -19,8 +19,11 @@ After(async function (scenario) {
 	
 	if (scenario.result.status === Status.FAILED) {
 		const image = await browser.takeScreenshot()
-		writeFile('out.png', image, 'base64', function (err) {
-			console.log(err)
+		const timestamp = new Date().getTime()
+		const filename = `screenshots/failed-${scenario.pickle.name.replace(/\s+/g, '-')}-${timestamp}.png`
+		writeFile(filename, image, 'base64', function (err) {
+			if (err) console.log('Screenshot error:', err)
+			else console.log('Screenshot saved:', filename)
 		})
 	}
 	await browser.close()

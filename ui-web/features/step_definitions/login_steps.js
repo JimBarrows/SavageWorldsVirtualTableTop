@@ -14,6 +14,7 @@ Given('a user exists with email {string} and password {string}', async function 
   // This would typically involve creating a test user in the database
   // For now, we'll assume the test environment has this user pre-seeded
   this.testUser = { email, password }
+  console.log('Note: This test assumes a user exists in the backend with email:', email)
 })
 
 Given('I leave the email field empty', async function () {
@@ -60,6 +61,14 @@ Then('I see a welcome message', async function () {
   const headerText = await headerElement.getText()
   // The header should show some indication that user is logged in
   expect(headerText).to.exist
+})
+
+Then('I see an error message {string}', async function (expectedMessage) {
+  // Wait for error message to appear
+  await this.browser.wait(until.elementLocated(By.css('.alert-danger')), 5000)
+  const errorElement = await this.browser.findElement(By.css('.alert-danger'))
+  const errorText = await errorElement.getText()
+  expect(errorText).to.include(expectedMessage)
 })
 
 Then('I remain on the login page', async function () {
