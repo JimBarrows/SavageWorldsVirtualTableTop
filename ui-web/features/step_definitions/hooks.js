@@ -11,7 +11,7 @@ Before(async function () {
 	await this.browser.manage().setTimeouts({implicit: 45 * 1000, pageLoad: 45 * 1000})
 })
 
-After(async function (scenario) {
+After({timeout: 30000}, async function (scenario) {
 	const browser = this.browser
 	
 	// Clean up any test data created during the scenario
@@ -19,16 +19,24 @@ After(async function (scenario) {
 	// TODO: Add cleanup logic based on your actual backend implementation
 	
 	if (scenario.result.status === Status.FAILED) {
-		const image = await browser.takeScreenshot()
-		const timestamp = new Date().getTime()
-		const filename = `screenshots/failed-${scenario.pickle.name.replace(/\s+/g, '-')}-${timestamp}.png`
-		writeFile(filename, image, 'base64', function (err) {
-			if (err) console.log('Screenshot error:', err)
-			else console.log('Screenshot saved:', filename)
-		})
+		try {
+			const image = await browser.takeScreenshot()
+			const timestamp = new Date().getTime()
+			const filename = `screenshots/failed-${scenario.pickle.name.replace(/\s+/g, '-')}-${timestamp}.png`
+			writeFile(filename, image, 'base64', function (err) {
+				if (err) console.log('Screenshot error:', err)
+				else console.log('Screenshot saved:', filename)
+			})
+		} catch (err) {
+			console.log('Failed to take screenshot:', err)
+		}
 	}
-	await browser.close()
-	await browser.quit()
+	
+	try {
+		await browser.quit()
+	} catch (err) {
+		console.log('Failed to quit browser:', err)
+	}
 })
 
 // Clean up all test users after all tests are done

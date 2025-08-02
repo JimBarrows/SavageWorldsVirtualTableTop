@@ -20,48 +20,84 @@ Given('I\'m presented with an authentication challenge', async function () {
 // Username step removed - using email only for authentication
 
 Given('I provide an email of {string}', async function (email) {
+	// Replace TIMESTAMP with actual timestamp for unique emails
+	if (email && email.includes('TIMESTAMP')) {
+		email = email.replace('TIMESTAMP', Date.now().toString())
+	}
+	
 	this.credentials = this.credentials || {}
 	this.credentials.email = email
+	
+	// Wait for the page to be ready
+	await this.browser.wait(until.elementLocated(By.css('input[type="email"]')), 5000)
+	
 	// Try multiple selectors to find the email input
+	let emailInput
 	try {
-		// First try by id
-		await this.browser.findElement(By.id('email')).sendKeys(email)
+		// Try by type first (most reliable)
+		emailInput = await this.browser.findElement(By.css('input[type="email"]'))
 	} catch (e) {
 		try {
 			// Then try by the form control id that bootstrap-react-components uses
-			await this.browser.findElement(By.id('FormControl-email-EmailFormGroup-email')).sendKeys(email)
+			emailInput = await this.browser.findElement(By.id('FormControl-email-EmailFormGroup-email'))
 		} catch (e2) {
-			// Finally try by type
-			await this.browser.findElement(By.css('input[type="email"]')).sendKeys(email)
+			// Finally try by id
+			emailInput = await this.browser.findElement(By.id('email'))
 		}
 	}
+	
+	// Clear and send keys
+	await emailInput.clear()
+	await emailInput.sendKeys(email)
 })
 
 Given('I provide a password of {string}', async function (password) {
 	this.credentials = this.credentials || {}
 	this.credentials.password = password
+	
+	// Wait for password field to be present
+	await this.browser.wait(until.elementLocated(By.css('input[type="password"]')), 5000)
+	
 	// Try multiple selectors to find the password input
+	let passwordInput
 	try {
-		// First try by id (most common)
-		await this.browser.findElement(By.id('password')).sendKeys(password)
+		// Find all password fields
+		const passwordFields = await this.browser.findElements(By.css('input[type="password"]'))
+		if (passwordFields.length > 0) {
+			// Use the first password field (should be the main password field)
+			passwordInput = passwordFields[0]
+		} else {
+			throw new Error('No password fields found')
+		}
 	} catch (e) {
 		try {
-			// Then try by name
-			await this.browser.findElement(By.name('password')).sendKeys(password)
+			// Fallback to ID
+			passwordInput = await this.browser.findElement(By.id('password'))
 		} catch (e2) {
-			try {
-				// Try by the form control id that bootstrap-react-components uses
-				await this.browser.findElement(By.id('FormControl-password-PasswordFormGroup-password')).sendKeys(password)
-			} catch (e3) {
-				// Finally try by type and not confirm password
-				const passwordFields = await this.browser.findElements(By.css('input[type="password"]'))
-				if (passwordFields.length > 0) {
-					await passwordFields[0].sendKeys(password)
-				} else {
-					throw new Error('Could not find password field')
-				}
-			}
+			// Final fallback
+			passwordInput = await this.browser.findElement(By.id('FormControl-password-PasswordFormGroup-password'))
 		}
+	}
+	
+	// Clear and send keys
+	await passwordInput.clear()
+	await passwordInput.sendKeys(password)
+})
+
+Given('I confirm the password {string}', async function (password) {
+	// Wait for confirm password field to be present
+	await this.browser.wait(until.elementLocated(By.css('input[type="password"]')), 5000)
+	
+	// Find all password fields
+	const passwordFields = await this.browser.findElements(By.css('input[type="password"]'))
+	
+	// The confirm password field is usually the second password field
+	if (passwordFields.length >= 2) {
+		const confirmPasswordField = passwordFields[1]
+		await confirmPasswordField.clear()
+		await confirmPasswordField.sendKeys(password)
+	} else {
+		throw new Error('Confirm password field not found')
 	}
 })
 

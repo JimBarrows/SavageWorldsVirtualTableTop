@@ -80,10 +80,9 @@ func (s *JWTService) GenerateToken(user *models.User, tokenType TokenType) (stri
 	expirationTime := time.Now().Add(expiry)
 
 	claims := &Claims{
-		UserID:   user.ID,
-		Username: user.Username,
-		Email:    user.Email,
-		Type:     tokenType,
+		UserID: user.ID,
+		Email:  user.Email,
+		Type:   tokenType,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -149,9 +148,8 @@ func (s *JWTService) RefreshAccessToken(refreshTokenString string) (*models.Toke
 	// Create a temporary user object from claims for token generation
 	// In a real implementation, you might want to fetch fresh user data from the database
 	user := &models.User{
-		ID:       claims.UserID,
-		Username: claims.Username,
-		Email:    claims.Email,
+		ID:    claims.UserID,
+		Email: claims.Email,
 	}
 
 	// Generate new access token only
@@ -166,9 +164,8 @@ func (s *JWTService) RefreshAccessToken(refreshTokenString string) (*models.Toke
 		TokenType:    "Bearer",
 		ExpiresIn:    int64(accessExpiry.Sub(time.Now()).Seconds()),
 		User: &models.UserInfo{
-			ID:       claims.UserID,
-			Username: claims.Username,
-			Email:    claims.Email,
+			ID:    claims.UserID,
+			Email: claims.Email,
 		},
 	}, nil
 }
