@@ -60,7 +60,7 @@
     "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/register": "^7.4.0",
     "@babel/runtime": "^7.4.2",
-    "@craco/craco": "^6.4.5",
+    "@craco/craco": "^7.1.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
@@ -70,7 +70,7 @@
     "cucumber": "^5.1.0",
     "node-fetch": "^2.6.7",
     "process": "^0.11.10",
-    "react-scripts": "^4.0.1",
+    "react-scripts": "^5.0.1",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "browserslist": {
