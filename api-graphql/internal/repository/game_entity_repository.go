@@ -216,7 +216,7 @@ func (r *GameEntityRepository) ListByPlotPoint(ctx context.Context, plotPointID 
 	filter := &models.GameEntityFilter{
 		PlotPointID: &plotPointID,
 	}
-	
+
 	if entityType != "" {
 		filter.EntityType = &entityType
 	}
@@ -228,7 +228,7 @@ func (r *GameEntityRepository) ListByPlotPoint(ctx context.Context, plotPointID 
 func (r *GameEntityRepository) IsOwner(ctx context.Context, entityID, userID uuid.UUID) (bool, error) {
 	var exists bool
 	query := `SELECT EXISTS(SELECT 1 FROM game_entities WHERE id = $1 AND owner_id = $2)`
-	
+
 	err := r.db.QueryRow(ctx, query, entityID, userID).Scan(&exists)
 	if err != nil {
 		return false, errors.NewDatabaseError(err)
@@ -240,7 +240,7 @@ func (r *GameEntityRepository) IsOwner(ctx context.Context, entityID, userID uui
 // GetOwnerAndPlotPoint retrieves the owner ID and plot point ID for an entity
 func (r *GameEntityRepository) GetOwnerAndPlotPoint(ctx context.Context, entityID uuid.UUID) (ownerID, plotPointID uuid.UUID, err error) {
 	query := `SELECT owner_id, plot_point_id FROM game_entities WHERE id = $1`
-	
+
 	err = r.db.QueryRow(ctx, query, entityID).Scan(&ownerID, &plotPointID)
 	if err != nil {
 		if err == pgx.ErrNoRows {

@@ -10,22 +10,36 @@ import (
 
 // CORSMiddleware creates CORS middleware with the given configuration
 func CORSMiddleware(cfg *config.CORSConfig) gin.HandlerFunc {
-	return cors.New(cors.Config{
+	config := cors.Config{
 		AllowOrigins:     cfg.AllowedOrigins,
 		AllowMethods:     cfg.AllowedMethods,
 		AllowHeaders:     cfg.AllowedHeaders,
 		ExposeHeaders:    cfg.ExposedHeaders,
 		AllowCredentials: cfg.AllowCredentials,
 		MaxAge:           time.Duration(cfg.MaxAge) * time.Second,
-		AllowOriginFunc: func(origin string) bool {
-			// Allow all origins in development mode
-			// In production, you might want to be more restrictive
+	}
+
+	// If wildcard is not used, we don't need a custom AllowOriginFunc
+	// The library will handle the origin matching automatically
+	hasWildcard := false
+	for _, origin := range cfg.AllowedOrigins {
+		if origin == "*" {
+			hasWildcard = true
+			break
+		}
+	}
+
+	// Only use AllowOriginFunc if we need custom logic
+	if hasWildcard && len(cfg.AllowedOrigins) > 1 {
+		config.AllowOriginFunc = func(origin string) bool {
 			for _, allowed := range cfg.AllowedOrigins {
 				if allowed == "*" || allowed == origin {
 					return true
 				}
 			}
 			return false
-		},
-	})
+		}
+	}
+
+	return cors.New(config)
 }

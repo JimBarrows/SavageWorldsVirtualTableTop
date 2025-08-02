@@ -109,10 +109,10 @@ func CalculateTotalPages(total int64, perPage int) int {
 func SanitizeString(input string) string {
 	// Trim whitespace
 	input = strings.TrimSpace(input)
-	
+
 	// Remove null bytes
 	input = strings.ReplaceAll(input, "\x00", "")
-	
+
 	return input
 }
 
@@ -156,22 +156,22 @@ func IsValidEmail(email string) bool {
 	if len(parts) != 2 {
 		return false
 	}
-	
+
 	// Check local part
 	if len(parts[0]) == 0 || len(parts[0]) > 64 {
 		return false
 	}
-	
+
 	// Check domain part
 	if len(parts[1]) == 0 || len(parts[1]) > 255 {
 		return false
 	}
-	
+
 	// Check for dot in domain
 	if !strings.Contains(parts[1], ".") {
 		return false
 	}
-	
+
 	return true
 }
 
@@ -181,16 +181,16 @@ func IsValidUsername(username string) bool {
 	if len(username) < 3 || len(username) > 30 {
 		return false
 	}
-	
+
 	for _, char := range username {
-		if !((char >= 'a' && char <= 'z') || 
-			 (char >= 'A' && char <= 'Z') || 
-			 (char >= '0' && char <= '9') || 
-			 char == '_' || char == '-') {
+		if !((char >= 'a' && char <= 'z') ||
+			(char >= 'A' && char <= 'Z') ||
+			(char >= '0' && char <= '9') ||
+			char == '_' || char == '-') {
 			return false
 		}
 	}
-	
+
 	return true
 }
 
@@ -202,12 +202,12 @@ func GetClientIP(c *gin.Context) string {
 		parts := strings.Split(ip, ",")
 		return strings.TrimSpace(parts[0])
 	}
-	
+
 	// Check X-Real-IP header
 	if ip := c.GetHeader("X-Real-IP"); ip != "" {
 		return ip
 	}
-	
+
 	// Fall back to RemoteAddr
 	return c.ClientIP()
 }

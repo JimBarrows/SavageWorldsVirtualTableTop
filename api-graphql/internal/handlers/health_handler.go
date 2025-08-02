@@ -70,10 +70,10 @@ func (h *HealthHandler) Metrics(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"database": gin.H{
-			"acquired_conns":     dbStats.AcquiredConns(),
-			"idle_conns":         dbStats.IdleConns(),
-			"total_conns":        dbStats.TotalConns(),
-			"max_conns":          dbStats.MaxConns(),
+			"acquired_conns":      dbStats.AcquiredConns(),
+			"idle_conns":          dbStats.IdleConns(),
+			"total_conns":         dbStats.TotalConns(),
+			"max_conns":           dbStats.MaxConns(),
 			"empty_acquire_count": dbStats.EmptyAcquireCount(),
 		},
 	})
