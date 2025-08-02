@@ -62,6 +62,25 @@ A web-based virtual tabletop application for the Savage Worlds role-playing game
    ./scripts/start.sh
    ```
 
+4. **Initialize Database** (First time only)
+   
+   The database migrations need to be run to create the necessary tables:
+   
+   ```bash
+   # Option 1: If you have golang-migrate installed
+   cd database && ./migrate.sh up
+   
+   # Option 2: Using Docker (recommended)
+   # Run each migration file manually
+   for file in database/migrations/*.up.sql; do
+     docker exec -i swvtt-postgres psql -U swvtt_user -d swvtt_db < "$file"
+   done
+   
+   # Option 3: Quick setup with essential tables only
+   docker exec -i swvtt-postgres psql -U swvtt_user -d swvtt_db < database/migrations/001_create_users.up.sql
+   docker exec -i swvtt-postgres psql -U swvtt_user -d swvtt_db < database/migrations/008_add_password_to_users.up.sql
+   ```
+
 The application will be available at:
 - Frontend: `http://localhost:3000`
 - API: `http://localhost:8080`
@@ -293,3 +312,43 @@ Jim Barrows - [Jim.Barrows@gmail.com](mailto:Jim.Barrows@gmail.com)
 
 - Savage Worlds is a trademark of Pinnacle Entertainment Group
 - Built with React and AWS Amplify
+## Troubleshooting
+
+### Database Issues
+
+#### "Database operation failed" during signup
+This error typically means the database migrations haven't been run. To fix:
+
+1. Verify the database is running:
+   ```bash
+   docker ps | grep postgres
+   ```
+
+2. Run the migrations:
+   ```bash
+   # Using Docker (recommended)
+   docker exec -i swvtt-postgres psql -U swvtt_user -d swvtt_db < database/migrations/001_create_users.up.sql
+   docker exec -i swvtt-postgres psql -U swvtt_user -d swvtt_db < database/migrations/008_add_password_to_users.up.sql
+   ```
+
+3. Verify the tables exist:
+   ```bash
+   docker exec swvtt-postgres psql -U swvtt_user -d swvtt_db -c "\dt"
+   ```
+
+#### CORS Errors
+If you see "XMLHttpRequest cannot load ... due to access control checks":
+
+1. Check that the API is configured with correct CORS origins in `.env`:
+   ```
+   CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+   ```
+
+2. Restart the API server after changing environment variables
+
+### Common Issues
+
+- **Port already in use**: Stop any conflicting services or change ports in `.env`
+- **Container not starting**: Check logs with `docker-compose logs [service-name]`
+- **Frontend can't connect to API**: Ensure both services are running and CORS is configured
+EOF < /dev/null
