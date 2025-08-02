@@ -69,9 +69,9 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Send email as username to backend
+      // Send credentials with email field to backend
       const loginData = {
-        username: credentials.email, // Backend expects username but we use email
+        email: credentials.email,
         password: credentials.password,
         rememberMe: rememberMe
       };
