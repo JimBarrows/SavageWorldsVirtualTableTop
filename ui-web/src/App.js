@@ -66,10 +66,14 @@ const Login = () => {
         username: username, // TODO: Backend should be updated to accept email for login
         password: credentials.password
       };
+      console.log('Login attempt with:', { email: credentials.email, username, password: '***' });
       const result = await login(loginData);
+      console.log('Login result:', result);
       if (result.success) {
         window.location.href = '/';
       }
+    } catch (err) {
+      console.error('Login error:', err);
     } finally {
       setIsLoading(false);
     }

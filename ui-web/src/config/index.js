@@ -1,7 +1,8 @@
 // Application configuration
 const config = {
   api: {
-    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api/v1',
+    // Use relative URL so React proxy can work in development
+    baseURL: process.env.REACT_APP_API_URL || '/api/v1',
     timeout: parseInt(process.env.REACT_APP_API_TIMEOUT) || 30000,
   },
   auth: {

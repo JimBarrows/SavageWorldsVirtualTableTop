@@ -62,10 +62,18 @@ When('I submit the login form', async function () {
 })
 
 Then('I am successfully authenticated', async function () {
-  // Wait for redirect to plot points page or success indication
-  await this.browser.wait(until.urlContains('/'), 5000)
+  // Wait for navigation to complete
+  await this.browser.wait(async () => {
+    const url = await this.browser.getCurrentUrl()
+    return !url.includes('/login')
+  }, 10000, 'Failed to navigate away from login page')
+  
+  // Verify we're on the plot points page
   const currentUrl = await this.browser.getCurrentUrl()
   expect(currentUrl).to.not.include('/login')
+  
+  // Verify we see the plot points page elements
+  await this.browser.wait(until.elementLocated(By.xpath("//h1[contains(text(), 'Plot Points')]")), 5000)
 })
 
 Then('I am redirected to the plot points list page', async function () {
