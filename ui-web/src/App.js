@@ -42,14 +42,20 @@ ProtectedRoute.propTypes = {
 
 // Login Component
 const Login = () => {
-  const { login, error, loading } = useAuth();
+  const { login, error } = useAuth();
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = React.useState(false);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await login(credentials);
-    if (result.success) {
-      window.location.href = '/';
+    setIsLoading(true);
+    try {
+      const result = await login(credentials);
+      if (result.success) {
+        window.location.href = '/';
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -90,8 +96,8 @@ const Login = () => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? 'Logging in...' : 'Login'}
+                <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                  {isLoading ? 'Logging in...' : 'Login'}
                 </button>
                 <a href="/register" className="btn btn-link">
                   Need an account? Register

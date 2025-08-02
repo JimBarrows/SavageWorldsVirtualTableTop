@@ -1,4 +1,4 @@
-.PHONY: help build run test clean docker-build docker-run migrate lint fmt
+.PHONY: help build run test test-bdd clean docker-build docker-run migrate lint fmt
 
 # Default target
 help:
@@ -7,6 +7,7 @@ help:
 	@echo "  run          Run the application"
 	@echo "  test         Run tests"
 	@echo "  test-cover   Run tests with coverage"
+	@echo "  test-bdd     Run BDD tests with Godog"
 	@echo "  clean        Clean build artifacts"
 	@echo "  docker-build Build Docker image"
 	@echo "  docker-run   Run Docker container"
@@ -38,6 +39,11 @@ test-cover:
 	@go test -v -coverprofile=coverage.out ./...
 	@go tool cover -html=coverage.out -o coverage.html
 	@echo "Coverage report generated: coverage.html"
+
+# Run BDD tests with Godog
+test-bdd:
+	@echo "Running BDD tests..."
+	@godog --paths ../features --definitions test/features
 
 # Clean build artifacts
 clean:
@@ -90,6 +96,7 @@ install-tools:
 	@echo "Installing development tools..."
 	@go install github.com/cosmtrek/air@latest
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@go install github.com/cucumber/godog/cmd/godog@latest
 
 # Generate swagger documentation (requires swag)
 swagger:

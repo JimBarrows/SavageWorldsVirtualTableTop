@@ -48,7 +48,7 @@
     "stop": "docker-compose down",
     "test": "npm run test:unit && npm run test:ui",
     "test:unit": "craco test --env=jsdom",
-    "test:ui": "cucumber-js --require-module @babel/register",
+    "test:ui": "cucumber-js ../features --require-module @babel/register",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
