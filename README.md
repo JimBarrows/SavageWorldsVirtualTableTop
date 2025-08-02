@@ -4,6 +4,7 @@ A web-based virtual tabletop application for the Savage Worlds role-playing game
 
 ## Features
 
+- **User Authentication**: Secure signup, login, and logout functionality
 - **Plot Point Management**: Create, edit, and organize plot points for your campaigns
 - **Character Management**: Track player characters and NPCs with full character sheets
 - **Beast Compendium**: Manage creatures and monsters for encounters
@@ -83,7 +84,7 @@ For detailed Docker setup instructions, see [DOCKER_README.md](DOCKER_README.md)
 
 3. **Start Backend**
    ```bash
-   cd savage-worlds-api
+   cd api-graphql
    go mod download
    go run cmd/api/main.go
    ```
@@ -111,7 +112,7 @@ For detailed Docker setup instructions, see [DOCKER_README.md](DOCKER_README.md)
 - `npm run build` - Build for production
 - `npm run storybook` - Start Storybook
 
-### Backend Scripts (in `savage-worlds-api` directory)
+### Backend Scripts (in `api-graphql` directory)
 - `go run cmd/api/main.go` - Start API server
 - `go test ./...` - Run all tests
 - `make build` - Build binary
@@ -121,7 +122,7 @@ For detailed Docker setup instructions, see [DOCKER_README.md](DOCKER_README.md)
 
 ```
 SavageWorldsVirtualTableTop/
-├── savage-worlds-api/          # Go REST API backend
+├── api-graphql/               # Go GraphQL API backend
 │   ├── cmd/api/               # Application entry point
 │   ├── internal/              # Internal packages
 │   │   ├── handlers/         # HTTP request handlers
@@ -136,10 +137,15 @@ SavageWorldsVirtualTableTop/
 │   │   ├── services/        # API service layer
 │   │   ├── hooks/           # Custom React hooks
 │   │   └── contexts/        # React contexts
-│   └── features/            # Cucumber BDD test scenarios
+│   └── stories/             # Storybook component stories
 ├── database/                 # Database migrations and scripts
 │   ├── migrations/          # SQL migration files
 │   └── init/               # Initial setup scripts
+├── features/                # Cucumber BDD test scenarios
+│   ├── signup.feature      # User registration tests
+│   ├── login.feature       # User authentication tests
+│   ├── logout.feature      # Session management tests
+│   └── create_plot_point.feature # Plot point creation tests
 ├── scripts/                 # Docker and utility scripts
 ├── docs/                   # Documentation
 │   └── diagrams/          # Architecture diagrams
@@ -191,6 +197,12 @@ BDD tests are written in Gherkin and run with Cucumber.js:
 npm run test:ui
 ```
 
+Test scenarios are located in the `/features` directory and include:
+- User registration (signup.feature)
+- User authentication (login.feature)
+- Session management (logout.feature)
+- Plot point creation (create_plot_point.feature)
+
 ### Component Documentation
 View and develop components in isolation with Storybook:
 ```bash
@@ -224,7 +236,7 @@ npm run storybook
 
 2. **Build Backend**:
    ```bash
-   cd savage-worlds-api
+   cd api-graphql
    make build
    ```
 

@@ -1,56 +1,40 @@
-# Shared BDD Features
+# BDD Feature Tests
 
-This directory contains the BDD feature files that are shared between the frontend (ui-web) and backend (API) projects.
+Cucumber feature files for behavior-driven testing of SWVTT.
 
-## Structure
+## Features
 
-- `*.feature` - Gherkin feature files describing the behavior of the system
-- `step_definitions/` - Step definitions for the frontend (JavaScript/Cucumber.js)
-- `support/` - Support files and world configuration for the frontend tests
+- `signup.feature` - User registration
+- `login.feature` - User authentication  
+- `logout.feature` - Session management
+- `create_plot_point.feature` - Plot point creation
 
-## Usage
+## Running Tests
 
-### Frontend (ui-web)
-
-The frontend uses Cucumber.js to run the BDD tests. From the `ui-web` directory:
-
+From the ui-web directory:
 ```bash
 npm run test:ui
 ```
 
-The frontend is configured to look for features in this root directory via the `cucumber.js` configuration file.
-
-### Backend (savage-worlds-api)
-
-The backend can use Godog (Cucumber for Go) to run the same feature files. To set this up:
-
-1. Install Godog:
+Or run a specific feature:
 ```bash
-go install github.com/cucumber/godog/cmd/godog@latest
-```
-
-2. Create step definitions in Go in the `savage-worlds-api/test/features` directory
-
-3. Run the tests:
-```bash
-cd savage-worlds-api
-make test-bdd
+./node_modules/.bin/cucumber-js ../features/login.feature
 ```
 
 ## Writing Features
 
-Features should be written from a user perspective and be implementation-agnostic so they can be used to test both the frontend and backend.
+Use Gherkin syntax focusing on user behavior:
 
-Example:
 ```gherkin
-Feature: Plot Point Management
-  As a Game Master
-  I want to manage plot points
-  So that I can organize my game content
+Feature: Feature Name
+  As a [role]
+  I want [goal]
+  So that [benefit]
 
-  Scenario: Create a new plot point
-    Given I am authenticated as a Game Master
-    When I create a plot point with name "The Lost City"
-    Then the plot point should be saved successfully
-    And I should see "The Lost City" in my plot points list
+  Scenario: Scenario name
+    Given [context]
+    When [action]
+    Then [outcome]
 ```
+
+Step definitions are in `ui-web/features/step_definitions/`.

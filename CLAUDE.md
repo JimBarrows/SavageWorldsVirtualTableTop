@@ -62,9 +62,9 @@ npm run stop         # Stop Docker containers
     /models                     # Data models (Character, Beast, etc.)
     /graphql                    # Auto-generated GraphQL operations
     /propTypes                  # PropType definitions
-  /features                     # Cucumber BDD tests
   /stories                      # Storybook component stories
   /amplify                      # AWS Amplify backend configuration
+/features                       # Cucumber BDD tests (moved to project root)
 /docs
   /diagrams                     # Architecture and design documentation
 ```
@@ -101,11 +101,16 @@ For detailed visual representations of the system architecture, see:
 - Currently minimal coverage (only 2 test files)
 
 ### BDD Integration Tests
-- Located in `/ui-web/features`
+- Located in `/features` at project root
 - Run with: `npm run test:ui`
 - Uses Selenium WebDriver with ChromeDriver
 - Tests authenticate with AWS Amplify using hardcoded credentials
 - Takes screenshots on failure
+- Feature files available:
+  - `signup.feature` - User registration scenarios
+  - `login.feature` - User authentication scenarios
+  - `logout.feature` - Session management scenarios
+  - `create_plot_point.feature` - Plot point creation workflows
 
 ### Running a Single Test
 ```bash

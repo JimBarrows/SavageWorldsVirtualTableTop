@@ -1,185 +1,160 @@
-# SWVTT Database Setup and Migration Guide
+# Database
 
-This directory contains the PostgreSQL database schema and migration files for the Savage Worlds Virtual Table Top (SWVTT) re-architecture project.
+PostgreSQL database schema and migrations for the Savage Worlds Virtual Table Top (SWVTT).
 
 ## Overview
 
-The database schema has been designed to replace the existing AWS DynamoDB structure with a local PostgreSQL database. The schema uses JSONB columns extensively to maintain flexibility for game data while providing the benefits of a relational database.
-
-## Database Structure
+The database uses PostgreSQL 15 with extensive JSONB columns for flexible game data storage while maintaining relational integrity.
 
 ### Core Tables
 
 1. **users** - User accounts and authentication
    - UUID primary keys
-   - Support for AWS Cognito migration via `cognito_sub` column
-   - Metadata JSONB column for extensibility
+   - AWS Cognito integration support
+   - Metadata JSONB for extensibility
 
-2. **plot_points** - Main game configuration containers
-   - Contains all game rules, settings, and definitions
-   - Extensive use of JSONB for flexible game data storage
-   - GIN indexes for efficient JSONB querying
+2. **plot_points** - Campaign containers
+   - Game rules, settings, and definitions
+   - JSONB for flexible game data
+   - GIN indexes for performance
 
-3. **game_entities** - Individual game objects (characters, beasts, items, etc.)
-   - Polymorphic design using `entity_type` discriminator
-   - JSONB `data` column for entity-specific attributes
-   - Support for templates and active/inactive states
+3. **game_entities** - Game objects (characters, beasts, items)
+   - Polymorphic design with entity_type
+   - JSONB data column for attributes
+   - Template support
 
-4. **game_sessions** - Game session management
-   - Tracks active games and their participants
+4. **game_sessions** - Active game management
    - Links players to characters
-   - Session state management
+   - Session state tracking
 
-5. **audit_log** - Complete audit trail
-   - Tracks all changes to the system
-   - Stores change diffs in JSONB format
+5. **audit_log** - Complete change history
+   - Tracks all system changes
+   - JSONB diff storage
 
-### Key Features
+## Quick Start
 
-- **JSONB Validation**: Custom PostgreSQL functions validate game data structures
-- **Automatic Timestamps**: Triggers maintain created_at/updated_at columns
-- **Referential Integrity**: Foreign key constraints ensure data consistency
-- **Performance Indexes**: Comprehensive indexing strategy for optimal query performance
+### Using Docker Compose (Recommended)
 
-## Setup Instructions
-
-### Prerequisites
-
-- Docker and Docker Compose installed
-- golang-migrate tool (for running migrations)
-
-### Quick Start
-
-1. Start the PostgreSQL database:
-   ```bash
-   docker-compose up -d
-   ```
-
-2. Install golang-migrate:
-   ```bash
-   # macOS
-   brew install golang-migrate
-   
-   # or download from https://github.com/golang-migrate/migrate
-   ```
-
-3. Run migrations:
-   ```bash
-   # Set database URL
-   export DATABASE_URL="postgres://swvtt_user:swvtt_dev_password@localhost:5432/swvtt_db?sslmode=disable"
-   
-   # Run all migrations
-   migrate -path database/migrations -database $DATABASE_URL up
-   
-   # Or run specific version
-   migrate -path database/migrations -database $DATABASE_URL goto 6
-   ```
-
-### Migration Commands
-
+From the project root:
 ```bash
-# Create new migration
-migrate create -ext sql -dir database/migrations -seq migration_name
-
-# Run all pending migrations
-migrate -path database/migrations -database $DATABASE_URL up
-
-# Rollback one migration
-migrate -path database/migrations -database $DATABASE_URL down 1
-
-# Force version (use with caution)
-migrate -path database/migrations -database $DATABASE_URL force VERSION
-
-# Check current version
-migrate -path database/migrations -database $DATABASE_URL version
+./scripts/start.sh
 ```
 
-### Accessing the Database
+### Manual Setup
 
-1. **Using psql**:
-   ```bash
-   docker exec -it swvtt-postgres psql -U swvtt_user -d swvtt_db
-   ```
+1. Start PostgreSQL:
+```bash
+docker run -d \
+  --name swvtt-postgres \
+  -e POSTGRES_USER=swvtt_user \
+  -e POSTGRES_PASSWORD=swvtt_dev_password \
+  -e POSTGRES_DB=swvtt_db \
+  -p 5432:5432 \
+  postgres:15-alpine
+```
 
-2. **Using pgAdmin**:
-   - Open http://localhost:5050
-   - Login: admin@swvtt.local / admin_password
-   - Add server: postgres:5432, swvtt_user / swvtt_dev_password
+2. Run migrations:
+```bash
+export DATABASE_URL="postgres://swvtt_user:swvtt_dev_password@localhost:5432/swvtt_db?sslmode=disable"
+migrate -path migrations -database $DATABASE_URL up
+```
 
-## Migration Files
+## Migrations
 
-| File | Description |
-|------|-------------|
-| 001_create_users.up/down.sql | User accounts table with authentication support |
-| 002_create_plot_points.up/down.sql | Main game configuration storage |
-| 003_create_game_entities.up/down.sql | Polymorphic game objects table |
-| 004_create_game_sessions.up/down.sql | Game session management |
-| 005_create_audit_log.up/down.sql | Audit trail for all changes |
-| 006_create_validation_functions.up/down.sql | JSONB validation functions and constraints |
-| 007_seed_test_data.up/down.sql | Sample data for testing |
+### Running Migrations
+```bash
+# All migrations
+migrate -path migrations -database $DATABASE_URL up
 
-## Data Migration from DynamoDB
+# Specific version
+migrate -path migrations -database $DATABASE_URL goto 6
 
-The schema includes support for migrating from AWS DynamoDB:
+# Rollback one
+migrate -path migrations -database $DATABASE_URL down 1
+```
 
-1. The `users.cognito_sub` column maps to AWS Cognito identities
-2. Plot points can be imported with all their nested data intact
-3. The JSONB structure closely mirrors the GraphQL schema
+### Creating New Migrations
+```bash
+migrate create -ext sql -dir migrations -seq migration_name
+```
 
-## Development Notes
+### Migration Files
 
-### JSONB Query Examples
+| Version | Description |
+|---------|-------------|
+| 001 | User accounts with auth support |
+| 002 | Plot points (campaigns) |
+| 003 | Game entities (characters, items) |
+| 004 | Game sessions |
+| 005 | Audit logging |
+| 006 | JSONB validation functions |
+| 007 | Test data seeding |
 
+## Database Access
+
+### psql
+```bash
+docker exec -it swvtt-postgres psql -U swvtt_user -d swvtt_db
+```
+
+### pgAdmin
+- URL: http://localhost:5050
+- Login: admin@swvtt.local / admin_password
+- Server: postgres:5432
+
+## Development
+
+### Sample Queries
 ```sql
--- Find all plot points with specific skills
-SELECT * FROM plot_points 
-WHERE skills @> '[{"name": "Fighting"}]'::jsonb;
-
--- Get all characters with high agility
+-- Find characters by attribute
 SELECT * FROM game_entities 
 WHERE entity_type = 'character' 
-AND (data->'agility'->>'dice')::text IN ('d10', 'd12');
+AND data->>'name' LIKE '%Hero%';
 
--- Find all game sessions in progress
-SELECT gs.*, u.username as gm_name 
-FROM game_sessions gs 
-JOIN users u ON gs.gm_id = u.id 
-WHERE gs.status = 'active';
+-- Get active sessions
+SELECT * FROM game_sessions 
+WHERE status = 'active';
+
+-- Audit trail for entity
+SELECT * FROM audit_log 
+WHERE table_name = 'game_entities' 
+AND record_id = 'some-uuid'
+ORDER BY created_at DESC;
 ```
 
-### Adding New Entity Types
-
-1. Add the new type to the `entity_type` CHECK constraint in migration 003
-2. Create validation functions if needed
-3. Document the expected JSONB structure
-
-### Performance Considerations
-
-- GIN indexes are created on frequently queried JSONB columns
-- Partial indexes optimize common query patterns
-- The audit_log table includes a partial index for recent entries
+### Adding Entity Types
+1. Update entity_type constraint in migration 003
+2. Add validation functions if needed
+3. Document JSONB structure
 
 ## Testing
 
-The seed data (migration 007) includes:
-- 3 test users (GM and 2 players)
-- 1 complete plot point with game data
-- Sample characters and creatures
-- A test game session
-
-To load test data:
+Load test data:
 ```bash
-migrate -path database/migrations -database $DATABASE_URL up 7
+migrate -path migrations -database $DATABASE_URL up 7
 ```
 
-To remove test data:
+Remove test data:
 ```bash
-migrate -path database/migrations -database $DATABASE_URL down 1
+migrate -path migrations -database $DATABASE_URL down 1
 ```
 
-## Security Notes
+## Production Notes
 
-- Change default passwords before production use
-- Enable SSL for production PostgreSQL connections
-- Implement row-level security for multi-tenant access
-- Regular backups recommended using pg_dump
+- Use strong passwords
+- Enable SSL connections
+- Configure connection pooling
+- Set up automated backups
+- Monitor query performance
+
+## Backup and Restore
+
+### Backup
+```bash
+docker exec swvtt-postgres pg_dump -U swvtt_user swvtt_db > backup.sql
+```
+
+### Restore
+```bash
+docker exec -i swvtt-postgres psql -U swvtt_user swvtt_db < backup.sql
+```

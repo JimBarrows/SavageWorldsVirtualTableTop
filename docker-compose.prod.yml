@@ -35,7 +35,7 @@ services:
   # Go API Service
   api:
     build:
-      context: ./savage-worlds-api
+      context: ./api-graphql
       dockerfile: Dockerfile
     container_name: swvtt-api-prod
     restart: always

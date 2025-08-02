@@ -10,7 +10,7 @@ services:
   # Go API Service with Hot Reload
   api:
     build:
-      context: ./savage-worlds-api
+      context: ./api-graphql
       dockerfile: Dockerfile.dev
     container_name: swvtt-api-dev
     restart: unless-stopped
@@ -40,7 +40,7 @@ services:
       # Development specific
       GO_ENV: development
     volumes:
-      - ./savage-worlds-api:/app
+      - ./api-graphql:/app
       - go_modules:/go/pkg/mod
     working_dir: /app
     command: air -c .air.toml
