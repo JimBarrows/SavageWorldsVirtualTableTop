@@ -81,6 +81,7 @@ go.work
 .vscode/
 .idea/
 
-# Test artifacts
-screenshots/
-*.png
+# ui-web
+ui-web/screenshots/*
+ui-web/coverage/*
+

@@ -11,6 +11,7 @@ import PlotPointEdit from './pages/PlotPointEdit';
 import PlotPointList from './pages/PlotPointList';
 import SignupPage from './pages/SignupPage';
 import ErrorBoundary from './components/ErrorBoundary';
+import RememberMe from './components/RememberMe';
 
 import config from './config';
 
@@ -44,6 +45,7 @@ ProtectedRoute.propTypes = {
 const Login = () => {
   const { login, error } = useAuth();
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
+  const [rememberMe, setRememberMe] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   
   const handleSubmit = async (e) => {
@@ -52,9 +54,11 @@ const Login = () => {
     try {
       // Send email directly to backend
       const loginData = {
-        email: credentials.email,
-        password: credentials.password
+        username: username, // TODO: Backend should be updated to accept email for login
+        password: credentials.password,
+        rememberMe: rememberMe
       };
+      console.log('Login attempt with:', { email: credentials.email, username, password: '***', rememberMe });
       const result = await login(loginData);
       if (result.success) {
         window.location.href = '/';
@@ -101,6 +105,12 @@ const Login = () => {
                     value={credentials.password}
                     onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                     required
+                  />
+                </div>
+                <div className="form-group mb-3">
+                  <RememberMe 
+                    checked={rememberMe} 
+                    onChange={setRememberMe} 
                   />
                 </div>
                 <button type="submit" className="btn btn-primary" disabled={isLoading}>
