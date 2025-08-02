@@ -357,7 +357,7 @@ func (r *UserRepository) List(ctx context.Context, offset, limit int) ([]*models
 func (r *UserRepository) ExistsByEmail(ctx context.Context, email string) (bool, error) {
 	var exists bool
 	query := `SELECT EXISTS(SELECT 1 FROM users WHERE email = $1)`
-	
+
 	err := r.db.QueryRow(ctx, query, email).Scan(&exists)
 	if err != nil {
 		return false, errors.NewDatabaseError(err)
@@ -370,7 +370,7 @@ func (r *UserRepository) ExistsByEmail(ctx context.Context, email string) (bool,
 func (r *UserRepository) ExistsByUsername(ctx context.Context, username string) (bool, error) {
 	var exists bool
 	query := `SELECT EXISTS(SELECT 1 FROM users WHERE username = $1)`
-	
+
 	err := r.db.QueryRow(ctx, query, username).Scan(&exists)
 	if err != nil {
 		return false, errors.NewDatabaseError(err)

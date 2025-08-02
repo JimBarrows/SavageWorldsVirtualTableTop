@@ -58,77 +58,77 @@ type GameEntityFilter struct {
 
 // CharacterData represents character-specific data
 type CharacterData struct {
-	Attributes   map[string]int    `json:"attributes"`
-	Skills       map[string]int    `json:"skills"`
-	Edges        []string          `json:"edges"`
-	Hindrances   []string          `json:"hindrances"`
-	Gear         []string          `json:"gear"`
-	Powers       []string          `json:"powers"`
-	Wounds       int               `json:"wounds"`
-	Fatigue      int               `json:"fatigue"`
-	Bennies      int               `json:"bennies"`
-	Experience   int               `json:"experience"`
-	Rank         string            `json:"rank"`
-	Notes        string            `json:"notes"`
+	Attributes   map[string]int         `json:"attributes"`
+	Skills       map[string]int         `json:"skills"`
+	Edges        []string               `json:"edges"`
+	Hindrances   []string               `json:"hindrances"`
+	Gear         []string               `json:"gear"`
+	Powers       []string               `json:"powers"`
+	Wounds       int                    `json:"wounds"`
+	Fatigue      int                    `json:"fatigue"`
+	Bennies      int                    `json:"bennies"`
+	Experience   int                    `json:"experience"`
+	Rank         string                 `json:"rank"`
+	Notes        string                 `json:"notes"`
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 }
 
 // BeastData represents beast-specific data
 type BeastData struct {
-	Attributes      map[string]int    `json:"attributes"`
-	Skills          map[string]int    `json:"skills"`
-	SpecialAbilities []string         `json:"special_abilities"`
-	Size            int               `json:"size"`
-	Pace            int               `json:"pace"`
-	Parry           int               `json:"parry"`
-	Toughness       int               `json:"toughness"`
-	Notes           string            `json:"notes"`
-	CustomFields    map[string]interface{} `json:"custom_fields,omitempty"`
+	Attributes       map[string]int         `json:"attributes"`
+	Skills           map[string]int         `json:"skills"`
+	SpecialAbilities []string               `json:"special_abilities"`
+	Size             int                    `json:"size"`
+	Pace             int                    `json:"pace"`
+	Parry            int                    `json:"parry"`
+	Toughness        int                    `json:"toughness"`
+	Notes            string                 `json:"notes"`
+	CustomFields     map[string]interface{} `json:"custom_fields,omitempty"`
 }
 
 // VehicleData represents vehicle-specific data
 type VehicleData struct {
-	Type         string            `json:"type"` // ground, air, water
-	Acceleration int               `json:"acceleration"`
-	TopSpeed     int               `json:"top_speed"`
-	Toughness    int               `json:"toughness"`
-	Crew         int               `json:"crew"`
-	Cost         string            `json:"cost"`
-	Notes        string            `json:"notes"`
-	Weapons      []string          `json:"weapons"`
+	Type         string                 `json:"type"` // ground, air, water
+	Acceleration int                    `json:"acceleration"`
+	TopSpeed     int                    `json:"top_speed"`
+	Toughness    int                    `json:"toughness"`
+	Crew         int                    `json:"crew"`
+	Cost         string                 `json:"cost"`
+	Notes        string                 `json:"notes"`
+	Weapons      []string               `json:"weapons"`
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 }
 
 // ItemData represents item-specific data
 type ItemData struct {
-	Type         string            `json:"type"` // gear, consumable, etc.
-	Weight       float64           `json:"weight"`
-	Cost         string            `json:"cost"`
-	Notes        string            `json:"notes"`
+	Type         string                 `json:"type"` // gear, consumable, etc.
+	Weight       float64                `json:"weight"`
+	Cost         string                 `json:"cost"`
+	Notes        string                 `json:"notes"`
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 }
 
 // WeaponData represents weapon-specific data
 type WeaponData struct {
-	Type         string            `json:"type"` // melee, ranged, special
-	Damage       string            `json:"damage"`
-	Range        string            `json:"range,omitempty"`
-	RateOfFire   int               `json:"rate_of_fire,omitempty"`
-	Shots        int               `json:"shots,omitempty"`
-	MinStrength  string            `json:"min_strength,omitempty"`
-	Weight       float64           `json:"weight"`
-	Cost         string            `json:"cost"`
-	Notes        string            `json:"notes"`
+	Type         string                 `json:"type"` // melee, ranged, special
+	Damage       string                 `json:"damage"`
+	Range        string                 `json:"range,omitempty"`
+	RateOfFire   int                    `json:"rate_of_fire,omitempty"`
+	Shots        int                    `json:"shots,omitempty"`
+	MinStrength  string                 `json:"min_strength,omitempty"`
+	Weight       float64                `json:"weight"`
+	Cost         string                 `json:"cost"`
+	Notes        string                 `json:"notes"`
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 }
 
 // ArmorData represents armor-specific data
 type ArmorData struct {
-	ArmorBonus   int               `json:"armor_bonus"`
-	MinStrength  string            `json:"min_strength,omitempty"`
-	Weight       float64           `json:"weight"`
-	Cost         string            `json:"cost"`
-	Notes        string            `json:"notes"`
+	ArmorBonus   int                    `json:"armor_bonus"`
+	MinStrength  string                 `json:"min_strength,omitempty"`
+	Weight       float64                `json:"weight"`
+	Cost         string                 `json:"cost"`
+	Notes        string                 `json:"notes"`
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 }
 

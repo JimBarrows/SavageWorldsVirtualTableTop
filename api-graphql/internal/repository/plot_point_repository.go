@@ -170,27 +170,27 @@ func (r *PlotPointRepository) Update(ctx context.Context, id uuid.UUID, updates 
 
 	// Handle all the JSON fields
 	jsonFields := map[string]*json.RawMessage{
-		"air_vehicles":                     updates.AirVehicles,
-		"ammunition":                       updates.Ammunition,
-		"arcane_backgrounds":               updates.ArcaneBackgrounds,
-		"armor":                            updates.Armor,
-		"beasts":                           updates.Beasts,
-		"characters":                       updates.Characters,
-		"edges":                            updates.Edges,
-		"gear_eras":                        updates.GearEras,
-		"gear_kinds":                       updates.GearKinds,
-		"ground_vehicles":                  updates.GroundVehicles,
-		"hand_weapons":                     updates.HandWeapons,
-		"hindrances":                       updates.Hindrances,
-		"mundane_items":                    updates.MundaneItems,
-		"powers":                           updates.Powers,
-		"races":                            updates.Races,
-		"ranged_weapons":                   updates.RangedWeapons,
-		"setting_rules":                    updates.SettingRules,
-		"skills":                           updates.Skills,
-		"special_weapons":                  updates.SpecialWeapons,
-		"vehicle_and_at_mounted_weapons":   updates.VehicleAndATMountedWeapons,
-		"water_vehicles":                   updates.WaterVehicles,
+		"air_vehicles":                   updates.AirVehicles,
+		"ammunition":                     updates.Ammunition,
+		"arcane_backgrounds":             updates.ArcaneBackgrounds,
+		"armor":                          updates.Armor,
+		"beasts":                         updates.Beasts,
+		"characters":                     updates.Characters,
+		"edges":                          updates.Edges,
+		"gear_eras":                      updates.GearEras,
+		"gear_kinds":                     updates.GearKinds,
+		"ground_vehicles":                updates.GroundVehicles,
+		"hand_weapons":                   updates.HandWeapons,
+		"hindrances":                     updates.Hindrances,
+		"mundane_items":                  updates.MundaneItems,
+		"powers":                         updates.Powers,
+		"races":                          updates.Races,
+		"ranged_weapons":                 updates.RangedWeapons,
+		"setting_rules":                  updates.SettingRules,
+		"skills":                         updates.Skills,
+		"special_weapons":                updates.SpecialWeapons,
+		"vehicle_and_at_mounted_weapons": updates.VehicleAndATMountedWeapons,
+		"water_vehicles":                 updates.WaterVehicles,
 	}
 
 	for field, value := range jsonFields {
@@ -332,7 +332,7 @@ func (r *PlotPointRepository) ListAll(ctx context.Context, offset, limit int) ([
 func (r *PlotPointRepository) IsOwner(ctx context.Context, plotPointID, userID uuid.UUID) (bool, error) {
 	var exists bool
 	query := `SELECT EXISTS(SELECT 1 FROM plot_points WHERE id = $1 AND owner_id = $2)`
-	
+
 	err := r.db.QueryRow(ctx, query, plotPointID, userID).Scan(&exists)
 	if err != nil {
 		return false, errors.NewDatabaseError(err)
@@ -344,12 +344,12 @@ func (r *PlotPointRepository) IsOwner(ctx context.Context, plotPointID, userID u
 // GetEntityData retrieves specific entity data from a plot point
 func (r *PlotPointRepository) GetEntityData(ctx context.Context, plotPointID uuid.UUID, entityType models.EntityType) (json.RawMessage, error) {
 	var data json.RawMessage
-	
+
 	// Map entity type to column name
 	columnName := string(entityType)
-	
+
 	query := fmt.Sprintf(`SELECT %s FROM plot_points WHERE id = $1`, columnName)
-	
+
 	err := r.db.QueryRow(ctx, query, plotPointID).Scan(&data)
 	if err != nil {
 		if err == pgx.ErrNoRows {
@@ -365,12 +365,12 @@ func (r *PlotPointRepository) GetEntityData(ctx context.Context, plotPointID uui
 func (r *PlotPointRepository) UpdateEntityData(ctx context.Context, plotPointID uuid.UUID, entityType models.EntityType, data json.RawMessage) error {
 	// Map entity type to column name
 	columnName := string(entityType)
-	
+
 	query := fmt.Sprintf(`
 		UPDATE plot_points 
 		SET %s = $2, updated_at = NOW() 
 		WHERE id = $1`, columnName)
-	
+
 	result, err := r.db.Exec(ctx, query, plotPointID, data)
 	if err != nil {
 		return errors.NewDatabaseError(err)

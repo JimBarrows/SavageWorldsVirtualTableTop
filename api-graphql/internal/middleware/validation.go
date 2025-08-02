@@ -12,7 +12,7 @@ func SetupValidation() {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		// Register UUID validation
 		_ = v.RegisterValidation("uuid", validateUUID)
-		
+
 		// Register custom validations
 		_ = v.RegisterValidation("username", validateUsername)
 		_ = v.RegisterValidation("password_strength", validatePasswordStrength)
@@ -32,33 +32,33 @@ func validateUsername(fl validator.FieldLevel) bool {
 	if len(username) < 3 || len(username) > 30 {
 		return false
 	}
-	
+
 	// Check characters
 	for _, char := range username {
-		if !((char >= 'a' && char <= 'z') || 
-			 (char >= 'A' && char <= 'Z') || 
-			 (char >= '0' && char <= '9') || 
-			 char == '_' || char == '-') {
+		if !((char >= 'a' && char <= 'z') ||
+			(char >= 'A' && char <= 'Z') ||
+			(char >= '0' && char <= '9') ||
+			char == '_' || char == '-') {
 			return false
 		}
 	}
-	
+
 	return true
 }
 
 // validatePasswordStrength validates password strength
 func validatePasswordStrength(fl validator.FieldLevel) bool {
 	password := fl.Field().String()
-	
+
 	if len(password) < 8 {
 		return false
 	}
-	
+
 	hasUpper := false
 	hasLower := false
 	hasDigit := false
 	hasSpecial := false
-	
+
 	for _, char := range password {
 		switch {
 		case 'A' <= char && char <= 'Z':
@@ -71,7 +71,7 @@ func validatePasswordStrength(fl validator.FieldLevel) bool {
 			hasSpecial = true
 		}
 	}
-	
+
 	return hasUpper && hasLower && hasDigit && hasSpecial
 }
 
