@@ -3,6 +3,7 @@ import {Given, Then, When} from 'cucumber'
 import {By, until} from 'selenium-webdriver'
 import {expect} from 'chai'
 import sleep from 'sleep'
+import testUserHelper from '../support/test-users'
 
 Given('I am on the login page', async function () {
   const browser = this.browser
@@ -11,10 +12,23 @@ Given('I am on the login page', async function () {
 })
 
 Given('a user exists with email {string} and password {string}', async function (email, password) {
-  // This would typically involve creating a test user in the database
-  // For now, we'll assume the test environment has this user pre-seeded
-  this.testUser = { email, password }
-  console.log('Note: This test assumes a user exists in the backend with email:', email)
+  try {
+    // Create the test user in the database
+    const user = await testUserHelper.createTestUser(email, password)
+    this.testUser = { email, password, ...user }
+    console.log('Created test user:', email)
+    
+    // Give the backend a moment to process the user creation
+    sleep.sleep(1)
+  } catch (error) {
+    // If user already exists, that's okay for our test
+    if (error.message.includes('already exists') || error.message.includes('duplicate')) {
+      console.log('Test user already exists:', email)
+      this.testUser = { email, password }
+    } else {
+      throw error
+    }
+  }
 })
 
 Given('I leave the email field empty', async function () {

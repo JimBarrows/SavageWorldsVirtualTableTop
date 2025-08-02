@@ -3,6 +3,7 @@ import {Given, Then, When} from 'cucumber'
 import {By, until} from 'selenium-webdriver'
 import {expect} from 'chai'
 import sleep from 'sleep'
+import testUserHelper from '../support/test-users'
 
 Given('I am on the signup page', async function () {
   const browser = this.browser
@@ -19,9 +20,21 @@ Given('I confirm the password with {string}', async function (confirmPassword) {
 })
 
 Given('a user with email {string} already exists', async function (email) {
-  // This would typically involve creating a test user in the database
-  // For now, we'll assume the test environment has this user pre-seeded
-  this.existingEmail = email
+  try {
+    // Create a user with this email to test duplicate prevention
+    // Use a default password since we won't be logging in with this user
+    await testUserHelper.createTestUser(email, 'TestPassword123!')
+    this.existingEmail = email
+    console.log('Created existing user for duplicate test:', email)
+  } catch (error) {
+    // If user already exists, that's fine for this test
+    if (error.message.includes('already exists') || error.message.includes('duplicate')) {
+      console.log('User already exists (good for this test):', email)
+      this.existingEmail = email
+    } else {
+      throw error
+    }
+  }
 })
 
 Given('I leave the email field empty', async function () {
