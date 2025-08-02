@@ -1,7 +1,8 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { BrowserRouter, useNavigate } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
+import authService from '../services/authService'
 import SignupPage from './SignupPage'
 
 // Mock the auth service
@@ -17,8 +18,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate
 }))
-
-import authService from '../services/authService'
 
 describe('SignupPage', () => {
   beforeEach(() => {

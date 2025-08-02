@@ -11,12 +11,12 @@ describe('SignupForm', () => {
   })
 
   it('renders all required form fields', () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    expect(screen.getByLabelText(/username/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-text-TextFormGroup-username')).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-email-EmailFormGroup-email')).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-password-PasswordFormGroup-password')).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument()
   })
 

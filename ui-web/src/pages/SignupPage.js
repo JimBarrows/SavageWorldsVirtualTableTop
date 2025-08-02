@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withRouter } from '../utils/withRouter'
 import SignupForm from '../components/SignupForm'
 import authService from '../services/authService'
 
 class SignupPage extends Component {
+  static propTypes = {
+    navigate: PropTypes.func.isRequired
+  }
   state = {
     successMessage: null,
     errorMessage: null
