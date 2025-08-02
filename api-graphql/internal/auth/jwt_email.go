@@ -28,7 +28,7 @@ func (s *JWTService) GenerateEmailTokenPair(user *models.User) (*models.EmailTok
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "savage-worlds-api",
 			Subject:   user.ID.String(),
-			ExpiresAt: jwt.NewNumericDate(now.Add(s.config.AccessTokenDuration)),
+			ExpiresAt: jwt.NewNumericDate(now.Add(s.config.AccessExpiry)),
 			NotBefore: jwt.NewNumericDate(now),
 			IssuedAt:  jwt.NewNumericDate(now),
 			ID:        generateTokenID(),
@@ -37,7 +37,7 @@ func (s *JWTService) GenerateEmailTokenPair(user *models.User) (*models.EmailTok
 	
 	// Create access token
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessClaims)
-	accessTokenString, err := accessToken.SignedString([]byte(s.config.SecretKey))
+	accessTokenString, err := accessToken.SignedString([]byte(s.secret))
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (s *JWTService) GenerateEmailTokenPair(user *models.User) (*models.EmailTok
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "savage-worlds-api",
 			Subject:   user.ID.String(),
-			ExpiresAt: jwt.NewNumericDate(now.Add(s.config.RefreshTokenDuration)),
+			ExpiresAt: jwt.NewNumericDate(now.Add(s.config.RefreshExpiry)),
 			NotBefore: jwt.NewNumericDate(now),
 			IssuedAt:  jwt.NewNumericDate(now),
 			ID:        generateTokenID(),
@@ -59,7 +59,7 @@ func (s *JWTService) GenerateEmailTokenPair(user *models.User) (*models.EmailTok
 	
 	// Create refresh token
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
-	refreshTokenString, err := refreshToken.SignedString([]byte(s.config.SecretKey))
+	refreshTokenString, err := refreshToken.SignedString([]byte(s.secret))
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (s *JWTService) GenerateEmailTokenPair(user *models.User) (*models.EmailTok
 		AccessToken:  accessTokenString,
 		RefreshToken: refreshTokenString,
 		TokenType:    "Bearer",
-		ExpiresIn:    int64(s.config.AccessTokenDuration.Seconds()),
+		ExpiresIn:    int64(s.config.AccessExpiry.Seconds()),
 		User:         user.ToEmailUserInfo(),
 	}, nil
 }
@@ -76,7 +76,7 @@ func (s *JWTService) GenerateEmailTokenPair(user *models.User) (*models.EmailTok
 // ValidateEmailToken validates a token and returns the email claims
 func (s *JWTService) ValidateEmailToken(tokenString string) (*EmailClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &EmailClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(s.config.SecretKey), nil
+		return []byte(s.secret), nil
 	})
 	
 	if err != nil {

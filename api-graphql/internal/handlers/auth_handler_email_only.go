@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -136,7 +137,7 @@ func (h *AuthHandler) LoginEmailOnly(c *gin.Context) {
 	}
 
 	// Check password
-	if err := h.passwordService.CheckPassword(req.Password, user.Password); err != nil {
+	if err := h.passwordService.ComparePassword(user.Password, req.Password); err != nil {
 		response.Error(c, errors.ErrInvalidCredentials)
 		return
 	}
@@ -163,5 +164,5 @@ func (h *AuthHandler) LoginEmailOnly(c *gin.Context) {
 		User:         user.ToEmailUserInfo(),
 	}
 
-	response.Success(c, emailTokenResponse)
+	response.Success(c, http.StatusOK, emailTokenResponse)
 }
