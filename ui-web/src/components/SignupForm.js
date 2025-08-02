@@ -47,8 +47,21 @@ class SignupForm extends Component {
     this.setState({ isSubmitting: true, submitError: null })
 
     try {
+      // TODO: This is a temporary workaround. The backend should be updated to use email as the primary identifier
+      // Generate username from email - take part before @ and ensure it meets backend requirements
+      const emailParts = this.state.formData.email.split('@');
+      let username = emailParts[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9_-]/g, '') // Remove invalid characters
+        .substring(0, 30); // Ensure max 30 characters
+      
+      // If username is too short or empty after cleaning, add some numbers
+      if (username.length < 3) {
+        username = 'user' + Date.now().toString().slice(-6);
+      }
+      
       await this.props.onSubmit({
-        username: this.state.formData.email, // Use email as username for backend compatibility
+        username: username,
         email: this.state.formData.email,
         password: this.state.formData.password
       })
