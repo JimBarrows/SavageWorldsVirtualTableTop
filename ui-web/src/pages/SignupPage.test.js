@@ -1,16 +1,13 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
-import authService from '../services/authService'
-import SignupPage from './SignupPage'
 
-// Mock the auth service
-jest.mock('../services/authService', () => ({
-  default: {
-    register: jest.fn()
-  }
-}))
+// Mock the auth service before importing components
+jest.mock('../services/authService')
+
+// Import mocked service
+import authService from '../services/authService'
 
 // Mock React Router's useNavigate
 const mockNavigate = jest.fn()
@@ -19,9 +16,21 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate
 }))
 
+// Now import components after mocks are set up
+import SignupPage from './SignupPage'
+
+
 describe('SignupPage', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    // Reset all mocks
+    mockNavigate.mockClear()
+    // Setup default mock implementation
+    authService.register = jest.fn()
+  })
+  
+  afterEach(() => {
+    jest.useRealTimers()
   })
 
   const renderSignupPage = () => {
@@ -33,96 +42,137 @@ describe('SignupPage', () => {
   }
 
   it('renders signup page with title and form', () => {
-    renderSignupPage()
+    const { container } = renderSignupPage()
     
     expect(screen.getByRole('heading', { name: /sign up/i })).toBeInTheDocument()
     expect(screen.getByText(/create your account/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/username/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-email-EmailFormGroup-email')).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-password-PasswordFormGroup-password')).toBeInTheDocument()
+    expect(container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')).toBeInTheDocument()
+    // Should NOT have username field
+    expect(screen.queryByLabelText(/username/i)).not.toBeInTheDocument()
   })
 
   it('renders link to login page', () => {
     renderSignupPage()
     
-    const loginLink = screen.getByText(/already have an account/i)
+    const loginLink = screen.getByRole('link', { name: /log in/i })
     expect(loginLink).toBeInTheDocument()
-    expect(loginLink.closest('a')).toHaveAttribute('href', '/login')
+    expect(loginLink).toHaveAttribute('href', '/login')
   })
 
+
   it('successfully creates account and redirects to login', async () => {
-    authService.register.mockResolvedValueOnce({ success: true })
-    renderSignupPage()
+    // Setup mocks
+    authService.register.mockImplementation(() => Promise.resolve({ success: true }))
+    jest.useFakeTimers()
     
-    const usernameInput = screen.getByLabelText(/username/i)
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const { container } = renderSignupPage()
+    
+    // Get form elements
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
-    fireEvent.change(usernameInput, { target: { value: 'newuser' } })
+    // Fill form
     fireEvent.change(emailInput, { target: { value: 'new@example.com' } })
     fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } })
     fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPassword123!' } })
+    
+    // Submit form
     fireEvent.click(submitButton)
 
+    // Wait for the register call
     await waitFor(() => {
+      expect(authService.register).toHaveBeenCalledTimes(1)
       expect(authService.register).toHaveBeenCalledWith({
-        username: 'newuser',
         email: 'new@example.com',
         password: 'ValidPassword123!'
       })
     })
 
-    expect(screen.getByText(/account created successfully/i)).toBeInTheDocument()
-    
+    // Check for success message
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/login')
-    }, { timeout: 3000 })
+      const alerts = container.querySelectorAll('.alert-success')
+      const hasSuccessMessage = Array.from(alerts).some(alert => 
+        alert.textContent.includes('Account created successfully')
+      )
+      expect(hasSuccessMessage).toBe(true)
+    })
+    
+    // Advance timers to trigger navigation
+    act(() => {
+      jest.advanceTimersByTime(2000)
+    })
+    
+    // Check navigation
+    expect(mockNavigate).toHaveBeenCalledWith('/login')
+    
+    jest.useRealTimers()
   })
 
   it('displays error message when signup fails', async () => {
-    authService.register.mockRejectedValueOnce(new Error('Username already exists'))
-    renderSignupPage()
+    // Mock failed registration
+    authService.register.mockImplementation(() => Promise.reject(new Error('Email already exists')))
     
-    const usernameInput = screen.getByLabelText(/username/i)
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const { container } = renderSignupPage()
+    
+    // Get form elements
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
-    fireEvent.change(usernameInput, { target: { value: 'existinguser' } })
+    // Fill form
     fireEvent.change(emailInput, { target: { value: 'existing@example.com' } })
     fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } })
     fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPassword123!' } })
+    
+    // Submit form
     fireEvent.click(submitButton)
 
+    // Wait for the error to be displayed
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(/username already exists/i)
+      const alerts = container.querySelectorAll('.alert-danger')
+      const hasErrorMessage = Array.from(alerts).some(alert => 
+        alert.textContent.toLowerCase().includes('email already exists')
+      )
+      expect(hasErrorMessage).toBe(true)
     })
 
     expect(mockNavigate).not.toHaveBeenCalled()
   })
 
   it('handles network errors gracefully', async () => {
-    authService.register.mockRejectedValueOnce(new Error('Network error'))
-    renderSignupPage()
+    // Mock network error
+    authService.register.mockImplementation(() => Promise.reject(new Error('Network error')))
     
-    const usernameInput = screen.getByLabelText(/username/i)
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const { container } = renderSignupPage()
+    
+    // Get form elements
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } })
+    // Fill form
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
     fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } })
     fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPassword123!' } })
+    
+    // Submit form
     fireEvent.click(submitButton)
 
+    // Wait for the error to be displayed
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(/network error/i)
+      const alerts = container.querySelectorAll('.alert-danger')
+      const hasErrorMessage = Array.from(alerts).some(alert => 
+        alert.textContent.toLowerCase().includes('network error')
+      )
+      expect(hasErrorMessage).toBe(true)
     })
+
+    expect(mockNavigate).not.toHaveBeenCalled()
   })
 })

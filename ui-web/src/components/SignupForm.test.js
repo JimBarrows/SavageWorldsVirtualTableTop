@@ -20,10 +20,10 @@ describe('SignupForm', () => {
   })
 
   it('displays error when email is empty', async () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } })
@@ -37,11 +37,11 @@ describe('SignupForm', () => {
   })
 
   it('displays error when email is invalid', async () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(emailInput, { target: { value: 'invalid-email' } })
@@ -56,11 +56,11 @@ describe('SignupForm', () => {
   })
 
   it('displays error when passwords do not match', async () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
@@ -75,11 +75,11 @@ describe('SignupForm', () => {
   })
 
   it('displays error when password is too weak', async () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
@@ -94,11 +94,11 @@ describe('SignupForm', () => {
   })
 
   it('calls onSubmit with form data when all fields are valid', async () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
@@ -116,11 +116,11 @@ describe('SignupForm', () => {
 
   it('disables submit button while form is submitting', async () => {
     const slowSubmit = jest.fn(() => new Promise(resolve => setTimeout(resolve, 100)))
-    render(<SignupForm onSubmit={slowSubmit} />)
+    const { container } = render(<SignupForm onSubmit={slowSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
@@ -139,11 +139,11 @@ describe('SignupForm', () => {
 
   it('displays server error message when submission fails', async () => {
     const failingSubmit = jest.fn(() => Promise.reject(new Error('Email already exists')))
-    render(<SignupForm onSubmit={failingSubmit} />)
+    const { container } = render(<SignupForm onSubmit={failingSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/^password$/i)
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
+    const passwordInput = container.querySelector('#FormControl-password-PasswordFormGroup-password')
+    const confirmPasswordInput = container.querySelector('#FormControl-password-PasswordFormGroup-confirmPassword')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     fireEvent.change(emailInput, { target: { value: 'existing@example.com' } })
@@ -157,9 +157,9 @@ describe('SignupForm', () => {
   })
 
   it('clears error messages when user starts typing', async () => {
-    render(<SignupForm onSubmit={mockOnSubmit} />)
+    const { container } = render(<SignupForm onSubmit={mockOnSubmit} />)
     
-    const emailInput = screen.getByLabelText(/email/i)
+    const emailInput = container.querySelector('#FormControl-email-EmailFormGroup-email')
     const submitButton = screen.getByRole('button', { name: /sign up/i })
 
     // Submit with empty email to trigger error

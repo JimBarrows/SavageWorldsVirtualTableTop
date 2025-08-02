@@ -13,7 +13,6 @@ Given('the frontend is running on {string}', function (frontendUrl) {
 
 Given('I provide valid signup data', function () {
   this.signupData = {
-    username: 'testuser_' + Date.now(),
     email: `testuser_${Date.now()}@example.com`,
     password: 'ValidPassword123!',
     confirmPassword: 'ValidPassword123!'
@@ -64,7 +63,9 @@ Then('the {string} header should contain {string}', function (headerName, expect
 })
 
 Then('the response status should be {int}', function (expectedStatus) {
-  expect(this.response.status).to.equal(expectedStatus)
+  // Support both response formats
+  const response = this.response || this.lastApiResponse
+  expect(response.status).to.equal(expectedStatus)
 })
 
 Then('the request should be blocked by CORS policy', function () {

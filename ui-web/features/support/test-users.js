@@ -15,24 +15,13 @@ export const testUserHelper = {
    */
   async createTestUser(email, password) {
     try {
-      // Generate username from email (matching the logic in SignupForm)
-      const emailParts = email.split('@');
-      let username = emailParts[0]
-        .toLowerCase()
-        .replace(/[^a-z0-9_-]/g, '')
-        .substring(0, 30);
-      
-      if (username.length < 3) {
-        username = 'user' + Date.now().toString().slice(-6);
-      }
-
+      // Backend now only requires email and password
       const userData = {
-        username,
         email,
         password
       };
 
-      console.log(`Creating test user: ${email} with username: ${username}`);
+      console.log(`Creating test user: ${email}`);
 
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
@@ -47,12 +36,12 @@ export const testUserHelper = {
         throw new Error(`Failed to create test user: ${response.status} - ${error}`);
       }
 
-      const user = await response.json();
+      const result = await response.json();
+      const user = result.data ? result.data.user : result;
       
       // Store for cleanup
       createdUsers.add({
         email,
-        username,
         id: user.id
       });
 

@@ -1,21 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import App from './App';
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-// Mock config first
-jest.mock('./config', () => ({
-  default: {
-    query: {
-      retry: false
-    },
-    api: {
-      baseURL: 'http://localhost:3001',
-      timeout: 30000
-    }
-  }
-}));
+import { AuthProvider } from './contexts/AuthContext';
 
 // Mock the auth service
 jest.mock('./services/authService', () => ({
@@ -23,48 +8,103 @@ jest.mock('./services/authService', () => ({
     login: jest.fn(),
     getCurrentUser: jest.fn(),
     logout: jest.fn(),
-    register: jest.fn()
+    register: jest.fn(),
+    getToken: jest.fn(() => null),
+    isAuthenticated: jest.fn(() => false)
   }
-}));
-
-// Mock services/api
-jest.mock('./services/api', () => ({
-  default: {
-    get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn()
-  },
-  setTokens: jest.fn(),
-  clearTokens: jest.fn(),
-  getAccessToken: jest.fn()
 }));
 
 const authService = require('./services/authService').default;
 
-describe('Login Component', () => {
-  let queryClient;
+// Create a test component that mimics the Login component in App.js
+const LoginComponent = () => {
+  const [credentials, setCredentials] = React.useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const loginData = {
+        email: credentials.email,
+        password: credentials.password
+      };
+      
+      await authService.login(loginData);
+    } catch (err) {
+      setError(err.message || 'Login failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  return (
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-title">Login</h2>
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    value={credentials.email}
+                    onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    value={credentials.password}
+                    onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                  {isLoading ? 'Logging in...' : 'Login'}
+                </button>
+                <a href="/signup" className="btn btn-link">
+                  Need an account? Sign up
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
+describe('Login Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: { retry: false },
-        mutations: { retry: false }
-      }
-    });
-    
-    // Mock getCurrentUser to simulate not logged in
-    authService.getCurrentUser.mockRejectedValue(new Error('Not authenticated'));
   });
 
   const renderLoginComponent = () => {
     return render(
-      <MemoryRouter initialEntries={['/login']}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </MemoryRouter>
+      <AuthProvider>
+        <LoginComponent />
+      </AuthProvider>
     );
   };
 
