@@ -78,3 +78,7 @@ go.work
 # IDE
 .vscode/
 .idea/
+
+# Test artifacts
+screenshots/
+*.png
