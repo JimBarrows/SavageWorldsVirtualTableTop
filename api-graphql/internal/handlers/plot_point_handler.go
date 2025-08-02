@@ -8,7 +8,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/jimbarrows/savage-worlds-api/internal/models"
 	"github.com/jimbarrows/savage-worlds-api/internal/repository"
-	"github.com/jimbarrows/savage-worlds-api/pkg/errors"
 	"github.com/jimbarrows/savage-worlds-api/pkg/response"
 	"github.com/jimbarrows/savage-worlds-api/pkg/utils"
 )

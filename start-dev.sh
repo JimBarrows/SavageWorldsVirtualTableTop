@@ -80,6 +80,11 @@ echo "   - Frontend changes will auto-refresh"
 echo "   - Backend changes will auto-rebuild and restart"
 echo ""
 
-# Follow logs
-echo "Following logs (Ctrl+C to exit)..."
-$DOCKER_COMPOSE -f docker-compose.dev.yml logs -f
+# Show how to follow logs
+echo "To follow logs, run:"
+echo "   $DOCKER_COMPOSE -f docker-compose.dev.yml logs -f"
+echo ""
+echo "Or follow specific service logs:"
+echo "   $DOCKER_COMPOSE -f docker-compose.dev.yml logs -f frontend"
+echo "   $DOCKER_COMPOSE -f docker-compose.dev.yml logs -f api"
+echo "   $DOCKER_COMPOSE -f docker-compose.dev.yml logs -f postgres"
