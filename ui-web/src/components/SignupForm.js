@@ -48,6 +48,7 @@ class SignupForm extends Component {
 
     try {
       await this.props.onSubmit({
+        username: this.state.formData.email, // Use email as username for backend compatibility
         email: this.state.formData.email,
         password: this.state.formData.password
       })

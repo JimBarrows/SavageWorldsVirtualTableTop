@@ -4,7 +4,7 @@ module.exports = function (api) {
 	const presets = ["@babel/preset-env",
 									 "@babel/preset-react"]
 	const plugins = ["css-modules-transform",
-									 "transform-react-jsx",
+									 "@babel/plugin-transform-react-jsx",
 									 "transform-class-properties",
 									 "react-html-attrs",
 									 "@babel/plugin-proposal-nullish-coalescing-operator",

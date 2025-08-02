@@ -109,6 +109,7 @@ export default function Register() {
     }
     
     const result = await register({
+      username: formData.username, // Use email as username for backend compatibility
       email: formData.username,
       password: formData.password
     });
