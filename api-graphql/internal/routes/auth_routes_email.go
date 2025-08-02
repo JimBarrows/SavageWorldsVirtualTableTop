@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/handlers"
+	"github.com/jimbarrows/savage-worlds-api/internal/handlers"
 )
 
 // SetupEmailAuthRoutes sets up authentication routes that use email only (no username)

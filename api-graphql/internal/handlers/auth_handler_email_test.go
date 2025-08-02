@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/models"
+	"github.com/jimbarrows/savage-worlds-api/internal/models"
 )
 
 // Test that login accepts email field instead of username

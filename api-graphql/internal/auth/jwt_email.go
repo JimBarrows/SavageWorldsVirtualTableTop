@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/models"
+	"github.com/jimbarrows/savage-worlds-api/internal/models"
 )
 
 // EmailClaims represents JWT claims with email as identifier

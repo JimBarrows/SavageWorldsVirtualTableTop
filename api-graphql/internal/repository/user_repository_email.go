@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/errors"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/models"
+	"github.com/jimbarrows/savage-worlds-api/internal/models"
+	"github.com/jimbarrows/savage-worlds-api/pkg/errors"
 )
 
 // GetByEmail retrieves a user by email address
@@ -37,9 +37,9 @@ func (r *userRepository) GetByEmail(ctx context.Context, email string) (*models.
 	
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, errors.ErrUserNotFound
+			return nil, errors.NewNotFoundError("User")
 		}
-		return nil, errors.ErrDatabase.WithInternal(err)
+		return nil, errors.NewDatabaseError(err)
 	}
 	
 	return user, nil
@@ -52,7 +52,7 @@ func (r *userRepository) ExistsByEmail(ctx context.Context, email string) (bool,
 	
 	err := r.db.QueryRowContext(ctx, query, strings.ToLower(email)).Scan(&exists)
 	if err != nil {
-		return false, errors.ErrDatabase.WithInternal(err)
+		return false, errors.NewDatabaseError(err)
 	}
 	
 	return exists, nil
@@ -82,7 +82,7 @@ func (r *userRepository) CreateEmailOnly(ctx context.Context, user *models.User)
 		if strings.Contains(err.Error(), "duplicate key") && strings.Contains(err.Error(), "email") {
 			return errors.ErrDuplicateEmail
 		}
-		return errors.ErrDatabase.WithInternal(err)
+		return errors.NewDatabaseError(err)
 	}
 	
 	return nil

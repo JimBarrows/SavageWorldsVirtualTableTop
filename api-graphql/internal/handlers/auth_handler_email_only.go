@@ -4,10 +4,10 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/errors"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/models"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/response"
-	"github.com/JimBarrows/SavageWorldsVirtualTableTop/api-graphql/internal/utils"
+	"github.com/jimbarrows/savage-worlds-api/internal/models"
+	"github.com/jimbarrows/savage-worlds-api/pkg/errors"
+	"github.com/jimbarrows/savage-worlds-api/pkg/response"
+	"github.com/jimbarrows/savage-worlds-api/pkg/utils"
 )
 
 // RegisterEmailOnly handles user registration without username
@@ -131,7 +131,7 @@ func (h *AuthHandler) LoginEmailOnly(c *gin.Context) {
 
 	// Check if user is active
 	if !user.IsActive {
-		response.Error(c, errors.ErrUserInactive)
+		response.Error(c, errors.ErrUserNotActive)
 		return
 	}
 
