@@ -4,9 +4,11 @@ import { BrowserRouter, useNavigate } from 'react-router-dom'
 import '@testing-library/jest-dom'
 import SignupPage from './SignupPage'
 
-// Mock the API service
-jest.mock('../services/api', () => ({
-  signup: jest.fn()
+// Mock the auth service
+jest.mock('../services/authService', () => ({
+  default: {
+    register: jest.fn()
+  }
 }))
 
 // Mock React Router's useNavigate
@@ -16,7 +18,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate
 }))
 
-import { signup } from '../services/api'
+import authService from '../services/authService'
 
 describe('SignupPage', () => {
   beforeEach(() => {
@@ -51,7 +53,7 @@ describe('SignupPage', () => {
   })
 
   it('successfully creates account and redirects to login', async () => {
-    signup.mockResolvedValueOnce({ success: true })
+    authService.register.mockResolvedValueOnce({ success: true })
     renderSignupPage()
     
     const usernameInput = screen.getByLabelText(/username/i)
@@ -67,7 +69,7 @@ describe('SignupPage', () => {
     fireEvent.click(submitButton)
 
     await waitFor(() => {
-      expect(signup).toHaveBeenCalledWith({
+      expect(authService.register).toHaveBeenCalledWith({
         username: 'newuser',
         email: 'new@example.com',
         password: 'ValidPassword123!'
@@ -82,7 +84,7 @@ describe('SignupPage', () => {
   })
 
   it('displays error message when signup fails', async () => {
-    signup.mockRejectedValueOnce(new Error('Username already exists'))
+    authService.register.mockRejectedValueOnce(new Error('Username already exists'))
     renderSignupPage()
     
     const usernameInput = screen.getByLabelText(/username/i)
@@ -105,7 +107,7 @@ describe('SignupPage', () => {
   })
 
   it('handles network errors gracefully', async () => {
-    signup.mockRejectedValueOnce(new Error('Network error'))
+    authService.register.mockRejectedValueOnce(new Error('Network error'))
     renderSignupPage()
     
     const usernameInput = screen.getByLabelText(/username/i)

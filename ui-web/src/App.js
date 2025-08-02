@@ -9,7 +9,7 @@ import Header from './components/layout/Header';
 import PlotPointAdd from './pages/PlotPointAdd';
 import PlotPointEdit from './pages/PlotPointEdit';
 import PlotPointList from './pages/PlotPointList';
-import Register from './components/layout/Register';
+import SignupPage from './pages/SignupPage';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import config from './config';
@@ -99,8 +99,8 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary" disabled={isLoading}>
                   {isLoading ? 'Logging in...' : 'Login'}
                 </button>
-                <a href="/register" className="btn btn-link">
-                  Need an account? Register
+                <a href="/signup" className="btn btn-link">
+                  Need an account? Sign up
                 </a>
               </form>
             </div>
@@ -122,7 +122,7 @@ function AppContent() {
         <div id="layout" className="container" role="main">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/signup" element={<SignupPage />} />
             <Route
               path="/"
               element={
