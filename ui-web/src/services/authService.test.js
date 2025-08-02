@@ -1,4 +1,4 @@
-import { authService } from './authService';
+import authService from './authService';
 import api, { clearTokens } from './api';
 
 // Mock the api module
