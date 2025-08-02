@@ -126,7 +126,7 @@ describe('AuthContext - Remember Me Functionality', () => {
     });
   });
 
-  describe('logout with remember me', () => {
+  describe('logout functionality', () => {
     it('clears remember me flag on logout', async () => {
       authService.logout.mockResolvedValue();
 
@@ -152,6 +152,131 @@ describe('AuthContext - Remember Me Functionality', () => {
 
       expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
       expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+    });
+
+    it('clears user state and calls authService.logout', async () => {
+      authService.logout.mockResolvedValue();
+
+      let authContext;
+      const TestComponent = () => {
+        authContext = useAuth();
+        return <div>Test</div>;
+      };
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(authContext).toBeTruthy();
+      });
+
+      // Set user state first
+      await act(async () => {
+        authContext.setUser = jest.fn();
+        authContext.setError = jest.fn();
+      });
+
+      await act(async () => {
+        await authContext.logout();
+      });
+
+      expect(authService.logout).toHaveBeenCalledTimes(1);
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+    });
+
+    it('clears user state even if authService.logout fails', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      authService.logout.mockRejectedValue(new Error('Logout failed'));
+
+      let authContext;
+      const TestComponent = () => {
+        authContext = useAuth();
+        return <div>Test</div>;
+      };
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(authContext).toBeTruthy();
+      });
+
+      await act(async () => {
+        await authContext.logout();
+      });
+
+      expect(authService.logout).toHaveBeenCalledTimes(1);
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
+
+    it('sets loading state during logout process', async () => {
+      authService.logout.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
+
+      let authContext;
+      const TestComponent = () => {
+        authContext = useAuth();
+        return <div>Test</div>;
+      };
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(authContext).toBeTruthy();
+      });
+
+      const logoutPromise = act(async () => {
+        await authContext.logout();
+      });
+
+      // Loading should be true during logout
+      expect(authContext.loading).toBe(true);
+
+      await logoutPromise;
+
+      // Loading should be false after logout
+      expect(authContext.loading).toBe(false);
+    });
+
+    it('maintains correct authentication state after logout', async () => {
+      authService.logout.mockResolvedValue();
+
+      let authContext;
+      const TestComponent = () => {
+        authContext = useAuth();
+        return <div>Test</div>;
+      };
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(authContext).toBeTruthy();
+      });
+
+      await act(async () => {
+        await authContext.logout();
+      });
+
+      expect(authContext.isAuthenticated).toBe(false);
+      expect(authContext.user).toBeNull();
+      expect(authContext.error).toBeNull();
     });
   });
 
