@@ -68,7 +68,6 @@ ui-web/out.png
 .env
 docker-compose.override.yml
 backups/
-*.sql
 *.sql.gz
 
 # Go
