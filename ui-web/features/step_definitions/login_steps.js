@@ -25,6 +25,12 @@ Given('a user exists with email {string} and password {string}', async function 
     if (error.message.includes('already exists') || error.message.includes('duplicate')) {
       console.log('Test user already exists:', email)
       this.testUser = { email, password }
+    } else if (error.message.includes('ECONNREFUSED')) {
+      // Backend is not running
+      console.error('\n⚠️  Backend server is not running on port 8080!')
+      console.error('Please start the backend server before running BDD tests.')
+      console.error('The tests need to create real users in the database.\n')
+      throw new Error('Backend server not available - cannot create test users')
     } else {
       throw error
     }
