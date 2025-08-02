@@ -9,6 +9,19 @@ set -e
 echo "🚀 Starting Savage Worlds Virtual Table Top - Development Environment"
 echo "===================================================================="
 
+# Determine which docker compose command to use
+if command -v docker-compose &> /dev/null; then
+    DOCKER_COMPOSE="docker-compose"
+elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
+    DOCKER_COMPOSE="docker compose"
+else
+    echo "❌ Error: Neither 'docker-compose' nor 'docker compose' command found."
+    echo "Please install Docker Desktop or Docker Compose."
+    exit 1
+fi
+
+echo "Using: $DOCKER_COMPOSE"
+
 # Check if .env file exists
 if [ ! -f .env ]; then
     echo "⚠️  Warning: .env file not found. Copying from .env.example..."
@@ -30,14 +43,14 @@ fi
 
 # Stop any existing containers
 echo "🛑 Stopping any existing containers..."
-docker-compose -f docker-compose.dev.yml down
+$DOCKER_COMPOSE -f docker-compose.dev.yml down
 
 # Build and start services
 echo "🔨 Building services..."
-docker-compose -f docker-compose.dev.yml build
+$DOCKER_COMPOSE -f docker-compose.dev.yml build
 
 echo "🚀 Starting services..."
-docker-compose -f docker-compose.dev.yml up -d
+$DOCKER_COMPOSE -f docker-compose.dev.yml up -d
 
 # Wait for services to be healthy
 echo "⏳ Waiting for services to be ready..."
@@ -45,7 +58,7 @@ sleep 5
 
 # Check service health
 echo "🔍 Checking service status..."
-docker-compose -f docker-compose.dev.yml ps
+$DOCKER_COMPOSE -f docker-compose.dev.yml ps
 
 # Display logs command
 echo ""
@@ -58,9 +71,9 @@ echo "   - Database: localhost:5432"
 echo "   - PgAdmin:  http://localhost:5050 (if enabled)"
 echo ""
 echo "📝 Useful commands:"
-echo "   - View logs:      docker-compose -f docker-compose.dev.yml logs -f"
-echo "   - Stop services:  docker-compose -f docker-compose.dev.yml down"
-echo "   - Restart:        docker-compose -f docker-compose.dev.yml restart"
+echo "   - View logs:      $DOCKER_COMPOSE -f docker-compose.dev.yml logs -f"
+echo "   - Stop services:  $DOCKER_COMPOSE -f docker-compose.dev.yml down"
+echo "   - Restart:        $DOCKER_COMPOSE -f docker-compose.dev.yml restart"
 echo ""
 echo "🔥 Hot reload is enabled for both frontend and backend!"
 echo "   - Frontend changes will auto-refresh"
@@ -69,4 +82,4 @@ echo ""
 
 # Follow logs
 echo "Following logs (Ctrl+C to exit)..."
-docker-compose -f docker-compose.dev.yml logs -f
+$DOCKER_COMPOSE -f docker-compose.dev.yml logs -f
