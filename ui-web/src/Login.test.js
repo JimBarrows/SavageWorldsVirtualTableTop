@@ -1,3 +1,9 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import App from './App';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 // Mock config first
 jest.mock('./config', () => ({
   default: {
@@ -33,12 +39,6 @@ jest.mock('./services/api', () => ({
   clearTokens: jest.fn(),
   getAccessToken: jest.fn()
 }));
-
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import App from './App';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 const authService = require('./services/authService').default;
 
