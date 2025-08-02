@@ -31,9 +31,13 @@ jest.mock('../utils/tokenUtils', () => ({
 }));
 
 // Import after mocking
+// eslint-disable-next-line import/first
 import { AuthProvider, useAuth } from './AuthContext';
+// eslint-disable-next-line import/first
 import { authService } from '../services';
+// eslint-disable-next-line import/first
 import * as api from '../services/api';
+// eslint-disable-next-line import/first
 import * as tokenUtils from '../utils/tokenUtils';
 
 describe('AuthContext - Remember Me Functionality', () => {
