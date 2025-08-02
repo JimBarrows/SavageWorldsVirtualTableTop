@@ -18,16 +18,16 @@ Given('I confirm the password with {string}', async function (confirmPassword) {
   await this.browser.findElement(By.name('confirmPassword')).sendKeys(confirmPassword)
 })
 
-Given('a user {string} already exists', async function (username) {
+Given('a user with email {string} already exists', async function (email) {
   // This would typically involve creating a test user in the database
   // For now, we'll assume the test environment has this user pre-seeded
-  this.existingUsername = username
+  this.existingEmail = email
 })
 
-Given('I leave the username field empty', async function () {
-  // Intentionally not filling the username field
+Given('I leave the email field empty', async function () {
+  // Intentionally not filling the email field
   this.signupData = this.signupData || {}
-  this.signupData.username = ''
+  this.signupData.email = ''
 })
 
 When('I submit the signup form', async function () {

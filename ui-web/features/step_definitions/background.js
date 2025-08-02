@@ -17,10 +17,7 @@ Given('I\'m presented with an authentication challenge', async function () {
 	}
 })
 
-Given('I provide a username of {string}', async function (username) {
-	this.credentials.username = username
-	await this.browser.findElement(By.name('username')).sendKeys(username)
-})
+// Username step removed - using email only for authentication
 
 Given('I provide an email of {string}', async function (email) {
 	this.credentials.email = email

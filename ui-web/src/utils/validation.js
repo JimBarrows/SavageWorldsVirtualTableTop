@@ -41,12 +41,9 @@ export const validateUsername = (username) => {
 export const validateSignupForm = (formData) => {
   const errors = {}
   
-  const usernameValidation = validateUsername(formData.username)
-  if (usernameValidation !== true) {
-    errors.username = usernameValidation
-  }
-  
-  if (!validateEmail(formData.email)) {
+  if (!formData.email) {
+    errors.email = 'Email is required'
+  } else if (!validateEmail(formData.email)) {
     errors.email = 'Please enter a valid email address'
   }
   

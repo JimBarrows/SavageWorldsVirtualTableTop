@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TextFormGroup, EmailFormGroup, PasswordFormGroup } from 'bootstrap-react-components'
+import { EmailFormGroup, PasswordFormGroup } from 'bootstrap-react-components'
 import { validateSignupForm } from '../utils/validation'
 
 class SignupForm extends Component {
@@ -10,7 +10,6 @@ class SignupForm extends Component {
 
   state = {
     formData: {
-      username: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -49,7 +48,6 @@ class SignupForm extends Component {
 
     try {
       await this.props.onSubmit({
-        username: this.state.formData.username,
         email: this.state.formData.email,
         password: this.state.formData.password
       })
@@ -57,7 +55,6 @@ class SignupForm extends Component {
       // Reset form on success
       this.setState({
         formData: {
-          username: '',
           email: '',
           password: '',
           confirmPassword: ''
@@ -82,23 +79,6 @@ class SignupForm extends Component {
             {submitError}
           </div>
         )}
-
-        <div className="mb-3">
-          <TextFormGroup
-            id="username"
-            label="Username"
-            name="username"
-            value={formData.username}
-            onChange={this.handleChange('username')}
-            required={true}
-            disabled={isSubmitting}
-          />
-          {errors.username && (
-            <div className="invalid-feedback d-block">
-              {errors.username}
-            </div>
-          )}
-        </div>
 
         <div className="mb-3">
           <EmailFormGroup
