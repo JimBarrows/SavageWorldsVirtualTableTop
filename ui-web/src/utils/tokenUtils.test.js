@@ -8,13 +8,25 @@ import {
 } from './tokenUtils';
 
 // Mock localStorage
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn()
-};
-global.localStorage = localStorageMock;
+const localStorageMock = (() => {
+  let store = {};
+  return {
+    getItem: jest.fn((key) => store[key] || null),
+    setItem: jest.fn((key, value) => {
+      store[key] = value;
+    }),
+    removeItem: jest.fn((key) => {
+      delete store[key];
+    }),
+    clear: jest.fn(() => {
+      store = {};
+    })
+  };
+})();
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock
+});
 
 describe('Token Utils - Remember Me Functionality', () => {
   beforeEach(() => {
@@ -24,28 +36,28 @@ describe('Token Utils - Remember Me Functionality', () => {
   describe('setRememberMeFlag', () => {
     it('sets remember me flag to true', () => {
       setRememberMeFlag(true);
-      expect(localStorage.setItem).toHaveBeenCalledWith('rememberMe', 'true');
+      expect(localStorageMock.setItem).toHaveBeenCalledWith('rememberMe', 'true');
     });
 
     it('sets remember me flag to false', () => {
       setRememberMeFlag(false);
-      expect(localStorage.setItem).toHaveBeenCalledWith('rememberMe', 'false');
+      expect(localStorageMock.setItem).toHaveBeenCalledWith('rememberMe', 'false');
     });
   });
 
   describe('getRememberMeFlag', () => {
     it('returns true when flag is set to true', () => {
-      localStorage.getItem.mockReturnValue('true');
+      localStorageMock.getItem.mockReturnValue('true');
       expect(getRememberMeFlag()).toBe(true);
     });
 
     it('returns false when flag is set to false', () => {
-      localStorage.getItem.mockReturnValue('false');
+      localStorageMock.getItem.mockReturnValue('false');
       expect(getRememberMeFlag()).toBe(false);
     });
 
     it('returns false when flag is not set', () => {
-      localStorage.getItem.mockReturnValue(null);
+      localStorageMock.getItem.mockReturnValue(null);
       expect(getRememberMeFlag()).toBe(false);
     });
   });
@@ -53,23 +65,23 @@ describe('Token Utils - Remember Me Functionality', () => {
   describe('clearRememberMeFlag', () => {
     it('removes remember me flag from localStorage', () => {
       clearRememberMeFlag();
-      expect(localStorage.removeItem).toHaveBeenCalledWith('rememberMe');
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith('rememberMe');
     });
   });
 
   describe('isRememberMeSession', () => {
     it('returns true when remember me flag is true', () => {
-      localStorage.getItem.mockReturnValue('true');
+      localStorageMock.getItem.mockReturnValue('true');
       expect(isRememberMeSession()).toBe(true);
     });
 
     it('returns false when remember me flag is false', () => {
-      localStorage.getItem.mockReturnValue('false');
+      localStorageMock.getItem.mockReturnValue('false');
       expect(isRememberMeSession()).toBe(false);
     });
 
     it('returns false when no flag is set', () => {
-      localStorage.getItem.mockReturnValue(null);
+      localStorageMock.getItem.mockReturnValue(null);
       expect(isRememberMeSession()).toBe(false);
     });
   });

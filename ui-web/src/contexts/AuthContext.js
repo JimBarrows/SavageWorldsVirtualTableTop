@@ -2,6 +2,16 @@ import React, { createContext, useState, useContext, useEffect, useCallback } fr
 import PropTypes from 'prop-types';
 import { authService } from '../services';
 import { clearTokens, getAccessToken } from '../services/api';
+import { 
+  setRememberMeFlag, 
+  clearRememberMeFlag, 
+  isRememberMeSession, 
+  getTokenExpiryTime, 
+  isTokenExpired,
+  storeTokenExpiry,
+  getStoredTokenExpiry,
+  clearStoredTokenExpiry
+} from '../utils/tokenUtils';
 
 const AuthContext = createContext({
   user: null,
@@ -38,12 +48,30 @@ export const AuthProvider = ({ children }) => {
       try {
         const token = getAccessToken();
         if (token) {
-          const userData = await authService.getCurrentUser();
-          setUser(userData);
+          // Check if token is expired based on remember me setting
+          const isRememberMe = isRememberMeSession();
+          const storedExpiry = getStoredTokenExpiry();
+          const expiryTime = storedExpiry || getTokenExpiryTime(token, isRememberMe);
+          
+          if (isTokenExpired(expiryTime)) {
+            console.log('Token expired, clearing session');
+            clearTokens();
+            clearRememberMeFlag();
+            clearStoredTokenExpiry();
+          } else {
+            const userData = await authService.getCurrentUser();
+            setUser(userData);
+            // Store expiry if not already stored
+            if (!storedExpiry) {
+              storeTokenExpiry(expiryTime);
+            }
+          }
         }
       } catch (err) {
         console.error('Auth check failed:', err);
         clearTokens();
+        clearRememberMeFlag();
+        clearStoredTokenExpiry();
       } finally {
         setLoading(false);
       }
@@ -57,8 +85,17 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-      const { user } = await authService.login(credentials);
+      const { user, accessToken } = await authService.login(credentials);
       setUser(user);
+      
+      // Handle remember me functionality
+      const rememberMe = credentials.rememberMe || false;
+      setRememberMeFlag(rememberMe);
+      
+      // Calculate and store token expiry
+      const expiryTime = getTokenExpiryTime(accessToken, rememberMe);
+      storeTokenExpiry(expiryTime);
+      
       return { success: true, user };
     } catch (err) {
       const errorMessage = err.message || 'Login failed';
@@ -102,10 +139,14 @@ export const AuthProvider = ({ children }) => {
       await authService.logout();
       setUser(null);
       setError(null);
+      clearRememberMeFlag();
+      clearStoredTokenExpiry();
     } catch (err) {
       console.error('Logout error:', err);
       // Still clear user even if logout fails
       setUser(null);
+      clearRememberMeFlag();
+      clearStoredTokenExpiry();
     } finally {
       setLoading(false);
     }
