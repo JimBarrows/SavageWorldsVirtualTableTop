@@ -10,11 +10,7 @@ Given('I am on the signup page', async function () {
   await browser.wait(until.elementLocated(By.id('signup-form')), 5000)
 })
 
-Given('I provide an email of {string}', async function (email) {
-  this.signupData = this.signupData || {}
-  this.signupData.email = email
-  await this.browser.findElement(By.name('email')).sendKeys(email)
-})
+// Email step moved to background.js to avoid duplication
 
 Given('I confirm the password with {string}', async function (confirmPassword) {
   this.signupData = this.signupData || {}

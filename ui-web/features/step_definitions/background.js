@@ -22,6 +22,11 @@ Given('I provide a username of {string}', async function (username) {
 	await this.browser.findElement(By.name('username')).sendKeys(username)
 })
 
+Given('I provide an email of {string}', async function (email) {
+	this.credentials.email = email
+	await this.browser.findElement(By.id('email')).sendKeys(email)
+})
+
 Given('I provide a password of {string}', async function (password) {
 	this.credentials.password = password
 	await this.browser.findElement(By.name('password')).sendKeys(password)

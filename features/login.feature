@@ -8,8 +8,8 @@ Feature: User Login
     And I am on the login page
 
   Scenario: Successful login with valid credentials
-    Given a user exists with username "ChesterTester" and password "ChesterTester1!"
-    And I provide a username of "ChesterTester"
+    Given a user exists with email "chestertester@example.com" and password "ChesterTester1!"
+    And I provide an email of "chestertester@example.com"
     And I provide a password of "ChesterTester1!"
     When I submit the login form
     Then I am successfully authenticated
@@ -17,39 +17,39 @@ Feature: User Login
     And I see a welcome message
 
   Scenario: Login fails with incorrect password
-    Given a user exists with username "ChesterTester" and password "ChesterTester1!"
-    And I provide a username of "ChesterTester"
+    Given a user exists with email "chestertester@example.com" and password "ChesterTester1!"
+    And I provide an email of "chestertester@example.com"
     And I provide a password of "WrongPassword123!"
     When I submit the login form
     Then I see an error message "Incorrect username or password"
     And I remain on the login page
     And I am not authenticated
 
-  Scenario: Login fails with non-existent username
-    Given I provide a username of "NonExistentUser"
+  Scenario: Login fails with non-existent email
+    Given I provide an email of "nonexistent@example.com"
     And I provide a password of "SomePassword123!"
     When I submit the login form
     Then I see an error message "Incorrect username or password"
     And I remain on the login page
     And I am not authenticated
 
-  Scenario: Login fails with empty username
-    Given I leave the username field empty
+  Scenario: Login fails with empty email
+    Given I leave the email field empty
     And I provide a password of "SomePassword123!"
     When I submit the login form
-    Then I see an error message "Username is required"
+    Then I see an error message "Email is required"
     And I remain on the login page
 
   Scenario: Login fails with empty password
-    Given I provide a username of "ChesterTester"
+    Given I provide an email of "chestertester@example.com"
     And I leave the password field empty
     When I submit the login form
     Then I see an error message "Password is required"
     And I remain on the login page
 
   Scenario: Remember me functionality
-    Given a user exists with username "ChesterTester" and password "ChesterTester1!"
-    And I provide a username of "ChesterTester"
+    Given a user exists with email "chestertester@example.com" and password "ChesterTester1!"
+    And I provide an email of "chestertester@example.com"
     And I provide a password of "ChesterTester1!"
     And I check the "Remember me" checkbox
     When I submit the login form
