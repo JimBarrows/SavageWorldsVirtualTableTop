@@ -1,13 +1,10 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/jimbarrows/savage-worlds-api/internal/models"
 	"github.com/jimbarrows/savage-worlds-api/internal/repository"
-	"github.com/jimbarrows/savage-worlds-api/pkg/errors"
 	"github.com/jimbarrows/savage-worlds-api/pkg/response"
 	"github.com/jimbarrows/savage-worlds-api/pkg/utils"
 )
@@ -366,7 +363,7 @@ func (h *GameEntityHandler) List(c *gin.Context) {
 // @Failure 403 {object} response.ErrorResponse
 // @Router /api/v1/plot-points/{plot_point_id}/entities [get]
 func (h *GameEntityHandler) ListByPlotPoint(c *gin.Context) {
-	plotPointID, err := uuid.Parse(c.Param("plot_point_id"))
+	plotPointID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		response.BadRequest(c, "Invalid plot point ID")
 		return

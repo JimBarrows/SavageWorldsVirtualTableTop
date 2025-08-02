@@ -5,7 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jimbarrows/savage-worlds-api/internal/db"
-	"github.com/jimbarrows/savage-worlds-api/pkg/response"
 )
 
 // HealthHandler handles health check endpoints

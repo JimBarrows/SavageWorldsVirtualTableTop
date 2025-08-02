@@ -53,15 +53,32 @@ A web-based virtual tabletop application for the Savage Worlds role-playing game
    # Edit .env with your settings (optional, defaults work for development)
    ```
 
-3. **Start All Services**
+3. **Start Development Environment**
    ```bash
+   # For development with hot reload:
+   ./start-dev.sh
+   
+   # OR for production-like environment:
    ./scripts/start.sh
    ```
 
 The application will be available at:
 - Frontend: `http://localhost:3000`
 - API: `http://localhost:8080`
-- PgAdmin: `http://localhost:5050`
+- PgAdmin: `http://localhost:5050` (if enabled)
+
+### Development Environment Features
+
+The development environment (`./start-dev.sh`) includes:
+- **Hot Reload**: Both frontend and backend automatically reload on code changes
+- **Volume Mounting**: Your local code changes are immediately reflected in containers
+- **Debug Mode**: Enhanced logging and error messages
+- **Development Tools**: Air for Go hot reload, React DevTools enabled
+
+To stop the development environment:
+```bash
+./stop-dev.sh
+```
 
 For detailed Docker setup instructions, see [DOCKER_README.md](DOCKER_README.md).
 
@@ -99,10 +116,18 @@ For detailed Docker setup instructions, see [DOCKER_README.md](DOCKER_README.md)
 ## Available Scripts
 
 ### Docker Commands (Recommended)
+- `./start-dev.sh` - Start development environment with hot reload
+- `./stop-dev.sh` - Stop development environment
 - `./scripts/start.sh [dev|prod]` - Start all services
 - `./scripts/stop.sh [dev|prod]` - Stop all services
 - `./scripts/logs.sh [service]` - View service logs
 - `./scripts/backup.sh` - Backup database
+
+### Docker Compose Commands (Advanced)
+- `docker-compose -f docker-compose.dev.yml up` - Start development services
+- `docker-compose -f docker-compose.dev.yml down` - Stop development services
+- `docker-compose -f docker-compose.dev.yml logs -f` - Follow logs
+- `docker-compose -f docker-compose.dev.yml ps` - Check service status
 
 ### Frontend Scripts (in `ui-web` directory)
 - `npm start` - Start React development server
