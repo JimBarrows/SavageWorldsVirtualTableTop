@@ -36,11 +36,64 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sessionTimeoutId, setSessionTimeoutId] = useState(null);
 
   // Clear error
   const clearError = useCallback(() => {
     setError(null);
   }, []);
+
+  // Setup session timeout
+  const setupSessionTimeout = useCallback((expiryTime) => {
+    // Clear any existing timeout
+    if (sessionTimeoutId) {
+      clearTimeout(sessionTimeoutId);
+    }
+
+    const now = Date.now();
+    const timeUntilExpiry = expiryTime - now;
+
+    if (timeUntilExpiry > 0) {
+      const timeoutId = setTimeout(async () => {
+        console.log('Session timeout - automatically logging out');
+        try {
+          await authService.logout();
+        } catch (err) {
+          console.error('Session timeout logout error:', err);
+        }
+        setUser(null);
+        setError(null);
+        clearRememberMeFlag();
+        clearStoredTokenExpiry();
+      }, timeUntilExpiry);
+      setSessionTimeoutId(timeoutId);
+    }
+  }, [sessionTimeoutId]);
+
+  // Multi-tab logout synchronization using localStorage events
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      // Listen for token removal from other tabs
+      if (e.key === 'authToken' && e.newValue === null) {
+        console.log('Token removed in another tab - logging out');
+        setUser(null);
+        setError(null);
+        clearRememberMeFlag();
+        clearStoredTokenExpiry();
+        
+        // Clear session timeout
+        if (sessionTimeoutId) {
+          clearTimeout(sessionTimeoutId);
+          setSessionTimeoutId(null);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [sessionTimeoutId]);
 
   // Check if user is authenticated on mount
   useEffect(() => {
@@ -65,6 +118,8 @@ export const AuthProvider = ({ children }) => {
             if (!storedExpiry) {
               storeTokenExpiry(expiryTime);
             }
+            // Setup session timeout
+            setupSessionTimeout(expiryTime);
           }
         }
       } catch (err) {
@@ -78,7 +133,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth();
-  }, []);
+  }, [setupSessionTimeout]);
 
   // Login function
   const login = useCallback(async (credentials) => {
@@ -96,6 +151,9 @@ export const AuthProvider = ({ children }) => {
       const expiryTime = getTokenExpiryTime(accessToken, rememberMe);
       storeTokenExpiry(expiryTime);
       
+      // Setup session timeout
+      setupSessionTimeout(expiryTime);
+      
       return { success: true, user };
     } catch (err) {
       const errorMessage = err.message || 'Login failed';
@@ -104,7 +162,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [setupSessionTimeout]);
 
   // Register function
   const register = useCallback(async (userData) => {
@@ -141,16 +199,28 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       clearRememberMeFlag();
       clearStoredTokenExpiry();
+      
+      // Clear session timeout
+      if (sessionTimeoutId) {
+        clearTimeout(sessionTimeoutId);
+        setSessionTimeoutId(null);
+      }
     } catch (err) {
       console.error('Logout error:', err);
       // Still clear user even if logout fails
       setUser(null);
       clearRememberMeFlag();
       clearStoredTokenExpiry();
+      
+      // Clear session timeout even on error
+      if (sessionTimeoutId) {
+        clearTimeout(sessionTimeoutId);
+        setSessionTimeoutId(null);
+      }
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [sessionTimeoutId]);
 
   // Refresh user data
   const refreshUser = useCallback(async () => {

@@ -6,21 +6,20 @@ import { useAuth } from '../../contexts/AuthContext';
 
 // Mock the useAuth hook
 jest.mock('../../contexts/AuthContext');
+
+// Mock useNavigate
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => jest.fn(),
+  useNavigate: () => mockNavigate,
 }));
 
 describe('Header Component - Logout Functionality', () => {
   const mockLogout = jest.fn();
-  const mockNavigate = jest.fn();
   
   beforeEach(() => {
     jest.clearAllMocks();
-    
-    // Mock react-router-dom useNavigate
-    const mockUseNavigate = jest.requireMock('react-router-dom').useNavigate;
-    mockUseNavigate.mockReturnValue(mockNavigate);
+    mockNavigate.mockClear();
   });
 
   it('should display logout button when user is authenticated', () => {
@@ -72,7 +71,12 @@ describe('Header Component - Logout Functionality', () => {
 
     await waitFor(() => {
       expect(mockLogout).toHaveBeenCalledTimes(1);
-      expect(mockNavigate).toHaveBeenCalledWith('/login');
+      expect(mockNavigate).toHaveBeenCalledWith('/login', { 
+        state: { 
+          message: 'You have been logged out successfully',
+          type: 'success'
+        }
+      });
     });
   });
 
@@ -134,7 +138,7 @@ describe('Header Component - Logout Functionality', () => {
     const logoutButton = screen.getByText('Logout');
     expect(logoutButton).toHaveClass('btn', 'btn-outline-secondary', 'btn-sm');
     
-    // Verify the header has the expected ID structure
-    expect(container.querySelector('#header-test')).toBeInTheDocument();
+    // Verify the header has the expected ID structure (bootstrap-react-components generates the structure)
+    expect(container.querySelector('[id*="header-test"]')).toBeInTheDocument();
   });
 });
