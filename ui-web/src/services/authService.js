@@ -14,14 +14,20 @@ const authService = {
   // Login user
   async login(credentials) {
     try {
+      console.log('Auth service login called with:', credentials);
       const response = await api.post('/auth/login', credentials);
-      const { accessToken, refreshToken, user } = response.data;
+      console.log('Auth service login response:', response.data);
       
-      // Store tokens
-      setTokens(accessToken, refreshToken);
+      // Handle nested data structure from backend
+      const responseData = response.data.data || response.data;
+      const { access_token, refresh_token, user } = responseData;
       
-      return { user, accessToken, refreshToken };
+      // Store tokens (backend uses snake_case)
+      setTokens(access_token, refresh_token);
+      
+      return { user, accessToken: access_token, refreshToken: refresh_token };
     } catch (error) {
+      console.error('Auth service login error:', error.response?.data || error);
       throw error.response?.data || error;
     }
   },

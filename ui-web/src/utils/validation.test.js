@@ -83,7 +83,6 @@ describe('validation utilities', () => {
   describe('validateSignupForm', () => {
     it('returns empty object for valid form data', () => {
       const formData = {
-        username: 'testuser',
         email: 'test@example.com',
         password: 'ValidPass123!',
         confirmPassword: 'ValidPass123!'
@@ -91,20 +90,18 @@ describe('validation utilities', () => {
       expect(validateSignupForm(formData)).toEqual({})
     })
 
-    it('returns username error when username is invalid', () => {
+    it('returns email error when email is empty', () => {
       const formData = {
-        username: 'ab',
-        email: 'test@example.com',
+        email: '',
         password: 'ValidPass123!',
         confirmPassword: 'ValidPass123!'
       }
       const errors = validateSignupForm(formData)
-      expect(errors.username).toBe('Username must be at least 3 characters long')
+      expect(errors.email).toBe('Email is required')
     })
 
     it('returns email error when email is invalid', () => {
       const formData = {
-        username: 'testuser',
         email: 'invalid-email',
         password: 'ValidPass123!',
         confirmPassword: 'ValidPass123!'
@@ -115,7 +112,6 @@ describe('validation utilities', () => {
 
     it('returns password error when password is invalid', () => {
       const formData = {
-        username: 'testuser',
         email: 'test@example.com',
         password: 'weak',
         confirmPassword: 'weak'
@@ -126,7 +122,6 @@ describe('validation utilities', () => {
 
     it('returns confirmPassword error when passwords do not match', () => {
       const formData = {
-        username: 'testuser',
         email: 'test@example.com',
         password: 'ValidPass123!',
         confirmPassword: 'DifferentPass123!'
@@ -137,14 +132,12 @@ describe('validation utilities', () => {
 
     it('returns multiple errors when multiple fields are invalid', () => {
       const formData = {
-        username: '',
         email: 'invalid',
         password: 'weak',
         confirmPassword: 'different'
       }
       const errors = validateSignupForm(formData)
-      expect(Object.keys(errors).length).toBe(4)
-      expect(errors.username).toBeDefined()
+      expect(Object.keys(errors).length).toBe(3)
       expect(errors.email).toBeDefined()
       expect(errors.password).toBeDefined()
       expect(errors.confirmPassword).toBeDefined()

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TextFormGroup, EmailFormGroup, PasswordFormGroup } from 'bootstrap-react-components'
+import { EmailFormGroup, PasswordFormGroup } from 'bootstrap-react-components'
 import { validateSignupForm } from '../utils/validation'
 
 class SignupForm extends Component {
@@ -10,7 +10,6 @@ class SignupForm extends Component {
 
   state = {
     formData: {
-      username: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -48,8 +47,21 @@ class SignupForm extends Component {
     this.setState({ isSubmitting: true, submitError: null })
 
     try {
+      // TODO: This is a temporary workaround. The backend should be updated to use email as the primary identifier
+      // Generate username from email - take part before @ and ensure it meets backend requirements
+      const emailParts = this.state.formData.email.split('@');
+      let username = emailParts[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9_-]/g, '') // Remove invalid characters
+        .substring(0, 30); // Ensure max 30 characters
+      
+      // If username is too short or empty after cleaning, add some numbers
+      if (username.length < 3) {
+        username = 'user' + Date.now().toString().slice(-6);
+      }
+      
       await this.props.onSubmit({
-        username: this.state.formData.username,
+        username: username,
         email: this.state.formData.email,
         password: this.state.formData.password
       })
@@ -57,7 +69,6 @@ class SignupForm extends Component {
       // Reset form on success
       this.setState({
         formData: {
-          username: '',
           email: '',
           password: '',
           confirmPassword: ''
@@ -82,23 +93,6 @@ class SignupForm extends Component {
             {submitError}
           </div>
         )}
-
-        <div className="mb-3">
-          <TextFormGroup
-            id="username"
-            label="Username"
-            name="username"
-            value={formData.username}
-            onChange={this.handleChange('username')}
-            required={true}
-            disabled={isSubmitting}
-          />
-          {errors.username && (
-            <div className="invalid-feedback d-block">
-              {errors.username}
-            </div>
-          )}
-        </div>
 
         <div className="mb-3">
           <EmailFormGroup

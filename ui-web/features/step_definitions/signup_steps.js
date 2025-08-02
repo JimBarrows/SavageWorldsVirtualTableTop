@@ -3,6 +3,7 @@ import {Given, Then, When} from 'cucumber'
 import {By, until} from 'selenium-webdriver'
 import {expect} from 'chai'
 import sleep from 'sleep'
+import testUserHelper from '../support/test-users'
 
 Given('I am on the signup page', async function () {
   const browser = this.browser
@@ -10,11 +11,7 @@ Given('I am on the signup page', async function () {
   await browser.wait(until.elementLocated(By.id('signup-form')), 5000)
 })
 
-Given('I provide an email of {string}', async function (email) {
-  this.signupData = this.signupData || {}
-  this.signupData.email = email
-  await this.browser.findElement(By.name('email')).sendKeys(email)
-})
+// Email step moved to background.js to avoid duplication
 
 Given('I confirm the password with {string}', async function (confirmPassword) {
   this.signupData = this.signupData || {}
@@ -22,16 +19,28 @@ Given('I confirm the password with {string}', async function (confirmPassword) {
   await this.browser.findElement(By.name('confirmPassword')).sendKeys(confirmPassword)
 })
 
-Given('a user {string} already exists', async function (username) {
-  // This would typically involve creating a test user in the database
-  // For now, we'll assume the test environment has this user pre-seeded
-  this.existingUsername = username
+Given('a user with email {string} already exists', async function (email) {
+  try {
+    // Create a user with this email to test duplicate prevention
+    // Use a default password since we won't be logging in with this user
+    await testUserHelper.createTestUser(email, 'TestPassword123!')
+    this.existingEmail = email
+    console.log('Created existing user for duplicate test:', email)
+  } catch (error) {
+    // If user already exists, that's fine for this test
+    if (error.message.includes('already exists') || error.message.includes('duplicate')) {
+      console.log('User already exists (good for this test):', email)
+      this.existingEmail = email
+    } else {
+      throw error
+    }
+  }
 })
 
-Given('I leave the username field empty', async function () {
-  // Intentionally not filling the username field
+Given('I leave the email field empty', async function () {
+  // Intentionally not filling the email field
   this.signupData = this.signupData || {}
-  this.signupData.username = ''
+  this.signupData.email = ''
 })
 
 When('I submit the signup form', async function () {
