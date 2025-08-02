@@ -33,10 +33,6 @@ export default class PlotPointForm extends React.Component {
 
 	basicRulesChange   = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
 	beastsChange       = beasts => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {beasts})})
-	cancel             = e => {
-		e.preventDefault()
-		this.props.onCancel()
-	}
 	charactersChange   = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
 	descriptionChange  = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {description: e.target.value})})
 	edgesChange        = edges => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {edges})})
@@ -45,10 +41,6 @@ export default class PlotPointForm extends React.Component {
 	nameChange         = e => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {name: e.target.value})})
 	powersChange       = powers => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {powers})})
 	racesChange        = races => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {races})})
-	save               = e => {
-		e.preventDefault()
-		this.props.onSave(this.state.plotPoint)
-	}
 	settingRulesChange = settingRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {settingRules})})
 	skillsChange       = skills => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {skills})})
 	sectionChange      = section => this.setState({section})
@@ -134,7 +126,67 @@ export default class PlotPointForm extends React.Component {
 
 	state = {
 		section  : 'BasicRules',
-		plotPoint: this.props.plotPoint
+		plotPoint: this.props.plotPoint,
+		originalPlotPoint: this.props.plotPoint,
+		hasUnsavedChanges: false
+	}
+
+	componentDidMount() {
+		// Set up beforeunload event listener for unsaved changes
+		this.setupBeforeUnloadListener();
+	}
+
+	componentWillUnmount() {
+		// Clean up event listener
+		window.removeEventListener('beforeunload', this.handleBeforeUnload);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		// Check for unsaved changes whenever plotPoint state changes
+		if (prevState.plotPoint !== this.state.plotPoint) {
+			this.checkForUnsavedChanges();
+		}
+	}
+
+	setupBeforeUnloadListener = () => {
+		window.addEventListener('beforeunload', this.handleBeforeUnload);
+	}
+
+	handleBeforeUnload = (e) => {
+		if (this.state.hasUnsavedChanges) {
+			e.preventDefault();
+			e.returnValue = '';
+			return '';
+		}
+	}
+
+	checkForUnsavedChanges = () => {
+		const hasChanges = JSON.stringify(this.state.plotPoint) !== JSON.stringify(this.state.originalPlotPoint);
+		if (hasChanges !== this.state.hasUnsavedChanges) {
+			this.setState({ hasUnsavedChanges: hasChanges });
+		}
+	}
+
+	// Enhanced cancel with unsaved changes warning
+	cancel = e => {
+		e.preventDefault();
+		if (this.state.hasUnsavedChanges) {
+			const confirmed = window.confirm('You have unsaved changes. Are you sure you want to cancel?');
+			if (!confirmed) {
+				return;
+			}
+		}
+		this.props.onCancel();
+	}
+
+	// Enhanced save that marks form as clean
+	save = e => {
+		e.preventDefault();
+		this.setState({ 
+			hasUnsavedChanges: false,
+			originalPlotPoint: this.state.plotPoint 
+		});
+		this.props.onSave(this.state.plotPoint);
 	}
 
 }

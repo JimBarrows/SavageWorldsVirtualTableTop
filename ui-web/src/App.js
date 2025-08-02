@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import './App.css';
@@ -44,21 +44,38 @@ ProtectedRoute.propTypes = {
 // Login Component
 const Login = () => {
   const { login, error } = useAuth();
+  const location = useLocation();
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
   const [rememberMe, setRememberMe] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [logoutMessage, setLogoutMessage] = React.useState(null);
+  
+  // Check for logout message from navigation state
+  React.useEffect(() => {
+    if (location.state?.message) {
+      setLogoutMessage({
+        text: location.state.message,
+        type: location.state.type || 'info'
+      });
+      // Clear the message after 5 seconds
+      const timer = setTimeout(() => {
+        setLogoutMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [location.state]);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Send email directly to backend
+      // Send email as username to backend
       const loginData = {
-        username: username, // TODO: Backend should be updated to accept email for login
+        username: credentials.email, // Backend expects username but we use email
         password: credentials.password,
         rememberMe: rememberMe
       };
-      console.log('Login attempt with:', { email: credentials.email, username, password: '***', rememberMe });
+      console.log('Login attempt with:', { email: credentials.email, password: '***', rememberMe });
       const result = await login(loginData);
       if (result.success) {
         window.location.href = '/';
@@ -79,6 +96,15 @@ const Login = () => {
               <h3>Login</h3>
             </div>
             <div className="card-body">
+              {logoutMessage && (
+                <div 
+                  className={`alert alert-${logoutMessage.type === 'success' ? 'success' : 'info'}`} 
+                  role="alert"
+                  data-testid="logout-success"
+                >
+                  {logoutMessage.text}
+                </div>
+              )}
               {error && (
                 <div className="alert alert-danger" role="alert">
                   {error}

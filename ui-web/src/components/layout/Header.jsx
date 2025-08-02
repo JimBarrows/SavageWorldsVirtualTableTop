@@ -13,9 +13,49 @@ export default function Header({ id }) {
     navigate('/');
   };
 
+  // Check for unsaved changes by looking for forms with unsaved state
+  const checkForUnsavedChanges = () => {
+    // Check if there are any forms with unsaved changes
+    // This is a simple implementation - in a more complex app you'd use a context
+    const forms = document.querySelectorAll('form');
+    for (let form of forms) {
+      // Look for any form elements that have been modified
+      const inputs = form.querySelectorAll('input, textarea, select');
+      for (let input of inputs) {
+        if (input.defaultValue !== input.value) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
   const handleLogout = async () => {
-    await logout();
-    navigate('/login');
+    try {
+      // Check for unsaved changes before logout
+      const hasUnsavedChanges = checkForUnsavedChanges();
+      
+      if (hasUnsavedChanges) {
+        const confirmed = window.confirm('You have unsaved changes. Are you sure you want to logout?');
+        if (!confirmed) {
+          return; // User cancelled logout
+        }
+      }
+
+      await logout();
+      // Show success message (will be cleared when component unmounts)
+      // Navigate to login page with success message in state
+      navigate('/login', { 
+        state: { 
+          message: 'You have been logged out successfully',
+          type: 'success'
+        }
+      });
+    } catch (error) {
+      console.error('Logout error in header:', error);
+      // Still navigate to login even if logout fails
+      navigate('/login');
+    }
   };
 
   return (
@@ -33,6 +73,8 @@ export default function Header({ id }) {
             <button 
               className="btn btn-outline-secondary btn-sm" 
               onClick={handleLogout}
+              data-testid="logout-button"
+              data-test="logout"
             >
               Logout
             </button>
