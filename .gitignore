@@ -68,7 +68,8 @@ ui-web/out.png
 .env
 docker-compose.override.yml
 backups/
-*.sql
+
+
 *.sql.gz
 
 # Go
@@ -79,3 +80,7 @@ go.work
 # IDE
 .vscode/
 .idea/
+
+# Test artifacts
+screenshots/
+*.png

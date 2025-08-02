@@ -50,25 +50,12 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Backend expects username, not email
-      // Generate username from email (same logic as signup)
-      const emailParts = credentials.email.split('@');
-      let username = emailParts[0]
-        .toLowerCase()
-        .replace(/[^a-z0-9_-]/g, '')
-        .substring(0, 30);
-      
-      if (username.length < 3) {
-        username = 'user' + Date.now().toString().slice(-6);
-      }
-
+      // Send email directly to backend
       const loginData = {
-        username: username, // TODO: Backend should be updated to accept email for login
+        email: credentials.email,
         password: credentials.password
       };
-      console.log('Login attempt with:', { email: credentials.email, username, password: '***' });
       const result = await login(loginData);
-      console.log('Login result:', result);
       if (result.success) {
         window.location.href = '/';
       }
