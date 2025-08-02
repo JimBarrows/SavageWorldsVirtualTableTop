@@ -8,7 +8,23 @@ import testUserHelper from '../support/test-users'
 Given('I am on the signup page', async function () {
   const browser = this.browser
   await browser.get('http://localhost:3000/signup')
-  await browser.wait(until.elementLocated(By.id('signup-form')), 5000)
+  
+  // Wait for the page to load and form to be ready
+  await browser.wait(until.elementLocated(By.css('form')), 10000)
+  
+  // Additional wait for the form to be fully rendered
+  await browser.wait(async () => {
+    try {
+      // Check if we can find the email input (most reliable indicator)
+      const emailInput = await browser.findElement(By.css('input[type="email"]'))
+      return emailInput.isDisplayed()
+    } catch (e) {
+      return false
+    }
+  }, 10000, 'Signup form not fully loaded')
+  
+  // Give an extra moment for the page to stabilize
+  await browser.sleep(1000)
 })
 
 // Email step moved to background.js to avoid duplication

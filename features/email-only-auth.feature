@@ -8,8 +8,9 @@ Feature: Email-only Authentication
 
   Scenario: Register with email only
     Given I am on the signup page
-    When I provide an email of "newuser@example.com"
+    When I provide an email of "newuser_TIMESTAMP@example.com"
     And I provide a password of "SecurePass123!"
+    And I confirm the password "SecurePass123!"
     And I submit the signup form
     Then I am successfully registered
     And I am automatically logged in
@@ -35,7 +36,7 @@ Feature: Email-only Authentication
 
   Scenario: API accepts registration without username
     When I make a POST request to "/api/v1/auth/register" with:
-      | email    | newapi@example.com |
+      | email    | newapi_TIMESTAMP@example.com |
       | password | SecurePass123!     |
     Then the response status should be 201
     And the response should contain the user's email

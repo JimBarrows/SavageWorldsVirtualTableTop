@@ -24,17 +24,17 @@ func NewUserRepository(database *db.DB) *UserRepository {
 
 // Create creates a new user
 func (r *UserRepository) Create(ctx context.Context, user *models.User) error {
+	// For email-only authentication, we don't insert username
 	query := `
 		INSERT INTO users (
-			email, username, password, full_name, avatar_url, 
+			email, password, full_name, avatar_url, 
 			is_active, metadata
 		) VALUES (
-			$1, $2, $3, $4, $5, $6, $7
+			$1, $2, $3, $4, $5, $6
 		) RETURNING id, created_at, updated_at`
 
 	err := r.db.QueryRow(ctx, query,
 		user.Email,
-		user.Username,
 		user.Password,
 		user.FullName,
 		user.AvatarURL,
@@ -47,9 +47,6 @@ func (r *UserRepository) Create(ctx context.Context, user *models.User) error {
 		if isDuplicateError(err, "users_email_key") {
 			return errors.ErrDuplicateEmail
 		}
-		if isDuplicateError(err, "users_username_key") {
-			return errors.ErrDuplicateUsername
-		}
 		return errors.NewDatabaseError(err)
 	}
 
@@ -61,7 +58,7 @@ func (r *UserRepository) GetByID(ctx context.Context, id uuid.UUID) (*models.Use
 	user := &models.User{}
 	query := `
 		SELECT 
-			id, email, username, password, full_name, avatar_url,
+			id, email, password, full_name, avatar_url,
 			cognito_sub, created_at, updated_at, last_login_at,
 			is_active, metadata
 		FROM users
@@ -70,7 +67,6 @@ func (r *UserRepository) GetByID(ctx context.Context, id uuid.UUID) (*models.Use
 	err := r.db.QueryRow(ctx, query, id).Scan(
 		&user.ID,
 		&user.Email,
-		&user.Username,
 		&user.Password,
 		&user.FullName,
 		&user.AvatarURL,
@@ -97,7 +93,7 @@ func (r *UserRepository) GetByEmail(ctx context.Context, email string) (*models.
 	user := &models.User{}
 	query := `
 		SELECT 
-			id, email, username, password, full_name, avatar_url,
+			id, email, password, full_name, avatar_url,
 			cognito_sub, created_at, updated_at, last_login_at,
 			is_active, metadata
 		FROM users
@@ -106,7 +102,6 @@ func (r *UserRepository) GetByEmail(ctx context.Context, email string) (*models.
 	err := r.db.QueryRow(ctx, query, email).Scan(
 		&user.ID,
 		&user.Email,
-		&user.Username,
 		&user.Password,
 		&user.FullName,
 		&user.AvatarURL,
