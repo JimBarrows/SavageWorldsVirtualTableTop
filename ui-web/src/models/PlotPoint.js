@@ -1,4 +1,5 @@
 import BasicRules from './BasicRules'
+import Powers from './Powers'
 
 export default class PlotPoint {
 	arcaneBackgrounds          = []
@@ -19,7 +20,7 @@ export default class PlotPoint {
 	hindrances                 = []
 	id                         = ''
 	name                       = ''
-	powers                     = []
+	powers                     = Powers.getDefaultPowers()
 	races                      = []
 	settingRules               = []
 	skills                     = []
