@@ -1,5 +1,4 @@
 import Power from './Power';
-import Modifier from './Modifier';
 
 export default class Powers {
 	arcaneBackgrounds = []

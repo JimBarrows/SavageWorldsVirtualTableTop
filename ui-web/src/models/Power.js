@@ -2,7 +2,7 @@ export default class Power {
   constructor(data = {}) {
     this.name = data.name || '';
     this.description = data.description || '';
-    this.powerPoints = data.powerPoints || 1;
+    this.powerPoints = data.powerPoints !== undefined ? data.powerPoints : 1;
     this.range = data.range || '';
     this.duration = data.duration || '';
     this.trappings = data.trappings || '';
@@ -11,7 +11,7 @@ export default class Power {
   }
 
   isValid() {
-    return !!(this.name && this.powerPoints > 0);
+    return Boolean(this.name && this.powerPoints > 0);
   }
 
   addModifier(modifier) {
