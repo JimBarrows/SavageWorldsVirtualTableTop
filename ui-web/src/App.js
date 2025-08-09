@@ -9,6 +9,9 @@ import Header from './components/layout/Header';
 import PlotPointAdd from './pages/PlotPointAdd';
 import PlotPointEdit from './pages/PlotPointEdit';
 import PlotPointList from './pages/PlotPointList';
+import SceneList from './pages/SceneList';
+import SceneAdd from './pages/SceneAdd';
+import SceneEdit from './pages/SceneEdit';
 import SignupPage from './pages/SignupPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -217,6 +220,30 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <PlotPointEdit />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/scenes"
+              element={
+                <ProtectedRoute>
+                  <SceneList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/scene/add"
+              element={
+                <ProtectedRoute>
+                  <SceneAdd />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/scene/:name/edit"
+              element={
+                <ProtectedRoute>
+                  <SceneEdit />
                 </ProtectedRoute>
               }
             />
