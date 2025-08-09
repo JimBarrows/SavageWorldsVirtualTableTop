@@ -1,5 +1,5 @@
 import { PageHeader } from 'bootstrap-react-components'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import SceneEditor from '../components/scene/SceneEditor'
@@ -12,7 +12,7 @@ export default function SceneEditPage() {
   const [scene, setScene] = useState(new Scene())
 
   // Fetch the scene to edit
-  const { data: sceneData, isLoading, isError, error } = useQuery(
+  const { data: sceneData, isLoading, isError } = useQuery(
     ['scene', name],
     () => sceneService.getSceneByName(decodeURIComponent(name)),
     {

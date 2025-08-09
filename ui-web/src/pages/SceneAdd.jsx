@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import SceneEditor from '../components/scene/SceneEditor'
 import sceneService from '../services/sceneService'
-import { gameEntityService } from '../services'
+// import { gameEntityService } from '../services'
 import Scene from '../models/Scene'
 
 export default function SceneAddPage() {
