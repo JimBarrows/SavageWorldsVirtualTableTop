@@ -1,5 +1,6 @@
 import BasicRules from './BasicRules'
 import Powers from './Powers'
+import Skills from './Skills'
 
 export default class PlotPoint {
 	arcaneBackgrounds          = []
@@ -23,7 +24,7 @@ export default class PlotPoint {
 	powers                     = Powers.getDefaultPowers()
 	races                      = []
 	settingRules               = []
-	skills                     = []
+	skills                     = Skills.getDefaultSkills()
 	airVehicles                = []
 	waterVehicles              = []
 	groundVehicles             = []
