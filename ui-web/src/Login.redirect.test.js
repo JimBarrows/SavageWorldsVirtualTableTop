@@ -34,9 +34,9 @@ jest.mock('react-router-dom', () => ({
 
 // Create a simple login component that matches the App.js implementation
 const LoginComponentTest = () => {
-  const { login, error } = mockUseAuth;
+  const { login } = mockUseAuth;
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
-  const [rememberMe, setRememberMe] = React.useState(false);
+  const [rememberMe] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e) => {
@@ -144,9 +144,9 @@ describe('Login Redirect Fix - Issue #174', () => {
     // Create the FIXED version of login component
     const FixedLoginComponent = () => {
       const navigate = mockNavigate;
-      const { login, error } = mockUseAuth;
+      const { login } = mockUseAuth;
       const [credentials, setCredentials] = React.useState({ email: '', password: '' });
-      const [rememberMe, setRememberMe] = React.useState(false);
+      const [rememberMe] = React.useState(false);
       const [isLoading, setIsLoading] = React.useState(false);
 
       const handleSubmit = async (e) => {
