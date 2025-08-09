@@ -1,0 +1,201 @@
+/* Marketing Page Styles */
+.marketing-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-section .logo {
+  max-width: 200px;
+  height: auto;
+}
+
+.hero-section h1 {
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section .lead {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+.cta-buttons .btn {
+  min-width: 150px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+}
+
+/* Features Section */
+.features-section {
+  background-color: #f8f9fa;
+}
+
+.feature-card {
+  padding: 2rem;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  color: #667eea;
+}
+
+.feature-card h4 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+/* Benefits Section */
+.benefits-section {
+  background-color: white;
+}
+
+.benefits-list li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.benefits-list .fa-check-circle {
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.benefits-list strong {
+  color: #2c3e50;
+}
+
+/* Final CTA Section */
+.final-cta-section {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.final-cta-section .btn-light {
+  background-color: white;
+  color: #e74c3c;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.final-cta-section .btn-light:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+.marketing-footer {
+  background-color: #2c3e50 !important;
+}
+
+.marketing-footer .text-muted {
+  color: #7f8c8d !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 60vh;
+    padding: 3rem 0;
+  }
+  
+  .hero-section .logo {
+    max-width: 150px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.1rem;
+  }
+  
+  .cta-buttons .btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-buttons .btn.me-3 {
+    margin-right: 0 !important;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section h1 {
+    font-size: 1.75rem;
+  }
+  
+  .feature-icon .fa-3x {
+    font-size: 2.5rem;
+  }
+  
+  .benefits-list li {
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* Accessibility Improvements */
+.btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.feature-card:focus-within {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .marketing-page {
+    background: white !important;
+  }
+  
+  .hero-section, .final-cta-section {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .btn {
+    display: none;
+  }
+}

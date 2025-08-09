@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withRouter } from '../utils/withRouter'
 import SignupForm from '../components/SignupForm'
+import BrandingBanner from '../components/BrandingBanner'
 import authService from '../services/authService'
 
 class SignupPage extends Component {
@@ -40,7 +41,9 @@ class SignupPage extends Component {
     const { successMessage, errorMessage } = this.state
 
     return (
-      <div className="container mt-5">
+      <div className="signup-page">
+        <BrandingBanner compact={true} />
+        <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-xs-12 col-sm-8 col-md-6 col-lg-4">
             <div className="card">
@@ -70,6 +73,7 @@ class SignupPage extends Component {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     )
