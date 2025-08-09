@@ -1,0 +1,173 @@
+/* Branding Banner Styles */
+.branding-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid #e74c3c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.branding-banner:hover {
+  text-decoration: none !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: white;
+}
+
+.branding-banner:focus {
+  outline: 3px solid #ffd700;
+  outline-offset: 2px;
+}
+
+/* Banner Logo */
+.banner-logo {
+  height: 50px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.branding-banner:hover .banner-logo {
+  transform: scale(1.05);
+}
+
+/* Banner Text */
+.banner-text {
+  text-align: left;
+}
+
+.banner-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.banner-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  font-weight: 400;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Compact Variant */
+.branding-banner.compact {
+  padding: 1rem 1.5rem;
+}
+
+.branding-banner.compact .banner-logo {
+  height: 35px;
+}
+
+.branding-banner.compact .banner-title {
+  font-size: 1.4rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .branding-banner {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .banner-logo {
+    height: 40px;
+    margin-bottom: 0.5rem !important;
+    margin-right: 0 !important;
+  }
+  
+  .banner-text {
+    text-align: center;
+  }
+  
+  .banner-title {
+    font-size: 1.5rem;
+  }
+  
+  .banner-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .branding-banner {
+    padding: 0.75rem 1rem;
+  }
+  
+  .banner-logo {
+    height: 35px;
+  }
+  
+  .banner-title {
+    font-size: 1.25rem;
+  }
+  
+  .banner-subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .branding-banner.compact {
+    padding: 0.5rem 1rem;
+  }
+  
+  .branding-banner.compact .banner-logo {
+    height: 30px;
+  }
+  
+  .branding-banner.compact .banner-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .branding-banner {
+    background: #000;
+    border-bottom: 3px solid #fff;
+  }
+  
+  .banner-title, .banner-subtitle {
+    text-shadow: none;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .branding-banner, .banner-logo {
+    transition: none;
+  }
+  
+  .branding-banner:hover {
+    transform: none;
+  }
+  
+  .branding-banner:hover .banner-logo {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .branding-banner {
+    background: white !important;
+    color: black !important;
+    border-bottom: 2px solid black;
+    box-shadow: none;
+  }
+  
+  .banner-title, .banner-subtitle {
+    color: black !important;
+    text-shadow: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .branding-banner {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-bottom-color: #e74c3c;
+  }
+}

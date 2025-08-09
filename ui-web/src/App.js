@@ -13,6 +13,8 @@ import SignupPage from './pages/SignupPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import RememberMe from './components/RememberMe';
+import MarketingPage from './components/MarketingPage';
+import BrandingBanner from './components/BrandingBanner';
 
 import config from './config';
 
@@ -89,10 +91,12 @@ const Login = () => {
   };
   
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
+    <div className="login-page">
+      <BrandingBanner compact={true} />
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-md-6">
+            <div className="card">
             <div className="card-header">
               <h3>Login</h3>
             </div>
@@ -160,6 +164,21 @@ const Login = () => {
   );
 };
 
+// Home Route Component - shows marketing page or redirects to plot points
+const HomeRoute = () => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (isAuthenticated) {
+    return <Navigate to="/plot-points" replace />;
+  }
+  
+  return <MarketingPage />;
+};
+
 // Main App Component
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -170,11 +189,12 @@ function AppContent() {
         {isAuthenticated && <Header id={'app'} />}
         <div id="layout" className="container" role="main">
           <Routes>
+            <Route path="/" element={<HomeRoute />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route
-              path="/"
+              path="/plot-points"
               element={
                 <ProtectedRoute>
                   <PlotPointList />
