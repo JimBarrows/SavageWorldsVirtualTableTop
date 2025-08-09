@@ -41,8 +41,8 @@ describe('SceneEditor', () => {
       render(<SceneEditor scene={mockScene} availableCharacters={mockAvailableCharacters} />)
       
       expect(screen.getByText('Dramatis Personae')).toBeInTheDocument()
-      expect(screen.getByText('Sir Gareth')).toBeInTheDocument()
-      expect(screen.getByText('Mara')).toBeInTheDocument()
+      expect(screen.getAllByText('Sir Gareth')).toHaveLength(2) // One in table, one in dropdown
+      expect(screen.getAllByText('Mara')).toHaveLength(2) // One in table, one in dropdown
     })
 
     test('should render character selection dropdown', () => {
