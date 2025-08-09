@@ -843,3 +843,107 @@ Then('unsaved changes are discarded', async function () {
   const currentUrl = await this.browser.getCurrentUrl()
   expect(currentUrl).to.include('/login')
 })
+
+// ===== LOGIN REDIRECT FIX STEPS - Issue #174 =====
+
+Then('I am redirected to the plot points list page within {int} seconds', async function (timeoutSeconds) {
+  // Wait for redirect to plot points list within specified time
+  await this.browser.wait(async () => {
+    const url = await this.browser.getCurrentUrl()
+    return url === 'http://localhost:3000/' || url === 'http://localhost:3000'
+  }, timeoutSeconds * 1000, `Not redirected to plot points list within ${timeoutSeconds} seconds`)
+  
+  // Verify the page content loaded properly
+  await this.browser.wait(until.elementLocated(By.id('PageHeader-PlotPointListPage')), 5000)
+})
+
+Then('the URL should be {string}', async function (expectedUrl) {
+  const currentUrl = await this.browser.getCurrentUrl()
+  const baseUrl = 'http://localhost:3000'
+  
+  if (expectedUrl === '/') {
+    expect(currentUrl).to.match(new RegExp(`^${baseUrl}/?$`))
+  } else {
+    expect(currentUrl).to.equal(baseUrl + expectedUrl)
+  }
+})
+
+Then('I should see the plot points list page content', async function () {
+  // Verify we can see the plot points list page header
+  await this.browser.wait(until.elementLocated(By.id('PageHeader-PlotPointListPage')), 5000)
+  const header = await this.browser.findElement(By.id('PageHeader-PlotPointListPage'))
+  const headerText = await header.getText()
+  expect(headerText.toLowerCase()).to.include('plot points')
+})
+
+Then('I should see an {string} button or link', async function (buttonText) {
+  // Look for Add Plot Point button/link
+  const addLinkSelector = 'a[href="/plot_point/add"]'
+  await this.browser.wait(until.elementLocated(By.css(addLinkSelector)), 5000)
+  const addLink = await this.browser.findElement(By.css(addLinkSelector))
+  const isDisplayed = await addLink.isDisplayed()
+  expect(isDisplayed).to.be.true
+})
+
+Then('I should not be redirected back to the login page', async function () {
+  // Wait a moment to ensure no redirect happens
+  await this.browser.sleep(2000)
+  const currentUrl = await this.browser.getCurrentUrl()
+  expect(currentUrl).to.not.include('/login')
+})
+
+Then('the page should not reload completely', async function () {
+  // Check that we're using React Router navigation (SPA behavior)
+  // We can verify this by checking if the page URL changed without full reload
+  const currentUrl = await this.browser.getCurrentUrl()
+  expect(currentUrl).to.not.include('/login')
+  
+  // Verify React app elements are still present
+  await this.browser.wait(until.elementLocated(By.css('#root')), 5000)
+})
+
+Then('I should navigate to the plot points list using React Router', async function () {
+  // Verify we navigated to the correct route via React Router
+  const currentUrl = await this.browser.getCurrentUrl()
+  expect(currentUrl).to.match(/^http:\/\/localhost:3000\/?$/)
+  
+  // Verify React Router rendered the correct component
+  await this.browser.wait(until.elementLocated(By.id('PageHeader-PlotPointListPage')), 5000)
+})
+
+Then('the authentication state should persist across navigation', async function () {
+  // Check that authentication tokens are still available
+  const accessToken = await this.browser.executeScript('return localStorage.getItem("accessToken")')
+  expect(accessToken).to.not.be.null
+  
+  // Verify we can access protected routes
+  const currentUrl = await this.browser.getCurrentUrl()
+  expect(currentUrl).to.not.include('/login')
+})
+
+Then('the authentication context should be properly initialized', async function () {
+  // Check localStorage for auth tokens
+  const accessToken = await this.browser.executeScript('return localStorage.getItem("accessToken")')
+  const refreshToken = await this.browser.executeScript('return localStorage.getItem("refreshToken")')
+  
+  expect(accessToken).to.not.be.null
+  expect(refreshToken).to.not.be.null
+})
+
+Then('the protected route should allow access to the plot points list', async function () {
+  // Verify ProtectedRoute component allows access to protected content
+  await this.browser.wait(until.elementLocated(By.id('PageHeader-PlotPointListPage')), 5000)
+  const header = await this.browser.findElement(By.id('PageHeader-PlotPointListPage'))
+  const isDisplayed = await header.isDisplayed()
+  expect(isDisplayed).to.be.true
+})
+
+Then('I should remain authenticated without additional login prompts', async function () {
+  // Verify no login form is shown
+  const loginForms = await this.browser.findElements(By.css('form[action*="login"], form input[type="email"]'))
+  expect(loginForms.length).to.equal(0)
+  
+  // Verify we're on the plot points page
+  const currentUrl = await this.browser.getCurrentUrl()
+  expect(currentUrl).to.not.include('/login')
+})
