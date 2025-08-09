@@ -27,7 +27,7 @@ describe('QualityGates', () => {
       const result = QualityGates.validateCoverage(coverage, 85);
       
       expect(result.passed).toBe(false);
-      expect(result.message).toContain('Statement coverage');
+      expect(result.message).toContain('Statements coverage');
       expect(result.message).toContain('80%');
       expect(result.message).toContain('below minimum 85%');
     });
@@ -43,7 +43,7 @@ describe('QualityGates', () => {
       const result = QualityGates.validateCoverage(coverage, 85);
       
       expect(result.passed).toBe(false);
-      expect(result.message).toContain('Branch coverage');
+      expect(result.message).toContain('Branches coverage');
     });
 
     it('should fail when functions coverage is below threshold', () => {
@@ -57,7 +57,7 @@ describe('QualityGates', () => {
       const result = QualityGates.validateCoverage(coverage, 85);
       
       expect(result.passed).toBe(false);
-      expect(result.message).toContain('Function coverage');
+      expect(result.message).toContain('Functions coverage');
     });
 
     it('should fail when lines coverage is below threshold', () => {
@@ -71,7 +71,7 @@ describe('QualityGates', () => {
       const result = QualityGates.validateCoverage(coverage, 85);
       
       expect(result.passed).toBe(false);
-      expect(result.message).toContain('Line coverage');
+      expect(result.message).toContain('Lines coverage');
     });
 
     it('should handle edge case where coverage equals threshold', () => {
