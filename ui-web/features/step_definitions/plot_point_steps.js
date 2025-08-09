@@ -3,7 +3,7 @@ import {Given, Then, When}     from 'cucumber'
 import {By, until}             from 'selenium-webdriver'
 import sleep                   from 'sleep'
 // import * as queries            from '../../src/graphql/queries'
-import SettingRule             from '../support/SettingRule'
+import SettingRule             from '../support/SettingRule.js'
 
 
 Given('I want to add a plot point', async function () {

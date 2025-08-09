@@ -18,6 +18,37 @@ Given('I\'m presented with an authentication challenge', async function () {
 })
 
 // Username step removed - using email only for authentication
+// But we need to map username to email for backward compatibility with existing tests
+Given('I provide a username of {string}', async function (username) {
+	// Map username to email format for backward compatibility
+	const email = username.includes('@') ? username : `${username.toLowerCase()}@example.com`
+	
+	this.credentials = this.credentials || {}
+	this.credentials.email = email
+	this.credentials.username = username // Keep for reference
+	
+	// Wait for the page to be ready
+	await this.browser.wait(until.elementLocated(By.css('input[type="email"]')), 5000)
+	
+	// Try multiple selectors to find the email input
+	let emailInput
+	try {
+		// Try by type first (most reliable)
+		emailInput = await this.browser.findElement(By.css('input[type="email"]'))
+	} catch (e) {
+		try {
+			// Then try by the form control id that bootstrap-react-components uses
+			emailInput = await this.browser.findElement(By.id('FormControl-email-EmailFormGroup-email'))
+		} catch (e2) {
+			// Finally try by id
+			emailInput = await this.browser.findElement(By.id('email'))
+		}
+	}
+	
+	// Clear and send keys
+	await emailInput.clear()
+	await emailInput.sendKeys(email)
+})
 
 Given('I provide an email of {string}', async function (email) {
 	// Replace TIMESTAMP with actual timestamp for unique emails

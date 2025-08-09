@@ -1,5 +1,5 @@
 import {setWorldConstructor} from 'cucumber'
-import PlotPoint             from './PlotPoint.js'
+import PlotPoint             from './PlotPoint'
 
 global.fetch = require('node-fetch')
 
