@@ -1,11 +1,12 @@
 import BasicRules from './BasicRules'
 import Powers from './Powers'
 import Skills from './Skills'
+import Beasts from './Beasts'
 
 export default class PlotPoint {
 	arcaneBackgrounds          = []
 	basicRules                 = new BasicRules()
-	beasts                     = []
+	beasts                     = Beasts.getStandardBeasts()
 	characters                 = []
 	description                = 'This is a description'
 	edges                      = []

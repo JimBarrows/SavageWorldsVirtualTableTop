@@ -1,5 +1,4 @@
 import PlotPoint from './PlotPoint';
-import Skills from './Skills';
 
 describe('PlotPoint', () => {
   describe('constructor', () => {
@@ -9,7 +8,8 @@ describe('PlotPoint', () => {
       expect(plotPoint.name).toBe('');
       expect(plotPoint.description).toBe('This is a description');
       expect(plotPoint.arcaneBackgrounds).toEqual([]);
-      expect(plotPoint.beasts).toEqual([]);
+      expect(plotPoint.beasts).toBeDefined();
+      expect(plotPoint.beasts.length).toBeGreaterThan(0); // Now includes standard beasts
       expect(plotPoint.characters).toEqual([]);
       expect(plotPoint.edges).toEqual([]);
       expect(plotPoint.hindrances).toEqual([]);
