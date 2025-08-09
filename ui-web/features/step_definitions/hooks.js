@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import {After, AfterAll, Before, Status} from 'cucumber'
 import {writeFile}             from 'fs'
 import {Builder}               from 'selenium-webdriver'
-import testUserHelper          from '../support/test-users'
+import testUserHelper          from '../support/test-users.js'
 
 Before(async function () {
 	this.browser = await new Builder()

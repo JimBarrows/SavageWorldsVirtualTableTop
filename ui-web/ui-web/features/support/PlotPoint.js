@@ -1,4 +1,4 @@
-import BasicRules from './BasicRules.js'
+import BasicRules from './BasicRules'
 
 export default class PlotPoint {
 	name          = ''

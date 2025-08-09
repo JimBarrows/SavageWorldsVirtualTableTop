@@ -2,7 +2,7 @@ import {Given, Then, When} from 'cucumber'
 import {By, until} from 'selenium-webdriver'
 import sleep from 'sleep'
 
-Given('the plot point has default powers', async function () {
+Then('the plot point has default powers', async function () {
   // Verify that default powers exist in the plot point
   // This will be verified after backend implementation
   console.log('TODO: Verify plot point has default powers via backend API')
@@ -132,11 +132,12 @@ Then('the operation fails', async function () {
   expect(errorElements.length).to.be.above(0)
 })
 
-Then('I see an error message {string}', async function (expectedErrorMessage) {
-  const errorElement = await this.browser.findElement(By.className('error-message'))
-  const actualErrorMessage = await errorElement.getText()
-  expect(actualErrorMessage).to.include(expectedErrorMessage)
-})
+// Moved to authentication_steps.js to avoid duplication
+// Then('I see an error message {string}', async function (expectedErrorMessage) {
+//   const errorElement = await this.browser.findElement(By.className('error-message'))
+//   const actualErrorMessage = await errorElement.getText()
+//   expect(actualErrorMessage).to.include(expectedErrorMessage)
+// })
 
 Given('I create a new plot point named {string}', async function (plotPointName) {
   const browser = this.browser
