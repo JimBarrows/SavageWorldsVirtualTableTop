@@ -1,5 +1,4 @@
 import Beast from './Beast'
-import Attribute from './Attribute'
 
 export default class Beasts {
 	static getStandardBeasts() {
