@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import './App.css';
@@ -48,6 +48,7 @@ ProtectedRoute.propTypes = {
 const Login = () => {
   const { login, error } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
   const [rememberMe, setRememberMe] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -81,7 +82,9 @@ const Login = () => {
       console.log('Login attempt with:', { email: credentials.email, password: '***', rememberMe });
       const result = await login(loginData);
       if (result.success) {
-        window.location.href = '/';
+        // Use React Router navigation instead of hard redirect
+        // This prevents race conditions and maintains React state
+        navigate('/');
       }
     } catch (err) {
       console.error('Login error:', err);
