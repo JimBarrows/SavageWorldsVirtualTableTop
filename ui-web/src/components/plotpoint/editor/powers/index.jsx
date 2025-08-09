@@ -1,14 +1,14 @@
 import PropTypes  from 'prop-types'
 import React      from 'react'
 import EditorList from '../../../EditorList'
-import Form       from './Form'
+import PowerEditor from './PowerEditor'
 
 export default class Powers extends React.Component {
 
 	static propTypes = {
 		id          : PropTypes.string.isRequired,
 		powers      : PropTypes.array.isRequired,
-		powersChange: PropTypes.func.isRequired
+		onChange: PropTypes.func.isRequired
 	};
 
 	static defaultProps = {};
@@ -18,18 +18,20 @@ export default class Powers extends React.Component {
 				<div id={'PowersComponent_' + this.props.id}>
 					<EditorList
 							emptyItem={({
-								name       : ' ',
-								description: ' ',
-								rank       : ' ',
+								name       : '',
+								description: '',
+								rank       : 'Novice',
 								powerPoints: 1,
-								range      : ' ',
-								duration   : ' '
+								range      : '',
+								duration   : '',
+								trappings  : '',
+								modifiers  : []
 							})}
-							id={'powersEditorList'}
+							id={'Powers-' + this.props.id}
 							list={this.props.powers}
-							onChange={this.props.powersChange}
-						title={'Powers Form List'} >
-						<Form />
+							onChange={this.props.onChange}
+						title={'Powers'} >
+						<PowerEditor />
 					</EditorList>
 				</div>
 		);
