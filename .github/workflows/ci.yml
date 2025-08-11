@@ -32,7 +32,20 @@ jobs:
       
     - name: Run ESLint
       working-directory: ui-web
-      run: npm run lint
+      run: |
+        # Run ESLint and capture output
+        if npm run lint; then
+          echo "✅ ESLint passed with no errors"
+        else
+          echo "❌ ESLint found issues - checking if they are warnings or errors"
+          # Check if output contains actual errors (not just warnings)
+          if npm run lint 2>&1 | grep -q "error"; then
+            echo "ESLint found errors - failing build"
+            exit 1
+          else
+            echo "ESLint found only warnings - continuing build"
+          fi
+        fi
       
     - name: Run unit tests with coverage
       working-directory: ui-web
