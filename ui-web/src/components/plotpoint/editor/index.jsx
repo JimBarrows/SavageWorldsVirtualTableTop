@@ -72,6 +72,8 @@ export default class PlotPointForm extends React.Component {
 			case 'Characters':
 				return (
 					<Characters characters={this.state.plotPoint.characters} onChange={this.charactersChange} id={componentId} />)
+			default:
+				return null;
 		}
 	}
 

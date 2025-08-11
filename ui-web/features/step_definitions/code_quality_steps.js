@@ -75,14 +75,10 @@ Then('the code coverage should be at least {int}%', function (minCoverage) {
   // Parse coverage from Jest output or coverage files
   const coverage = this.testResults.coverage || this.getCoverageFromFile();
   
-  expect(coverage.statements).to.be.at.least(minCoverage, 
-    `Statement coverage ${coverage.statements}% is below minimum ${minCoverage}%`);
-  expect(coverage.branches).to.be.at.least(minCoverage,
-    `Branch coverage ${coverage.branches}% is below minimum ${minCoverage}%`);
-  expect(coverage.functions).to.be.at.least(minCoverage,
-    `Function coverage ${coverage.functions}% is below minimum ${minCoverage}%`);
-  expect(coverage.lines).to.be.at.least(minCoverage,
-    `Line coverage ${coverage.lines}% is below minimum ${minCoverage}%`);
+  expect(coverage.statements, `Statement coverage ${coverage.statements}% is below minimum ${minCoverage}%`).to.be.at.least(minCoverage);
+  expect(coverage.branches, `Branch coverage ${coverage.branches}% is below minimum ${minCoverage}%`).to.be.at.least(minCoverage);
+  expect(coverage.functions, `Function coverage ${coverage.functions}% is below minimum ${minCoverage}%`).to.be.at.least(minCoverage);
+  expect(coverage.lines, `Line coverage ${coverage.lines}% is below minimum ${minCoverage}%`).to.be.at.least(minCoverage);
 });
 
 Then('coverage reports should be generated in multiple formats', function () {
@@ -97,7 +93,7 @@ Then('coverage reports should be generated in multiple formats', function () {
   ];
   
   expectedFiles.forEach(file => {
-    expect(fs.existsSync(file)).to.be.true, `Coverage report file missing: ${file}`);
+    expect(fs.existsSync(file)).to.be.true(`Coverage report file missing: ${file}`);
   });
 });
 
@@ -152,13 +148,11 @@ Then('all BDD tests should pass \\({int}% pass rate)', function (expectedPassRat
     return 'pending';
   }
   
-  expect(this.bddResults.success).to.be.true, 
-    `BDD tests failed: ${this.bddResults.error || 'Unknown error'}`);
+  expect(this.bddResults.success, `BDD tests failed: ${this.bddResults.error || 'Unknown error'}`).to.be.true;
   
   if (this.bddResults.scenarios) {
     const passRate = (this.bddResults.scenarios.passed / this.bddResults.scenarios.total) * 100;
-    expect(passRate).to.equal(expectedPassRate, 
-      `BDD pass rate ${passRate}% does not meet expected ${expectedPassRate}%`);
+    expect(passRate, `BDD pass rate ${passRate}% does not meet expected ${expectedPassRate}%`).to.equal(expectedPassRate);
   }
 });
 
@@ -167,7 +161,7 @@ Given('ESLint is configured with strict rules', function () {
   if (this.pendingTest) return 'pending';
   
   const eslintConfig = this.qualityToolsConfigured.eslint;
-  expect(eslintConfig).to.be.true, 'ESLint configuration not found');
+  expect(eslintConfig, 'ESLint configuration not found').to.be.true;
 });
 
 When('I run the linting checks on the codebase', function () {
@@ -203,7 +197,7 @@ Then('there should be zero linting warnings or errors', function () {
   console.log(`Current linting state: ${this.lintResults.errors} errors, ${this.lintResults.warnings} warnings`);
   
   // Initially, just ensure linting runs
-  expect(this.lintResults).to.exist, 'Linting should execute');
+  expect(this.lintResults, 'Linting should execute').to.exist;
   
   // TODO: Uncomment when codebase is cleaned up
   // expect(this.lintResults.errors).to.equal(0, `Found ${this.lintResults.errors} linting errors`);
@@ -213,7 +207,7 @@ Then('there should be zero linting warnings or errors', function () {
 // Build validation steps
 Given('the codebase is properly configured for production', function () {
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-  expect(packageJson.scripts.build).to.exist, 'Build script not found in package.json');
+  expect(packageJson.scripts.build, 'Build script not found in package.json').to.exist;
 });
 
 When('I run the production build process', function () {
@@ -241,8 +235,7 @@ When('I run the production build process', function () {
 Then('the build should complete successfully', function () {
   if (this.pendingTest) return 'pending';
   
-  expect(this.buildResults.success).to.be.true, 
-    `Build failed: ${this.buildResults.error}`);
+  expect(this.buildResults.success, `Build failed: ${this.buildResults.error}`).to.be.true;
 });
 
 // Security scanning steps
@@ -278,74 +271,9 @@ When('I run security vulnerability scans', function () {
 Then('high and critical vulnerabilities should be identified', function () {
   if (this.pendingTest) return 'pending';
   
-  expect(this.securityResults).to.exist, 'Security scan should execute');
+  expect(this.securityResults, 'Security scan should execute').to.exist;
   
   // Report current vulnerability state
   console.log(`Security scan completed. Vulnerabilities found: ${JSON.stringify(this.securityResults.vulnerabilities)}`);
 });
 
-// Helper methods
-this.parseCoverageFromOutput = function(output) {
-  // Parse Jest coverage output
-  const coverageRegex = /All files\s*\|\s*(\d+\.?\d*)\s*\|\s*(\d+\.?\d*)\s*\|\s*(\d+\.?\d*)\s*\|\s*(\d+\.?\d*)/;
-  const match = output.match(coverageRegex);
-  
-  if (match) {
-    return {
-      statements: parseFloat(match[1]),
-      branches: parseFloat(match[2]),
-      functions: parseFloat(match[3]),
-      lines: parseFloat(match[4])
-    };
-  }
-  
-  return { statements: 0, branches: 0, functions: 0, lines: 0 };
-};
-
-this.getCoverageFromFile = function() {
-  try {
-    const coverageFile = 'coverage/coverage-final.json';
-    if (fs.existsSync(coverageFile)) {
-      const coverage = JSON.parse(fs.readFileSync(coverageFile, 'utf8'));
-      // Calculate overall coverage from individual file coverage
-      return this.calculateOverallCoverage(coverage);
-    }
-  } catch (error) {
-    console.log('Could not read coverage file:', error.message);
-  }
-  
-  return { statements: 0, branches: 0, functions: 0, lines: 0 };
-};
-
-this.countLintWarnings = function(output) {
-  const warningMatches = output.match(/warning/gi) || [];
-  return warningMatches.length;
-};
-
-this.countLintErrors = function(output) {
-  const errorMatches = output.match(/error/gi) || [];
-  return errorMatches.length;
-};
-
-this.parseAuditResults = function(output) {
-  // Parse npm audit output for vulnerabilities
-  const highRegex = /(\d+) high/i;
-  const criticalRegex = /(\d+) critical/i;
-  const moderateRegex = /(\d+) moderate/i;
-  
-  const high = (output.match(highRegex) || [null, 0])[1];
-  const critical = (output.match(criticalRegex) || [null, 0])[1];
-  const moderate = (output.match(moderateRegex) || [null, 0])[1];
-  
-  return {
-    high: parseInt(high),
-    critical: parseInt(critical),
-    moderate: parseInt(moderate)
-  };
-};
-
-this.globSync = function(pattern) {
-  // Simple glob implementation - in real implementation would use proper glob library
-  const glob = require('glob');
-  return glob.sync(pattern);
-};

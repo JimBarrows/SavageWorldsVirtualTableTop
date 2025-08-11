@@ -5,13 +5,6 @@ import React      from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import DiceSelect from './DiceSelect'
 
-const options = [
-	{label: 'd4', value: 'd4'},
-	{label: 'd6', value: 'd6'},
-	{label: 'd8', value: 'd8'},
-	{label: 'd10', value: 'd10'},
-	{label: 'd12', value: 'd12'}
-]
 
 describe('DiceSelect', () => {
 	it('renders without crashing', () => {

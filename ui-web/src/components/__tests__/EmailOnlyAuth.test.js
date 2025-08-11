@@ -1,9 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
 import SignupForm from '../SignupForm';
-import { AuthProvider } from '../../contexts/AuthContext';
 import * as authService from '../../services/authService';
 
 // Mock the auth service

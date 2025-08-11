@@ -44,7 +44,6 @@ class BrandingBanner extends Component {
               src="/assets/images/savage-worlds-logo-small.png"
               alt="Savage Worlds Logo"
               className="banner-logo me-3"
-              role="img"
             />
           )}
           <div className="banner-text">
