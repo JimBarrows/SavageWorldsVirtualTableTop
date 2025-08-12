@@ -1,4 +1,5 @@
 import {TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes from 'prop-types'
 import React                              from 'react'
 import BaseEditor                         from '../../../BaseEditor'
 
@@ -23,4 +24,15 @@ export default class EffectsEditor extends React.Component {
 				</BaseEditor>
 		);
 	}
+}
+
+EffectsEditor.propTypes = {
+	onChange: PropTypes.func.isRequired,
+	item: PropTypes.shape({
+		name: PropTypes.string,
+		description: PropTypes.string
+	}).isRequired,
+	index: PropTypes.number.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	id: PropTypes.string.isRequired
 }

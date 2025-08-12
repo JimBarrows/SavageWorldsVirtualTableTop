@@ -8,7 +8,8 @@ export default class AircraftEditorList extends React.Component {
 	static propTypes = {
 		id            : PropTypes.string.isRequired,
 		aircraft      : PropTypes.array.isRequired,
-		aircraftChange: PropTypes.func.isRequired
+		aircraftChange: PropTypes.func.isRequired,
+		item          : PropTypes.object
 	}
 
 	static defaultProps = {

@@ -43,7 +43,9 @@ jest.mock('react-router-dom', () => ({
 
 // Mock RememberMe component
 jest.mock('./components/RememberMe', () => {
-  return function RememberMe({ checked, onChange }) {
+  const mockPropTypes = require('prop-types');
+  
+  const RememberMe = function RememberMe({ checked, onChange }) {
     return (
       <div className="form-check">
         <input
@@ -59,6 +61,13 @@ jest.mock('./components/RememberMe', () => {
       </div>
     );
   };
+  
+  RememberMe.propTypes = {
+    checked: mockPropTypes.bool.isRequired,
+    onChange: mockPropTypes.func.isRequired
+  };
+  
+  return RememberMe;
 });
 
 // Mock BrandingBanner component

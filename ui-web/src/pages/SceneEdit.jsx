@@ -29,18 +29,13 @@ export default function SceneEditPage() {
   const { data: availableCharacters = [] } = useQuery(
     ['characters'],
     async () => {
-      try {
-        // Mock data for now
-        return [
-          { name: 'Sir Gareth', description: 'A noble knight' },
-          { name: 'Mara', description: 'A cunning thief' },
-          { name: 'Grimjaw', description: 'An orc bartender' },
-          { name: 'Eldara', description: 'An elven mage' }
-        ]
-      } catch (error) {
-        console.error('Failed to fetch characters:', error)
-        return []
-      }
+      // Mock data for now
+      return [
+        { name: 'Sir Gareth', description: 'A noble knight' },
+        { name: 'Mara', description: 'A cunning thief' },
+        { name: 'Grimjaw', description: 'An orc bartender' },
+        { name: 'Eldara', description: 'An elven mage' }
+      ]
     }
   )
 

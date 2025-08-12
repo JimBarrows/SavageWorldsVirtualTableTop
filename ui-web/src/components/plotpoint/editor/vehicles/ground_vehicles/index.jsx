@@ -8,7 +8,8 @@ export default class GroundVehicles extends React.Component {
 	static propTypes = {
 		id                  : PropTypes.string.isRequired,
 		groundVehicles      : PropTypes.array.isRequired,
-		groundVehiclesChange: PropTypes.func.isRequired
+		groundVehiclesChange: PropTypes.func.isRequired,
+		item                : PropTypes.object
 	}
 
 	static defaultProps = {

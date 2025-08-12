@@ -15,19 +15,14 @@ export default function SceneAddPage() {
   const { data: availableCharacters = [] } = useQuery(
     ['characters'],
     async () => {
-      try {
-        // This would normally fetch from a character service
-        // For now, return some mock data
-        return [
-          { name: 'Sir Gareth', description: 'A noble knight' },
-          { name: 'Mara', description: 'A cunning thief' },
-          { name: 'Grimjaw', description: 'An orc bartender' },
-          { name: 'Eldara', description: 'An elven mage' }
-        ]
-      } catch (error) {
-        console.error('Failed to fetch characters:', error)
-        return []
-      }
+      // This would normally fetch from a character service
+      // For now, return some mock data
+      return [
+        { name: 'Sir Gareth', description: 'A noble knight' },
+        { name: 'Mara', description: 'A cunning thief' },
+        { name: 'Grimjaw', description: 'An orc bartender' },
+        { name: 'Eldara', description: 'An elven mage' }
+      ]
     }
   )
 
