@@ -313,11 +313,12 @@ describe('PropTypes Validation Tests', () => {
 
     test('should validate PropTypes are properly configured', () => {
       // This test ensures our MockComponent has PropTypes configured
-      expect(MockComponent.propTypes).toBeDefined();
-      expect(MockComponent.propTypes.testProp).toBeDefined();
-      expect(MockComponent.propTypes.numberProp).toBeDefined();
-      expect(MockComponent.propTypes.booleanProp).toBeDefined();
-      expect(MockComponent.propTypes.functionProp).toBeDefined();
+      const componentPropTypes = MockComponent.propTypes; // eslint-disable-line react/forbid-foreign-prop-types
+      expect(componentPropTypes).toBeDefined();
+      expect(componentPropTypes.testProp).toBeDefined();
+      expect(componentPropTypes.numberProp).toBeDefined();
+      expect(componentPropTypes.booleanProp).toBeDefined();
+      expect(componentPropTypes.functionProp).toBeDefined();
     });
   });
 

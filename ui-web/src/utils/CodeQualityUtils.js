@@ -10,13 +10,9 @@
  * @returns {boolean} True if ESLint config exists
  */
 export const hasESLintConfig = () => {
-  try {
-    // In a real scenario, this would check for .eslintrc.json existence
-    // For testing purposes, we assume it exists in a properly configured project
-    return true;
-  } catch (error) {
-    return false;
-  }
+  // In a real scenario, this would check for .eslintrc.json existence
+  // For testing purposes, we assume it exists in a properly configured project
+  return true;
 };
 
 /**
@@ -44,7 +40,8 @@ export const validateComponentPropTypes = (component) => {
     return { isValid: false, reason: 'Component is undefined' };
   }
   
-  if (!component.propTypes) {
+  const componentPropTypes = component && component.propTypes; // eslint-disable-line react/forbid-foreign-prop-types
+  if (!componentPropTypes) {
     return { isValid: false, reason: 'Component missing PropTypes definition' };
   }
   

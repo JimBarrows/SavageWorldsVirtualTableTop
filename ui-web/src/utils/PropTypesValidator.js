@@ -4,7 +4,6 @@
  * Provides utilities for validating React component PropTypes and ensuring
  * proper type safety and component interface documentation.
  */
-import PropTypes from 'prop-types';
 
 /**
  * Validates that a component has proper PropTypes defined
@@ -23,11 +22,12 @@ export const validatePropTypes = (component) => {
   const errors = [];
   const warnings = [];
   
-  if (!component.propTypes) {
+  const componentPropTypes = component && component.propTypes; // eslint-disable-line react/forbid-foreign-prop-types
+  if (!componentPropTypes) {
     errors.push('Component is missing PropTypes definition');
   } else {
     // Check for common PropTypes best practices
-    const propTypeKeys = Object.keys(component.propTypes);
+    const propTypeKeys = Object.keys(componentPropTypes);
     
     if (propTypeKeys.length === 0) {
       warnings.push('Component has empty PropTypes object');
@@ -35,7 +35,7 @@ export const validatePropTypes = (component) => {
     
     // Check for proper required prop marking
     propTypeKeys.forEach(propName => {
-      const propType = component.propTypes[propName];
+      const propType = componentPropTypes[propName];
       if (propType && typeof propType === 'function') {
         // This is a simplified check - in reality PropTypes structure is more complex
         warnings.push(`PropType for ${propName} should be properly validated`);
