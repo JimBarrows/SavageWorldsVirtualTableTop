@@ -48,8 +48,7 @@ jest.mock('./services/api', () => ({
 // This mirrors the Login component from App.js but can be tested in isolation
 const Login = () => {
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
-  const [rememberMe, setRememberMe] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading] = React.useState(false);
   
   const handleSubmit = (e) => {
     e.preventDefault();

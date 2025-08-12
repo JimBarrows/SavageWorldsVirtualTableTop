@@ -189,7 +189,6 @@ describe('SceneEditor', () => {
     })
 
     test('should handle null scene prop', () => {
-      const emptyScene = { id: '', name: '', description: '', dramatis_personae: [] }
       render(<SceneEditor scene={null} availableCharacters={mockAvailableCharacters} />)
       
       // Should render with default empty scene

@@ -1,4 +1,5 @@
 import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react-components'
+import PropTypes from 'prop-types'
 import React                                               from 'react'
 import BaseEditor                                          from '../../../BaseEditor'
 import AttributeSelectFormGroup                            from '../../formgroups/AttributeSelectFormGroup'
@@ -42,4 +43,19 @@ export default class Editor extends React.Component {
 			</BaseEditor>
 		)
 	}
+}
+
+Editor.propTypes = {
+	onChange: PropTypes.func.isRequired,
+	item: PropTypes.shape({
+		name: PropTypes.string,
+		description: PropTypes.string,
+		skillName: PropTypes.string,
+		attribute: PropTypes.string,
+		startingPowers: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+		startingPowerPoints: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+	}).isRequired,
+	index: PropTypes.number.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	id: PropTypes.string.isRequired
 }

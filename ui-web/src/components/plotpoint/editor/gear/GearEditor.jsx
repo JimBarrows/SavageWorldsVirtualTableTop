@@ -8,7 +8,17 @@ export default class GearEditor extends React.Component {
 	static defaultProps = {}
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired,
+		onChange: PropTypes.func.isRequired,
+		item: PropTypes.shape({
+			name: PropTypes.string,
+			description: PropTypes.string,
+			era: PropTypes.string,
+			kind: PropTypes.string,
+			note: PropTypes.string
+		}).isRequired,
+		index: PropTypes.number.isRequired,
+		onDelete: PropTypes.func.isRequired
 	}
 
 	descriptionChange = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}), this.props.index)

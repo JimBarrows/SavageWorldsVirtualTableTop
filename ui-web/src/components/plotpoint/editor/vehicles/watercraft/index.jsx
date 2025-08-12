@@ -8,7 +8,8 @@ export default class Watercraft extends React.Component {
 	static propTypes = {
 		id              : PropTypes.string.isRequired,
 		watercraft      : PropTypes.array.isRequired,
-		watercraftChange: PropTypes.func.isRequired
+		watercraftChange: PropTypes.func.isRequired,
+		item            : PropTypes.object
 	}
 
 	static defaultProps = {
