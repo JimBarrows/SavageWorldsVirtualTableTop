@@ -4,6 +4,24 @@ import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import MarketingPage from './MarketingPage';
 
+// Suppress React Router v6 deprecation warnings in tests
+const originalWarn = console.warn;
+beforeAll(() => {
+  console.warn = (...args) => {
+    if (
+      typeof args[0] === 'string' &&
+      args[0].includes('React Router Future Flag Warning')
+    ) {
+      return;
+    }
+    originalWarn.call(console, ...args);
+  };
+});
+
+afterAll(() => {
+  console.warn = originalWarn;
+});
+
 const renderWithRouter = (component) => {
   return render(
     <BrowserRouter>
@@ -39,17 +57,21 @@ describe('MarketingPage', () => {
     it('should display key application features', () => {
       renderWithRouter(<MarketingPage />);
       
-      expect(screen.getByText(/plot point management/i)).toBeInTheDocument();
-      expect(screen.getByText(/character creation/i)).toBeInTheDocument();
-      expect(screen.getByText(/beast management/i)).toBeInTheDocument();
-      expect(screen.getByText(/equipment tracking/i)).toBeInTheDocument();
+      // Use getByRole to find specific h4 headings
+      expect(screen.getByRole('heading', { name: /plot point management/i, level: 4 })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /character creation/i, level: 4 })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /beast management/i, level: 4 })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /equipment tracking/i, level: 4 })).toBeInTheDocument();
     });
 
     it('should display feature descriptions', () => {
       renderWithRouter(<MarketingPage />);
       
-      const features = screen.getAllByRole('listitem');
-      expect(features.length).toBeGreaterThanOrEqual(4);
+      // Check that feature cards exist with descriptions
+      expect(screen.getByText(/Create, organize, and track plot points/i)).toBeInTheDocument();
+      expect(screen.getByText(/Build detailed player characters/i)).toBeInTheDocument();
+      expect(screen.getByText(/Manage NPCs, monsters, and creatures/i)).toBeInTheDocument();
+      expect(screen.getByText(/Comprehensive inventory management/i)).toBeInTheDocument();
     });
   });
 
