@@ -220,35 +220,57 @@ describe('AuthContext - Remember Me Functionality', () => {
     });
 
     it('sets loading state during logout process', async () => {
-      authService.logout.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
+      let resolveLogout;
+      authService.logout.mockImplementation(() => new Promise(resolve => {
+        resolveLogout = resolve;
+      }));
 
       let authContext;
+      let rerender;
       const TestComponent = () => {
         authContext = useAuth();
-        return <div>Test</div>;
+        return <div data-testid="test">{authContext.loading ? 'Loading' : 'Not Loading'}</div>;
       };
 
-      render(
+      const { rerender: rerenderFn } = render(
         <AuthProvider>
           <TestComponent />
         </AuthProvider>
       );
+      rerender = rerenderFn;
 
       await waitFor(() => {
         expect(authContext).toBeTruthy();
       });
 
-      const logoutPromise = act(async () => {
-        await authContext.logout();
+      // Start logout but don't await it yet
+      let logoutPromise;
+      await act(async () => {
+        logoutPromise = authContext.logout();
       });
 
-      // Loading should be true during logout
-      expect(authContext.loading).toBe(true);
+      // Rerender to get updated loading state
+      rerender(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
 
-      await logoutPromise;
+      // Loading should be true during logout
+      await waitFor(() => {
+        expect(authContext.loading).toBe(true);
+      });
+
+      // Resolve the logout promise
+      await act(async () => {
+        resolveLogout();
+        await logoutPromise;
+      });
 
       // Loading should be false after logout
-      expect(authContext.loading).toBe(false);
+      await waitFor(() => {
+        expect(authContext.loading).toBe(false);
+      });
     });
 
     it('maintains correct authentication state after logout', async () => {
@@ -257,10 +279,16 @@ describe('AuthContext - Remember Me Functionality', () => {
       let authContext;
       const TestComponent = () => {
         authContext = useAuth();
-        return <div>Test</div>;
+        return (
+          <div>
+            <div data-testid="auth-status">{authContext.isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</div>
+            <div data-testid="user">{authContext.user ? 'Has User' : 'No User'}</div>
+            <div data-testid="error">{authContext.error ? 'Has Error' : 'No Error'}</div>
+          </div>
+        );
       };
 
-      render(
+      const { rerender } = render(
         <AuthProvider>
           <TestComponent />
         </AuthProvider>
@@ -274,9 +302,18 @@ describe('AuthContext - Remember Me Functionality', () => {
         await authContext.logout();
       });
 
-      expect(authContext.isAuthenticated).toBe(false);
-      expect(authContext.user).toBeNull();
-      expect(authContext.error).toBeNull();
+      // Rerender to get updated state
+      rerender(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(authContext.isAuthenticated).toBe(false);
+        expect(authContext.user).toBeNull();
+        expect(authContext.error).toBeNull();
+      });
     });
   });
 
@@ -295,7 +332,12 @@ describe('AuthContext - Remember Me Functionality', () => {
       let authContext;
       const TestComponent = () => {
         authContext = useAuth();
-        return <div>Test</div>;
+        return (
+          <div>
+            <div data-testid="user-email">{authContext.user?.email || 'No User'}</div>
+            <div data-testid="loading">{authContext.loading ? 'Loading' : 'Not Loading'}</div>
+          </div>
+        );
       };
 
       render(
@@ -305,8 +347,16 @@ describe('AuthContext - Remember Me Functionality', () => {
       );
 
       await waitFor(() => {
-        expect(authContext?.user).toBeTruthy();
-      });
+        expect(authContext).toBeTruthy();
+        expect(authContext.loading).toBe(false);
+      }, { timeout: 3000 });
+
+      await waitFor(() => {
+        expect(authContext.user).toEqual({
+          id: 1,
+          email: 'test@example.com'
+        });
+      }, { timeout: 3000 });
 
       expect(tokenUtils.isRememberMeSession).toHaveBeenCalled();
       expect(tokenUtils.getStoredTokenExpiry).toHaveBeenCalled();
@@ -321,7 +371,12 @@ describe('AuthContext - Remember Me Functionality', () => {
       let authContext;
       const TestComponent = () => {
         authContext = useAuth();
-        return <div>Test</div>;
+        return (
+          <div>
+            <div data-testid="user">{authContext.user ? 'Has User' : 'No User'}</div>
+            <div data-testid="loading">{authContext.loading ? 'Loading' : 'Not Loading'}</div>
+          </div>
+        );
       };
 
       render(
@@ -332,11 +387,16 @@ describe('AuthContext - Remember Me Functionality', () => {
 
       await waitFor(() => {
         expect(authContext).toBeTruthy();
+        expect(authContext.loading).toBe(false);
+      }, { timeout: 3000 });
+
+      await waitFor(() => {
+        expect(api.clearTokens).toHaveBeenCalled();
+        expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+        expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
       });
 
-      expect(api.clearTokens).toHaveBeenCalled();
-      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
-      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+      expect(authContext.user).toBeNull();
     });
   });
 });
