@@ -3,11 +3,14 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
-// Mock the auth service before importing components
-jest.mock('../services/authService')
-
 // Import mocked service
 import authService from '../services/authService'
+
+// Now import components after mocks are set up
+import SignupPage from './SignupPage'
+
+// Mock the auth service before importing components
+jest.mock('../services/authService')
 
 // Mock React Router's useNavigate
 const mockNavigate = jest.fn()
@@ -15,9 +18,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate
 }))
-
-// Now import components after mocks are set up
-import SignupPage from './SignupPage'
 
 
 describe('SignupPage', () => {

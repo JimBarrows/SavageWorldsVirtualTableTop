@@ -26,7 +26,6 @@ class MarketingPage extends Component {
                   src="/assets/images/savage-worlds-logo.png" 
                   alt="Savage Worlds Virtual Table Top Logo"
                   className="logo mb-4"
-                  role="img"
                 />
                 <h1 className="display-4 mb-4">Savage Worlds Virtual Table Top</h1>
                 <p className="lead mb-4">

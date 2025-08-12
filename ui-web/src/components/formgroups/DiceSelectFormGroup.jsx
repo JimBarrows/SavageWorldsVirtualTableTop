@@ -30,7 +30,7 @@ export default class DiceSelectFormGroup extends React.Component {
 	bonusChange = e => this.props.onChange(Object.assign({}, this.props.value, {bonus: parseInt(e.target.value, 10)}))
 
 	render() {
-		let {disabled, id, label, onChange, required, value, valid, validationMessage} = this.props
+		let {disabled, id, label, required, value, valid, validationMessage} = this.props
 		let componentId                                                                = `DiceSelectFormGroup-${id}`
 		let bonusComponent                                                             = ''
 		if (value.dice === 'd12') {

@@ -1,170 +1,107 @@
-import { API, graphqlOperation } from 'aws-amplify'
-
-// GraphQL operations (these would normally be auto-generated)
-const listScenes = `
-  query ListScenes {
-    listScenes {
-      items {
-        id
-        name
-        description
-        dramatis_personae {
-          name
-          description
-        }
-      }
-    }
-  }
-`
-
-const getScene = `
-  query GetScene($id: ID!) {
-    getScene(id: $id) {
-      id
-      name
-      description
-      dramatis_personae {
-        name
-        description
-      }
-    }
-  }
-`
-
-const createScene = `
-  mutation CreateScene($input: CreateSceneInput!) {
-    createScene(input: $input) {
-      id
-      name
-      description
-      dramatis_personae {
-        name
-        description
-      }
-    }
-  }
-`
-
-const updateScene = `
-  mutation UpdateScene($input: UpdateSceneInput!) {
-    updateScene(input: $input) {
-      id
-      name
-      description
-      dramatis_personae {
-        name
-        description
-      }
-    }
-  }
-`
-
-const deleteScene = `
-  mutation DeleteScene($input: DeleteSceneInput!) {
-    deleteScene(input: $input) {
-      id
-    }
-  }
-`
+import api from './api';
 
 const sceneService = {
-  async listScenes() {
+  // Get all scenes with pagination
+  async getScenes(page = 1, limit = 20, filters = {}) {
     try {
-      const response = await API.graphql(graphqlOperation(listScenes))
-      return response.data.listScenes.items || []
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        ...filters
+      });
+      
+      const response = await api.get(`/scenes?${params}`);
+      return response.data;
     } catch (error) {
-      throw error
+      throw error.response?.data || error;
     }
   },
 
+  // Get a single scene by ID
   async getScene(id) {
-    if (!id || id.trim() === '') {
-      throw new Error('Scene ID is required')
+    if (!id) {
+      throw new Error('Scene ID is required');
     }
 
     try {
-      const response = await API.graphql(graphqlOperation(getScene, { id }))
-      return response.data.getScene
+      const response = await api.get(`/scenes/${id}`);
+      return response.data;
     } catch (error) {
-      throw error
+      throw error.response?.data || error;
     }
   },
 
+  // Create a new scene
   async createScene(scene) {
     if (!scene) {
-      throw new Error('Scene is required')
+      throw new Error('Scene is required');
     }
-    if (!scene.name || scene.name.trim() === '') {
-      throw new Error('Scene name is required')
+    if (!scene.name) {
+      throw new Error('Scene name is required');
     }
 
     try {
-      const input = {
-        name: scene.name,
-        description: scene.description || '',
-        dramatis_personae: scene.dramatis_personae || []
-      }
-      
-      const response = await API.graphql(graphqlOperation(createScene, { input }))
-      return response.data.createScene
+      const response = await api.post('/scenes', scene);
+      return response.data;
     } catch (error) {
-      throw error
+      throw error.response?.data || error;
     }
   },
 
+  // Update an existing scene
   async updateScene(scene) {
     if (!scene) {
-      throw new Error('Scene is required')
+      throw new Error('Scene is required');
     }
-    if (!scene.id || scene.id.trim() === '') {
-      throw new Error('Scene ID is required')
+    if (!scene.id) {
+      throw new Error('Scene ID is required');
     }
-    if (!scene.name || scene.name.trim() === '') {
-      throw new Error('Scene name is required')
+    if (!scene.name) {
+      throw new Error('Scene name is required');
     }
 
     try {
-      const input = {
-        id: scene.id,
-        name: scene.name,
-        description: scene.description || '',
-        dramatis_personae: scene.dramatis_personae || []
-      }
-      
-      const response = await API.graphql(graphqlOperation(updateScene, { input }))
-      return response.data.updateScene
+      const response = await api.put(`/scenes/${scene.id}`, scene);
+      return response.data;
     } catch (error) {
-      throw error
+      throw error.response?.data || error;
     }
   },
 
+  // Delete a scene
   async deleteScene(id) {
-    if (!id || id.trim() === '') {
-      throw new Error('Scene ID is required')
+    if (!id) {
+      throw new Error('Scene ID is required');
     }
 
     try {
-      const input = { id }
-      const response = await API.graphql(graphqlOperation(deleteScene, { input }))
-      return response.data.deleteScene
+      const response = await api.delete(`/scenes/${id}`);
+      return response.data;
     } catch (error) {
-      throw error
+      throw error.response?.data || error;
     }
   },
 
+  // Get scene by name (searches through all scenes)
   async getSceneByName(name) {
-    if (!name || name.trim() === '') {
-      throw new Error('Scene name is required')
+    if (!name) {
+      throw new Error('Scene name is required');
     }
 
     try {
-      const scenes = await this.listScenes()
-      const scene = scenes.find(scene => scene.name === name)
-      return scene || null
+      const response = await this.getScenes(1, 1000); // Get large batch to search
+      const scenes = response.items || response.data || [];
+      return scenes.find(scene => scene.name === name) || null;
     } catch (error) {
-      throw error
+      throw error.response?.data || error;
     }
-  }
-}
+  },
 
-export default sceneService
+  // Legacy method name for compatibility
+  async listScenes() {
+    const response = await this.getScenes();
+    return response.items || response.data || [];
+  }
+};
+
+export default sceneService;
