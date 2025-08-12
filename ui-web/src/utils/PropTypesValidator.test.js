@@ -1,6 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import PropTypes from 'prop-types';
+import PropTypesValidator, {
+  validatePropTypes,
+  analyzeRequiredProps,
+  validateShapeComplexity,
+  generatePropTypesTemplate,
+  validateDomainLanguage
+} from './PropTypesValidator';
 
 // Mock component for testing PropTypes validation
 const MockComponent = ({ testProp, optionalProp, numberProp, booleanProp, objectProp, arrayProp, functionProp }) => (
@@ -38,16 +45,97 @@ ComponentWithoutPropTypes.propTypes = {
 };
 
 describe('PropTypes Validation Tests', () => {
-  // Capture console errors for PropTypes warnings
-  let consoleError;
-  
-  beforeEach(() => {
-    consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+  describe('PropTypesValidator Module Tests', () => {
+    test('should export all utility functions', () => {
+      expect(PropTypesValidator).toBeDefined();
+      expect(validatePropTypes).toBeDefined();
+      expect(analyzeRequiredProps).toBeDefined();
+      expect(validateShapeComplexity).toBeDefined();
+      expect(generatePropTypesTemplate).toBeDefined();
+      expect(validateDomainLanguage).toBeDefined();
+    });
+
+    test('should validate component PropTypes', () => {
+      const componentWithPropTypes = {
+        propTypes: {
+          name: PropTypes.string.isRequired,
+          age: PropTypes.number
+        }
+      };
+      
+      const result = validatePropTypes(componentWithPropTypes);
+      expect(result.isValid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+      
+      const componentWithoutPropTypes = {};
+      const result2 = validatePropTypes(componentWithoutPropTypes);
+      expect(result2.isValid).toBe(false);
+      expect(result2.errors).toContain('Component is missing PropTypes definition');
+    });
+
+    test('should analyze required props', () => {
+      const propTypes = {
+        name: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        age: PropTypes.number
+      };
+      
+      const requiredProps = ['name', 'email', 'phone'];
+      const result = analyzeRequiredProps(propTypes, requiredProps);
+      
+      expect(result.properlyMarked).toContain('name');
+      expect(result.properlyMarked).toContain('email');
+      expect(result.missingRequired).toContain('phone');
+    });
+
+    test('should validate shape complexity', () => {
+      const shapeType = PropTypes.shape({
+        name: PropTypes.string,
+        address: PropTypes.object
+      });
+      
+      const result = validateShapeComplexity(shapeType);
+      expect(result.isComplex).toBe(true);
+      expect(result.recommendations).toContain('Use PropTypes.shape for object props');
+    });
+
+    test('should generate PropTypes template', () => {
+      const propUsage = [
+        { name: 'title', type: 'string', required: true },
+        { name: 'count', type: 'number', required: false }
+      ];
+      
+      const template = generatePropTypesTemplate(propUsage);
+      expect(template).toContain('title: PropTypes.string.isRequired');
+      expect(template).toContain('count: PropTypes.number');
+    });
+
+    test('should validate domain language in PropTypes', () => {
+      const propTypes = {
+        customerName: PropTypes.string,
+        orderTotal: PropTypes.number,
+        id: PropTypes.string,
+        data: PropTypes.object
+      };
+      
+      const result = validateDomainLanguage(propTypes);
+      expect(result.domainProps).toContain('customerName');
+      expect(result.domainProps).toContain('orderTotal');
+      expect(result.issues).toContain('Generic prop names found: data');
+    });
   });
 
-  afterEach(() => {
-    consoleError.mockRestore();
-  });
+  describe('React Component PropTypes Integration Tests', () => {
+    // Capture console errors for PropTypes warnings
+    let consoleError;
+  
+    beforeEach(() => {
+      consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      consoleError.mockRestore();
+    });
 
   describe('Valid PropTypes Usage', () => {
     test('should render without PropTypes warnings when all required props are provided', () => {
@@ -284,5 +372,6 @@ describe('PropTypes Validation Tests', () => {
       render(<FunctionalComponent {...validProps} />);
       expect(consoleError).not.toHaveBeenCalled();
     });
+  });
   });
 });

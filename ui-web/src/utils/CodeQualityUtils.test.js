@@ -1,9 +1,89 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import CodeQualityUtils, {
+  hasESLintConfig,
+  parseESLintOutput,
+  validateComponentPropTypes,
+  isLintableFile,
+  isValidComponentName,
+  extractDomainLanguage
+} from './CodeQualityUtils';
 
 const execAsync = promisify(exec);
 
 describe('Code Quality Utilities Tests', () => {
+  describe('CodeQualityUtils Module Tests', () => {
+    test('should export all utility functions', () => {
+      expect(CodeQualityUtils).toBeDefined();
+      expect(hasESLintConfig).toBeDefined();
+      expect(parseESLintOutput).toBeDefined();
+      expect(validateComponentPropTypes).toBeDefined();
+      expect(isLintableFile).toBeDefined();
+      expect(isValidComponentName).toBeDefined();
+      expect(extractDomainLanguage).toBeDefined();
+    });
+
+    test('should validate ESLint configuration presence', () => {
+      const result = hasESLintConfig();
+      expect(result).toBe(true);
+    });
+
+    test('should parse ESLint output correctly', () => {
+      const eslintOutput = '✖ 110 problems (0 errors, 110 warnings)';
+      const result = parseESLintOutput(eslintOutput);
+      
+      expect(result.warnings).toBe(110);
+      expect(result.errors).toBe(0);
+    });
+
+    test('should validate component PropTypes', () => {
+      const componentWithPropTypes = {
+        propTypes: {
+          name: 'PropTypes.string.isRequired'
+        }
+      };
+      
+      const result = validateComponentPropTypes(componentWithPropTypes);
+      expect(result.isValid).toBe(true);
+      
+      const componentWithoutPropTypes = {};
+      const result2 = validateComponentPropTypes(componentWithoutPropTypes);
+      expect(result2.isValid).toBe(false);
+    });
+
+    test('should identify lintable files', () => {
+      expect(isLintableFile('Component.js')).toBe(true);
+      expect(isLintableFile('Component.jsx')).toBe(true);
+      expect(isLintableFile('Component.ts')).toBe(true);
+      expect(isLintableFile('Component.tsx')).toBe(true);
+      expect(isLintableFile('styles.css')).toBe(false);
+      expect(isLintableFile('README.md')).toBe(false);
+    });
+
+    test('should validate React component naming conventions', () => {
+      expect(isValidComponentName('MyComponent')).toBe(true);
+      expect(isValidComponentName('Button')).toBe(true);
+      expect(isValidComponentName('myComponent')).toBe(false);
+      expect(isValidComponentName('my-component')).toBe(false);
+      expect(isValidComponentName('123Component')).toBe(false);
+    });
+
+    test('should extract domain language from PropTypes', () => {
+      const propTypes = {
+        userName: 'string',
+        id: 'string',
+        customerDetails: 'object',
+        className: 'string'
+      };
+      
+      const domainTerms = extractDomainLanguage(propTypes);
+      expect(domainTerms).toContain('userName');
+      expect(domainTerms).toContain('customerDetails');
+      expect(domainTerms).not.toContain('id');
+      expect(domainTerms).not.toContain('className');
+    });
+  });
+
   describe('ESLint Integration Tests', () => {
     test('should have ESLint configuration file present', async () => {
       const { stdout } = await execAsync('ls .eslintrc.json', { cwd: process.cwd() });
