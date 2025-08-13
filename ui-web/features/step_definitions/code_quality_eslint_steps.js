@@ -1,4 +1,4 @@
-import { Given, When, Then } from '@cucumber/cucumber';
+import { Given, When, Then } from 'cucumber';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { readdir, readFile } from 'fs/promises';
@@ -281,7 +281,7 @@ Then('each prop should have corresponding PropTypes validation', function () {
     if (!hasPropType) {
       // Check ESLint output for missing PropTypes warning for this specific prop
       const propWarning = this.eslintOutput.includes(`'${prop}' is missing in props validation`);
-      expect(propWarning).to.be.false, `PropTypes validation missing for prop: ${prop}`);
+      expect(propWarning, `PropTypes validation missing for prop: ${prop}`).to.be.false;
     }
   }
 });
