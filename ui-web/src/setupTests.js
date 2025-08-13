@@ -1,16 +1,24 @@
 /**
  * Created by JimBarrows on 2019-01-20.
  */
-import {library}                                        from '@fortawesome/fontawesome-svg-core'
-import {faBan, faEdit, faPlus, faSave, faSync, faTrash} from '@fortawesome/free-solid-svg-icons'
 import '@testing-library/jest-dom'
 
+// Mock FontAwesome to avoid dependency issues in tests
+jest.mock('@fortawesome/fontawesome-svg-core', () => ({
+  library: {
+    add: jest.fn()
+  }
+}));
 
-library.add(
-	faBan,
-	faEdit,
-	faPlus,
-	faSave,
-	faSync,
-	faTrash
-)
+jest.mock('@fortawesome/free-solid-svg-icons', () => ({
+  faBan: 'faBan',
+  faEdit: 'faEdit',
+  faPlus: 'faPlus',
+  faSave: 'faSave',
+  faSync: 'faSync',
+  faTrash: 'faTrash'
+}));
+
+jest.mock('@fortawesome/react-fontawesome', () => ({
+  FontAwesomeIcon: () => null
+}));
