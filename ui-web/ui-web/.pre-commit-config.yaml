@@ -14,3 +14,9 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+      - id: npm-test-coverage
+        name: npm test coverage check
+        entry: bash -c 'cd ui-web && npm run test:unit -- --watchAll=false --coverage --silent 2>/dev/null && node -e "const coverage = require(\"./coverage/coverage-summary.json\"); const total = coverage.total; const minThreshold = 85; const stmtCov = total.statements.pct; const branchCov = total.branches.pct; const funcCov = total.functions.pct; const lineCov = total.lines.pct; if (stmtCov < minThreshold || branchCov < minThreshold || funcCov < minThreshold || lineCov < minThreshold) { console.error(\"Coverage below threshold: Statements=\" + stmtCov + \"%, Branches=\" + branchCov + \"%, Functions=\" + funcCov + \"%, Lines=\" + lineCov + \"%\"); process.exit(1); } else { console.log(\"Coverage OK: Statements=\" + stmtCov + \"%, Branches=\" + branchCov + \"%, Functions=\" + funcCov + \"%, Lines=\" + lineCov + \"%\"); }"'
+        language: system
+        pass_filenames: false
+        files: \.(js|jsx|ts|tsx)$
