@@ -14,6 +14,6 @@ export default class Editor extends MundaneItemEditor {
 
 	</div>;
 
-};
+}
 
 
