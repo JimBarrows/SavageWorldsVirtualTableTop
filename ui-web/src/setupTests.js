@@ -22,3 +22,14 @@ jest.mock('@fortawesome/free-solid-svg-icons', () => ({
 jest.mock('@fortawesome/react-fontawesome', () => ({
   FontAwesomeIcon: () => null
 }));
+
+// Mock window methods for JSDOM compatibility
+Object.defineProperty(window, 'confirm', {
+  writable: true,
+  value: jest.fn(() => true)
+});
+
+Object.defineProperty(window, 'alert', {
+  writable: true,
+  value: jest.fn()
+});

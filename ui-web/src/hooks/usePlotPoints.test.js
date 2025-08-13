@@ -33,7 +33,7 @@ describe('usePlotPoints Hook', () => {
         { id: '2', name: 'Plot Point 2' }
       ];
       
-      plotPointService.listPlotPoints.mockResolvedValue(mockPlotPoints);
+      plotPointService.getPlotPoints.mockResolvedValue(mockPlotPoints);
       
       const { result } = renderHook(() => usePlotPoints(), {
         wrapper: createWrapper()
@@ -46,12 +46,12 @@ describe('usePlotPoints Hook', () => {
       });
       
       expect(result.current.data).toEqual(mockPlotPoints);
-      expect(plotPointService.listPlotPoints).toHaveBeenCalledTimes(1);
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(1);
     });
 
     it('handles fetch errors', async () => {
       const error = new Error('Failed to fetch');
-      plotPointService.listPlotPoints.mockRejectedValue(error);
+      plotPointService.getPlotPoints.mockRejectedValue(error);
       
       const { result } = renderHook(() => usePlotPoints(), {
         wrapper: createWrapper()
@@ -66,7 +66,7 @@ describe('usePlotPoints Hook', () => {
 
     it('provides refetch function', async () => {
       const mockPlotPoints = [{ id: '1', name: 'Plot Point 1' }];
-      plotPointService.listPlotPoints.mockResolvedValue(mockPlotPoints);
+      plotPointService.getPlotPoints.mockResolvedValue(mockPlotPoints);
       
       const { result } = renderHook(() => usePlotPoints(), {
         wrapper: createWrapper()
@@ -76,18 +76,18 @@ describe('usePlotPoints Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      plotPointService.listPlotPoints.mockResolvedValue([
+      plotPointService.getPlotPoints.mockResolvedValue([
         ...mockPlotPoints,
         { id: '2', name: 'New Plot Point' }
       ]);
       
       await result.current.refetch();
       
-      expect(plotPointService.listPlotPoints).toHaveBeenCalledTimes(2);
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
     });
 
     it('applies filters when provided', async () => {
-      plotPointService.listPlotPoints.mockResolvedValue([]);
+      plotPointService.getPlotPoints.mockResolvedValue([]);
       
       const filter = { genre: 'Fantasy' };
       const { result } = renderHook(() => usePlotPoints(filter), {
@@ -98,11 +98,11 @@ describe('usePlotPoints Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(plotPointService.listPlotPoints).toHaveBeenCalledWith(filter);
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledWith(filter);
     });
 
     it('returns empty array when no data', async () => {
-      plotPointService.listPlotPoints.mockResolvedValue(null);
+      plotPointService.getPlotPoints.mockResolvedValue(null);
       
       const { result } = renderHook(() => usePlotPoints(), {
         wrapper: createWrapper()
@@ -194,7 +194,7 @@ describe('usePlotPoints Hook', () => {
   describe('Caching', () => {
     it('uses cached data on subsequent renders', async () => {
       const mockPlotPoints = [{ id: '1', name: 'Cached' }];
-      plotPointService.listPlotPoints.mockResolvedValue(mockPlotPoints);
+      plotPointService.getPlotPoints.mockResolvedValue(mockPlotPoints);
       
       const wrapper = createWrapper();
       
@@ -207,7 +207,7 @@ describe('usePlotPoints Hook', () => {
       const { result: result2 } = renderHook(() => usePlotPoints(), { wrapper });
       
       expect(result2.current.data).toEqual(mockPlotPoints);
-      expect(plotPointService.listPlotPoints).toHaveBeenCalledTimes(1);
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(1);
     });
 
     it('invalidates cache on mutation', async () => {
@@ -224,7 +224,7 @@ describe('usePlotPoints Hook', () => {
         </QueryClientProvider>
       );
       
-      plotPointService.listPlotPoints.mockResolvedValue([]);
+      plotPointService.getPlotPoints.mockResolvedValue([]);
       
       const { result } = renderHook(() => usePlotPoints(), { wrapper });
       
@@ -236,7 +236,7 @@ describe('usePlotPoints Hook', () => {
       queryClient.invalidateQueries('plotPoints');
       
       await waitFor(() => {
-        expect(plotPointService.listPlotPoints).toHaveBeenCalledTimes(2);
+        expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -255,7 +255,7 @@ describe('usePlotPoints Hook', () => {
         </QueryClientProvider>
       );
       
-      plotPointService.listPlotPoints
+      plotPointService.getPlotPoints
         .mockRejectedValueOnce(new Error('Network error'))
         .mockResolvedValueOnce([]);
       
@@ -266,11 +266,11 @@ describe('usePlotPoints Hook', () => {
       });
       
       expect(result.current.data).toEqual([]);
-      expect(plotPointService.listPlotPoints).toHaveBeenCalledTimes(2);
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
     });
 
     it('provides manual retry function', async () => {
-      plotPointService.listPlotPoints.mockRejectedValue(new Error('Error'));
+      plotPointService.getPlotPoints.mockRejectedValue(new Error('Error'));
       
       const { result } = renderHook(() => usePlotPoints(), {
         wrapper: createWrapper()
@@ -280,7 +280,7 @@ describe('usePlotPoints Hook', () => {
         expect(result.current.isError).toBe(true);
       });
       
-      plotPointService.listPlotPoints.mockResolvedValue([]);
+      plotPointService.getPlotPoints.mockResolvedValue([]);
       
       await result.current.refetch();
       
@@ -291,7 +291,7 @@ describe('usePlotPoints Hook', () => {
 
   describe('Loading States', () => {
     it('shows loading state during initial fetch', () => {
-      plotPointService.listPlotPoints.mockImplementation(
+      plotPointService.getPlotPoints.mockImplementation(
         () => new Promise(() => {}) // Never resolves
       );
       
@@ -305,7 +305,7 @@ describe('usePlotPoints Hook', () => {
     });
 
     it('shows fetching state during refetch', async () => {
-      plotPointService.listPlotPoints.mockResolvedValue([]);
+      plotPointService.getPlotPoints.mockResolvedValue([]);
       
       const { result } = renderHook(() => usePlotPoints(), {
         wrapper: createWrapper()
@@ -315,7 +315,7 @@ describe('usePlotPoints Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      plotPointService.listPlotPoints.mockImplementation(
+      plotPointService.getPlotPoints.mockImplementation(
         () => new Promise(() => {}) // Never resolves
       );
       
@@ -343,7 +343,7 @@ describe('usePlotPoints Hook', () => {
         </QueryClientProvider>
       );
       
-      plotPointService.listPlotPoints.mockResolvedValue([]);
+      plotPointService.getPlotPoints.mockResolvedValue([]);
       
       const { result } = renderHook(() => usePlotPoints(), { wrapper });
       

@@ -76,6 +76,7 @@
     "chai": "^4.2.0",
     "chromedriver": "^138.0.5",
     "cucumber": "^5.1.0",
+    "eslint-plugin-import": "^2.32.0",
     "glob": "^11.0.3",
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^2.6.7",

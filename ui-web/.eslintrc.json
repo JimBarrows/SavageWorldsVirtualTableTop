@@ -14,11 +14,13 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended"
   ],
   "plugins": [
     "react",
-    "react-hooks"
+    "react-hooks",
+    "import"
   ],
   "rules": {
     "react/prop-types": "warn",
@@ -28,7 +30,10 @@
     "no-console": "warn",
     "no-mixed-spaces-and-tabs": "warn",
     "react/display-name": "warn",
-    "react/no-unescaped-entities": "warn"
+    "react/no-unescaped-entities": "warn",
+    "import/no-unresolved": "off",
+    "import/namespace": "off",
+    "no-import-assign": "warn"
   },
   "env": {
     "browser": true,
