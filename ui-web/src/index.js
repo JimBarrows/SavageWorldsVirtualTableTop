@@ -3,7 +3,6 @@ import {faBan, faEdit, faPlus, faSave, faSync, faTrash} from '@fortawesome/free-
 import 'bootstrap/dist/css/bootstrap.css'
 import React                                            from 'react'
 import { createRoot }                                   from 'react-dom/client'
-import 'react-quill/dist/quill.snow.css'
 import App                                              from './App'
 import './index.css'
 import registerServiceWorker                            from './registerServiceWorker'

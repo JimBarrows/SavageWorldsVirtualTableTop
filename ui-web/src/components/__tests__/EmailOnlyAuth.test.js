@@ -105,7 +105,7 @@ describe('Email-Only Authentication', () => {
         refreshToken: 'refresh123'
       });
       
-      authService.default = { login: mockLogin };
+      authService.default.login = mockLogin;
 
       // Simulate what the login component does
       const credentials = {
