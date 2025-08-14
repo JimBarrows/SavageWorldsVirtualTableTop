@@ -1,10 +1,19 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useGameEntities, useGameEntity } from './useGameEntities';
-import * as gameEntityService from '../services/gameEntityService';
-
 // Mock the service
-jest.mock('../services/gameEntityService');
+jest.mock('../services', () => ({
+  gameEntityService: {
+    getGameEntities: jest.fn(),
+    getGameEntity: jest.fn(),
+    createGameEntity: jest.fn(),
+    updateGameEntity: jest.fn(),
+    deleteGameEntity: jest.fn(),
+    searchGameEntities: jest.fn()
+  }
+}));
+
+import { gameEntityService } from '../services';
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -33,7 +42,7 @@ describe('useGameEntities Hook', () => {
         { id: '2', name: 'Beast 1', type: 'BEAST' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockEntities);
+      gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
       const { result } = renderHook(() => useGameEntities(), {
         wrapper: createWrapper()
@@ -46,7 +55,7 @@ describe('useGameEntities Hook', () => {
       });
       
       expect(result.current.data).toEqual(mockEntities);
-      expect(gameEntityService.listGameEntities).toHaveBeenCalledTimes(1);
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(1);
     });
 
     it('filters entities by type', async () => {
@@ -54,7 +63,7 @@ describe('useGameEntities Hook', () => {
         { id: '1', name: 'Hero', type: 'CHARACTER' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockCharacters);
+      gameEntityService.getGameEntities.mockResolvedValue(mockCharacters);
       
       const { result } = renderHook(() => useGameEntities('CHARACTER'), {
         wrapper: createWrapper()
@@ -64,7 +73,7 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(gameEntityService.listGameEntities).toHaveBeenCalledWith('CHARACTER', undefined);
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('CHARACTER', undefined);
       expect(result.current.data).toEqual(mockCharacters);
     });
 
@@ -73,7 +82,7 @@ describe('useGameEntities Hook', () => {
         { id: '1', name: 'Entity 1', plotPointId: 'plot123' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockEntities);
+      gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
       const { result } = renderHook(() => useGameEntities(null, 'plot123'), {
         wrapper: createWrapper()
@@ -83,11 +92,11 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(gameEntityService.listGameEntities).toHaveBeenCalledWith(null, 'plot123');
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith(null, 'plot123');
     });
 
     it('combines type and plot point filters', async () => {
-      gameEntityService.listGameEntities.mockResolvedValue([]);
+      gameEntityService.getGameEntities.mockResolvedValue([]);
       
       const { result } = renderHook(() => useGameEntities('BEAST', 'plot123'), {
         wrapper: createWrapper()
@@ -97,12 +106,12 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(gameEntityService.listGameEntities).toHaveBeenCalledWith('BEAST', 'plot123');
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('BEAST', 'plot123');
     });
 
     it('handles fetch errors', async () => {
       const error = new Error('Failed to fetch entities');
-      gameEntityService.listGameEntities.mockRejectedValue(error);
+      gameEntityService.getGameEntities.mockRejectedValue(error);
       
       const { result } = renderHook(() => useGameEntities(), {
         wrapper: createWrapper()
@@ -116,7 +125,7 @@ describe('useGameEntities Hook', () => {
     });
 
     it('returns empty array when no data', async () => {
-      gameEntityService.listGameEntities.mockResolvedValue(null);
+      gameEntityService.getGameEntities.mockResolvedValue(null);
       
       const { result } = renderHook(() => useGameEntities(), {
         wrapper: createWrapper()
@@ -215,7 +224,7 @@ describe('useGameEntities Hook', () => {
         { id: '1', name: 'Hero', type: 'CHARACTER' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockCharacters);
+      gameEntityService.getGameEntities.mockResolvedValue(mockCharacters);
       
       const { result } = renderHook(() => useGameEntities('CHARACTER'), {
         wrapper: createWrapper()
@@ -234,7 +243,7 @@ describe('useGameEntities Hook', () => {
         { id: '1', name: 'Wolf', type: 'BEAST' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockBeasts);
+      gameEntityService.getGameEntities.mockResolvedValue(mockBeasts);
       
       const { result } = renderHook(() => useGameEntities('BEAST'), {
         wrapper: createWrapper()
@@ -253,7 +262,7 @@ describe('useGameEntities Hook', () => {
         { id: '1', name: 'Sword', type: 'ITEM' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockItems);
+      gameEntityService.getGameEntities.mockResolvedValue(mockItems);
       
       const { result } = renderHook(() => useGameEntities('ITEM'), {
         wrapper: createWrapper()
@@ -271,7 +280,7 @@ describe('useGameEntities Hook', () => {
   describe('Refetch and Invalidation', () => {
     it('provides refetch function', async () => {
       const mockEntities = [{ id: '1', name: 'Entity 1' }];
-      gameEntityService.listGameEntities.mockResolvedValue(mockEntities);
+      gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
       const { result } = renderHook(() => useGameEntities(), {
         wrapper: createWrapper()
@@ -281,14 +290,14 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      gameEntityService.listGameEntities.mockResolvedValue([
+      gameEntityService.getGameEntities.mockResolvedValue([
         ...mockEntities,
         { id: '2', name: 'New Entity' }
       ]);
       
       await result.current.refetch();
       
-      expect(gameEntityService.listGameEntities).toHaveBeenCalledTimes(2);
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
     });
 
     it('invalidates cache on mutation', async () => {
@@ -304,7 +313,7 @@ describe('useGameEntities Hook', () => {
         </QueryClientProvider>
       );
       
-      gameEntityService.listGameEntities.mockResolvedValue([]);
+      gameEntityService.getGameEntities.mockResolvedValue([]);
       
       const { result } = renderHook(() => useGameEntities(), { wrapper });
       
@@ -315,7 +324,7 @@ describe('useGameEntities Hook', () => {
       queryClient.invalidateQueries('gameEntities');
       
       await waitFor(() => {
-        expect(gameEntityService.listGameEntities).toHaveBeenCalledTimes(2);
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -335,7 +344,7 @@ describe('useGameEntities Hook', () => {
       );
       
       const initialEntities = [{ id: '1', name: 'Entity 1' }];
-      gameEntityService.listGameEntities.mockResolvedValue(initialEntities);
+      gameEntityService.getGameEntities.mockResolvedValue(initialEntities);
       
       const { result } = renderHook(() => useGameEntities(), { wrapper });
       
@@ -364,7 +373,7 @@ describe('useGameEntities Hook', () => {
       );
       
       const initialEntities = [{ id: '1', name: 'Entity 1' }];
-      gameEntityService.listGameEntities.mockResolvedValue(initialEntities);
+      gameEntityService.getGameEntities.mockResolvedValue(initialEntities);
       
       const { result } = renderHook(() => useGameEntities(), { wrapper });
       
@@ -391,7 +400,7 @@ describe('useGameEntities Hook', () => {
         { id: '2', name: 'Entity 2' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue({
+      gameEntityService.getGameEntities.mockResolvedValue({
         items: page1,
         nextToken: 'next-page'
       });
@@ -414,7 +423,7 @@ describe('useGameEntities Hook', () => {
         { id: '4', name: 'Entity 4' }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue({
+      gameEntityService.getGameEntities.mockResolvedValue({
         items: page2,
         nextToken: null
       });
@@ -428,7 +437,7 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(gameEntityService.listGameEntities).toHaveBeenCalledWith(
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith(
         null,
         null,
         'next-page'
@@ -438,7 +447,7 @@ describe('useGameEntities Hook', () => {
 
   describe('Performance', () => {
     it('debounces rapid refetch calls', async () => {
-      gameEntityService.listGameEntities.mockResolvedValue([]);
+      gameEntityService.getGameEntities.mockResolvedValue([]);
       
       const { result } = renderHook(() => useGameEntities(), {
         wrapper: createWrapper()
@@ -454,7 +463,7 @@ describe('useGameEntities Hook', () => {
       result.current.refetch();
       
       await waitFor(() => {
-        expect(gameEntityService.listGameEntities).toHaveBeenCalledTimes(2);
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
       });
     });
 
@@ -463,7 +472,7 @@ describe('useGameEntities Hook', () => {
         { id: '1', name: 'Entity 1', attributes: { str: 'd8' } }
       ];
       
-      gameEntityService.listGameEntities.mockResolvedValue(mockEntities);
+      gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
       const { result, rerender } = renderHook(() => useGameEntities(), {
         wrapper: createWrapper()

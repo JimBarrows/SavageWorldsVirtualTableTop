@@ -1,10 +1,20 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { usePlotPoints, usePlotPoint } from './usePlotPoints';
-import * as plotPointService from '../services/plotPointService';
-
 // Mock the service
-jest.mock('../services/plotPointService');
+jest.mock('../services', () => ({
+  plotPointService: {
+    getPlotPoints: jest.fn(),
+    getPlotPoint: jest.fn(),
+    createPlotPoint: jest.fn(),
+    updatePlotPoint: jest.fn(),
+    deletePlotPoint: jest.fn(),
+    searchPlotPoints: jest.fn(),
+    getPlotPointByName: jest.fn()
+  }
+}));
+
+import { plotPointService } from '../services';
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
