@@ -1,7 +1,7 @@
 # Feature: Scene Management
 Feature: As a game master
-  I want to manage scenes and their dramatis personae
-  So that I can organize characters for different scenes in my game
+  I want to manage scenes, their dramatis personae, and their places
+  So that I can organize characters and locations for different scenes in my game
 
   Background:
     Given I have started the application
@@ -64,3 +64,43 @@ Feature: As a game master
     When I delete the scene "Opening Tavern Scene"
     Then the operation is successful
     And the scene "Opening Tavern Scene" is not in the data store
+
+  Scenario: I can add places to a scene's setting
+    Given I have a scene named "Opening Tavern Scene"
+    And I have places available:
+      | name          | description                            |
+      | Red Dragon Inn| A cozy tavern with wooden tables      |
+      | Main Hall     | The central dining area of the tavern |
+      | Private Room  | A small room for intimate conversations|
+    When I add "Red Dragon Inn" to the scene's places
+    And I add "Main Hall" to the scene's places
+    And I add "Private Room" to the scene's places
+    And I save the scene
+    Then the operation is successful
+    And the scene has 3 places in its setting
+    And "Red Dragon Inn" is in the scene's places
+    And "Main Hall" is in the scene's places
+    And "Private Room" is in the scene's places
+
+  Scenario: I can update a place's description in a scene
+    Given I have a scene named "Opening Tavern Scene"
+    And "Red Dragon Inn" is already in the scene's places
+    When I update "Red Dragon Inn" in the places with description "A bustling tavern filled with adventurers and merchants"
+    And I save the scene
+    Then the operation is successful
+    And "Red Dragon Inn" has description "A bustling tavern filled with adventurers and merchants" in the scene's places
+
+  Scenario: I can remove a place from a scene's setting
+    Given I have a scene named "Opening Tavern Scene"
+    And the scene has places in its setting:
+      | name          | description                            |
+      | Red Dragon Inn| A cozy tavern with wooden tables      |
+      | Main Hall     | The central dining area of the tavern |
+      | Private Room  | A small room for intimate conversations|
+    When I remove "Private Room" from the scene's places
+    And I save the scene
+    Then the operation is successful
+    And the scene has 2 places in its setting
+    And "Red Dragon Inn" is in the scene's places
+    And "Main Hall" is in the scene's places
+    And "Private Room" is not in the scene's places

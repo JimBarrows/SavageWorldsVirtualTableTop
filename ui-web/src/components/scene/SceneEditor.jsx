@@ -9,6 +9,10 @@ export default class SceneEditor extends Component {
 			name: PropTypes.string.isRequired,
 			description: PropTypes.string
 		})),
+		availablePlaces: PropTypes.arrayOf(PropTypes.shape({
+			name: PropTypes.string.isRequired,
+			description: PropTypes.string
+		})),
 		onChange: PropTypes.func,
 		onSave: PropTypes.func
 	}
@@ -18,9 +22,11 @@ export default class SceneEditor extends Component {
 			id: '',
 			name: '',
 			description: '',
-			dramatis_personae: []
+			dramatis_personae: [],
+			places: []
 		},
-		availableCharacters: []
+		availableCharacters: [],
+		availablePlaces: []
 	}
 
 	constructor(props) {
@@ -30,12 +36,16 @@ export default class SceneEditor extends Component {
 				id: '',
 				name: '',
 				description: '',
-				dramatis_personae: []
+				dramatis_personae: [],
+				places: []
 			},
 			selectedCharacter: '',
 			editingCharacter: null,
+			selectedPlace: '',
+			editingPlace: null,
 			errors: {},
-			showCharacterAlreadyInSceneError: false
+			showCharacterAlreadyInSceneError: false,
+			showPlaceAlreadyInSceneError: false
 		}
 	}
 
@@ -149,6 +159,97 @@ export default class SceneEditor extends Component {
 		})
 	}
 
+	// Place management methods
+	handleAddPlace = () => {
+		const { selectedPlace } = this.state
+		const { availablePlaces } = this.props
+		
+		if (!selectedPlace) return
+
+		// Check if place is already in scene
+		const isAlreadyInScene = this.state.scene.places.some(
+			place => place.name === selectedPlace
+		)
+		
+		if (isAlreadyInScene) {
+			this.setState({ showPlaceAlreadyInSceneError: true })
+			return
+		}
+
+		// Find place details
+		const placeDetails = availablePlaces.find(
+			place => place.name === selectedPlace
+		) || { name: selectedPlace, description: '' }
+
+		const updatedScene = {
+			...this.state.scene,
+			places: [
+				...this.state.scene.places,
+				placeDetails
+			]
+		}
+
+		this.setState({ 
+			scene: updatedScene, 
+			selectedPlace: '',
+			showPlaceAlreadyInSceneError: false
+		})
+		
+		if (this.props.onChange) {
+			this.props.onChange(updatedScene)
+		}
+	}
+
+	handleRemovePlace = (placeName) => {
+		const updatedScene = {
+			...this.state.scene,
+			places: this.state.scene.places.filter(
+				place => place.name !== placeName
+			)
+		}
+
+		this.setState({ scene: updatedScene })
+		
+		if (this.props.onChange) {
+			this.props.onChange(updatedScene)
+		}
+	}
+
+	handleEditPlace = (place) => {
+		this.setState({ editingPlace: { ...place } })
+	}
+
+	handleSavePlace = () => {
+		const { editingPlace } = this.state
+		if (!editingPlace) return
+
+		const updatedScene = {
+			...this.state.scene,
+			places: this.state.scene.places.map(place =>
+				place.name === editingPlace.name ? editingPlace : place
+			)
+		}
+
+		this.setState({ 
+			scene: updatedScene,
+			editingPlace: null
+		})
+		
+		if (this.props.onChange) {
+			this.props.onChange(updatedScene)
+		}
+	}
+
+	handlePlaceDescriptionChange = (event) => {
+		const { value } = event.target
+		this.setState({
+			editingPlace: {
+				...this.state.editingPlace,
+				description: value
+			}
+		})
+	}
+
 	handleSave = () => {
 		const { scene } = this.state
 		const errors = {}
@@ -171,8 +272,8 @@ export default class SceneEditor extends Component {
 	}
 
 	render() {
-		const { scene, selectedCharacter, editingCharacter, errors, showCharacterAlreadyInSceneError } = this.state
-		const { availableCharacters } = this.props
+		const { scene, selectedCharacter, editingCharacter, selectedPlace, editingPlace, errors, showCharacterAlreadyInSceneError, showPlaceAlreadyInSceneError } = this.state
+		const { availableCharacters, availablePlaces } = this.props
 
 		return (
 			<div className="scene-editor">
@@ -297,6 +398,107 @@ export default class SceneEditor extends Component {
 						{showCharacterAlreadyInSceneError && (
 							<div className="text-danger mt-2">
 								Character is already in the scene
+							</div>
+						)}
+					</div>
+				</div>
+
+				<div className="form-group">
+					<h4>Scene Places</h4>
+					
+					{scene.places && scene.places.length > 0 ? (
+						<table className="table">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{scene.places.map((place, index) => (
+									<tr key={index} className="scene-places-place-row">
+										<td>{place.name}</td>
+										<td className="place-description">
+											{editingPlace && editingPlace.name === place.name ? (
+												<input
+													type="text"
+													value={editingPlace.description}
+													onChange={this.handlePlaceDescriptionChange}
+												/>
+											) : (
+												place.description
+											)}
+										</td>
+										<td>
+											{editingPlace && editingPlace.name === place.name ? (
+												<button
+													type="button"
+													className="btn btn-success btn-sm me-2"
+													onClick={this.handleSavePlace}
+												>
+													Save Place
+												</button>
+											) : (
+												<>
+													<button
+														type="button"
+														className="btn btn-sm btn-secondary me-2 edit-place-button"
+														onClick={() => this.handleEditPlace(place)}
+													>
+														Edit
+													</button>
+													<button
+														type="button"
+														className="btn btn-sm btn-danger remove-place-button"
+														onClick={() => this.handleRemovePlace(place.name)}
+													>
+														Remove
+													</button>
+												</>
+											)}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					) : (
+						<p>No places in this scene yet.</p>
+					)}
+
+					<div className="add-place-section">
+						<div className="row">
+							<div className="col-md-8">
+								<select
+									className="form-control"
+									role="combobox"
+									value={selectedPlace}
+									onChange={(e) => this.setState({ selectedPlace: e.target.value })}
+									id="select-place-for-scene"
+								>
+									<option value="">Select a place...</option>
+									{availablePlaces.map((place, index) => (
+										<option key={index} value={place.name}>
+											{place.name}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className="col-md-4">
+								<button
+									type="button"
+									className="btn btn-primary"
+									onClick={this.handleAddPlace}
+									disabled={!selectedPlace}
+									id="button-add-place-to-scene"
+								>
+									Add Place
+								</button>
+							</div>
+						</div>
+						{showPlaceAlreadyInSceneError && (
+							<div className="text-danger mt-2">
+								Place is already in the scene
 							</div>
 						)}
 					</div>

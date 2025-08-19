@@ -4,6 +4,7 @@ export default class Scene {
 		this.name = ''
 		this.description = ''
 		this.dramatis_personae = []
+		this.places = []
 	}
 
 	addCharacter(character) {
@@ -77,5 +78,78 @@ export default class Scene {
 
 	clearDramatisPersonae() {
 		this.dramatis_personae = []
+	}
+
+	addPlace(place) {
+		if (!place) {
+			throw new Error('Place must be provided')
+		}
+		if (!place.name || place.name.trim() === '') {
+			throw new Error('Place must have a name')
+		}
+
+		// Check for duplicate places
+		if (this.places.find(p => p.name === place.name)) {
+			return // Don't add duplicates
+		}
+
+		this.places.push({ ...place })
+	}
+
+	removePlace(placeName) {
+		if (!placeName || placeName.trim() === '') {
+			throw new Error('Place name must be provided')
+		}
+
+		this.places = this.places.filter(
+			place => place.name !== placeName
+		)
+	}
+
+	updatePlace(placeName, updates) {
+		if (!placeName || placeName.trim() === '') {
+			throw new Error('Place name must be provided')
+		}
+		if (!updates) {
+			throw new Error('Updates must be provided')
+		}
+
+		const placeIndex = this.places.findIndex(
+			place => place.name === placeName
+		)
+		
+		if (placeIndex === -1) {
+			throw new Error(`Place ${placeName} not found in scene places`)
+		}
+
+		// Update the place
+		this.places[placeIndex] = {
+			...this.places[placeIndex],
+			...updates
+		}
+	}
+
+	getPlace(placeName) {
+		if (!placeName || placeName.trim() === '') {
+			throw new Error('Place name must be provided')
+		}
+
+		return this.places.find(place => place.name === placeName)
+	}
+
+	hasPlace(placeName) {
+		if (!placeName || placeName.trim() === '') {
+			throw new Error('Place name must be provided')
+		}
+
+		return this.places.some(place => place.name === placeName)
+	}
+
+	getPlaceCount() {
+		return this.places.length
+	}
+
+	clearPlaces() {
+		this.places = []
 	}
 }
