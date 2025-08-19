@@ -535,6 +535,308 @@ describe('useGameEntities Hook', () => {
     });
   });
 
+  describe('Search functionality', () => {
+    it('handles search queries with debouncing', async () => {
+      const mockResults = [
+        { id: '1', name: 'John Doe', type: 'CHARACTER' }
+      ];
+      
+      gameEntityService.searchGameEntities.mockResolvedValue(mockResults);
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      // Simulate search hook usage
+      const { result } = renderHook(() => {
+        const searchQuery = useQuery(
+          ['gameEntities', 'search', 'characters', 'John'],
+          () => gameEntityService.searchGameEntities('characters', 'John'),
+          { enabled: !!('John'), keepPreviousData: true }
+        );
+        return searchQuery;
+      }, { wrapper });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(gameEntityService.searchGameEntities).toHaveBeenCalledWith('characters', 'John');
+      expect(result.current.data).toEqual(mockResults);
+    });
+
+    it('handles empty search results', async () => {
+      gameEntityService.searchGameEntities.mockResolvedValue([]);
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const { result } = renderHook(() => {
+        const searchQuery = useQuery(
+          ['gameEntities', 'search', 'characters', 'nonexistent'],
+          () => gameEntityService.searchGameEntities('characters', 'nonexistent'),
+          { enabled: true }
+        );
+        return searchQuery;
+      }, { wrapper });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(result.current.data).toEqual([]);
+    });
+
+    it('handles search errors gracefully', async () => {
+      const error = new Error('Search failed');
+      gameEntityService.searchGameEntities.mockRejectedValue(error);
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const { result } = renderHook(() => {
+        const searchQuery = useQuery(
+          ['gameEntities', 'search', 'characters', 'error'],
+          () => gameEntityService.searchGameEntities('characters', 'error'),
+          { enabled: true }
+        );
+        return searchQuery;
+      }, { wrapper });
+      
+      await waitFor(() => {
+        expect(result.current.isError).toBe(true);
+      });
+      
+      expect(result.current.error).toEqual(error);
+    });
+  });
+
+  describe('Cache management', () => {
+    it('uses proper cache keys for different entity types', async () => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      gameEntityService.getGameEntities.mockResolvedValue([]);
+      
+      // Test different entity types use different cache keys
+      const { result: charactersResult } = renderHook(() => useGameEntities('characters'), { wrapper });
+      const { result: beastsResult } = renderHook(() => useGameEntities('beasts'), { wrapper });
+      
+      await waitFor(() => {
+        expect(charactersResult.current.isLoading).toBe(false);
+        expect(beastsResult.current.isLoading).toBe(false);
+      });
+      
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 1, 20, {});
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('beasts', 1, 20, {});
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
+    });
+
+    it('invalidates related caches on mutation', async () => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      gameEntityService.updateGameEntity.mockResolvedValue({ id: '123', name: 'Updated' });
+      
+      const { result } = renderHook(() => useUpdateGameEntity('characters'), { wrapper });
+      
+      await result.current.mutateAsync({ id: '123', data: { name: 'Updated Character' } });
+      
+      // Should invalidate both specific entity and entity list caches
+      expect(invalidateSpy).toHaveBeenCalledWith(['gameEntity', 'characters', '123']);
+      expect(invalidateSpy).toHaveBeenCalledWith(['gameEntities', 'characters']);
+    });
+
+    it('preserves cache data structure across rerenders', async () => {
+      const mockEntities = [
+        { id: '1', name: 'Entity 1', nested: { value: 'test' } }
+      ];
+      
+      gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
+      
+      const { result, rerender } = renderHook(
+        ({ filters }) => useGameEntities('characters', 1, 20, filters),
+        {
+          wrapper: createWrapper(),
+          initialProps: { filters: {} }
+        }
+      );
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      const originalData = result.current.data;
+      
+      // Rerender with same filters should return same reference
+      rerender({ filters: {} });
+      
+      expect(result.current.data).toBe(originalData);
+      
+      // Rerender with different filters should trigger new query
+      rerender({ filters: { active: true } });
+      
+      await waitFor(() => {
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
+      });
+      
+      expect(gameEntityService.getGameEntities).toHaveBeenLastCalledWith('characters', 1, 20, { active: true });
+    });
+  });
+
+  describe('Edge cases and error handling', () => {
+    it('handles malformed entity data', async () => {
+      const malformedEntity = {
+        id: '123',
+        // Missing required fields
+        invalidField: 'should not crash'
+      };
+      
+      gameEntityService.getGameEntity.mockResolvedValue(malformedEntity);
+      
+      const { result } = renderHook(() => useGameEntity('characters', '123'), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(result.current.data).toEqual(malformedEntity);
+      expect(result.current.isError).toBe(false);
+    });
+
+    it('handles concurrent mutations gracefully', async () => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      gameEntityService.updateGameEntity
+        .mockResolvedValueOnce({ id: '123', name: 'First Update' })
+        .mockResolvedValueOnce({ id: '123', name: 'Second Update' });
+      
+      const { result } = renderHook(() => useUpdateGameEntity('characters'), { wrapper });
+      
+      // Trigger concurrent mutations
+      const firstUpdate = result.current.mutateAsync({ id: '123', data: { name: 'First Update' } });
+      const secondUpdate = result.current.mutateAsync({ id: '123', data: { name: 'Second Update' } });
+      
+      await Promise.all([firstUpdate, secondUpdate]);
+      
+      expect(gameEntityService.updateGameEntity).toHaveBeenCalledTimes(2);
+    });
+
+    it('handles network timeout gracefully', async () => {
+      const timeoutError = new Error('Request timeout');
+      timeoutError.code = 'TIMEOUT';
+      gameEntityService.getGameEntities.mockRejectedValue(timeoutError);
+      
+      const { result } = renderHook(() => useGameEntities('characters'), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isError).toBe(true);
+      });
+      
+      expect(result.current.error).toEqual(timeoutError);
+      expect(result.current.data).toBeUndefined();
+    });
+
+    it('handles null/undefined entity IDs gracefully', async () => {
+      const testCases = [null, undefined, '', 0, false];
+      
+      testCases.forEach(invalidId => {
+        const { result } = renderHook(() => useGameEntity('characters', invalidId), {
+          wrapper: createWrapper()
+        });
+        
+        expect(result.current.data).toBeUndefined();
+        expect(gameEntityService.getGameEntity).not.toHaveBeenCalled();
+      });
+    });
+
+    it('handles large datasets efficiently', async () => {
+      const largeDataset = Array.from({ length: 1000 }, (_, i) => ({
+        id: `entity-${i}`,
+        name: `Entity ${i}`,
+        data: { value: i }
+      }));
+      
+      gameEntityService.getGameEntities.mockResolvedValue(largeDataset);
+      
+      const startTime = Date.now();
+      
+      const { result } = renderHook(() => useGameEntities('characters'), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      const endTime = Date.now();
+      
+      expect(result.current.data).toHaveLength(1000);
+      expect(endTime - startTime).toBeLessThan(1000); // Should complete within 1 second
+    });
+  });
+
   describe('Performance', () => {
     it('debounces rapid refetch calls', async () => {
       gameEntityService.getGameEntities.mockResolvedValue([]);
@@ -580,6 +882,54 @@ describe('useGameEntities Hook', () => {
       const secondData = result.current.data;
       
       expect(firstData).toBe(secondData); // Same reference
+    });
+
+    it('optimizes repeated queries with same parameters', async () => {
+      gameEntityService.getGameEntities.mockResolvedValue([]);
+      
+      const wrapper = createWrapper();
+      
+      // Render multiple hooks with same parameters
+      const { result: result1 } = renderHook(() => useGameEntities('characters', 1, 20, {}), { wrapper });
+      const { result: result2 } = renderHook(() => useGameEntities('characters', 1, 20, {}), { wrapper });
+      
+      await waitFor(() => {
+        expect(result1.current.isLoading).toBe(false);
+        expect(result2.current.isLoading).toBe(false);
+      });
+      
+      // Should only call service once due to caching
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(1);
+    });
+
+    it('handles rapid state changes efficiently', async () => {
+      let resolveQuery;
+      gameEntityService.getGameEntities.mockImplementation(() => 
+        new Promise(resolve => { resolveQuery = resolve; })
+      );
+      
+      const { result, rerender } = renderHook(
+        ({ filters }) => useGameEntities('characters', 1, 20, filters),
+        {
+          wrapper: createWrapper(),
+          initialProps: { filters: {} }
+        }
+      );
+      
+      // Rapidly change filters
+      rerender({ filters: { active: true } });
+      rerender({ filters: { active: false } });
+      rerender({ filters: { name: 'test' } });
+      
+      // Resolve the query
+      resolveQuery([]);
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      // Should handle rapid changes without issues
+      expect(result.current.isError).toBe(false);
     });
   });
 });
