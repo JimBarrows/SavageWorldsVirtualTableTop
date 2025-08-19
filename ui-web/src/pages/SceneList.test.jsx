@@ -340,4 +340,243 @@ describe('SceneListPage', () => {
       confirmSpy.mockRestore();
     });
   });
+
+  describe('Scene Count Display', () => {
+    it('should display singular scene count when only one scene', async () => {
+      sceneService.listScenes.mockResolvedValue([mockScenes[0]]);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('1 scene found')).toBeInTheDocument();
+      });
+    });
+
+    it('should display plural scene count when multiple scenes', async () => {
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('3 scenes found')).toBeInTheDocument();
+      });
+    });
+
+    it('should not display scene count when no scenes', async () => {
+      sceneService.listScenes.mockResolvedValue([]);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('No Scenes Yet')).toBeInTheDocument();
+        expect(screen.queryByText(/scene.*found/)).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Navigation and Routing', () => {
+    beforeEach(() => {
+      sceneService.listScenes.mockResolvedValue([]);
+    });
+
+    it('should navigate to add scene page when "Create First Scene" button is clicked', async () => {
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('Create First Scene')).toBeInTheDocument();
+      });
+      
+      const createFirstButton = screen.getByText('Create First Scene');
+      fireEvent.click(createFirstButton);
+
+      expect(mockNavigate).toHaveBeenCalledWith('/scene/add');
+    });
+
+    it('should call navigate with correct route for add scene', async () => {
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('Add Scene')).toBeInTheDocument();
+      });
+      
+      const addButton = screen.getByText('Add Scene');
+      fireEvent.click(addButton);
+
+      expect(mockNavigate).toHaveBeenCalledTimes(1);
+      expect(mockNavigate).toHaveBeenCalledWith('/scene/add');
+    });
+  });
+
+  describe('Error Message Details', () => {
+    it('should handle error without message gracefully', async () => {
+      sceneService.listScenes.mockRejectedValue({});
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('Error loading scenes')).toBeInTheDocument();
+        expect(screen.getByText('An unexpected error occurred')).toBeInTheDocument();
+      });
+    });
+
+    it('should display detailed error message when provided', async () => {
+      const detailedError = new Error('Database connection timeout');
+      sceneService.listScenes.mockRejectedValue(detailedError);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('Database connection timeout')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('UI Component Integration', () => {
+    beforeEach(() => {
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+    });
+
+    it('should pass correct props to SceneList component', async () => {
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByTestId('scene-list')).toBeInTheDocument();
+        expect(screen.getByText('Scenes: 3')).toBeInTheDocument();
+      });
+    });
+
+    it('should display theater masks icon in empty state', async () => {
+      sceneService.listScenes.mockResolvedValue([]);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('No Scenes Yet')).toBeInTheDocument();
+        // The FontAwesome icon is mocked to just return 'Icon'
+        expect(screen.getAllByText('Icon')).toHaveLength(2); // One for each button
+      });
+    });
+
+    it('should render page with correct ID attributes', async () => {
+      const { container } = renderComponent();
+      
+      await waitFor(() => {
+        expect(container.querySelector('#SceneListPage')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Edge Cases and Data Handling', () => {
+    it('should handle null scene list gracefully', async () => {
+      sceneService.listScenes.mockResolvedValue(null);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('No Scenes Yet')).toBeInTheDocument();
+      });
+    });
+
+    it('should handle undefined scene list gracefully', async () => {
+      sceneService.listScenes.mockResolvedValue(undefined);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('No Scenes Yet')).toBeInTheDocument();
+      });
+    });
+
+    it('should handle scenes without required properties', async () => {
+      const incompleteScenes = [
+        { id: '1' }, // Missing name
+        { name: 'Scene 2' }, // Missing id
+        { id: '3', name: 'Scene 3', description: 'Valid scene' }
+      ];
+      sceneService.listScenes.mockResolvedValue(incompleteScenes);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('3 scenes found')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Service Integration', () => {
+    it('should call listScenes service on component mount', () => {
+      sceneService.listScenes.mockResolvedValue([]);
+      renderComponent();
+      
+      expect(sceneService.listScenes).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle service call with correct method signature', async () => {
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(sceneService.listScenes).toHaveBeenCalledWith();
+        expect(sceneService.listScenes).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('Loading State Management', () => {
+    it('should show loading spinner with correct attributes', () => {
+      sceneService.listScenes.mockImplementation(() => new Promise(() => {}));
+      renderComponent();
+      
+      const spinner = screen.getByRole('status');
+      expect(spinner).toBeInTheDocument();
+      expect(spinner).toHaveClass('spinner-border');
+      
+      const loadingText = screen.getByText('Loading scenes...');
+      expect(loadingText).toBeInTheDocument();
+    });
+
+    it('should hide loading state after data loads', async () => {
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+      renderComponent();
+      
+      // Initially shows loading
+      expect(screen.getByText('Loading scenes...')).toBeInTheDocument();
+      
+      // After data loads, loading should be gone
+      await waitFor(() => {
+        expect(screen.queryByText('Loading scenes...')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Button States and Interactions', () => {
+    beforeEach(() => {
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+    });
+
+    it('should render add scene button with correct styling', async () => {
+      renderComponent();
+      
+      await waitFor(() => {
+        const addButton = screen.getByText('Add Scene');
+        expect(addButton).toBeInTheDocument();
+        expect(addButton.closest('button')).toHaveAttribute('id', 'button-addScene');
+      });
+    });
+
+    it('should have consistent button behavior across empty and populated states', async () => {
+      // Test with empty list
+      sceneService.listScenes.mockResolvedValue([]);
+      renderComponent();
+      
+      await waitFor(() => {
+        const createFirstButton = screen.getByText('Create First Scene');
+        fireEvent.click(createFirstButton);
+        expect(mockNavigate).toHaveBeenCalledWith('/scene/add');
+      });
+      
+      // Reset and test with populated list
+      mockNavigate.mockClear();
+      sceneService.listScenes.mockResolvedValue(mockScenes);
+      renderComponent();
+      
+      await waitFor(() => {
+        const addButton = screen.getByText('Add Scene');
+        fireEvent.click(addButton);
+        expect(mockNavigate).toHaveBeenCalledWith('/scene/add');
+      });
+    });
+  });
 });
