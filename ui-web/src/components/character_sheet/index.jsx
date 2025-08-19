@@ -31,23 +31,30 @@ export default class CharacterSheet extends React.Component {
 		selected: ''
 	}
 
-	agilityChange            = e => this.props.onChange(Object.assign({}, this.props.item, {agility: e}))
-	animalIntelligenceChange = e => this.props.onChange(Object.assign({}, this.props.item, {animalIntelligence: e.target.value}))
-	charismaChange           = e => this.props.onChange(Object.assign({}, this.props.item, {charisma: parseInt(e.target.value, 10)}))
+	updateCharacterProperty = (property, value) => {
+		this.props.onChange({
+			...this.props.item,
+			[property]: value
+		});
+	}
+
+	agilityChange            = e => this.updateCharacterProperty('agility', e)
+	animalIntelligenceChange = e => this.updateCharacterProperty('animalIntelligence', e.target.value)
+	charismaChange           = e => this.updateCharacterProperty('charisma', parseInt(e.target.value, 10))
 	delete                   = e => {
 		e.preventDefault()
 		this.props.onDelete(this.props.index)
 	}
-	descriptionChange        = e => this.props.onChange(Object.assign({}, this.props.item, {description: e.target.value}))
-	edgeListChanged          = edges => this.props.onChange(Object.assign({}, this.props.item, {edges: edges}))
-	hindranceListChanged     = hindrances => this.props.onChange(Object.assign({}, this.props.item, {hindrances: hindrances}))
-	nameChange               = e => this.props.onChange(Object.assign({}, this.props.item, {name: e.target.value}))
-	paceChange               = e => this.props.onChange(Object.assign({}, this.props.item, {pace: parseInt(e.target.value, 10)}))
-	skillListChanged         = skills => this.props.onChange(Object.assign({}, this.props.item, {skills: skills}))
-	smartsChange             = e => this.props.onChange(Object.assign({}, this.props.item, {smarts: e}))
-	spiritChange             = e => this.props.onChange(Object.assign({}, this.props.item, {spirit: e}))
-	strengthChange           = e => this.props.onChange(Object.assign({}, this.props.item, {strength: e}))
-	vigorChange              = e => this.props.onChange(Object.assign({}, this.props.item, {vigor: e}))
+	descriptionChange        = e => this.updateCharacterProperty('description', e.target.value)
+	edgeListChanged          = edges => this.updateCharacterProperty('edges', edges)
+	hindranceListChanged     = hindrances => this.updateCharacterProperty('hindrances', hindrances)
+	nameChange               = e => this.updateCharacterProperty('name', e.target.value)
+	paceChange               = e => this.updateCharacterProperty('pace', parseInt(e.target.value, 10))
+	skillListChanged         = skills => this.updateCharacterProperty('skills', skills)
+	smartsChange             = e => this.updateCharacterProperty('smarts', e)
+	spiritChange             = e => this.updateCharacterProperty('spirit', e)
+	strengthChange           = e => this.updateCharacterProperty('strength', e)
+	vigorChange              = e => this.updateCharacterProperty('vigor', e)
 
 	render () {
 		let {id}         = this.props

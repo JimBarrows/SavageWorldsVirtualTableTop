@@ -924,4 +924,3 @@ describe('AuthContext - Remember Me Functionality', () => {
       expect(authContext.user).toBeNull();
     });
   });
-});

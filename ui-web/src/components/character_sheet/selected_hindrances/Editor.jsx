@@ -8,23 +8,60 @@ export default class SelectedHindranceEditor extends React.Component {
 
 	static propTypes = {
 		id       : PropTypes.string.isRequired,
-		hindrance: PropTypes.object.isRequired
+		hindrance: PropTypes.object.isRequired,
+		onChange : PropTypes.func
+	}
+
+	handleSeverityChange = (severity) => {
+		const { hindrance, onChange } = this.props;
+		if (onChange) {
+			onChange({
+				...hindrance,
+				severity: severity
+			});
+		}
 	}
 
 	severity = () => {
 		let {hindrance} = this.props
 		if (hindrance.hindrance.severity === 'Major or Minor') {
 			return <div >
-				<label ><input type="radio" name="severity" value="Major" />Major</label >
-				<label ><input type="radio" name="severity" value="Minor" /> Minor</label >
+				<label >
+					<input 
+						type="radio" 
+						name={`severity-${this.props.id}`}
+						value="Major"
+						checked={hindrance.severity === 'Major'}
+						onChange={() => this.handleSeverityChange('Major')}
+					/>
+					Major
+				</label >
+				<label >
+					<input 
+						type="radio" 
+						name={`severity-${this.props.id}`}
+						value="Minor"
+						checked={hindrance.severity === 'Minor'}
+						onChange={() => this.handleSeverityChange('Minor')}
+					/> 
+					Minor
+				</label >
 			</div >
 		} else {
-			hindrance.severity = hindrance.hindrance.severity
-			return <label >Severity: {hindrance.serverity}</label >
+			const severity = hindrance.severity || hindrance.hindrance.severity;
+			return <label >Severity: {severity}</label >
 		}
 	}
 
-	hindranceNoteChange = hindrance => e => hindrance.note = e.target.value
+	hindranceNoteChange = (e) => {
+		const { hindrance, onChange } = this.props;
+		if (onChange) {
+			onChange({
+				...hindrance,
+				note: e.target.value
+			});
+		}
+	}
 
 	render () {
 		let {hindrance, id} = this.props
@@ -35,7 +72,7 @@ export default class SelectedHindranceEditor extends React.Component {
 				{this.severity()}
 				{hindrance.hindrance.description}
 				<TextAreaFormGroup id={`${component_id}-Note`} label={'Note'}
-					onChange={this.hindranceNoteChange(hindrance)}
+					onChange={this.hindranceNoteChange}
 					value={hindrance.note} />
 			</div >
 		)

@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { 
   useGameEntities, 
   useGameEntity,
@@ -557,6 +557,7 @@ describe('useGameEntities Hook', () => {
       
       // Simulate search hook usage
       const { result } = renderHook(() => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const searchQuery = useQuery(
           ['gameEntities', 'search', 'characters', 'John'],
           () => gameEntityService.searchGameEntities('characters', 'John'),
@@ -589,6 +590,7 @@ describe('useGameEntities Hook', () => {
       );
       
       const { result } = renderHook(() => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const searchQuery = useQuery(
           ['gameEntities', 'search', 'characters', 'nonexistent'],
           () => gameEntityService.searchGameEntities('characters', 'nonexistent'),
@@ -621,6 +623,7 @@ describe('useGameEntities Hook', () => {
       );
       
       const { result } = renderHook(() => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const searchQuery = useQuery(
           ['gameEntities', 'search', 'characters', 'error'],
           () => gameEntityService.searchGameEntities('characters', 'error'),

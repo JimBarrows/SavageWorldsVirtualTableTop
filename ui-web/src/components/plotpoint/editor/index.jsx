@@ -31,6 +31,13 @@ export default class PlotPointForm extends React.Component {
 		disabled : bool
 	}
 
+	state = {
+		section  : 'BasicRules',
+		plotPoint: this.props.plotPoint,
+		originalPlotPoint: this.props.plotPoint,
+		hasUnsavedChanges: false
+	}
+
 	basicRulesChange   = basicRules => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {basicRules})})
 	beastsChange       = beasts => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {beasts})})
 	charactersChange   = characters => this.setState({plotPoint: Object.assign({}, this.state.plotPoint, {characters})})
@@ -126,13 +133,6 @@ export default class PlotPointForm extends React.Component {
 		)
 	}
 
-	state = {
-		section  : 'BasicRules',
-		plotPoint: this.props.plotPoint,
-		originalPlotPoint: this.props.plotPoint,
-		hasUnsavedChanges: false
-	}
-
 	componentDidMount() {
 		// Set up beforeunload event listener for unsaved changes
 		this.setupBeforeUnloadListener();
@@ -140,7 +140,7 @@ export default class PlotPointForm extends React.Component {
 
 	componentWillUnmount() {
 		// Clean up event listener
-		window.removeEventListener('beforeunload', this.handleBeforeUnload);
+		this.removeBeforeUnloadListener();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -150,8 +150,15 @@ export default class PlotPointForm extends React.Component {
 		}
 	}
 
-	setupBeforeUnloadListener = () => {
-		window.addEventListener('beforeunload', this.handleBeforeUnload);
+	setupBeforeUnloadListener = (windowRef = window) => {
+		this.windowRef = windowRef;
+		this.windowRef.addEventListener('beforeunload', this.handleBeforeUnload);
+	}
+
+	removeBeforeUnloadListener = () => {
+		if (this.windowRef) {
+			this.windowRef.removeEventListener('beforeunload', this.handleBeforeUnload);
+		}
 	}
 
 	handleBeforeUnload = (e) => {
@@ -170,10 +177,10 @@ export default class PlotPointForm extends React.Component {
 	}
 
 	// Enhanced cancel with unsaved changes warning
-	cancel = e => {
+	cancel = (e, confirmRef = window) => {
 		e.preventDefault();
 		if (this.state.hasUnsavedChanges) {
-			const confirmed = window.confirm('You have unsaved changes. Are you sure you want to cancel?');
+			const confirmed = confirmRef.confirm('You have unsaved changes. Are you sure you want to cancel?');
 			if (!confirmed) {
 				return;
 			}

@@ -178,4 +178,233 @@ describe('App Component', () => {
     
     consoleSpy.mockRestore();
   });
+
+  describe('Login Component - Lines 52-143', () => {
+    it('renders login form with all fields', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      
+      render(
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+        expect(screen.getByText(/don't have an account/i)).toBeInTheDocument();
+        expect(screen.getByText(/forgot password/i)).toBeInTheDocument();
+      });
+    });
+
+    it('updates form state when typing', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      
+      render(
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        const emailInput = screen.getByLabelText(/email/i);
+        const passwordInput = screen.getByLabelText(/password/i);
+        
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        
+        expect(emailInput.value).toBe('test@example.com');
+        expect(passwordInput.value).toBe('password123');
+      });
+    });
+
+    it('handles successful login submission', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      authService.login.mockResolvedValue({ success: true });
+      
+      render(
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        const emailInput = screen.getByLabelText(/email/i);
+        const passwordInput = screen.getByLabelText(/password/i);
+        const submitButton = screen.getByRole('button', { name: /login/i });
+        
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        fireEvent.click(submitButton);
+      });
+
+      await waitFor(() => {
+        expect(authService.login).toHaveBeenCalledWith({
+          email: 'test@example.com',
+          password: 'password123',
+          rememberMe: false
+        });
+      });
+    });
+
+    it('shows loading state during login', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      let resolveLogin;
+      authService.login.mockReturnValue(new Promise(resolve => { resolveLogin = resolve; }));
+      
+      render(
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        const emailInput = screen.getByLabelText(/email/i);
+        const passwordInput = screen.getByLabelText(/password/i);
+        const submitButton = screen.getByRole('button', { name: /login/i });
+        
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        fireEvent.click(submitButton);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Logging in...')).toBeInTheDocument();
+      });
+
+      resolveLogin({ success: true });
+      
+      await waitFor(() => {
+        expect(screen.queryByText('Logging in...')).not.toBeInTheDocument();
+      });
+    });
+
+    it('displays logout message when present', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      
+      render(
+        <MemoryRouter initialEntries={[{
+          pathname: '/login',
+          state: { message: 'You have been logged out successfully', type: 'success' }
+        }]}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('logout-success')).toBeInTheDocument();
+        expect(screen.getByText('You have been logged out successfully')).toBeInTheDocument();
+      });
+    });
+
+    it('handles remember me checkbox', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      authService.login.mockResolvedValue({ success: true });
+      
+      render(
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        const rememberMeCheckbox = screen.getByRole('checkbox');
+        const emailInput = screen.getByLabelText(/email/i);
+        const passwordInput = screen.getByLabelText(/password/i);
+        const submitButton = screen.getByRole('button', { name: /login/i });
+        
+        fireEvent.click(rememberMeCheckbox);
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        fireEvent.click(submitButton);
+      });
+
+      await waitFor(() => {
+        expect(authService.login).toHaveBeenCalledWith({
+          email: 'test@example.com',
+          password: 'password123',
+          rememberMe: true
+        });
+      });
+    });
+  });
+
+  describe('HomeRoute Component - Line 252', () => {
+    it('redirects authenticated users to plot-points', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      api.getAccessToken.mockReturnValue('valid-token');
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser.mockResolvedValue(mockUser);
+      
+      render(
+        <MemoryRouter initialEntries={['/']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+      });
+
+      // Should navigate to plot-points (line 252)
+      await waitFor(() => {
+        expect(screen.queryByTestId('marketing-page')).not.toBeInTheDocument();
+      });
+    });
+
+    it('shows marketing page for unauthenticated users', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      
+      render(
+        <MemoryRouter initialEntries={['/']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText(/Savage Worlds VTT/i)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Protected Routes', () => {
+    it('shows loading state before authentication check', async () => {
+      api.getAccessToken.mockReturnValue('token');
+      let resolveUser;
+      authService.getCurrentUser.mockReturnValue(
+        new Promise(resolve => { resolveUser = resolve; })
+      );
+      
+      render(
+        <MemoryRouter initialEntries={['/plot-points']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      // Should show loading (line 36)
+      expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+      resolveUser({ id: '1', email: 'test@example.com' });
+      
+      await waitFor(() => {
+        expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+      });
+    });
+
+    it('redirects to login when not authenticated', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      
+      render(
+        <MemoryRouter initialEntries={['/plot-points']}>
+          <App />
+        </MemoryRouter>
+      );
+
+      // Should redirect to login (lines 39-40)
+      await waitFor(() => {
+        expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+      });
+    });
+  });
 });

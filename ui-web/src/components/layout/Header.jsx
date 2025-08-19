@@ -14,10 +14,10 @@ export default function Header({ id }) {
   };
 
   // Check for unsaved changes by looking for forms with unsaved state
-  const checkForUnsavedChanges = () => {
+  const checkForUnsavedChanges = (documentRef = document) => {
     // Check if there are any forms with unsaved changes
     // This is a simple implementation - in a more complex app you'd use a context
-    const forms = document.querySelectorAll('form');
+    const forms = documentRef.querySelectorAll('form');
     for (let form of forms) {
       // Look for any form elements that have been modified
       const inputs = form.querySelectorAll('input, textarea, select');
