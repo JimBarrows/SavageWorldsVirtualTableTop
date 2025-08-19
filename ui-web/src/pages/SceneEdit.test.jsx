@@ -108,35 +108,31 @@ describe('SceneEditPage', () => {
       renderComponent();
       
       await waitFor(() => {
-        expect(screen.getByText('Failed to load scene')).toBeInTheDocument();
+        expect(screen.getByText('Scene not found')).toBeInTheDocument();
       });
     });
 
-    it('should show retry button on error', async () => {
+    it('should show back to scenes button on error', async () => {
       sceneService.getSceneByName.mockRejectedValue(new Error('Failed to load'));
       renderComponent();
       
       await waitFor(() => {
-        expect(screen.getByText('Retry')).toBeInTheDocument();
+        expect(screen.getByText('Back to Scenes')).toBeInTheDocument();
       });
     });
 
-    it('should retry loading when retry button is clicked', async () => {
-      sceneService.getSceneByName
-        .mockRejectedValueOnce(new Error('Failed to load'))
-        .mockResolvedValueOnce(mockScene);
+    it('should navigate back when back button is clicked', async () => {
+      sceneService.getSceneByName.mockRejectedValue(new Error('Failed to load'));
       
       renderComponent();
       
       await waitFor(() => {
-        expect(screen.getByText('Failed to load scene')).toBeInTheDocument();
+        expect(screen.getByText('Scene not found')).toBeInTheDocument();
       });
 
-      fireEvent.click(screen.getByText('Retry'));
+      fireEvent.click(screen.getByText('Back to Scenes'));
 
-      await waitFor(() => {
-        expect(screen.getByText('Scene: test-scene')).toBeInTheDocument();
-      });
+      expect(mockNavigate).toHaveBeenCalledWith('/scenes');
     });
   });
 

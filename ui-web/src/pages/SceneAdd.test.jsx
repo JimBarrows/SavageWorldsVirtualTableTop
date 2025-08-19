@@ -58,12 +58,22 @@ describe('SceneAddPage', () => {
   describe('Initial Rendering', () => {
     it('should render the page with page header', () => {
       renderComponent();
-      expect(screen.getByText('Add Scene')).toBeInTheDocument();
+      expect(screen.getByText('Add New Scene')).toBeInTheDocument();
     });
 
     it('should render the scene editor component', () => {
       renderComponent();
       expect(screen.getByTestId('scene-editor')).toBeInTheDocument();
+    });
+
+    it('should render scene details card', () => {
+      renderComponent();
+      expect(screen.getByText('Scene Details')).toBeInTheDocument();
+    });
+
+    it('should render actions card', () => {
+      renderComponent();
+      expect(screen.getByText('Actions')).toBeInTheDocument();
     });
 
     it('should fetch and display available characters', async () => {
@@ -83,7 +93,7 @@ describe('SceneAddPage', () => {
 
       renderComponent();
       
-      const saveButton = screen.getByText('Save');
+      const saveButton = screen.getByText('Save Scene');
       fireEvent.click(saveButton);
 
       await waitFor(() => {
@@ -100,7 +110,7 @@ describe('SceneAddPage', () => {
 
       renderComponent();
       
-      const saveButton = screen.getByText('Save');
+      const saveButton = screen.getByText('Save Scene');
       fireEvent.click(saveButton);
 
       await waitFor(() => {
