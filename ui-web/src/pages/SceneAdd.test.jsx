@@ -17,22 +17,21 @@ jest.mock('react-router-dom', () => ({
 
 // Mock SceneEditor component
 jest.mock('../components/scene/SceneEditor', () => {
-  return function MockSceneEditor({ scene, onSceneChange, onSave, onCancel, availableCharacters }) {
+  return function MockSceneEditor({ scene, onChange, onSave, availableCharacters }) {
     return (
       <div data-testid="scene-editor">
         <div>Scene Editor Mock</div>
         <div>Available Characters: {availableCharacters?.length || 0}</div>
-        <button onClick={() => onSceneChange({ ...scene, name: 'Updated Scene' })}>
+        <button onClick={() => onChange && onChange({ ...scene, name: 'Updated Scene' })}>
           Update Scene
         </button>
-        <button onClick={() => onSave(scene)}>Save</button>
-        <button onClick={onCancel}>Cancel</button>
+        <button onClick={() => onSave && onSave(scene)}>Save</button>
       </div>
     );
   };
 });
 
-describe.skip('SceneAddPage', () => {
+describe('SceneAddPage', () => {
   let queryClient;
 
   beforeEach(() => {
@@ -43,6 +42,15 @@ describe.skip('SceneAddPage', () => {
       }
     });
     jest.clearAllMocks();
+    // Mock window.alert
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+  });
+  
+  afterEach(() => {
+    // Restore window methods
+    if (window.alert.mockRestore) {
+      window.alert.mockRestore();
+    }
   });
 
   const renderComponent = () => {
