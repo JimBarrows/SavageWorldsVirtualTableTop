@@ -8,8 +8,8 @@ export default class Editor extends GearEditor {
 		id: 'MundaneItemEditorComponent'
 	}
 
-	costChange   = e => this.props.onChange(Object.assign({}, this.props.item, {cost: parseInt(e.target.value, 10)}), this.props.index)
-	weightChange = e => this.props.onChange(Object.assign({}, this.props.item, {weight: parseInt(e.target.value, 10)}), this.props.index)
+	costChange   = e => this.props.onChange(Object.assign({}, this.props.item, {cost: parseInt(e.target.value, 10) || 0}), this.props.index)
+	weightChange = e => this.props.onChange(Object.assign({}, this.props.item, {weight: parseInt(e.target.value, 10) || 0}), this.props.index)
 
 	additionalFields = () => <div>
 

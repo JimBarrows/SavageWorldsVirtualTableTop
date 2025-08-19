@@ -19,7 +19,7 @@ export default class Editor extends React.Component {
 		selected: ''
 	}
 
-	armorChange            = e => this.props.onChange(Object.assign({}, this.props.item, {armor: parseInt(e.target.value, 10)}), this.props.index)
+	armorChange            = e => this.props.onChange(Object.assign({}, this.props.item, {armor: parseInt(e.target.value, 10) || 0}), this.props.index)
 	onChange               = item => this.props.onChange(item, this.props.index)
 	specialAbilitiesChange = specialAbilities => {this.props.onChange(Object.assign({}, this.props.item, {specialAbilities}), this.props.index)}
 

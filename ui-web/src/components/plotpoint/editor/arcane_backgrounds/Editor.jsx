@@ -2,7 +2,7 @@ import {NumberFormGroup, TextAreaFormGroup, TextFormGroup} from 'bootstrap-react
 import PropTypes from 'prop-types'
 import React                                               from 'react'
 import BaseEditor                                          from '../../../BaseEditor'
-import AttributeSelectFormGroup                            from '../../formgroups/AttributeSelectFormGroup'
+import AttributeSelectFormGroup                            from '../../../formgroups/AttributeSelectFormGroup'
 
 export default class Editor extends React.Component {
 
@@ -14,8 +14,8 @@ export default class Editor extends React.Component {
 		this.props.onDelete(this.props.index)
 	}
 	skillNameChange           = e => this.props.onChange(Object.assign({}, this.props.item, {skillName: e.target.value}), this.props.index)
-	startingPowersChange      = e => this.props.onChange(Object.assign({}, this.props.item, {startingPowers: parseInt(e.target.value, 10)}), this.props.index)
-	startingPowerPointsChange = e => this.props.onChange(Object.assign({}, this.props.item, {startingPowerPoints: parseInt(e.target.value, 10)}), this.props.index)
+	startingPowersChange      = e => this.props.onChange(Object.assign({}, this.props.item, {startingPowers: parseInt(e.target.value, 10) || 0}), this.props.index)
+	startingPowerPointsChange = e => this.props.onChange(Object.assign({}, this.props.item, {startingPowerPoints: parseInt(e.target.value, 10) || 0}), this.props.index)
 
 	render() {
 		let componentId = `ArcaneBackgroundEditor-${this.props.index}-${this.props.id}`
