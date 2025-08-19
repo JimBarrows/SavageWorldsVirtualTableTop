@@ -7,7 +7,7 @@ export default class AttributeComponent extends React.Component {
 
 	static defaultProps = {
 		value: {
-			dice : '',
+			dice : 'd4',
 			bonus: 0
 		}
 	}
@@ -22,7 +22,7 @@ export default class AttributeComponent extends React.Component {
 		prepend : PropTypes.any,
 		required: PropTypes.bool,
 		value   : PropTypes.shape({
-			dice : PropTypes.oneOf(['d4', 'd6', 'd8', 'd10', 'd12']),
+			dice : PropTypes.oneOf(['', 'd4', 'd6', 'd8', 'd10', 'd12']),
 			bonus: PropTypes.number
 		})
 	}
@@ -45,7 +45,7 @@ export default class AttributeComponent extends React.Component {
 		if (value.dice === 'd12') {
 			bonusComponent =
 				<FormControl id={componentId} className={className} disabled={disabled}
-				             onChange={this.bonusChange} type='number' value={value.bonus}/>
+				             onChange={this.bonusChange} type='number' value={String(value.bonus || 0)}/>
 		}
 
 		return (

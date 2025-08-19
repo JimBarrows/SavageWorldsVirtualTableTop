@@ -49,19 +49,19 @@ const sceneService = {
   },
 
   // Update an existing scene
-  async updateScene(scene) {
+  async updateScene(id, scene) {
+    if (!id) {
+      throw new Error('Scene ID is required');
+    }
     if (!scene) {
       throw new Error('Scene is required');
-    }
-    if (!scene.id) {
-      throw new Error('Scene ID is required');
     }
     if (!scene.name) {
       throw new Error('Scene name is required');
     }
 
     try {
-      const response = await api.put(`/scenes/${scene.id}`, scene);
+      const response = await api.put(`/scenes/${id}`, scene);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -92,6 +92,20 @@ const sceneService = {
       const response = await this.getScenes(1, 1000); // Get large batch to search
       const scenes = response.items || response.data || [];
       return scenes.find(scene => scene.name === name) || null;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // Search scenes by query
+  async searchScenes(query) {
+    if (!query) {
+      throw new Error('Search query is required');
+    }
+
+    try {
+      const response = await api.get(`/scenes/search?query=${encodeURIComponent(query)}`);
+      return response.data;
     } catch (error) {
       throw error.response?.data || error;
     }

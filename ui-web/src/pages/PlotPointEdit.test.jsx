@@ -5,27 +5,43 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import PlotPointEdit from './PlotPointEdit';
 
 // Mock the service
-jest.mock('../services/plotPointService', () => ({
-  getPlotPoint: jest.fn(),
-  updatePlotPoint: jest.fn()
+jest.mock('../services', () => ({
+  plotPointService: {
+    getPlotPointByName: jest.fn(),
+    updatePlotPoint: jest.fn()
+  }
 }));
 
-// Mock hooks
-jest.mock('../hooks/usePlotPoints', () => ({
-  usePlotPoint: jest.fn()
-}));
-
-// Mock navigation and params
-const mockNavigate = jest.fn();
-const mockParams = { id: '123' };
+// Mock react-router-dom hooks
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-  useParams: () => mockParams
+  useNavigate: jest.fn(),
+  useParams: jest.fn()
 }));
 
-const plotPointService = require('../services/plotPointService');
-const { usePlotPoint } = require('../hooks/usePlotPoints');
+// After mocks are set up, we can access them
+const { useNavigate, useParams } = jest.requireMock('react-router-dom');
+const mockNavigate = jest.fn();
+
+// Mock PlotPointForm component
+jest.mock('../components/plotpoint/editor', () => {
+  const React = require('react');
+  return function MockPlotPointForm({ onSave, onCancel, errors, disabled, plotPoint }) {
+    return React.createElement('div', { 'data-testid': 'plot-point-form' },
+      errors && errors.length > 0 && React.createElement('div', { 'data-testid': 'form-errors' },
+        errors.map((err, idx) => React.createElement('div', { key: idx }, err))
+      ),
+      React.createElement('div', {}, 'Editing: ' + (plotPoint ? plotPoint.name : '')),
+      React.createElement('button', { 
+        onClick: () => onSave({ name: 'Updated Plot Point' }), 
+        disabled: disabled 
+      }, 'Save'),
+      React.createElement('button', { onClick: onCancel }, 'Cancel')
+    );
+  };
+});
+
+const { plotPointService } = require('../services');
 
 const createWrapper = ({ children }) => {
   const queryClient = new QueryClient({
@@ -34,12 +50,10 @@ const createWrapper = ({ children }) => {
       mutations: { retry: false }
     }
   });
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        {children}
-      </BrowserRouter>
-    </QueryClientProvider>
+  return React.createElement(
+    QueryClientProvider,
+    { client: queryClient },
+    React.createElement(BrowserRouter, {}, children)
   );
 };
 
@@ -47,415 +61,438 @@ describe('PlotPointEdit Component', () => {
   const mockPlotPoint = {
     id: '123',
     name: 'Existing Plot Point',
-    description: 'Existing Description',
-    genre: 'Fantasy',
-    setting: 'Medieval',
-    customAttributes: [],
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
+    description: 'Test description',
+    basicRules: {
+      maximumAttributePoints: 5,
+      maximumMajorHindrances: 1,
+      maximumMinorHindrances: 2,
+      maximumSkillPoints: 15
+    },
+    beasts: [],
+    edges: []
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
-    usePlotPoint.mockReturnValue({
-      data: mockPlotPoint,
-      isLoading: false,
-      error: null,
-      refetch: jest.fn()
-    });
+    mockNavigate.mockClear();
+    useNavigate.mockReturnValue(mockNavigate);
+    useParams.mockReturnValue({ name: 'test-plot-point' });
   });
 
   describe('Rendering', () => {
-    it('renders without crashing', () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-    });
-
-    it('displays the page title', () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      expect(screen.getByText(/edit.*plot point/i)).toBeInTheDocument();
-    });
-
-    it('loads and displays existing plot point data', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+    it('renders without crashing', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByDisplayValue('Existing Plot Point')).toBeInTheDocument();
-        expect(screen.getByDisplayValue('Existing Description')).toBeInTheDocument();
-        expect(screen.getByDisplayValue('Fantasy')).toBeInTheDocument();
-        expect(screen.getByDisplayValue('Medieval')).toBeInTheDocument();
+        expect(screen.getByText('Edit Plot Point')).toBeInTheDocument();
       });
     });
 
-    it('displays save and cancel buttons', () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+    it('displays the page title', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
       
-      expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        expect(screen.getByText('Edit Plot Point')).toBeInTheDocument();
+      });
+    });
+
+    it('renders the plot point form with data', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        expect(screen.getByTestId('plot-point-form')).toBeInTheDocument();
+        expect(screen.getByText('Editing: Existing Plot Point')).toBeInTheDocument();
+      });
+    });
+
+    it('displays save and cancel buttons', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+      });
+    });
+
+    it('uses custom id when provided', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      
+      const { container } = render(React.createElement(PlotPointEdit, { id: "custom-id" }), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        expect(container.querySelector('#custom-id')).toBeInTheDocument();
+      });
     });
   });
 
   describe('Loading State', () => {
-    it('displays loading indicator while fetching data', () => {
-      usePlotPoint.mockReturnValue({
-        data: null,
-        isLoading: true,
-        error: null,
-        refetch: jest.fn()
-      });
-
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    it('displays loading indicator while fetching data', async () => {
+      plotPointService.getPlotPointByName.mockImplementation(() => new Promise(() => {})); // Never resolves
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      expect(screen.getByText('Loading plot point...')).toBeInTheDocument();
+      expect(screen.getByRole('status')).toBeInTheDocument();
     });
 
-    it('hides loading indicator when data is loaded', () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    it('displays title during loading', () => {
+      plotPointService.getPlotPointByName.mockImplementation(() => new Promise(() => {}));
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      expect(screen.getByText('Edit Plot Point')).toBeInTheDocument();
     });
   });
 
   describe('Error State', () => {
-    it('displays error message when plot point not found', () => {
-      usePlotPoint.mockReturnValue({
-        data: null,
-        isLoading: false,
-        error: new Error('Plot point not found'),
-        refetch: jest.fn()
-      });
-
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      expect(screen.getByText(/plot point not found/i)).toBeInTheDocument();
-    });
-
-    it('provides retry button on error', () => {
-      const refetchMock = jest.fn();
-      usePlotPoint.mockReturnValue({
-        data: null,
-        isLoading: false,
-        error: new Error('Failed to load'),
-        refetch: refetchMock
-      });
-
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      const retryButton = screen.getByRole('button', { name: /retry/i });
-      fireEvent.click(retryButton);
-      expect(refetchMock).toHaveBeenCalled();
-    });
-  });
-
-  describe('Form Editing', () => {
-    it('allows editing of plot point name', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+    it('displays error message when fetch fails', async () => {
+      const error = new Error('Failed to fetch plot point');
+      plotPointService.getPlotPointByName.mockRejectedValue(error);
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated Plot Point' } });
-      
-      expect(nameInput.value).toBe('Updated Plot Point');
-    });
-
-    it('allows editing of description', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const descriptionInput = await screen.findByDisplayValue('Existing Description');
-      fireEvent.change(descriptionInput, { target: { value: 'Updated Description' } });
-      
-      expect(descriptionInput.value).toBe('Updated Description');
-    });
-
-    it('tracks form changes', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Changed' } });
-      
-      // Form should indicate unsaved changes
-      expect(screen.getByText(/unsaved changes/i)).toBeInTheDocument();
-    });
-  });
-
-  describe('Form Validation', () => {
-    it('validates required fields before saving', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: '' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByText(/name is required/i)).toBeInTheDocument();
+        expect(screen.getByText('Error loading plot point')).toBeInTheDocument();
+        expect(screen.getByText('Failed to fetch plot point')).toBeInTheDocument();
       });
     });
 
-    it('validates field lengths', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+    it('displays default error message when error has no message', async () => {
+      plotPointService.getPlotPointByName.mockRejectedValue({});
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      const longName = 'a'.repeat(256);
-      fireEvent.change(nameInput, { target: { value: longName } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByText(/name must be less than 255 characters/i)).toBeInTheDocument();
+        expect(screen.getByText('Error loading plot point')).toBeInTheDocument();
+        expect(screen.getByText('Plot point not found')).toBeInTheDocument();
+      });
+    });
+
+    it('provides back button on error', async () => {
+      plotPointService.getPlotPointByName.mockRejectedValue(new Error());
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const backButton = screen.getByRole('button', { name: /back to list/i });
+        expect(backButton).toBeInTheDocument();
+        
+        fireEvent.click(backButton);
+        expect(mockNavigate).toHaveBeenCalledWith('/');
       });
     });
   });
 
   describe('Form Submission', () => {
-    it('submits updated data successfully', async () => {
-      plotPointService.updatePlotPoint.mockResolvedValue({
-        success: true,
-        data: { ...mockPlotPoint, name: 'Updated Plot Point' }
-      });
+    it('calls updatePlotPoint service when form is saved', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      plotPointService.updatePlotPoint.mockResolvedValue({ ...mockPlotPoint, name: 'Updated' });
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated Plot Point' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(plotPointService.updatePlotPoint).toHaveBeenCalledWith('123', {
-          name: 'Updated Plot Point',
-          description: 'Existing Description',
-          genre: 'Fantasy',
-          setting: 'Medieval',
-          customAttributes: []
-        });
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(plotPointService.updatePlotPoint).toHaveBeenCalledWith('123', { name: 'Updated Plot Point' });
       });
     });
 
-    it('shows success message after update', async () => {
-      plotPointService.updatePlotPoint.mockResolvedValue({
-        success: true
-      });
+    it('navigates to home page on successful save', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      plotPointService.updatePlotPoint.mockResolvedValue({ ...mockPlotPoint, name: 'Updated' });
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByText(/successfully updated/i)).toBeInTheDocument();
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalledWith('/');
       });
     });
 
-    it('handles update errors gracefully', async () => {
-      plotPointService.updatePlotPoint.mockRejectedValue(new Error('Update failed'));
-      
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/failed to update/i)).toBeInTheDocument();
-      });
-    });
-
-    it('disables save button during submission', async () => {
-      plotPointService.updatePlotPoint.mockImplementation(
-        () => new Promise(resolve => setTimeout(resolve, 100))
+    it('shows loading state during update', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      plotPointService.updatePlotPoint.mockImplementation(() => 
+        new Promise(resolve => setTimeout(resolve, 100))
       );
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
       
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      expect(screen.getByText('Updating plot point...')).toBeInTheDocument();
       
-      expect(saveButton).toBeDisabled();
-      expect(screen.getByText(/saving/i)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('Updating plot point...')).not.toBeInTheDocument();
+      });
     });
 
-    it('navigates to list after successful save', async () => {
-      plotPointService.updatePlotPoint.mockResolvedValue({ success: true });
+    it('disables form during submission', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      plotPointService.updatePlotPoint.mockImplementation(() => 
+        new Promise(resolve => setTimeout(resolve, 100))
+      );
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+        expect(saveButton).toBeDisabled();
+      });
+      
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        expect(saveButton).not.toBeDisabled();
+      });
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('displays error message on update failure', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      const error = { message: 'Failed to update plot point' };
+      plotPointService.updatePlotPoint.mockRejectedValue(error);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(screen.getByText('Failed to update plot point')).toBeInTheDocument();
+      });
+    });
+
+    it('displays multiple error messages when errors array is provided', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      const error = { 
+        errors: ['Name is required', 'Description is too short'] 
+      };
+      plotPointService.updatePlotPoint.mockRejectedValue(error);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(screen.getByText('Name is required')).toBeInTheDocument();
+        expect(screen.getByText('Description is too short')).toBeInTheDocument();
+      });
+    });
+
+    it('shows error when plot point has no ID', async () => {
+      const plotPointWithoutId = { ...mockPlotPoint, id: undefined };
+      plotPointService.getPlotPointByName.mockResolvedValue(plotPointWithoutId);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(screen.getByText('Plot point ID not found')).toBeInTheDocument();
+      });
+      
+      expect(plotPointService.updatePlotPoint).not.toHaveBeenCalled();
+    });
+
+    it('clears errors when submitting again', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      const error = { message: 'First error' };
+      plotPointService.updatePlotPoint
+        .mockRejectedValueOnce(error)
+        .mockResolvedValueOnce({ ...mockPlotPoint, name: 'Updated' });
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(screen.getByText('First error')).toBeInTheDocument();
+      });
       
       const saveButton = screen.getByRole('button', { name: /save/i });
       fireEvent.click(saveButton);
       
       await waitFor(() => {
-        expect(mockNavigate).toHaveBeenCalledWith('/plot-points');
+        expect(screen.queryByText('First error')).not.toBeInTheDocument();
       });
     });
-  });
 
-  describe('Cancel Functionality', () => {
-    it('shows confirmation when canceling with unsaved changes', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+    it('does not navigate on error', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      const error = { message: 'Failed to update' };
+      plotPointService.updatePlotPoint.mockRejectedValue(error);
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Changed' } });
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      fireEvent.click(cancelButton);
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
       
-      expect(screen.getByText(/unsaved changes/i)).toBeInTheDocument();
-      expect(screen.getByText(/are you sure/i)).toBeInTheDocument();
-    });
-
-    it('navigates away when confirming cancel', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Changed' } });
-      
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      fireEvent.click(cancelButton);
-      
-      const confirmButton = screen.getByRole('button', { name: /confirm/i });
-      fireEvent.click(confirmButton);
-      
-      expect(mockNavigate).toHaveBeenCalledWith(-1);
-    });
-
-    it('stays on page when canceling discard', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Changed' } });
-      
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      fireEvent.click(cancelButton);
-      
-      const keepEditingButton = screen.getByRole('button', { name: /keep editing/i });
-      fireEvent.click(keepEditingButton);
+      await waitFor(() => {
+        expect(screen.getByText('Failed to update')).toBeInTheDocument();
+      });
       
       expect(mockNavigate).not.toHaveBeenCalled();
-      expect(nameInput.value).toBe('Changed');
     });
   });
 
-  describe('Reset Functionality', () => {
-    it('resets form to original values', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+  describe('Navigation', () => {
+    it('navigates to home when cancel is clicked', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Changed' } });
-      
-      const resetButton = screen.getByRole('button', { name: /reset/i });
-      fireEvent.click(resetButton);
-      
-      expect(nameInput.value).toBe('Existing Plot Point');
-    });
-
-    it('clears validation errors on reset', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: '' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByText(/name is required/i)).toBeInTheDocument();
+        const cancelButton = screen.getByRole('button', { name: /cancel/i });
+        fireEvent.click(cancelButton);
       });
       
-      const resetButton = screen.getByRole('button', { name: /reset/i });
-      fireEvent.click(resetButton);
+      expect(mockNavigate).toHaveBeenCalledWith('/');
+    });
+
+    it('does not save when cancel is clicked', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
       
-      expect(screen.queryByText(/name is required/i)).not.toBeInTheDocument();
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const cancelButton = screen.getByRole('button', { name: /cancel/i });
+        fireEvent.click(cancelButton);
+      });
+      
+      expect(plotPointService.updatePlotPoint).not.toHaveBeenCalled();
     });
   });
 
-  describe('Version Conflict Handling', () => {
-    it('detects version conflicts', async () => {
-      plotPointService.updatePlotPoint.mockRejectedValue({
-        code: 'VERSION_CONFLICT',
-        message: 'Plot point has been modified by another user'
-      });
+  describe('Data Fetching', () => {
+    it('fetches plot point by name from URL params', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByText(/modified by another user/i)).toBeInTheDocument();
+        expect(plotPointService.getPlotPointByName).toHaveBeenCalledWith('test-plot-point');
       });
     });
 
-    it('offers to reload on version conflict', async () => {
-      const refetchMock = jest.fn();
-      usePlotPoint.mockReturnValue({
-        data: mockPlotPoint,
-        isLoading: false,
-        error: null,
-        refetch: refetchMock
+    it('does not fetch when name param is missing', async () => {
+      // Temporarily override the mock params
+      jest.spyOn(require('react-router-dom'), 'useParams').mockReturnValue({});
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      expect(plotPointService.getPlotPointByName).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Query Cache', () => {
+    it('invalidates queries on successful update', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      plotPointService.updatePlotPoint.mockResolvedValue({ ...mockPlotPoint, name: 'Updated' });
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
       });
       
-      plotPointService.updatePlotPoint.mockRejectedValue({
-        code: 'VERSION_CONFLICT'
-      });
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+      const wrapper = ({ children }) => React.createElement(
+        QueryClientProvider,
+        { client: queryClient },
+        React.createElement(BrowserRouter, {}, children)
+      );
       
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper });
       
       await waitFor(() => {
-        const reloadButton = screen.getByRole('button', { name: /reload/i });
-        fireEvent.click(reloadButton);
-        expect(refetchMock).toHaveBeenCalled();
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(invalidateSpy).toHaveBeenCalledWith(['plotPoint', 'test-plot-point']);
+        expect(invalidateSpy).toHaveBeenCalledWith(['plotPoints']);
       });
     });
   });
 
-  describe('Accessibility', () => {
-    it('has proper heading hierarchy', () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toHaveTextContent(/edit.*plot point/i);
-    });
-
-    it('has proper form labels', async () => {
-      render(<PlotPointEdit />, { wrapper: createWrapper });
+  describe('Edge Cases', () => {
+    it('handles plot point with default structure when data is incomplete', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(null);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/genre/i)).toBeInTheDocument();
+        expect(screen.getByTestId('plot-point-form')).toBeInTheDocument();
       });
     });
 
-    it('announces save status to screen readers', async () => {
-      plotPointService.updatePlotPoint.mockResolvedValue({ success: true });
+    it('handles array of error strings', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      const errorArray = ['Error 1', 'Error 2'];
+      plotPointService.updatePlotPoint.mockRejectedValue({ errors: errorArray });
       
-      render(<PlotPointEdit />, { wrapper: createWrapper });
-      
-      const nameInput = await screen.findByDisplayValue('Existing Plot Point');
-      fireEvent.change(nameInput, { target: { value: 'Updated' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
       
       await waitFor(() => {
-        const successMessage = screen.getByText(/successfully updated/i);
-        expect(successMessage).toHaveAttribute('role', 'status');
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(screen.getByText('Error 1')).toBeInTheDocument();
+        expect(screen.getByText('Error 2')).toBeInTheDocument();
+      });
+    });
+
+    it('handles single error string in errors property', async () => {
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
+      const error = { errors: 'Single error message' };
+      plotPointService.updatePlotPoint.mockRejectedValue(error);
+      
+      render(React.createElement(PlotPointEdit), { wrapper: createWrapper });
+      
+      await waitFor(() => {
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+      });
+      
+      await waitFor(() => {
+        expect(screen.getByText('Single error message')).toBeInTheDocument();
       });
     });
   });

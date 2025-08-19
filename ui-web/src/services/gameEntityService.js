@@ -3,6 +3,10 @@ import api from './api';
 const gameEntityService = {
   // Get all game entities with pagination
   async getGameEntities(type, page = 1, limit = 20, filters = {}) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+
     try {
       const params = new URLSearchParams({
         page: page.toString(),
@@ -19,6 +23,13 @@ const gameEntityService = {
 
   // Get a single game entity by ID
   async getGameEntity(type, id) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!id) {
+      throw new Error('Entity ID is required');
+    }
+
     try {
       const response = await api.get(`/game-entities/${type}/${id}`);
       return response.data;
@@ -29,6 +40,16 @@ const gameEntityService = {
 
   // Create a new game entity
   async createGameEntity(type, entityData) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!entityData) {
+      throw new Error('Entity data is required');
+    }
+    if (!entityData.name) {
+      throw new Error('Entity name is required');
+    }
+
     try {
       const response = await api.post(`/game-entities/${type}`, entityData);
       return response.data;
@@ -39,6 +60,19 @@ const gameEntityService = {
 
   // Update an existing game entity
   async updateGameEntity(type, id, entityData) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!id) {
+      throw new Error('Entity ID is required');
+    }
+    if (!entityData) {
+      throw new Error('Entity data is required');
+    }
+    if (!entityData.name) {
+      throw new Error('Entity name is required');
+    }
+
     try {
       const response = await api.put(`/game-entities/${type}/${id}`, entityData);
       return response.data;
@@ -49,6 +83,13 @@ const gameEntityService = {
 
   // Delete a game entity
   async deleteGameEntity(type, id) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!id) {
+      throw new Error('Entity ID is required');
+    }
+
     try {
       const response = await api.delete(`/game-entities/${type}/${id}`);
       return response.data;
@@ -59,15 +100,107 @@ const gameEntityService = {
 
   // Search game entities
   async searchGameEntities(type, query, page = 1, limit = 20) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!query) {
+      throw new Error('Search query is required');
+    }
+
     try {
       const params = new URLSearchParams({
-        q: query,
+        query: query,
         page: page.toString(),
         limit: limit.toString()
       });
       
       const response = await api.get(`/game-entities/${type}/search?${params}`);
       return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // Duplicate a game entity
+  async duplicateGameEntity(type, id, newName) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!id) {
+      throw new Error('Entity ID is required');
+    }
+
+    try {
+      // Fetch the original entity
+      const original = await this.getGameEntity(type, id);
+      
+      // Create a copy with a new name
+      const duplicate = {
+        ...original,
+        id: undefined,
+        name: newName || `Copy of ${original.name}`
+      };
+      
+      // Create the duplicate
+      return await this.createGameEntity(type, duplicate);
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // Bulk update game entities
+  async bulkUpdateGameEntities(type, entities) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!entities || !Array.isArray(entities)) {
+      throw new Error('Entities array is required');
+    }
+    if (entities.length === 0) {
+      throw new Error('At least one entity is required');
+    }
+
+    try {
+      const response = await api.put(`/game-entities/${type}/bulk`, { entities });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // Bulk delete game entities
+  async bulkDeleteGameEntities(type, ids) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!ids || !Array.isArray(ids)) {
+      throw new Error('IDs array is required');
+    }
+    if (ids.length === 0) {
+      throw new Error('At least one ID is required');
+    }
+
+    try {
+      const response = await api.delete(`/game-entities/${type}/bulk`, { data: { ids } });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // Get game entity by name
+  async getGameEntityByName(type, name) {
+    if (!type) {
+      throw new Error('Entity type is required');
+    }
+    if (!name) {
+      throw new Error('Entity name is required');
+    }
+
+    try {
+      const response = await this.getGameEntities(type, 1, 1000);
+      const items = response.items || response.data || [];
+      return items.find(entity => entity.name === name) || null;
     } catch (error) {
       throw error.response?.data || error;
     }
@@ -115,103 +248,88 @@ const gameEntityService = {
     return this.deleteGameEntity('beasts', id);
   },
 
-  // Vehicles
-  async getVehicles(vehicleType, page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities(`vehicles/${vehicleType}`, page, limit, filters);
+  // Equipment
+  async getEquipment(page = 1, limit = 20, filters = {}) {
+    return this.getGameEntities('equipment', page, limit, filters);
   },
 
-  async getVehicle(vehicleType, id) {
-    return this.getGameEntity(`vehicles/${vehicleType}`, id);
+  async getEquipmentItem(id) {
+    return this.getGameEntity('equipment', id);
   },
 
-  async createVehicle(vehicleType, vehicleData) {
-    return this.createGameEntity(`vehicles/${vehicleType}`, vehicleData);
+  async createEquipmentItem(equipmentData) {
+    return this.createGameEntity('equipment', equipmentData);
   },
 
-  async updateVehicle(vehicleType, id, vehicleData) {
-    return this.updateGameEntity(`vehicles/${vehicleType}`, id, vehicleData);
+  async updateEquipmentItem(id, equipmentData) {
+    return this.updateGameEntity('equipment', id, equipmentData);
   },
 
-  async deleteVehicle(vehicleType, id) {
-    return this.deleteGameEntity(`vehicles/${vehicleType}`, id);
+  async deleteEquipmentItem(id) {
+    return this.deleteGameEntity('equipment', id);
   },
 
-  // Gear
-  async getGear(gearType, page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities(`gear/${gearType}`, page, limit, filters);
-  },
-
-  async getGearItem(gearType, id) {
-    return this.getGameEntity(`gear/${gearType}`, id);
-  },
-
-  async createGearItem(gearType, gearData) {
-    return this.createGameEntity(`gear/${gearType}`, gearData);
-  },
-
-  async updateGearItem(gearType, id, gearData) {
-    return this.updateGameEntity(`gear/${gearType}`, id, gearData);
-  },
-
-  async deleteGearItem(gearType, id) {
-    return this.deleteGameEntity(`gear/${gearType}`, id);
-  },
-
-  // Rules and backgrounds
-  async getEdges(page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities('edges', page, limit, filters);
-  },
-
-  async getHindrances(page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities('hindrances', page, limit, filters);
-  },
-
-  async getSkills(page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities('skills', page, limit, filters);
-  },
-
+  // Powers
   async getPowers(page = 1, limit = 20, filters = {}) {
     return this.getGameEntities('powers', page, limit, filters);
   },
 
-  async getRaces(page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities('races', page, limit, filters);
+  async getPower(id) {
+    return this.getGameEntity('powers', id);
   },
 
-  async getArcaneBackgrounds(page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities('arcane-backgrounds', page, limit, filters);
+  async createPower(powerData) {
+    return this.createGameEntity('powers', powerData);
   },
 
-  async getSettingRules(page = 1, limit = 20, filters = {}) {
-    return this.getGameEntities('setting-rules', page, limit, filters);
+  async updatePower(id, powerData) {
+    return this.updateGameEntity('powers', id, powerData);
   },
 
-  // Batch operations
-  async batchCreateEntities(type, entities) {
-    try {
-      const response = await api.post(`/game-entities/${type}/batch`, { entities });
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
+  async deletePower(id) {
+    return this.deleteGameEntity('powers', id);
   },
 
-  async batchUpdateEntities(type, updates) {
-    try {
-      const response = await api.put(`/game-entities/${type}/batch`, { updates });
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
+  // Edges
+  async getEdges(page = 1, limit = 20, filters = {}) {
+    return this.getGameEntities('edges', page, limit, filters);
   },
 
-  async batchDeleteEntities(type, ids) {
-    try {
-      const response = await api.delete(`/game-entities/${type}/batch`, { data: { ids } });
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
+  async getEdge(id) {
+    return this.getGameEntity('edges', id);
+  },
+
+  async createEdge(edgeData) {
+    return this.createGameEntity('edges', edgeData);
+  },
+
+  async updateEdge(id, edgeData) {
+    return this.updateGameEntity('edges', id, edgeData);
+  },
+
+  async deleteEdge(id) {
+    return this.deleteGameEntity('edges', id);
+  },
+
+  // Hindrances
+  async getHindrances(page = 1, limit = 20, filters = {}) {
+    return this.getGameEntities('hindrances', page, limit, filters);
+  },
+
+  async getHindrance(id) {
+    return this.getGameEntity('hindrances', id);
+  },
+
+  async createHindrance(hindranceData) {
+    return this.createGameEntity('hindrances', hindranceData);
+  },
+
+  async updateHindrance(id, hindranceData) {
+    return this.updateGameEntity('hindrances', id, hindranceData);
+  },
+
+  async deleteHindrance(id) {
+    return this.deleteGameEntity('hindrances', id);
   }
 };
 

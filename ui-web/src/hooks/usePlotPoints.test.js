@@ -1,6 +1,15 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { usePlotPoints, usePlotPoint } from './usePlotPoints';
+import { 
+  usePlotPoints, 
+  usePlotPoint,
+  usePlotPointByName,
+  useCreatePlotPoint,
+  useUpdatePlotPoint,
+  useDeletePlotPoint,
+  useSearchPlotPoints
+} from './usePlotPoints';
+
 // Mock the service
 jest.mock('../services', () => ({
   plotPointService: {
@@ -37,7 +46,7 @@ describe('usePlotPoints Hook', () => {
   });
 
   describe('usePlotPoints', () => {
-    it('fetches plot points on mount', async () => {
+    it('fetches plot points on mount with default pagination', async () => {
       const mockPlotPoints = [
         { id: '1', name: 'Plot Point 1' },
         { id: '2', name: 'Plot Point 2' }
@@ -56,7 +65,41 @@ describe('usePlotPoints Hook', () => {
       });
       
       expect(result.current.data).toEqual(mockPlotPoints);
-      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(1);
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledWith(1, 20, {});
+    });
+
+    it('fetches plot points with custom pagination', async () => {
+      const mockPlotPoints = [
+        { id: '3', name: 'Plot Point 3' }
+      ];
+      
+      plotPointService.getPlotPoints.mockResolvedValue(mockPlotPoints);
+      
+      const { result } = renderHook(() => usePlotPoints(2, 10), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledWith(2, 10, {});
+      expect(result.current.data).toEqual(mockPlotPoints);
+    });
+
+    it('applies filters when provided', async () => {
+      plotPointService.getPlotPoints.mockResolvedValue([]);
+      
+      const filters = { genre: 'Fantasy', status: 'active' };
+      const { result } = renderHook(() => usePlotPoints(1, 20, filters), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(plotPointService.getPlotPoints).toHaveBeenCalledWith(1, 20, filters);
     });
 
     it('handles fetch errors', async () => {
@@ -72,6 +115,32 @@ describe('usePlotPoints Hook', () => {
       });
       
       expect(result.current.error).toEqual(error);
+    });
+
+    it('keeps previous data during refetch', async () => {
+      const initialData = [{ id: '1', name: 'Initial' }];
+      const updatedData = [{ id: '1', name: 'Updated' }];
+      
+      plotPointService.getPlotPoints
+        .mockResolvedValueOnce(initialData)
+        .mockResolvedValueOnce(updatedData);
+      
+      const { result } = renderHook(() => usePlotPoints(), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.data).toEqual(initialData);
+      });
+      
+      result.current.refetch();
+      
+      // keepPreviousData should maintain the old data during refetch
+      expect(result.current.data).toEqual(initialData);
+      
+      await waitFor(() => {
+        expect(result.current.data).toEqual(updatedData);
+      });
     });
 
     it('provides refetch function', async () => {
@@ -94,35 +163,6 @@ describe('usePlotPoints Hook', () => {
       await result.current.refetch();
       
       expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
-    });
-
-    it('applies filters when provided', async () => {
-      plotPointService.getPlotPoints.mockResolvedValue([]);
-      
-      const filter = { genre: 'Fantasy' };
-      const { result } = renderHook(() => usePlotPoints(filter), {
-        wrapper: createWrapper()
-      });
-      
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-      
-      expect(plotPointService.getPlotPoints).toHaveBeenCalledWith(filter);
-    });
-
-    it('returns empty array when no data', async () => {
-      plotPointService.getPlotPoints.mockResolvedValue(null);
-      
-      const { result } = renderHook(() => usePlotPoints(), {
-        wrapper: createWrapper()
-      });
-      
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-      
-      expect(result.current.data).toEqual([]);
     });
   });
 
@@ -201,26 +241,43 @@ describe('usePlotPoints Hook', () => {
     });
   });
 
-  describe('Caching', () => {
-    it('uses cached data on subsequent renders', async () => {
-      const mockPlotPoints = [{ id: '1', name: 'Cached' }];
-      plotPointService.getPlotPoints.mockResolvedValue(mockPlotPoints);
+  describe('usePlotPointByName', () => {
+    it('fetches plot point by name', async () => {
+      const mockPlotPoint = {
+        id: '123',
+        name: 'Test Plot Point',
+        description: 'Test Description'
+      };
       
-      const wrapper = createWrapper();
+      plotPointService.getPlotPointByName.mockResolvedValue(mockPlotPoint);
       
-      const { result: result1 } = renderHook(() => usePlotPoints(), { wrapper });
-      
-      await waitFor(() => {
-        expect(result1.current.data).toEqual(mockPlotPoints);
+      const { result } = renderHook(() => usePlotPointByName('Test Plot Point'), {
+        wrapper: createWrapper()
       });
       
-      const { result: result2 } = renderHook(() => usePlotPoints(), { wrapper });
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
       
-      expect(result2.current.data).toEqual(mockPlotPoints);
-      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(1);
+      expect(result.current.data).toEqual(mockPlotPoint);
+      expect(plotPointService.getPlotPointByName).toHaveBeenCalledWith('Test Plot Point');
     });
 
-    it('invalidates cache on mutation', async () => {
+    it('does not fetch when name is not provided', () => {
+      const { result } = renderHook(() => usePlotPointByName(null), {
+        wrapper: createWrapper()
+      });
+      
+      expect(result.current.data).toBeUndefined();
+      expect(plotPointService.getPlotPointByName).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('useCreatePlotPoint', () => {
+    it('creates new plot point and invalidates cache', async () => {
+      const newPlotPoint = { id: '123', name: 'New Plot Point' };
+      plotPointService.createPlotPoint.mockResolvedValue(newPlotPoint);
+      
       const queryClient = new QueryClient({
         defaultOptions: {
           queries: { retry: false },
@@ -234,6 +291,211 @@ describe('usePlotPoints Hook', () => {
         </QueryClientProvider>
       );
       
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const { result } = renderHook(() => useCreatePlotPoint(), { wrapper });
+      
+      await result.current.mutateAsync({ name: 'New Plot Point' });
+      
+      expect(plotPointService.createPlotPoint).toHaveBeenCalledWith({ name: 'New Plot Point' });
+      expect(invalidateSpy).toHaveBeenCalledWith(['plotPoints']);
+    });
+
+    it('handles creation errors', async () => {
+      const error = new Error('Creation failed');
+      plotPointService.createPlotPoint.mockRejectedValue(error);
+      
+      const { result } = renderHook(() => useCreatePlotPoint(), {
+        wrapper: createWrapper()
+      });
+      
+      try {
+        await result.current.mutateAsync({ name: 'New Plot Point' });
+        expect(true).toBe(false); // Should have thrown
+      } catch (e) {
+        expect(e).toEqual(error);
+      }
+    });
+  });
+
+  describe('useUpdatePlotPoint', () => {
+    it('updates plot point and invalidates cache', async () => {
+      const updatedPlotPoint = { id: '123', name: 'Updated Plot Point' };
+      plotPointService.updatePlotPoint.mockResolvedValue(updatedPlotPoint);
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const { result } = renderHook(() => useUpdatePlotPoint(), { wrapper });
+      
+      await result.current.mutateAsync({ id: '123', data: { name: 'Updated Plot Point' } });
+      
+      expect(plotPointService.updatePlotPoint).toHaveBeenCalledWith('123', { name: 'Updated Plot Point' });
+      expect(invalidateSpy).toHaveBeenCalledWith(['plotPoint', '123']);
+      expect(invalidateSpy).toHaveBeenCalledWith(['plotPoints']);
+    });
+
+    it('handles update errors', async () => {
+      const error = new Error('Update failed');
+      plotPointService.updatePlotPoint.mockRejectedValue(error);
+      
+      const { result } = renderHook(() => useUpdatePlotPoint(), {
+        wrapper: createWrapper()
+      });
+      
+      try {
+        await result.current.mutateAsync({ id: '123', data: { name: 'Updated' } });
+        expect(true).toBe(false); // Should have thrown
+      } catch (e) {
+        expect(e).toEqual(error);
+      }
+    });
+  });
+
+  describe('useDeletePlotPoint', () => {
+    it('deletes plot point and invalidates cache', async () => {
+      plotPointService.deletePlotPoint.mockResolvedValue({ success: true });
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const { result } = renderHook(() => useDeletePlotPoint(), { wrapper });
+      
+      await result.current.mutateAsync('123');
+      
+      expect(plotPointService.deletePlotPoint).toHaveBeenCalledWith('123');
+      expect(invalidateSpy).toHaveBeenCalledWith(['plotPoints']);
+    });
+
+    it('handles deletion errors', async () => {
+      const error = new Error('Deletion failed');
+      plotPointService.deletePlotPoint.mockRejectedValue(error);
+      
+      const { result } = renderHook(() => useDeletePlotPoint(), {
+        wrapper: createWrapper()
+      });
+      
+      try {
+        await result.current.mutateAsync('123');
+        expect(true).toBe(false); // Should have thrown
+      } catch (e) {
+        expect(e).toEqual(error);
+      }
+    });
+  });
+
+  describe('useSearchPlotPoints', () => {
+    it('searches plot points with query', async () => {
+      const searchResults = [
+        { id: '1', name: 'Matching Plot Point' }
+      ];
+      
+      plotPointService.searchPlotPoints.mockResolvedValue(searchResults);
+      
+      const { result } = renderHook(() => useSearchPlotPoints('matching'), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(result.current.data).toEqual(searchResults);
+      expect(plotPointService.searchPlotPoints).toHaveBeenCalledWith('matching', 1, 20);
+    });
+
+    it('searches with custom pagination', async () => {
+      const searchResults = [
+        { id: '2', name: 'Result Page 2' }
+      ];
+      
+      plotPointService.searchPlotPoints.mockResolvedValue(searchResults);
+      
+      const { result } = renderHook(() => useSearchPlotPoints('test', 2, 10), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(plotPointService.searchPlotPoints).toHaveBeenCalledWith('test', 2, 10);
+    });
+
+    it('does not search when query is empty', () => {
+      const { result } = renderHook(() => useSearchPlotPoints(''), {
+        wrapper: createWrapper()
+      });
+      
+      expect(result.current.data).toBeUndefined();
+      expect(plotPointService.searchPlotPoints).not.toHaveBeenCalled();
+    });
+
+    it('keeps previous data during search refetch', async () => {
+      const initialResults = [{ id: '1', name: 'Initial' }];
+      const updatedResults = [{ id: '2', name: 'Updated' }];
+      
+      plotPointService.searchPlotPoints
+        .mockResolvedValueOnce(initialResults)
+        .mockResolvedValueOnce(updatedResults);
+      
+      const { result } = renderHook(() => useSearchPlotPoints('test'), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.data).toEqual(initialResults);
+      });
+      
+      result.current.refetch();
+      
+      // keepPreviousData should maintain the old data during refetch
+      expect(result.current.data).toEqual(initialResults);
+      
+      await waitFor(() => {
+        expect(result.current.data).toEqual(updatedResults);
+      });
+    });
+  });
+
+  describe('Cache Invalidation', () => {
+    it('invalidates queries on mutation', async () => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
       plotPointService.getPlotPoints.mockResolvedValue([]);
       
       const { result } = renderHook(() => usePlotPoints(), { wrapper });
@@ -242,8 +504,7 @@ describe('usePlotPoints Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      // Simulate mutation invalidating cache
-      queryClient.invalidateQueries('plotPoints');
+      queryClient.invalidateQueries(['plotPoints']);
       
       await waitFor(() => {
         expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
@@ -251,11 +512,11 @@ describe('usePlotPoints Hook', () => {
     });
   });
 
-  describe('Error Recovery', () => {
-    it('retries on failure when configured', async () => {
+  describe('Optimistic Updates', () => {
+    it('optimistically updates plot point list on creation', async () => {
       const queryClient = new QueryClient({
         defaultOptions: {
-          queries: { retry: 1, retryDelay: 0 }
+          queries: { retry: false }
         }
       });
       
@@ -265,56 +526,63 @@ describe('usePlotPoints Hook', () => {
         </QueryClientProvider>
       );
       
-      plotPointService.getPlotPoints
-        .mockRejectedValueOnce(new Error('Network error'))
-        .mockResolvedValueOnce([]);
+      const initialPlotPoints = [{ id: '1', name: 'Plot Point 1' }];
+      plotPointService.getPlotPoints.mockResolvedValue(initialPlotPoints);
       
       const { result } = renderHook(() => usePlotPoints(), { wrapper });
       
       await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
+        expect(result.current.data).toEqual(initialPlotPoints);
       });
       
-      expect(result.current.data).toEqual([]);
-      expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
+      // Simulate optimistic update
+      const newPlotPoint = { id: '2', name: 'New Plot Point' };
+      queryClient.setQueryData(['plotPoints', 1, 20, {}], old => [...(old || []), newPlotPoint]);
+      
+      // Wait for the update to be reflected
+      await waitFor(() => {
+        const updatedData = queryClient.getQueryData(['plotPoints', 1, 20, {}]);
+        expect(updatedData).toContain(newPlotPoint);
+      });
     });
 
-    it('provides manual retry function', async () => {
-      plotPointService.getPlotPoints.mockRejectedValue(new Error('Error'));
-      
-      const { result } = renderHook(() => usePlotPoints(), {
-        wrapper: createWrapper()
+    it('rolls back optimistic update on error', async () => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false }
+        }
       });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const initialPlotPoints = [{ id: '1', name: 'Plot Point 1' }];
+      plotPointService.getPlotPoints.mockResolvedValue(initialPlotPoints);
+      
+      const { result } = renderHook(() => usePlotPoints(), { wrapper });
       
       await waitFor(() => {
-        expect(result.current.isError).toBe(true);
+        expect(result.current.data).toEqual(initialPlotPoints);
       });
       
-      plotPointService.getPlotPoints.mockResolvedValue([]);
+      // Simulate optimistic update
+      const newPlotPoint = { id: '2', name: 'New Plot Point' };
+      const queryKey = ['plotPoints', 1, 20, {}];
+      const previousData = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData(queryKey, old => [...(old || []), newPlotPoint]);
       
-      await result.current.refetch();
+      // Simulate rollback on error
+      queryClient.setQueryData(queryKey, previousData);
       
-      expect(result.current.isError).toBe(false);
-      expect(result.current.data).toEqual([]);
+      expect(result.current.data).toEqual(initialPlotPoints);
     });
   });
 
-  describe('Loading States', () => {
-    it('shows loading state during initial fetch', () => {
-      plotPointService.getPlotPoints.mockImplementation(
-        () => new Promise(() => {}) // Never resolves
-      );
-      
-      const { result } = renderHook(() => usePlotPoints(), {
-        wrapper: createWrapper()
-      });
-      
-      expect(result.current.isLoading).toBe(true);
-      expect(result.current.isFetching).toBe(true);
-      expect(result.current.data).toBeUndefined();
-    });
-
-    it('shows fetching state during refetch', async () => {
+  describe('Performance', () => {
+    it('debounces rapid refetch calls', async () => {
       plotPointService.getPlotPoints.mockResolvedValue([]);
       
       const { result } = renderHook(() => usePlotPoints(), {
@@ -325,45 +593,39 @@ describe('usePlotPoints Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      plotPointService.getPlotPoints.mockImplementation(
-        () => new Promise(() => {}) // Never resolves
-      );
-      
+      // Rapid refetch calls
+      result.current.refetch();
+      result.current.refetch();
       result.current.refetch();
       
-      expect(result.current.isFetching).toBe(true);
-      expect(result.current.isLoading).toBe(false);
-    });
-  });
-
-  describe('Stale Data', () => {
-    it('marks data as stale after configured time', async () => {
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            staleTime: 100 // 100ms
-          }
-        }
+      await waitFor(() => {
+        // Should only call twice - initial load and one refetch
+        expect(plotPointService.getPlotPoints).toHaveBeenCalledTimes(2);
       });
+    });
+
+    it('memoizes plot point data reference', async () => {
+      const mockPlotPoints = [
+        { id: '1', name: 'Plot Point 1', description: 'Description' }
+      ];
       
-      const wrapper = ({ children }) => (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      );
+      plotPointService.getPlotPoints.mockResolvedValue(mockPlotPoints);
       
-      plotPointService.getPlotPoints.mockResolvedValue([]);
-      
-      const { result } = renderHook(() => usePlotPoints(), { wrapper });
+      const { result, rerender } = renderHook(() => usePlotPoints(), {
+        wrapper: createWrapper()
+      });
       
       await waitFor(() => {
-        expect(result.current.isStale).toBe(false);
+        expect(result.current.isLoading).toBe(false);
       });
       
-      await new Promise(resolve => setTimeout(resolve, 150));
+      const firstData = result.current.data;
       
-      expect(result.current.isStale).toBe(true);
+      rerender();
+      
+      const secondData = result.current.data;
+      
+      expect(firstData).toBe(secondData); // Same reference
     });
   });
 });

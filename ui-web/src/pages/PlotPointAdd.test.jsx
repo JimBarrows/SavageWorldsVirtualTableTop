@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import PlotPointAdd from './PlotPointAdd';
 
 // Mock the service
-jest.mock('../services/plotPointService', () => ({
-  createPlotPoint: jest.fn()
+jest.mock('../services', () => ({
+  plotPointService: {
+    createPlotPoint: jest.fn()
+  }
 }));
 
 // Mock navigation
@@ -16,7 +18,35 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate
 }));
 
-const plotPointService = require('../services/plotPointService');
+// Mock PlotPointForm component
+jest.mock('../components/plotpoint/editor', () => {
+  const React = require('react');
+  return function MockPlotPointForm({ onSave, onCancel, errors, disabled }) {
+    return React.createElement('div', { 'data-testid': 'plot-point-form' },
+      errors && errors.length > 0 && React.createElement('div', { 'data-testid': 'form-errors' },
+        errors.map((err, idx) => React.createElement('div', { key: idx }, err))
+      ),
+      React.createElement('button', { 
+        onClick: () => onSave({ name: 'Test Plot Point' }), 
+        disabled: disabled 
+      }, 'Save'),
+      React.createElement('button', { onClick: onCancel }, 'Cancel')
+    );
+  };
+});
+
+// Mock PlotPoint model
+jest.mock('../models/PlotPoint', () => {
+  return class PlotPoint {
+    constructor() {
+      this.id = '';
+      this.name = '';
+      this.description = '';
+    }
+  };
+});
+
+const { plotPointService } = require('../services');
 
 const createWrapper = ({ children }) => {
   const queryClient = new QueryClient({
@@ -25,382 +55,289 @@ const createWrapper = ({ children }) => {
       mutations: { retry: false }
     }
   });
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        {children}
-      </BrowserRouter>
-    </QueryClientProvider>
+  return React.createElement(
+    QueryClientProvider,
+    { client: queryClient },
+    React.createElement(BrowserRouter, {}, children)
   );
 };
 
 describe('PlotPointAdd Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockNavigate.mockClear();
   });
 
   describe('Rendering', () => {
     it('renders without crashing', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
     });
 
     it('displays the page title', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      expect(screen.getByText(/add.*plot point/i)).toBeInTheDocument();
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      expect(screen.getByText('New Plot Point')).toBeInTheDocument();
     });
 
-    it('renders all required form fields', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/genre/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/setting/i)).toBeInTheDocument();
+    it('renders the plot point form', () => {
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      expect(screen.getByTestId('plot-point-form')).toBeInTheDocument();
     });
 
     it('displays save and cancel buttons', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
       expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
     });
-  });
 
-  describe('Form Validation', () => {
-    it('shows validation error for empty name', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/name is required/i)).toBeInTheDocument();
-      });
-    });
-
-    it('shows validation error for name too short', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'ab' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/name must be at least 3 characters/i)).toBeInTheDocument();
-      });
-    });
-
-    it('shows validation error for name too long', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      const longName = 'a'.repeat(256);
-      fireEvent.change(nameInput, { target: { value: longName } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/name must be less than 255 characters/i)).toBeInTheDocument();
-      });
-    });
-
-    it('validates description length', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const descriptionInput = screen.getByLabelText(/description/i);
-      const longDescription = 'a'.repeat(5001);
-      fireEvent.change(descriptionInput, { target: { value: longDescription } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/description must be less than 5000 characters/i)).toBeInTheDocument();
-      });
-    });
-
-    it('clears validation errors when field is corrected', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/name is required/i)).toBeInTheDocument();
-      });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Valid Name' } });
-      
-      await waitFor(() => {
-        expect(screen.queryByText(/name is required/i)).not.toBeInTheDocument();
-      });
+    it('uses custom id when provided', () => {
+      const { container } = render(React.createElement(PlotPointAdd, { id: "custom-id" }), { wrapper: createWrapper });
+      expect(container.querySelector('#custom-id')).toBeInTheDocument();
     });
   });
 
   describe('Form Submission', () => {
-    it('submits form with valid data', async () => {
-      plotPointService.createPlotPoint.mockResolvedValue({
-        success: true,
-        data: { id: '123', name: 'Test Plot Point' }
-      });
+    it('calls createPlotPoint service when form is saved', async () => {
+      plotPointService.createPlotPoint.mockResolvedValue({ id: '123', name: 'Test Plot Point' });
       
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      const descriptionInput = screen.getByLabelText(/description/i);
-      const genreInput = screen.getByLabelText(/genre/i);
-      const settingInput = screen.getByLabelText(/setting/i);
-      
-      fireEvent.change(nameInput, { target: { value: 'Test Plot Point' } });
-      fireEvent.change(descriptionInput, { target: { value: 'Test Description' } });
-      fireEvent.change(genreInput, { target: { value: 'Fantasy' } });
-      fireEvent.change(settingInput, { target: { value: 'Medieval' } });
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
       const saveButton = screen.getByRole('button', { name: /save/i });
       fireEvent.click(saveButton);
       
       await waitFor(() => {
-        expect(plotPointService.createPlotPoint).toHaveBeenCalledWith({
-          name: 'Test Plot Point',
-          description: 'Test Description',
-          genre: 'Fantasy',
-          setting: 'Medieval'
-        });
+        expect(plotPointService.createPlotPoint).toHaveBeenCalledWith({ name: 'Test Plot Point' });
       });
     });
 
-    it('navigates to list page after successful submission', async () => {
-      plotPointService.createPlotPoint.mockResolvedValue({
-        success: true,
-        data: { id: '123' }
-      });
+    it('navigates to home page on successful save', async () => {
+      plotPointService.createPlotPoint.mockResolvedValue({ id: '123', name: 'Test Plot Point' });
       
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Test Plot Point' } });
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
       const saveButton = screen.getByRole('button', { name: /save/i });
       fireEvent.click(saveButton);
       
       await waitFor(() => {
-        expect(mockNavigate).toHaveBeenCalledWith('/plot-points');
+        expect(mockNavigate).toHaveBeenCalledWith('/');
       });
     });
 
-    it('shows success message after creation', async () => {
-      plotPointService.createPlotPoint.mockResolvedValue({
-        success: true,
-        data: { id: '123' }
-      });
-      
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Test Plot Point' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/plot point created successfully/i)).toBeInTheDocument();
-      });
-    });
-
-    it('shows error message when submission fails', async () => {
-      plotPointService.createPlotPoint.mockRejectedValue(new Error('Server error'));
-      
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Test Plot Point' } });
-      
-      const saveButton = screen.getByRole('button', { name: /save/i });
-      fireEvent.click(saveButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/failed to create plot point/i)).toBeInTheDocument();
-      });
-    });
-
-    it('disables save button during submission', async () => {
-      plotPointService.createPlotPoint.mockImplementation(
-        () => new Promise(resolve => setTimeout(resolve, 100))
+    it('shows loading state during submission', async () => {
+      plotPointService.createPlotPoint.mockImplementation(() => 
+        new Promise(resolve => setTimeout(resolve, 100))
       );
       
-      render(<PlotPointAdd />, { wrapper: createWrapper });
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Test Plot Point' } });
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      expect(screen.getByText('Creating plot point...')).toBeInTheDocument();
+      expect(screen.getByRole('status')).toBeInTheDocument();
+      
+      await waitFor(() => {
+        expect(screen.queryByText('Creating plot point...')).not.toBeInTheDocument();
+      });
+    });
+
+    it('disables form during submission', async () => {
+      plotPointService.createPlotPoint.mockImplementation(() => 
+        new Promise(resolve => setTimeout(resolve, 100))
+      );
+      
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
       const saveButton = screen.getByRole('button', { name: /save/i });
       fireEvent.click(saveButton);
       
       expect(saveButton).toBeDisabled();
-      expect(screen.getByText(/saving/i)).toBeInTheDocument();
-    });
-  });
-
-  describe('Cancel Functionality', () => {
-    it('navigates back when cancel is clicked', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      fireEvent.click(cancelButton);
-      
-      expect(mockNavigate).toHaveBeenCalledWith(-1);
-    });
-
-    it('shows confirmation dialog when canceling with unsaved changes', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Test' } });
-      
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      fireEvent.click(cancelButton);
-      
-      expect(screen.getByText(/unsaved changes/i)).toBeInTheDocument();
-    });
-
-    it('cancels without confirmation when no changes made', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      fireEvent.click(cancelButton);
-      
-      expect(mockNavigate).toHaveBeenCalledWith(-1);
-      expect(screen.queryByText(/unsaved changes/i)).not.toBeInTheDocument();
-    });
-  });
-
-  describe('Advanced Form Features', () => {
-    it('supports adding custom attributes', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const addAttributeButton = screen.getByRole('button', { name: /add attribute/i });
-      fireEvent.click(addAttributeButton);
-      
-      expect(screen.getByPlaceholderText(/attribute name/i)).toBeInTheDocument();
-      expect(screen.getByPlaceholderText(/attribute value/i)).toBeInTheDocument();
-    });
-
-    it('removes custom attributes', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const addAttributeButton = screen.getByRole('button', { name: /add attribute/i });
-      fireEvent.click(addAttributeButton);
-      
-      const removeButton = screen.getByRole('button', { name: /remove/i });
-      fireEvent.click(removeButton);
-      
-      expect(screen.queryByPlaceholderText(/attribute name/i)).not.toBeInTheDocument();
-    });
-
-    it('supports file upload for plot point image', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const fileInput = screen.getByLabelText(/image/i);
-      const file = new File(['image'], 'plot-point.png', { type: 'image/png' });
-      
-      fireEvent.change(fileInput, { target: { files: [file] } });
-      
-      expect(fileInput.files[0]).toBe(file);
-    });
-
-    it('validates file size for uploads', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const fileInput = screen.getByLabelText(/image/i);
-      const largeFile = new File(['x'.repeat(5 * 1024 * 1024)], 'large.png', { type: 'image/png' });
-      
-      fireEvent.change(fileInput, { target: { files: [largeFile] } });
       
       await waitFor(() => {
-        expect(screen.getByText(/file size must be less than/i)).toBeInTheDocument();
+        expect(saveButton).not.toBeDisabled();
       });
     });
   });
 
-  describe('Form State Management', () => {
-    it('preserves form data when navigating between tabs', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
+  describe('Error Handling', () => {
+    it('displays error message on save failure', async () => {
+      const error = { message: 'Failed to create plot point' };
+      plotPointService.createPlotPoint.mockRejectedValue(error);
       
-      const nameInput = screen.getByLabelText(/name/i);
-      fireEvent.change(nameInput, { target: { value: 'Test Plot Point' } });
-      
-      // Switch to advanced tab
-      const advancedTab = screen.getByRole('tab', { name: /advanced/i });
-      fireEvent.click(advancedTab);
-      
-      // Switch back to basic tab
-      const basicTab = screen.getByRole('tab', { name: /basic/i });
-      fireEvent.click(basicTab);
-      
-      expect(nameInput.value).toBe('Test Plot Point');
-    });
-
-    it('resets form when reset button is clicked', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameInput = screen.getByLabelText(/name/i);
-      const descriptionInput = screen.getByLabelText(/description/i);
-      
-      fireEvent.change(nameInput, { target: { value: 'Test' } });
-      fireEvent.change(descriptionInput, { target: { value: 'Description' } });
-      
-      const resetButton = screen.getByRole('button', { name: /reset/i });
-      fireEvent.click(resetButton);
-      
-      expect(nameInput.value).toBe('');
-      expect(descriptionInput.value).toBe('');
-    });
-  });
-
-  describe('Accessibility', () => {
-    it('has proper form labels', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/genre/i)).toBeInTheDocument();
-    });
-
-    it('shows required field indicators', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
-      
-      const nameLabel = screen.getByText(/name/i).closest('label');
-      expect(nameLabel).toHaveTextContent('*');
-    });
-
-    it('announces form errors to screen readers', async () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
       const saveButton = screen.getByRole('button', { name: /save/i });
       fireEvent.click(saveButton);
       
       await waitFor(() => {
-        const errorMessage = screen.getByText(/name is required/i);
-        expect(errorMessage).toHaveAttribute('role', 'alert');
+        expect(screen.getByText('Failed to create plot point')).toBeInTheDocument();
       });
     });
 
-    it('supports keyboard navigation', () => {
-      render(<PlotPointAdd />, { wrapper: createWrapper });
+    it('displays multiple error messages when errors array is provided', async () => {
+      const error = { 
+        errors: ['Name is required', 'Description is too short'] 
+      };
+      plotPointService.createPlotPoint.mockRejectedValue(error);
       
-      const nameInput = screen.getByLabelText(/name/i);
-      const descriptionInput = screen.getByLabelText(/description/i);
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
       
-      nameInput.focus();
-      expect(document.activeElement).toBe(nameInput);
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
       
-      // Tab to next field
-      fireEvent.keyDown(nameInput, { key: 'Tab' });
-      // Note: actual tab behavior would be handled by browser
+      await waitFor(() => {
+        expect(screen.getByText('Name is required')).toBeInTheDocument();
+        expect(screen.getByText('Description is too short')).toBeInTheDocument();
+      });
+    });
+
+    it('handles error with no message gracefully', async () => {
+      plotPointService.createPlotPoint.mockRejectedValue({});
+      
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Failed to create plot point')).toBeInTheDocument();
+      });
+    });
+
+    it('clears errors when submitting again', async () => {
+      const error = { message: 'First error' };
+      plotPointService.createPlotPoint
+        .mockRejectedValueOnce(error)
+        .mockResolvedValueOnce({ id: '123', name: 'Test' });
+      
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      
+      // First submission fails
+      fireEvent.click(saveButton);
+      await waitFor(() => {
+        expect(screen.getByText('First error')).toBeInTheDocument();
+      });
+      
+      // Second submission succeeds
+      fireEvent.click(saveButton);
+      await waitFor(() => {
+        expect(screen.queryByText('First error')).not.toBeInTheDocument();
+      });
+    });
+
+    it('does not navigate on error', async () => {
+      const error = { message: 'Failed to create' };
+      plotPointService.createPlotPoint.mockRejectedValue(error);
+      
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Failed to create')).toBeInTheDocument();
+      });
+      
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Navigation', () => {
+    it('navigates to home when cancel is clicked', () => {
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      fireEvent.click(cancelButton);
+      
+      expect(mockNavigate).toHaveBeenCalledWith('/');
+    });
+
+    it('does not save when cancel is clicked', () => {
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      fireEvent.click(cancelButton);
+      
+      expect(plotPointService.createPlotPoint).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Query Cache', () => {
+    it('invalidates plot points query on successful save', async () => {
+      plotPointService.createPlotPoint.mockResolvedValue({ id: '123', name: 'Test' });
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const wrapper = ({ children }) => React.createElement(
+        QueryClientProvider,
+        { client: queryClient },
+        React.createElement(BrowserRouter, {}, children)
+      );
+      
+      render(React.createElement(PlotPointAdd), { wrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(invalidateSpy).toHaveBeenCalledWith(['plotPoints']);
+      });
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('strips id from plot point data before saving', async () => {
+      plotPointService.createPlotPoint.mockResolvedValue({ id: '123', name: 'Test Plot Point' });
+      
+      // The mock will call onSave with { name: 'Test Plot Point' }
+      // The component should strip any id if present
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        // Verify the service was called with the expected data (without id)
+        expect(plotPointService.createPlotPoint).toHaveBeenCalledWith({ name: 'Test Plot Point' });
+      });
+    });
+
+    it('handles array of error strings', async () => {
+      const errorArray = ['Error 1', 'Error 2'];
+      plotPointService.createPlotPoint.mockRejectedValue({ errors: errorArray });
+      
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Error 1')).toBeInTheDocument();
+        expect(screen.getByText('Error 2')).toBeInTheDocument();
+      });
+    });
+
+    it('handles single error string in errors property', async () => {
+      const error = { errors: 'Single error message' };
+      plotPointService.createPlotPoint.mockRejectedValue(error);
+      
+      render(React.createElement(PlotPointAdd), { wrapper: createWrapper });
+      
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Single error message')).toBeInTheDocument();
+      });
     });
   });
 });

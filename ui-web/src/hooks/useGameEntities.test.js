@@ -1,6 +1,17 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { useGameEntities, useGameEntity } from './useGameEntities';
+import { 
+  useGameEntities, 
+  useGameEntity,
+  useCreateGameEntity,
+  useUpdateGameEntity,
+  useDeleteGameEntity,
+  useCharacters,
+  useCharacter,
+  useBeasts,
+  useBeast
+} from './useGameEntities';
+
 // Mock the service
 jest.mock('../services', () => ({
   gameEntityService: {
@@ -44,7 +55,7 @@ describe('useGameEntities Hook', () => {
       
       gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
-      const { result } = renderHook(() => useGameEntities(), {
+      const { result } = renderHook(() => useGameEntities('characters'), {
         wrapper: createWrapper()
       });
       
@@ -55,17 +66,17 @@ describe('useGameEntities Hook', () => {
       });
       
       expect(result.current.data).toEqual(mockEntities);
-      expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(1);
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 1, 20, {});
     });
 
-    it('filters entities by type', async () => {
+    it('filters entities by type with pagination', async () => {
       const mockCharacters = [
         { id: '1', name: 'Hero', type: 'CHARACTER' }
       ];
       
       gameEntityService.getGameEntities.mockResolvedValue(mockCharacters);
       
-      const { result } = renderHook(() => useGameEntities('CHARACTER'), {
+      const { result } = renderHook(() => useGameEntities('characters', 2, 10), {
         wrapper: createWrapper()
       });
       
@@ -73,18 +84,19 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('CHARACTER', undefined);
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 2, 10, {});
       expect(result.current.data).toEqual(mockCharacters);
     });
 
-    it('filters entities by plot point', async () => {
+    it('applies filters to entities', async () => {
       const mockEntities = [
         { id: '1', name: 'Entity 1', plotPointId: 'plot123' }
       ];
       
       gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
-      const { result } = renderHook(() => useGameEntities(null, 'plot123'), {
+      const filters = { plotPointId: 'plot123', active: true };
+      const { result } = renderHook(() => useGameEntities('characters', 1, 20, filters), {
         wrapper: createWrapper()
       });
       
@@ -92,28 +104,14 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith(null, 'plot123');
-    });
-
-    it('combines type and plot point filters', async () => {
-      gameEntityService.getGameEntities.mockResolvedValue([]);
-      
-      const { result } = renderHook(() => useGameEntities('BEAST', 'plot123'), {
-        wrapper: createWrapper()
-      });
-      
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-      
-      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('BEAST', 'plot123');
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 1, 20, filters);
     });
 
     it('handles fetch errors', async () => {
       const error = new Error('Failed to fetch entities');
       gameEntityService.getGameEntities.mockRejectedValue(error);
       
-      const { result } = renderHook(() => useGameEntities(), {
+      const { result } = renderHook(() => useGameEntities('characters'), {
         wrapper: createWrapper()
       });
       
@@ -124,23 +122,35 @@ describe('useGameEntities Hook', () => {
       expect(result.current.error).toEqual(error);
     });
 
-    it('returns empty array when no data', async () => {
-      gameEntityService.getGameEntities.mockResolvedValue(null);
+    it('keeps previous data during refetch', async () => {
+      const initialData = [{ id: '1', name: 'Initial' }];
+      const updatedData = [{ id: '1', name: 'Updated' }];
       
-      const { result } = renderHook(() => useGameEntities(), {
+      gameEntityService.getGameEntities
+        .mockResolvedValueOnce(initialData)
+        .mockResolvedValueOnce(updatedData);
+      
+      const { result } = renderHook(() => useGameEntities('characters'), {
         wrapper: createWrapper()
       });
       
       await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
+        expect(result.current.data).toEqual(initialData);
       });
       
-      expect(result.current.data).toEqual([]);
+      result.current.refetch();
+      
+      // keepPreviousData should maintain the old data during refetch
+      expect(result.current.data).toEqual(initialData);
+      
+      await waitFor(() => {
+        expect(result.current.data).toEqual(updatedData);
+      });
     });
   });
 
   describe('useGameEntity', () => {
-    it('fetches single entity by id', async () => {
+    it('fetches single entity by type and id', async () => {
       const mockEntity = {
         id: '123',
         name: 'Test Character',
@@ -153,7 +163,7 @@ describe('useGameEntities Hook', () => {
       
       gameEntityService.getGameEntity.mockResolvedValue(mockEntity);
       
-      const { result } = renderHook(() => useGameEntity('123'), {
+      const { result } = renderHook(() => useGameEntity('characters', '123'), {
         wrapper: createWrapper()
       });
       
@@ -162,11 +172,20 @@ describe('useGameEntities Hook', () => {
       });
       
       expect(result.current.data).toEqual(mockEntity);
-      expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('123');
+      expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('characters', '123');
     });
 
-    it('does not fetch when id is not provided', () => {
-      const { result } = renderHook(() => useGameEntity(null), {
+    it('does not fetch when id or type is not provided', () => {
+      const { result } = renderHook(() => useGameEntity('characters', null), {
+        wrapper: createWrapper()
+      });
+      
+      expect(result.current.data).toBeUndefined();
+      expect(gameEntityService.getGameEntity).not.toHaveBeenCalled();
+    });
+
+    it('does not fetch when type is not provided', () => {
+      const { result } = renderHook(() => useGameEntity(null, '123'), {
         wrapper: createWrapper()
       });
       
@@ -177,7 +196,7 @@ describe('useGameEntities Hook', () => {
     it('handles entity not found', async () => {
       gameEntityService.getGameEntity.mockResolvedValue(null);
       
-      const { result } = renderHook(() => useGameEntity('nonexistent'), {
+      const { result } = renderHook(() => useGameEntity('characters', 'nonexistent'), {
         wrapper: createWrapper()
       });
       
@@ -197,7 +216,7 @@ describe('useGameEntities Hook', () => {
         .mockResolvedValueOnce(secondEntity);
       
       const { result, rerender } = renderHook(
-        ({ id }) => useGameEntity(id),
+        ({ id }) => useGameEntity('characters', id),
         {
           wrapper: createWrapper(),
           initialProps: { id: '1' }
@@ -218,15 +237,118 @@ describe('useGameEntities Hook', () => {
     });
   });
 
+  describe('useCreateGameEntity', () => {
+    it('creates new entity and invalidates cache', async () => {
+      const newEntity = { id: '123', name: 'New Character' };
+      gameEntityService.createGameEntity.mockResolvedValue(newEntity);
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const { result } = renderHook(() => useCreateGameEntity('characters'), { wrapper });
+      
+      await result.current.mutateAsync({ name: 'New Character' });
+      
+      expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('characters', { name: 'New Character' });
+      expect(invalidateSpy).toHaveBeenCalledWith(['gameEntities', 'characters']);
+    });
+
+    it('handles creation errors', async () => {
+      const error = new Error('Creation failed');
+      gameEntityService.createGameEntity.mockRejectedValue(error);
+      
+      const { result } = renderHook(() => useCreateGameEntity('characters'), {
+        wrapper: createWrapper()
+      });
+      
+      try {
+        await result.current.mutateAsync({ name: 'New Character' });
+        expect(true).toBe(false); // Should have thrown
+      } catch (e) {
+        expect(e).toEqual(error);
+      }
+    });
+  });
+
+  describe('useUpdateGameEntity', () => {
+    it('updates entity and invalidates cache', async () => {
+      const updatedEntity = { id: '123', name: 'Updated Character' };
+      gameEntityService.updateGameEntity.mockResolvedValue(updatedEntity);
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const { result } = renderHook(() => useUpdateGameEntity('characters'), { wrapper });
+      
+      await result.current.mutateAsync({ id: '123', data: { name: 'Updated Character' } });
+      
+      expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('characters', '123', { name: 'Updated Character' });
+      expect(invalidateSpy).toHaveBeenCalledWith(['gameEntity', 'characters', '123']);
+      expect(invalidateSpy).toHaveBeenCalledWith(['gameEntities', 'characters']);
+    });
+  });
+
+  describe('useDeleteGameEntity', () => {
+    it('deletes entity and invalidates cache', async () => {
+      gameEntityService.deleteGameEntity.mockResolvedValue({ success: true });
+      
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false }
+        }
+      });
+      
+      const wrapper = ({ children }) => (
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      );
+      
+      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
+      
+      const { result } = renderHook(() => useDeleteGameEntity('characters'), { wrapper });
+      
+      await result.current.mutateAsync('123');
+      
+      expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('characters', '123');
+      expect(invalidateSpy).toHaveBeenCalledWith(['gameEntities', 'characters']);
+    });
+  });
+
   describe('Entity Type Specific Hooks', () => {
-    it('useCharacters fetches only characters', async () => {
+    it('useCharacters fetches characters', async () => {
       const mockCharacters = [
         { id: '1', name: 'Hero', type: 'CHARACTER' }
       ];
       
       gameEntityService.getGameEntities.mockResolvedValue(mockCharacters);
       
-      const { result } = renderHook(() => useGameEntities('CHARACTER'), {
+      const { result } = renderHook(() => useCharacters(1, 10, { active: true }), {
         wrapper: createWrapper()
       });
       
@@ -234,18 +356,35 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 1, 10, { active: true });
       expect(result.current.data).toEqual(mockCharacters);
-      expect(result.current.data.every(e => e.type === 'CHARACTER')).toBe(true);
     });
 
-    it('useBeasts fetches only beasts', async () => {
+    it('useCharacter fetches single character', async () => {
+      const mockCharacter = { id: '1', name: 'Hero', type: 'CHARACTER' };
+      
+      gameEntityService.getGameEntity.mockResolvedValue(mockCharacter);
+      
+      const { result } = renderHook(() => useCharacter('1'), {
+        wrapper: createWrapper()
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+      
+      expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('characters', '1');
+      expect(result.current.data).toEqual(mockCharacter);
+    });
+
+    it('useBeasts fetches beasts', async () => {
       const mockBeasts = [
         { id: '1', name: 'Wolf', type: 'BEAST' }
       ];
       
       gameEntityService.getGameEntities.mockResolvedValue(mockBeasts);
       
-      const { result } = renderHook(() => useGameEntities('BEAST'), {
+      const { result } = renderHook(() => useBeasts(), {
         wrapper: createWrapper()
       });
       
@@ -253,18 +392,16 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('beasts', 1, 20, {});
       expect(result.current.data).toEqual(mockBeasts);
-      expect(result.current.data.every(e => e.type === 'BEAST')).toBe(true);
     });
 
-    it('useItems fetches only items', async () => {
-      const mockItems = [
-        { id: '1', name: 'Sword', type: 'ITEM' }
-      ];
+    it('useBeast fetches single beast', async () => {
+      const mockBeast = { id: '1', name: 'Wolf', type: 'BEAST' };
       
-      gameEntityService.getGameEntities.mockResolvedValue(mockItems);
+      gameEntityService.getGameEntity.mockResolvedValue(mockBeast);
       
-      const { result } = renderHook(() => useGameEntities('ITEM'), {
+      const { result } = renderHook(() => useBeast('1'), {
         wrapper: createWrapper()
       });
       
@@ -272,8 +409,8 @@ describe('useGameEntities Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      expect(result.current.data).toEqual(mockItems);
-      expect(result.current.data.every(e => e.type === 'ITEM')).toBe(true);
+      expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('beasts', '1');
+      expect(result.current.data).toEqual(mockBeast);
     });
   });
 
@@ -282,7 +419,7 @@ describe('useGameEntities Hook', () => {
       const mockEntities = [{ id: '1', name: 'Entity 1' }];
       gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
-      const { result } = renderHook(() => useGameEntities(), {
+      const { result } = renderHook(() => useGameEntities('characters'), {
         wrapper: createWrapper()
       });
       
@@ -315,13 +452,13 @@ describe('useGameEntities Hook', () => {
       
       gameEntityService.getGameEntities.mockResolvedValue([]);
       
-      const { result } = renderHook(() => useGameEntities(), { wrapper });
+      const { result } = renderHook(() => useGameEntities('characters'), { wrapper });
       
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
       });
       
-      queryClient.invalidateQueries('gameEntities');
+      queryClient.invalidateQueries(['gameEntities', 'characters']);
       
       await waitFor(() => {
         expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
@@ -346,7 +483,7 @@ describe('useGameEntities Hook', () => {
       const initialEntities = [{ id: '1', name: 'Entity 1' }];
       gameEntityService.getGameEntities.mockResolvedValue(initialEntities);
       
-      const { result } = renderHook(() => useGameEntities(), { wrapper });
+      const { result } = renderHook(() => useGameEntities('characters'), { wrapper });
       
       await waitFor(() => {
         expect(result.current.data).toEqual(initialEntities);
@@ -354,9 +491,13 @@ describe('useGameEntities Hook', () => {
       
       // Simulate optimistic update
       const newEntity = { id: '2', name: 'New Entity' };
-      queryClient.setQueryData(['gameEntities', null, null], old => [...old, newEntity]);
+      queryClient.setQueryData(['gameEntities', 'characters', 1, 20, {}], old => [...(old || []), newEntity]);
       
-      expect(result.current.data).toContain(newEntity);
+      // Wait for the update to be reflected
+      await waitFor(() => {
+        const updatedData = queryClient.getQueryData(['gameEntities', 'characters', 1, 20, {}]);
+        expect(updatedData).toContain(newEntity);
+      });
     });
 
     it('rolls back optimistic update on error', async () => {
@@ -375,7 +516,7 @@ describe('useGameEntities Hook', () => {
       const initialEntities = [{ id: '1', name: 'Entity 1' }];
       gameEntityService.getGameEntities.mockResolvedValue(initialEntities);
       
-      const { result } = renderHook(() => useGameEntities(), { wrapper });
+      const { result } = renderHook(() => useGameEntities('characters'), { wrapper });
       
       await waitFor(() => {
         expect(result.current.data).toEqual(initialEntities);
@@ -383,65 +524,14 @@ describe('useGameEntities Hook', () => {
       
       // Simulate optimistic update
       const newEntity = { id: '2', name: 'New Entity' };
-      const previousData = queryClient.getQueryData(['gameEntities', null, null]);
-      queryClient.setQueryData(['gameEntities', null, null], old => [...old, newEntity]);
+      const queryKey = ['gameEntities', 'characters', 1, 20, {}];
+      const previousData = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData(queryKey, old => [...(old || []), newEntity]);
       
       // Simulate rollback on error
-      queryClient.setQueryData(['gameEntities', null, null], previousData);
+      queryClient.setQueryData(queryKey, previousData);
       
       expect(result.current.data).toEqual(initialEntities);
-    });
-  });
-
-  describe('Pagination', () => {
-    it('handles paginated results', async () => {
-      const page1 = [
-        { id: '1', name: 'Entity 1' },
-        { id: '2', name: 'Entity 2' }
-      ];
-      
-      gameEntityService.getGameEntities.mockResolvedValue({
-        items: page1,
-        nextToken: 'next-page'
-      });
-      
-      const { result } = renderHook(() => useGameEntities(), {
-        wrapper: createWrapper()
-      });
-      
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-      
-      expect(result.current.data.items).toEqual(page1);
-      expect(result.current.data.nextToken).toBe('next-page');
-    });
-
-    it('fetches next page', async () => {
-      const page2 = [
-        { id: '3', name: 'Entity 3' },
-        { id: '4', name: 'Entity 4' }
-      ];
-      
-      gameEntityService.getGameEntities.mockResolvedValue({
-        items: page2,
-        nextToken: null
-      });
-      
-      const { result } = renderHook(
-        () => useGameEntities(null, null, 'next-page'),
-        { wrapper: createWrapper() }
-      );
-      
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-      
-      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith(
-        null,
-        null,
-        'next-page'
-      );
     });
   });
 
@@ -449,7 +539,7 @@ describe('useGameEntities Hook', () => {
     it('debounces rapid refetch calls', async () => {
       gameEntityService.getGameEntities.mockResolvedValue([]);
       
-      const { result } = renderHook(() => useGameEntities(), {
+      const { result } = renderHook(() => useGameEntities('characters'), {
         wrapper: createWrapper()
       });
       
@@ -463,18 +553,19 @@ describe('useGameEntities Hook', () => {
       result.current.refetch();
       
       await waitFor(() => {
+        // Should only call twice - initial load and one refetch
         expect(gameEntityService.getGameEntities).toHaveBeenCalledTimes(2);
       });
     });
 
-    it('memoizes entity transformations', async () => {
+    it('memoizes entity data reference', async () => {
       const mockEntities = [
         { id: '1', name: 'Entity 1', attributes: { str: 'd8' } }
       ];
       
       gameEntityService.getGameEntities.mockResolvedValue(mockEntities);
       
-      const { result, rerender } = renderHook(() => useGameEntities(), {
+      const { result, rerender } = renderHook(() => useGameEntities('characters'), {
         wrapper: createWrapper()
       });
       

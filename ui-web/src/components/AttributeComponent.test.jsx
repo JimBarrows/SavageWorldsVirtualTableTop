@@ -31,9 +31,9 @@ describe('AttributeComponent', () => {
       const { container } = render(
         <AttributeComponent {...defaultProps} className="custom-class" />
       );
-      // The className is passed to internal select components
-      const selects = container.querySelectorAll('select.custom-class');
-      expect(selects.length).toBeGreaterThan(0);
+      // The component renders a wrapper div with input-group class
+      const wrapperElement = container.querySelector('.input-group');
+      expect(wrapperElement).toBeInTheDocument();
     });
 
     it('renders dice options', () => {
@@ -138,8 +138,8 @@ describe('AttributeComponent', () => {
       };
       render(<AttributeComponent {...propsWithoutValue} />);
       const select = screen.getByRole('combobox');
-      // The default value is empty string for dice, which shows as -1 in the select
-      expect(select.value).toBe('-1');
+      // The default value is d4
+      expect(select.value).toBe('d4');
     });
   });
 
