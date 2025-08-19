@@ -45,6 +45,8 @@ export default class Navigation extends React.Component {
 				state={this.state.active === 'Beasts' ? 'active' : 'enabled'} />
 			<NavItem id={component_id + '-characters'} onClick={this.navigateTo('Characters')} label={'Characters'}
 				state={this.state.active === 'Characters' ? 'active' : 'enabled'} />
+			<NavItem id={component_id + '-dramatic-personae'} onClick={this.navigateTo('DramaticPersonae')} label={'Dramatic Personae'}
+				state={this.state.active === 'DramaticPersonae' ? 'active' : 'enabled'} />
 		</Nav >)
 
 		// 				<span>Character Creation</span>
