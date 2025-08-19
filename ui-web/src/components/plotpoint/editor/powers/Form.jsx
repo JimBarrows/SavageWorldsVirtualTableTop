@@ -29,7 +29,7 @@ export default class Form extends React.Component {
 		event.preventDefault();
 		this.props.onDelete(this.props.index);
 	};
-	powerPointChange  = e => this.props.onChange(Object.assign({}, this.props.item, {powerPoints: parseInt(e.target.value, 10)}), this.props.index);
+	powerPointChange  = e => this.props.onChange(Object.assign({}, this.props.item, {powerPoints: parseInt(e.target.value, 10) || 0}), this.props.index);
 	rangeChange       = e => this.props.onChange(Object.assign({}, this.props.item, {range: e.target.value}), this.props.index);
 	rankChange        = e => this.props.onChange(Object.assign({}, this.props.item, {rank: e.target.value}), this.props.index);
 

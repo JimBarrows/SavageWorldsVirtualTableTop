@@ -24,10 +24,10 @@ export default class BasicRules extends React.Component {
 		},
 	}
 
-	maximumAttributePointsChange = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumAttributePoints: parseInt(e.target.value, 10)}))
-	maximumMajorHindrancesChange = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumMajorHindrances: parseInt(e.target.value, 10)}))
-	maximumMinorHindrancesChange = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumMinorHindrances: parseInt(e.target.value, 10)}))
-	maximumSkillPointsChange     = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumSkillPoints: parseInt(e.target.value, 10)}))
+	maximumAttributePointsChange = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumAttributePoints: parseInt(e.target.value, 10) || 0}))
+	maximumMajorHindrancesChange = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumMajorHindrances: parseInt(e.target.value, 10) || 0}))
+	maximumMinorHindrancesChange = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumMinorHindrances: parseInt(e.target.value, 10) || 0}))
+	maximumSkillPointsChange     = e => this.props.onChange(Object.assign({}, this.props.basicRules, {maximumSkillPoints: parseInt(e.target.value, 10) || 0}))
 
 	render () {
 		let {id, basicRules} = this.props

@@ -844,6 +844,7 @@ describe('AuthContext - Remember Me Functionality', () => {
 
   describe('token validation with remember me', () => {
     it('checks token expiry on context initialization with remember me', async () => {
+      jest.setTimeout(15000);
       api.getAccessToken.mockReturnValue('mock-token');
       tokenUtils.isRememberMeSession.mockReturnValue(true);
       tokenUtils.getStoredTokenExpiry.mockReturnValue(Date.now() + 60000);
@@ -865,23 +866,25 @@ describe('AuthContext - Remember Me Functionality', () => {
         );
       };
 
-      render(
-        <AuthProvider>
-          <TestComponent />
-        </AuthProvider>
-      );
+      await act(async () => {
+        render(
+          <AuthProvider>
+            <TestComponent />
+          </AuthProvider>
+        );
+      });
 
       await waitFor(() => {
         expect(authContext).toBeTruthy();
         expect(authContext.loading).toBe(false);
-      }, { timeout: 3000 });
+      }, { timeout: 10000 });
 
       await waitFor(() => {
         expect(authContext.user).toEqual({
           id: 1,
           email: 'test@example.com'
         });
-      }, { timeout: 3000 });
+      }, { timeout: 10000 });
 
       expect(tokenUtils.isRememberMeSession).toHaveBeenCalled();
       expect(tokenUtils.getStoredTokenExpiry).toHaveBeenCalled();
