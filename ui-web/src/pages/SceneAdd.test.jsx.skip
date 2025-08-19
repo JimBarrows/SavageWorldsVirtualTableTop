@@ -1,0 +1,164 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import SceneAddPage from './SceneAdd';
+import sceneService from '../services/sceneService';
+
+// Mock the services
+jest.mock('../services/sceneService');
+
+// Mock useNavigate
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate
+}));
+
+// Mock SceneEditor component
+jest.mock('../components/scene/SceneEditor', () => {
+  return function MockSceneEditor({ scene, onSceneChange, onSave, onCancel, availableCharacters }) {
+    return (
+      <div data-testid="scene-editor">
+        <div>Scene Editor Mock</div>
+        <div>Available Characters: {availableCharacters?.length || 0}</div>
+        <button onClick={() => onSceneChange({ ...scene, name: 'Updated Scene' })}>
+          Update Scene
+        </button>
+        <button onClick={() => onSave(scene)}>Save</button>
+        <button onClick={onCancel}>Cancel</button>
+      </div>
+    );
+  };
+});
+
+describe('SceneAddPage', () => {
+  let queryClient;
+
+  beforeEach(() => {
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+        mutations: { retry: false }
+      }
+    });
+    jest.clearAllMocks();
+  });
+
+  const renderComponent = () => {
+    return render(
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <SceneAddPage />
+        </BrowserRouter>
+      </QueryClientProvider>
+    );
+  };
+
+  describe('Initial Rendering', () => {
+    it('should render the page with page header', () => {
+      renderComponent();
+      expect(screen.getByText('Add Scene')).toBeInTheDocument();
+    });
+
+    it('should render the scene editor component', () => {
+      renderComponent();
+      expect(screen.getByTestId('scene-editor')).toBeInTheDocument();
+    });
+
+    it('should fetch and display available characters', async () => {
+      renderComponent();
+      await waitFor(() => {
+        expect(screen.getByText('Available Characters: 4')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Scene Creation', () => {
+    it('should create scene successfully and navigate to scenes list', async () => {
+      sceneService.createScene.mockResolvedValue({
+        id: '123',
+        name: 'Test Scene'
+      });
+
+      renderComponent();
+      
+      const saveButton = screen.getByText('Save');
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(sceneService.createScene).toHaveBeenCalledWith(expect.any(Object));
+        expect(mockNavigate).toHaveBeenCalledWith('/scenes');
+      });
+    });
+
+    it('should handle scene creation error', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
+      
+      sceneService.createScene.mockRejectedValue(new Error('Creation failed'));
+
+      renderComponent();
+      
+      const saveButton = screen.getByText('Save');
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+          'Failed to create scene:',
+          expect.any(Error)
+        );
+        expect(alertSpy).toHaveBeenCalledWith('Failed to create scene. Please try again.');
+      });
+
+      consoleErrorSpy.mockRestore();
+      alertSpy.mockRestore();
+    });
+
+    it('should handle scene change updates', () => {
+      renderComponent();
+      
+      const updateButton = screen.getByText('Update Scene');
+      fireEvent.click(updateButton);
+
+      // Scene state should be updated (internal state change)
+      expect(screen.getByTestId('scene-editor')).toBeInTheDocument();
+    });
+  });
+
+  describe('Navigation', () => {
+    it('should handle cancel navigation', () => {
+      renderComponent();
+      
+      const cancelButton = screen.getByText('Cancel');
+      fireEvent.click(cancelButton);
+
+      expect(mockNavigate).toHaveBeenCalledWith('/scenes');
+    });
+  });
+
+  describe('Character Query', () => {
+    it('should handle empty character list', async () => {
+      queryClient.setQueryData(['characters'], []);
+      
+      renderComponent();
+      
+      await waitFor(() => {
+        expect(screen.getByText('Available Characters: 0')).toBeInTheDocument();
+      });
+    });
+
+    it('should handle character query error gracefully', async () => {
+      queryClient.setQueryDefaults(['characters'], {
+        queryFn: () => Promise.reject(new Error('Failed to fetch'))
+      });
+
+      renderComponent();
+      
+      // Should still render with empty character list
+      await waitFor(() => {
+        expect(screen.getByTestId('scene-editor')).toBeInTheDocument();
+      });
+    });
+  });
+});

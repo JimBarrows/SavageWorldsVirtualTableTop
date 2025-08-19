@@ -2,12 +2,7 @@ import plotPointService from './plotPointService';
 import api from './api';
 
 // Mock the API service
-jest.mock('./api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-  put: jest.fn(),
-  delete: jest.fn()
-}));
+jest.mock('./api');
 
 describe('PlotPointService', () => {
   beforeEach(() => {
@@ -146,7 +141,20 @@ describe('PlotPointService', () => {
   });
 
   describe('exportPlotPoints', () => {
-    it('exports plot points successfully', async () => {
+    it('exports plot points successfully as JSON', async () => {
+      const mockData = { plotPoints: [] };
+      
+      api.get.mockResolvedValue({ data: mockData });
+      
+      const result = await plotPointService.exportPlotPoints();
+      
+      expect(api.get).toHaveBeenCalledWith('/plot-points/export?format=json', {
+        responseType: 'json'
+      });
+      expect(result).toEqual(mockData);
+    });
+
+    it('exports plot points as CSV', async () => {
       const mockData = 'exported,data\n1,Test Plot';
       
       api.get.mockResolvedValue({ data: mockData });
@@ -157,6 +165,160 @@ describe('PlotPointService', () => {
         responseType: 'blob'
       });
       expect(result).toEqual(mockData);
+    });
+
+    it('handles export errors', async () => {
+      const error = new Error('Export failed');
+      error.response = { data: { message: 'Export error' } };
+      api.get.mockRejectedValue(error);
+      
+      await expect(plotPointService.exportPlotPoints()).rejects.toEqual({ message: 'Export error' });
+    });
+  });
+
+  describe('importPlotPoints', () => {
+    it('imports plot points from file successfully', async () => {
+      const file = new File(['{}'], 'test.json', { type: 'application/json' });
+      const mockResponse = { imported: 1, items: [{ id: '1', name: 'Imported' }] };
+      
+      api.post.mockResolvedValue({ data: mockResponse });
+      
+      const result = await plotPointService.importPlotPoints(file);
+      
+      expect(api.post).toHaveBeenCalledWith(
+        '/plot-points/import',
+        expect.any(FormData),
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('imports with custom format', async () => {
+      const file = new File(['csv'], 'test.csv', { type: 'text/csv' });
+      const mockResponse = { imported: 3 };
+      
+      api.post.mockResolvedValue({ data: mockResponse });
+      
+      await plotPointService.importPlotPoints(file, 'csv');
+      
+      const callArgs = api.post.mock.calls[0];
+      const formData = callArgs[1];
+      expect(formData.get('format')).toEqual('csv');
+    });
+
+    it('handles import errors', async () => {
+      const file = new File(['bad'], 'test.json');
+      const error = new Error('Import failed');
+      error.response = { data: { message: 'Invalid format' } };
+      api.post.mockRejectedValue(error);
+      
+      await expect(plotPointService.importPlotPoints(file)).rejects.toEqual({ message: 'Invalid format' });
+    });
+  });
+
+  describe('batchCreatePlotPoints', () => {
+    it('creates multiple plot points successfully', async () => {
+      const plotPoints = [
+        { name: 'Plot 1', description: 'First' },
+        { name: 'Plot 2', description: 'Second' }
+      ];
+      const mockResponse = { created: 2, items: plotPoints };
+      
+      api.post.mockResolvedValue({ data: mockResponse });
+      
+      const result = await plotPointService.batchCreatePlotPoints(plotPoints);
+      
+      expect(api.post).toHaveBeenCalledWith('/plot-points/batch', { plotPoints });
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('handles batch create errors', async () => {
+      const error = new Error('Batch failed');
+      error.response = { data: { message: 'Validation errors' } };
+      api.post.mockRejectedValue(error);
+      
+      await expect(plotPointService.batchCreatePlotPoints([])).rejects.toEqual({ message: 'Validation errors' });
+    });
+  });
+
+  describe('batchUpdatePlotPoints', () => {
+    it('updates multiple plot points successfully', async () => {
+      const updates = [
+        { id: '1', name: 'Updated 1' },
+        { id: '2', name: 'Updated 2' }
+      ];
+      const mockResponse = { updated: 2, items: updates };
+      
+      api.put.mockResolvedValue({ data: mockResponse });
+      
+      const result = await plotPointService.batchUpdatePlotPoints(updates);
+      
+      expect(api.put).toHaveBeenCalledWith('/plot-points/batch', { updates });
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('handles batch update errors', async () => {
+      const error = new Error('Update failed');
+      error.response = { data: { message: 'Update errors' } };
+      api.put.mockRejectedValue(error);
+      
+      await expect(plotPointService.batchUpdatePlotPoints([])).rejects.toEqual({ message: 'Update errors' });
+    });
+  });
+
+  describe('batchDeletePlotPoints', () => {
+    it('deletes multiple plot points successfully', async () => {
+      const ids = ['1', '2', '3'];
+      const mockResponse = { deleted: 3 };
+      
+      api.delete.mockResolvedValue({ data: mockResponse });
+      
+      const result = await plotPointService.batchDeletePlotPoints(ids);
+      
+      expect(api.delete).toHaveBeenCalledWith('/plot-points/batch', { data: { ids } });
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('handles batch delete errors', async () => {
+      const error = new Error('Delete failed');
+      error.response = { data: { message: 'Delete errors' } };
+      api.delete.mockRejectedValue(error);
+      
+      await expect(plotPointService.batchDeletePlotPoints([])).rejects.toEqual({ message: 'Delete errors' });
+    });
+  });
+
+  describe('error handling without response data', () => {
+    it('handles network errors in getPlotPoints', async () => {
+      const error = new Error('Network error');
+      api.get.mockRejectedValue(error);
+      
+      await expect(plotPointService.getPlotPoints()).rejects.toEqual(error);
+    });
+
+    it('handles network errors in createPlotPoint', async () => {
+      const error = new Error('Network error');
+      api.post.mockRejectedValue(error);
+      
+      await expect(plotPointService.createPlotPoint({})).rejects.toEqual(error);
+    });
+
+    it('handles network errors in updatePlotPoint', async () => {
+      const error = new Error('Network error');
+      api.put.mockRejectedValue(error);
+      
+      await expect(plotPointService.updatePlotPoint('123', {})).rejects.toEqual(error);
+    });
+
+    it('handles network errors in deletePlotPoint', async () => {
+      const error = new Error('Network error');
+      api.delete.mockRejectedValue(error);
+      
+      await expect(plotPointService.deletePlotPoint('123')).rejects.toEqual(error);
     });
   });
 });
