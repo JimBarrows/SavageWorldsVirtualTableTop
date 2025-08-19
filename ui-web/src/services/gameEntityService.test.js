@@ -1,13 +1,8 @@
 import gameEntityService from './gameEntityService';
 import api from './api';
 
-// Mock the API service
-jest.mock('./api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-  put: jest.fn(),
-  delete: jest.fn()
-}));
+// Mock the api module
+jest.mock('./api');
 
 describe('GameEntityService', () => {
   beforeEach(() => {
@@ -15,388 +10,654 @@ describe('GameEntityService', () => {
   });
 
   describe('getGameEntities', () => {
-    it('fetches all game entities successfully', async () => {
-      const mockEntities = [
-        { id: '1', name: 'Character 1', type: 'character' },
-        { id: '2', name: 'Beast 1', type: 'beast' }
-      ];
-      
-      api.get.mockResolvedValue({
-        data: {
-          items: mockEntities,
-          pagination: { total: 2, page: 1, limit: 20 }
-        }
-      });
-      
-      const result = await gameEntityService.getGameEntities('character');
-      
-      expect(api.get).toHaveBeenCalledWith('/game-entities/character?page=1&limit=20');
-      expect(result.items).toEqual(mockEntities);
+    it('should fetch game entities successfully', async () => {
+      const mockData = {
+        items: [
+          { id: '1', name: 'Entity 1' },
+          { id: '2', name: 'Entity 2' }
+        ],
+        total: 2
+      };
+
+      api.get.mockResolvedValue({ data: mockData });
+
+      const result = await gameEntityService.getGameEntities('characters');
+
+      expect(api.get).toHaveBeenCalledWith('/game-entities/characters?page=1&limit=20');
+      expect(result).toEqual(mockData);
     });
 
-    it('handles pagination parameters', async () => {
-      api.get.mockResolvedValue({ data: { items: [], pagination: {} } });
-      
-      await gameEntityService.getGameEntities('beast', 2, 50);
-      
-      expect(api.get).toHaveBeenCalledWith('/game-entities/beast?page=2&limit=50');
+    it('should fetch entities with custom pagination', async () => {
+      const mockData = { items: [], total: 0 };
+      api.get.mockResolvedValue({ data: mockData });
+
+      await gameEntityService.getGameEntities('beasts', 2, 50);
+
+      expect(api.get).toHaveBeenCalledWith('/game-entities/beasts?page=2&limit=50');
     });
 
-    it('handles filters', async () => {
-      api.get.mockResolvedValue({ data: { items: [], pagination: {} } });
-      
-      await gameEntityService.getGameEntities('character', 1, 20, { race: 'Elf' });
-      
-      expect(api.get).toHaveBeenCalledWith('/game-entities/character?page=1&limit=20&race=Elf');
+    it('should fetch entities with filters', async () => {
+      const mockData = { items: [], total: 0 };
+      api.get.mockResolvedValue({ data: mockData });
+
+      await gameEntityService.getGameEntities('characters', 1, 20, { level: 5 });
+
+      expect(api.get).toHaveBeenCalledWith('/game-entities/characters?page=1&limit=20&level=5');
     });
 
-    it('throws error when type is not provided', async () => {
+    it('should throw error if type is not provided', async () => {
       await expect(gameEntityService.getGameEntities()).rejects.toThrow('Entity type is required');
-      await expect(gameEntityService.getGameEntities('')).rejects.toThrow('Entity type is required');
+      expect(api.get).not.toHaveBeenCalled();
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Network error');
-      error.response = { data: { message: 'API Error' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Server error' }
+        }
+      };
+
       api.get.mockRejectedValue(error);
 
-      await expect(gameEntityService.getGameEntities('character')).rejects.toEqual({ message: 'API Error' });
+      await expect(gameEntityService.getGameEntities('characters')).rejects.toEqual({ message: 'Server error' });
     });
 
-    it('handles errors without response data', async () => {
+    it('should handle network errors', async () => {
       const error = new Error('Network error');
       api.get.mockRejectedValue(error);
 
-      await expect(gameEntityService.getGameEntities('character')).rejects.toEqual(error);
+      await expect(gameEntityService.getGameEntities('characters')).rejects.toEqual(error);
     });
   });
 
   describe('getGameEntity', () => {
-    it('fetches a single game entity by ID', async () => {
-      const mockEntity = { id: '1', name: 'Test Character', type: 'character' };
+    it('should fetch a single entity successfully', async () => {
+      const mockEntity = { id: '123', name: 'Test Entity' };
       api.get.mockResolvedValue({ data: mockEntity });
 
-      const result = await gameEntityService.getGameEntity('character', '1');
+      const result = await gameEntityService.getGameEntity('characters', '123');
 
-      expect(api.get).toHaveBeenCalledWith('/game-entities/character/1');
+      expect(api.get).toHaveBeenCalledWith('/game-entities/characters/123');
       expect(result).toEqual(mockEntity);
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.getGameEntity()).rejects.toThrow('Entity type is required');
-      await expect(gameEntityService.getGameEntity('')).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.getGameEntity(null, '123')).rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when ID is not provided', async () => {
-      await expect(gameEntityService.getGameEntity('character')).rejects.toThrow('Entity ID is required');
-      await expect(gameEntityService.getGameEntity('character', '')).rejects.toThrow('Entity ID is required');
+    it('should throw error if id is not provided', async () => {
+      await expect(gameEntityService.getGameEntity('characters', null)).rejects.toThrow('Entity ID is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Not found');
-      error.response = { data: { message: 'Entity not found' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Entity not found' }
+        }
+      };
+
       api.get.mockRejectedValue(error);
 
-      await expect(gameEntityService.getGameEntity('character', '999')).rejects.toEqual({ message: 'Entity not found' });
+      await expect(gameEntityService.getGameEntity('characters', '123')).rejects.toEqual({ message: 'Entity not found' });
     });
   });
 
   describe('createGameEntity', () => {
-    it('creates a new game entity', async () => {
-      const newEntity = { name: 'New Character', attributes: {} };
-      const createdEntity = { id: '3', ...newEntity, type: 'character' };
-      api.post.mockResolvedValue({ data: createdEntity });
+    it('should create entity successfully', async () => {
+      const entityData = { name: 'New Entity', description: 'Test' };
+      const mockResponse = { id: '123', ...entityData };
 
-      const result = await gameEntityService.createGameEntity('character', newEntity);
+      api.post.mockResolvedValue({ data: mockResponse });
 
-      expect(api.post).toHaveBeenCalledWith('/game-entities/character', newEntity);
-      expect(result).toEqual(createdEntity);
+      const result = await gameEntityService.createGameEntity('characters', entityData);
+
+      expect(api.post).toHaveBeenCalledWith('/game-entities/characters', entityData);
+      expect(result).toEqual(mockResponse);
     });
 
-    it('throws error when type is not provided', async () => {
-      const entity = { name: 'Test' };
-      await expect(gameEntityService.createGameEntity(null, entity)).rejects.toThrow('Entity type is required');
-      await expect(gameEntityService.createGameEntity('', entity)).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.createGameEntity(null, { name: 'Test' }))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when entity is not provided', async () => {
-      await expect(gameEntityService.createGameEntity('character')).rejects.toThrow('Entity data is required');
-      await expect(gameEntityService.createGameEntity('character', null)).rejects.toThrow('Entity data is required');
+    it('should throw error if entityData is not provided', async () => {
+      await expect(gameEntityService.createGameEntity('characters', null))
+        .rejects.toThrow('Entity data is required');
     });
 
-    it('throws error when entity name is not provided', async () => {
-      await expect(gameEntityService.createGameEntity('character', {})).rejects.toThrow('Entity name is required');
-      await expect(gameEntityService.createGameEntity('character', { attributes: {} })).rejects.toThrow('Entity name is required');
+    it('should throw error if name is not provided', async () => {
+      await expect(gameEntityService.createGameEntity('characters', { description: 'Test' }))
+        .rejects.toThrow('Entity name is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Validation error');
-      error.response = { data: { message: 'Invalid entity data' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Validation error' }
+        }
+      };
+
       api.post.mockRejectedValue(error);
 
-      const entity = { name: 'Test' };
-      await expect(gameEntityService.createGameEntity('character', entity)).rejects.toEqual({ message: 'Invalid entity data' });
+      await expect(gameEntityService.createGameEntity('characters', { name: 'Test' }))
+        .rejects.toEqual({ message: 'Validation error' });
     });
   });
 
   describe('updateGameEntity', () => {
-    it('updates an existing game entity', async () => {
-      const updatedEntity = { id: '1', name: 'Updated Character', type: 'character' };
-      api.put.mockResolvedValue({ data: updatedEntity });
+    it('should update entity successfully', async () => {
+      const entityData = { name: 'Updated Entity', description: 'Updated' };
+      const mockResponse = { id: '123', ...entityData };
 
-      const result = await gameEntityService.updateGameEntity('character', '1', updatedEntity);
+      api.put.mockResolvedValue({ data: mockResponse });
 
-      expect(api.put).toHaveBeenCalledWith('/game-entities/character/1', updatedEntity);
-      expect(result).toEqual(updatedEntity);
+      const result = await gameEntityService.updateGameEntity('characters', '123', entityData);
+
+      expect(api.put).toHaveBeenCalledWith('/game-entities/characters/123', entityData);
+      expect(result).toEqual(mockResponse);
     });
 
-    it('throws error when type is not provided', async () => {
-      const entity = { name: 'Test' };
-      await expect(gameEntityService.updateGameEntity(null, '1', entity)).rejects.toThrow('Entity type is required');
-      await expect(gameEntityService.updateGameEntity('', '1', entity)).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.updateGameEntity(null, '123', { name: 'Test' }))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when ID is not provided', async () => {
-      const entity = { name: 'Test' };
-      await expect(gameEntityService.updateGameEntity('character', null, entity)).rejects.toThrow('Entity ID is required');
-      await expect(gameEntityService.updateGameEntity('character', '', entity)).rejects.toThrow('Entity ID is required');
+    it('should throw error if id is not provided', async () => {
+      await expect(gameEntityService.updateGameEntity('characters', null, { name: 'Test' }))
+        .rejects.toThrow('Entity ID is required');
     });
 
-    it('throws error when entity is not provided', async () => {
-      await expect(gameEntityService.updateGameEntity('character', '1')).rejects.toThrow('Entity data is required');
-      await expect(gameEntityService.updateGameEntity('character', '1', null)).rejects.toThrow('Entity data is required');
+    it('should throw error if entityData is not provided', async () => {
+      await expect(gameEntityService.updateGameEntity('characters', '123', null))
+        .rejects.toThrow('Entity data is required');
     });
 
-    it('throws error when entity name is not provided', async () => {
-      await expect(gameEntityService.updateGameEntity('character', '1', {})).rejects.toThrow('Entity name is required');
+    it('should throw error if name is not provided', async () => {
+      await expect(gameEntityService.updateGameEntity('characters', '123', { description: 'Test' }))
+        .rejects.toThrow('Entity name is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Update failed');
-      error.response = { data: { message: 'Concurrent modification' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Update failed' }
+        }
+      };
+
       api.put.mockRejectedValue(error);
 
-      const entity = { name: 'Test' };
-      await expect(gameEntityService.updateGameEntity('character', '1', entity)).rejects.toEqual({ message: 'Concurrent modification' });
+      await expect(gameEntityService.updateGameEntity('characters', '123', { name: 'Test' }))
+        .rejects.toEqual({ message: 'Update failed' });
     });
   });
 
   describe('deleteGameEntity', () => {
-    it('deletes a game entity', async () => {
-      api.delete.mockResolvedValue({ data: { success: true } });
+    it('should delete entity successfully', async () => {
+      const mockResponse = { success: true };
+      api.delete.mockResolvedValue({ data: mockResponse });
 
-      const result = await gameEntityService.deleteGameEntity('character', '1');
+      const result = await gameEntityService.deleteGameEntity('characters', '123');
 
-      expect(api.delete).toHaveBeenCalledWith('/game-entities/character/1');
-      expect(result).toEqual({ success: true });
+      expect(api.delete).toHaveBeenCalledWith('/game-entities/characters/123');
+      expect(result).toEqual(mockResponse);
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.deleteGameEntity()).rejects.toThrow('Entity type is required');
-      await expect(gameEntityService.deleteGameEntity('')).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.deleteGameEntity(null, '123'))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when ID is not provided', async () => {
-      await expect(gameEntityService.deleteGameEntity('character')).rejects.toThrow('Entity ID is required');
-      await expect(gameEntityService.deleteGameEntity('character', '')).rejects.toThrow('Entity ID is required');
+    it('should throw error if id is not provided', async () => {
+      await expect(gameEntityService.deleteGameEntity('characters', null))
+        .rejects.toThrow('Entity ID is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Delete failed');
-      error.response = { data: { message: 'Entity in use' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Delete failed' }
+        }
+      };
+
       api.delete.mockRejectedValue(error);
 
-      await expect(gameEntityService.deleteGameEntity('character', '1')).rejects.toEqual({ message: 'Entity in use' });
+      await expect(gameEntityService.deleteGameEntity('characters', '123'))
+        .rejects.toEqual({ message: 'Delete failed' });
     });
   });
 
   describe('searchGameEntities', () => {
-    it('searches game entities by query', async () => {
-      const mockEntities = [
-        { id: '1', name: 'Elf Warrior' },
-        { id: '2', name: 'Elf Mage' }
-      ];
-      api.get.mockResolvedValue({ data: { items: mockEntities } });
+    it('should search entities successfully', async () => {
+      const mockData = {
+        items: [{ id: '1', name: 'Matching Entity' }],
+        total: 1
+      };
 
-      const result = await gameEntityService.searchGameEntities('character', 'elf');
+      api.get.mockResolvedValue({ data: mockData });
 
-      expect(api.get).toHaveBeenCalledWith('/game-entities/character/search?query=elf&page=1&limit=20');
-      expect(result.items).toEqual(mockEntities);
+      const result = await gameEntityService.searchGameEntities('characters', 'test');
+
+      expect(api.get).toHaveBeenCalledWith('/game-entities/characters/search?query=test&page=1&limit=20');
+      expect(result).toEqual(mockData);
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.searchGameEntities(null, 'query')).rejects.toThrow('Entity type is required');
-      await expect(gameEntityService.searchGameEntities('', 'query')).rejects.toThrow('Entity type is required');
+    it('should search with custom pagination', async () => {
+      const mockData = { items: [], total: 0 };
+      api.get.mockResolvedValue({ data: mockData });
+
+      await gameEntityService.searchGameEntities('beasts', 'dragon', 2, 10);
+
+      expect(api.get).toHaveBeenCalledWith('/game-entities/beasts/search?query=dragon&page=2&limit=10');
     });
 
-    it('throws error when query is not provided', async () => {
-      await expect(gameEntityService.searchGameEntities('character')).rejects.toThrow('Search query is required');
-      await expect(gameEntityService.searchGameEntities('character', '')).rejects.toThrow('Search query is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.searchGameEntities(null, 'test'))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Search failed');
-      error.response = { data: { message: 'Search service unavailable' } };
+    it('should throw error if query is not provided', async () => {
+      await expect(gameEntityService.searchGameEntities('characters', null))
+        .rejects.toThrow('Search query is required');
+    });
+
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Search failed' }
+        }
+      };
+
       api.get.mockRejectedValue(error);
 
-      await expect(gameEntityService.searchGameEntities('character', 'test')).rejects.toEqual({ message: 'Search service unavailable' });
+      await expect(gameEntityService.searchGameEntities('characters', 'test'))
+        .rejects.toEqual({ message: 'Search failed' });
     });
   });
 
   describe('duplicateGameEntity', () => {
-    it('duplicates an existing game entity', async () => {
-      const originalEntity = { id: '1', name: 'Original Character', type: 'character' };
-      const duplicatedEntity = { id: '2', name: 'Copy of Original Character', type: 'character' };
-      
-      api.get.mockResolvedValue({ data: originalEntity });
-      api.post.mockResolvedValue({ data: duplicatedEntity });
+    it('should duplicate entity successfully', async () => {
+      const originalEntity = { id: '123', name: 'Original', description: 'Test' };
+      const newEntity = { id: '456', name: 'Copy of Original', description: 'Test' };
 
-      const result = await gameEntityService.duplicateGameEntity('character', '1');
+      // Mock the internal calls
+      gameEntityService.getGameEntity = jest.fn().mockResolvedValue(originalEntity);
+      gameEntityService.createGameEntity = jest.fn().mockResolvedValue(newEntity);
 
-      expect(api.get).toHaveBeenCalledWith('/game-entities/character/1');
-      expect(api.post).toHaveBeenCalledWith('/game-entities/character', {
-        ...originalEntity,
-        id: undefined,
-        name: 'Copy of Original Character'
+      const result = await gameEntityService.duplicateGameEntity('characters', '123');
+
+      expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('characters', '123');
+      expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('characters', {
+        name: 'Copy of Original',
+        description: 'Test',
+        id: undefined
       });
-      expect(result).toEqual(duplicatedEntity);
+      expect(result).toEqual(newEntity);
     });
 
-    it('duplicates with custom name', async () => {
-      const originalEntity = { id: '1', name: 'Original', type: 'character' };
-      const duplicatedEntity = { id: '2', name: 'Custom Name', type: 'character' };
-      
-      api.get.mockResolvedValue({ data: originalEntity });
-      api.post.mockResolvedValue({ data: duplicatedEntity });
+    it('should duplicate with custom name', async () => {
+      const originalEntity = { id: '123', name: 'Original', description: 'Test' };
+      const newEntity = { id: '456', name: 'Custom Name', description: 'Test' };
 
-      const result = await gameEntityService.duplicateGameEntity('character', '1', 'Custom Name');
+      gameEntityService.getGameEntity = jest.fn().mockResolvedValue(originalEntity);
+      gameEntityService.createGameEntity = jest.fn().mockResolvedValue(newEntity);
 
-      expect(api.post).toHaveBeenCalledWith('/game-entities/character', {
-        ...originalEntity,
-        id: undefined,
-        name: 'Custom Name'
+      await gameEntityService.duplicateGameEntity('characters', '123', 'Custom Name');
+
+      expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('characters', {
+        name: 'Custom Name',
+        description: 'Test',
+        id: undefined
       });
-      expect(result).toEqual(duplicatedEntity);
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.duplicateGameEntity()).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.duplicateGameEntity(null, '123'))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when ID is not provided', async () => {
-      await expect(gameEntityService.duplicateGameEntity('character')).rejects.toThrow('Entity ID is required');
-    });
-
-    it('handles errors when fetching original entity', async () => {
-      const error = new Error('Not found');
-      error.response = { data: { message: 'Entity not found' } };
-      api.get.mockRejectedValue(error);
-
-      await expect(gameEntityService.duplicateGameEntity('character', '999')).rejects.toEqual({ message: 'Entity not found' });
+    it('should throw error if id is not provided', async () => {
+      await expect(gameEntityService.duplicateGameEntity('characters', null))
+        .rejects.toThrow('Entity ID is required');
     });
   });
 
   describe('bulkUpdateGameEntities', () => {
-    it('updates multiple game entities', async () => {
-      const updates = [
+    it('should bulk update entities successfully', async () => {
+      const entities = [
         { id: '1', name: 'Updated 1' },
         { id: '2', name: 'Updated 2' }
       ];
-      const response = { updated: 2, results: updates };
-      api.put.mockResolvedValue({ data: response });
+      const mockResponse = { updated: 2, items: entities };
 
-      const result = await gameEntityService.bulkUpdateGameEntities('character', updates);
+      api.put.mockResolvedValue({ data: mockResponse });
 
-      expect(api.put).toHaveBeenCalledWith('/game-entities/character/bulk', { entities: updates });
-      expect(result).toEqual(response);
+      const result = await gameEntityService.bulkUpdateGameEntities('characters', entities);
+
+      expect(api.put).toHaveBeenCalledWith('/game-entities/characters/bulk', { entities });
+      expect(result).toEqual(mockResponse);
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.bulkUpdateGameEntities()).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.bulkUpdateGameEntities(null, []))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when entities array is not provided', async () => {
-      await expect(gameEntityService.bulkUpdateGameEntities('character')).rejects.toThrow('Entities array is required');
-      await expect(gameEntityService.bulkUpdateGameEntities('character', null)).rejects.toThrow('Entities array is required');
+    it('should throw error if entities is not an array', async () => {
+      await expect(gameEntityService.bulkUpdateGameEntities('characters', 'not-array'))
+        .rejects.toThrow('Entities array is required');
     });
 
-    it('throws error when entities array is empty', async () => {
-      await expect(gameEntityService.bulkUpdateGameEntities('character', [])).rejects.toThrow('At least one entity is required');
+    it('should throw error if entities array is empty', async () => {
+      await expect(gameEntityService.bulkUpdateGameEntities('characters', []))
+        .rejects.toThrow('At least one entity is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Bulk update failed');
-      error.response = { data: { message: 'Validation errors in batch' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Bulk update failed' }
+        }
+      };
+
       api.put.mockRejectedValue(error);
 
-      const entities = [{ id: '1', name: 'Test' }];
-      await expect(gameEntityService.bulkUpdateGameEntities('character', entities)).rejects.toEqual({ message: 'Validation errors in batch' });
+      await expect(gameEntityService.bulkUpdateGameEntities('characters', [{ id: '1' }]))
+        .rejects.toEqual({ message: 'Bulk update failed' });
     });
   });
 
   describe('bulkDeleteGameEntities', () => {
-    it('deletes multiple game entities', async () => {
+    it('should bulk delete entities successfully', async () => {
       const ids = ['1', '2', '3'];
-      const response = { deleted: 3 };
-      api.delete.mockResolvedValue({ data: response });
+      const mockResponse = { deleted: 3 };
 
-      const result = await gameEntityService.bulkDeleteGameEntities('character', ids);
+      api.delete.mockResolvedValue({ data: mockResponse });
 
-      expect(api.delete).toHaveBeenCalledWith('/game-entities/character/bulk', { data: { ids } });
-      expect(result).toEqual(response);
+      const result = await gameEntityService.bulkDeleteGameEntities('characters', ids);
+
+      expect(api.delete).toHaveBeenCalledWith('/game-entities/characters/bulk', { data: { ids } });
+      expect(result).toEqual(mockResponse);
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.bulkDeleteGameEntities()).rejects.toThrow('Entity type is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.bulkDeleteGameEntities(null, ['1']))
+        .rejects.toThrow('Entity type is required');
     });
 
-    it('throws error when IDs array is not provided', async () => {
-      await expect(gameEntityService.bulkDeleteGameEntities('character')).rejects.toThrow('IDs array is required');
-      await expect(gameEntityService.bulkDeleteGameEntities('character', null)).rejects.toThrow('IDs array is required');
+    it('should throw error if ids is not an array', async () => {
+      await expect(gameEntityService.bulkDeleteGameEntities('characters', 'not-array'))
+        .rejects.toThrow('IDs array is required');
     });
 
-    it('throws error when IDs array is empty', async () => {
-      await expect(gameEntityService.bulkDeleteGameEntities('character', [])).rejects.toThrow('At least one ID is required');
+    it('should throw error if ids array is empty', async () => {
+      await expect(gameEntityService.bulkDeleteGameEntities('characters', []))
+        .rejects.toThrow('At least one ID is required');
     });
 
-    it('handles API errors', async () => {
-      const error = new Error('Bulk delete failed');
-      error.response = { data: { message: 'Some entities in use' } };
+    it('should handle API errors', async () => {
+      const error = {
+        response: {
+          data: { message: 'Bulk delete failed' }
+        }
+      };
+
       api.delete.mockRejectedValue(error);
 
-      const ids = ['1', '2'];
-      await expect(gameEntityService.bulkDeleteGameEntities('character', ids)).rejects.toEqual({ message: 'Some entities in use' });
+      await expect(gameEntityService.bulkDeleteGameEntities('characters', ['1']))
+        .rejects.toEqual({ message: 'Bulk delete failed' });
     });
   });
 
   describe('getGameEntityByName', () => {
-    it('fetches a game entity by name', async () => {
-      const mockEntities = [
-        { id: '1', name: 'Test Character', type: 'character' }
-      ];
-      api.get.mockResolvedValue({ data: { items: mockEntities } });
+    it('should find entity by name', async () => {
+      const mockResponse = {
+        items: [
+          { id: '1', name: 'Entity One' },
+          { id: '2', name: 'Entity Two' },
+          { id: '3', name: 'Target Entity' }
+        ]
+      };
 
-      const result = await gameEntityService.getGameEntityByName('character', 'Test Character');
+      gameEntityService.getGameEntities = jest.fn().mockResolvedValue(mockResponse);
 
-      expect(api.get).toHaveBeenCalledWith('/game-entities/character?page=1&limit=1000');
-      expect(result).toEqual(mockEntities[0]);
+      const result = await gameEntityService.getGameEntityByName('characters', 'Target Entity');
+
+      expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 1, 1000);
+      expect(result).toEqual({ id: '3', name: 'Target Entity' });
     });
 
-    it('returns null when entity not found', async () => {
-      api.get.mockResolvedValue({ data: { items: [] } });
+    it('should return null if entity not found', async () => {
+      const mockResponse = {
+        items: [
+          { id: '1', name: 'Entity One' },
+          { id: '2', name: 'Entity Two' }
+        ]
+      };
 
-      const result = await gameEntityService.getGameEntityByName('character', 'Non-existent');
+      gameEntityService.getGameEntities = jest.fn().mockResolvedValue(mockResponse);
+
+      const result = await gameEntityService.getGameEntityByName('characters', 'Nonexistent');
 
       expect(result).toBeNull();
     });
 
-    it('throws error when type is not provided', async () => {
-      await expect(gameEntityService.getGameEntityByName()).rejects.toThrow('Entity type is required');
+    it('should handle data property in response', async () => {
+      const mockResponse = {
+        data: [
+          { id: '1', name: 'Entity One' },
+          { id: '2', name: 'Target Entity' }
+        ]
+      };
+
+      gameEntityService.getGameEntities = jest.fn().mockResolvedValue(mockResponse);
+
+      const result = await gameEntityService.getGameEntityByName('characters', 'Target Entity');
+
+      expect(result).toEqual({ id: '2', name: 'Target Entity' });
     });
 
-    it('throws error when name is not provided', async () => {
-      await expect(gameEntityService.getGameEntityByName('character')).rejects.toThrow('Entity name is required');
-      await expect(gameEntityService.getGameEntityByName('character', '')).rejects.toThrow('Entity name is required');
+    it('should throw error if type is not provided', async () => {
+      await expect(gameEntityService.getGameEntityByName(null, 'Test'))
+        .rejects.toThrow('Entity type is required');
+    });
+
+    it('should throw error if name is not provided', async () => {
+      await expect(gameEntityService.getGameEntityByName('characters', null))
+        .rejects.toThrow('Entity name is required');
+    });
+  });
+
+  describe('Entity Type Specific Methods', () => {
+    describe('Characters', () => {
+      it('should get characters', async () => {
+        gameEntityService.getGameEntities = jest.fn().mockResolvedValue({ items: [] });
+        
+        await gameEntityService.getCharacters(2, 30, { level: 5 });
+        
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('characters', 2, 30, { level: 5 });
+      });
+
+      it('should get single character', async () => {
+        gameEntityService.getGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        
+        await gameEntityService.getCharacter('123');
+        
+        expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('characters', '123');
+      });
+
+      it('should create character', async () => {
+        const characterData = { name: 'Hero' };
+        gameEntityService.createGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        
+        await gameEntityService.createCharacter(characterData);
+        
+        expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('characters', characterData);
+      });
+
+      it('should update character', async () => {
+        const characterData = { name: 'Updated Hero' };
+        gameEntityService.updateGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        
+        await gameEntityService.updateCharacter('123', characterData);
+        
+        expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('characters', '123', characterData);
+      });
+
+      it('should delete character', async () => {
+        gameEntityService.deleteGameEntity = jest.fn().mockResolvedValue({ success: true });
+        
+        await gameEntityService.deleteCharacter('123');
+        
+        expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('characters', '123');
+      });
+    });
+
+    describe('Beasts', () => {
+      it('should get beasts', async () => {
+        gameEntityService.getGameEntities = jest.fn().mockResolvedValue({ items: [] });
+        
+        await gameEntityService.getBeasts();
+        
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('beasts', 1, 20, {});
+      });
+
+      it('should get single beast', async () => {
+        gameEntityService.getGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        
+        await gameEntityService.getBeast('123');
+        
+        expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('beasts', '123');
+      });
+
+      it('should create beast', async () => {
+        const beastData = { name: 'Dragon' };
+        gameEntityService.createGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        
+        await gameEntityService.createBeast(beastData);
+        
+        expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('beasts', beastData);
+      });
+
+      it('should update beast', async () => {
+        const beastData = { name: 'Ancient Dragon' };
+        gameEntityService.updateGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        
+        await gameEntityService.updateBeast('123', beastData);
+        
+        expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('beasts', '123', beastData);
+      });
+
+      it('should delete beast', async () => {
+        gameEntityService.deleteGameEntity = jest.fn().mockResolvedValue({ success: true });
+        
+        await gameEntityService.deleteBeast('123');
+        
+        expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('beasts', '123');
+      });
+    });
+
+    describe('Equipment', () => {
+      it('should handle all equipment operations', async () => {
+        gameEntityService.getGameEntities = jest.fn().mockResolvedValue({ items: [] });
+        gameEntityService.getGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.createGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.updateGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.deleteGameEntity = jest.fn().mockResolvedValue({ success: true });
+
+        await gameEntityService.getEquipment();
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('equipment', 1, 20, {});
+
+        await gameEntityService.getEquipmentItem('123');
+        expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('equipment', '123');
+
+        const equipmentData = { name: 'Sword' };
+        await gameEntityService.createEquipmentItem(equipmentData);
+        expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('equipment', equipmentData);
+
+        await gameEntityService.updateEquipmentItem('123', equipmentData);
+        expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('equipment', '123', equipmentData);
+
+        await gameEntityService.deleteEquipmentItem('123');
+        expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('equipment', '123');
+      });
+    });
+
+    describe('Powers', () => {
+      it('should handle all power operations', async () => {
+        gameEntityService.getGameEntities = jest.fn().mockResolvedValue({ items: [] });
+        gameEntityService.getGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.createGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.updateGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.deleteGameEntity = jest.fn().mockResolvedValue({ success: true });
+
+        await gameEntityService.getPowers();
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('powers', 1, 20, {});
+
+        await gameEntityService.getPower('123');
+        expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('powers', '123');
+
+        const powerData = { name: 'Fireball' };
+        await gameEntityService.createPower(powerData);
+        expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('powers', powerData);
+
+        await gameEntityService.updatePower('123', powerData);
+        expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('powers', '123', powerData);
+
+        await gameEntityService.deletePower('123');
+        expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('powers', '123');
+      });
+    });
+
+    describe('Edges', () => {
+      it('should handle all edge operations', async () => {
+        gameEntityService.getGameEntities = jest.fn().mockResolvedValue({ items: [] });
+        gameEntityService.getGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.createGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.updateGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.deleteGameEntity = jest.fn().mockResolvedValue({ success: true });
+
+        await gameEntityService.getEdges();
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('edges', 1, 20, {});
+
+        await gameEntityService.getEdge('123');
+        expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('edges', '123');
+
+        const edgeData = { name: 'Quick' };
+        await gameEntityService.createEdge(edgeData);
+        expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('edges', edgeData);
+
+        await gameEntityService.updateEdge('123', edgeData);
+        expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('edges', '123', edgeData);
+
+        await gameEntityService.deleteEdge('123');
+        expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('edges', '123');
+      });
+    });
+
+    describe('Hindrances', () => {
+      it('should handle all hindrance operations', async () => {
+        gameEntityService.getGameEntities = jest.fn().mockResolvedValue({ items: [] });
+        gameEntityService.getGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.createGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.updateGameEntity = jest.fn().mockResolvedValue({ id: '123' });
+        gameEntityService.deleteGameEntity = jest.fn().mockResolvedValue({ success: true });
+
+        await gameEntityService.getHindrances();
+        expect(gameEntityService.getGameEntities).toHaveBeenCalledWith('hindrances', 1, 20, {});
+
+        await gameEntityService.getHindrance('123');
+        expect(gameEntityService.getGameEntity).toHaveBeenCalledWith('hindrances', '123');
+
+        const hindranceData = { name: 'Bad Luck' };
+        await gameEntityService.createHindrance(hindranceData);
+        expect(gameEntityService.createGameEntity).toHaveBeenCalledWith('hindrances', hindranceData);
+
+        await gameEntityService.updateHindrance('123', hindranceData);
+        expect(gameEntityService.updateGameEntity).toHaveBeenCalledWith('hindrances', '123', hindranceData);
+
+        await gameEntityService.deleteHindrance('123');
+        expect(gameEntityService.deleteGameEntity).toHaveBeenCalledWith('hindrances', '123');
+      });
     });
   });
 });

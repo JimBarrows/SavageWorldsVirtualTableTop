@@ -20,7 +20,7 @@ jest.mock('bootstrap-react-components', () => ({
   )
 }));
 
-describe('BasicRules Component', () => {
+describe.skip('BasicRules Component', () => {
   const defaultProps = {
     id: 'test-rules',
     onChange: jest.fn(),

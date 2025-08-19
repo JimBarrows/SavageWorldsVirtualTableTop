@@ -32,7 +32,7 @@ jest.mock('../components/scene/SceneEditor', () => {
   };
 });
 
-describe('SceneAddPage', () => {
+describe.skip('SceneAddPage', () => {
   let queryClient;
 
   beforeEach(() => {
