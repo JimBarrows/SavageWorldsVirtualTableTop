@@ -6,6 +6,7 @@ import PlotPointPropType                                 from '../../../propType
 import BasicRules                                        from './BasicRules'
 import Beasts                                            from './beasts'
 import Characters                                        from './characters'
+import DramaticPersonae                                  from './dramatic_personae'
 import Edges                                             from './edges'
 import Gear                                              from './gear'
 import Hindrances                                        from './hindrances'
@@ -79,6 +80,12 @@ export default class PlotPointForm extends React.Component {
 			case 'Characters':
 				return (
 					<Characters characters={this.state.plotPoint.characters} onChange={this.charactersChange} id={componentId} />)
+			case 'DramaticPersonae':
+				return (
+					<DramaticPersonae 
+						characters={this.state.plotPoint.characters} 
+						id={componentId}
+						onNavigateToCharacters={() => this.sectionChange('Characters')} />)
 			default:
 				return null;
 		}
