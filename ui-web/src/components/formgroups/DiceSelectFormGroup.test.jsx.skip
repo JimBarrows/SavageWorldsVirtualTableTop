@@ -1,0 +1,180 @@
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DiceSelectFormGroup from './DiceSelectFormGroup';
+
+describe('DiceSelectFormGroup', () => {
+  const defaultProps = {
+    id: 'test-dice',
+    label: 'Test Dice',
+    name: 'testDice',
+    value: 'd6',
+    onChange: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('Rendering', () => {
+    it('should render with all props', () => {
+      render(<DiceSelectFormGroup {...defaultProps} />);
+      
+      expect(screen.getByLabelText('Test Dice')).toBeInTheDocument();
+      expect(screen.getByRole('combobox')).toHaveValue('d6');
+    });
+
+    it('should render all dice options', () => {
+      render(<DiceSelectFormGroup {...defaultProps} />);
+      
+      const select = screen.getByRole('combobox');
+      expect(select.children).toHaveLength(7); // d4, d6, d8, d10, d12, d12+1, d12+2
+      
+      expect(screen.getByText('d4')).toBeInTheDocument();
+      expect(screen.getByText('d6')).toBeInTheDocument();
+      expect(screen.getByText('d8')).toBeInTheDocument();
+      expect(screen.getByText('d10')).toBeInTheDocument();
+      expect(screen.getByText('d12')).toBeInTheDocument();
+      expect(screen.getByText('d12+1')).toBeInTheDocument();
+      expect(screen.getByText('d12+2')).toBeInTheDocument();
+    });
+
+    it('should render with custom label', () => {
+      render(<DiceSelectFormGroup {...defaultProps} label="Custom Dice Label" />);
+      
+      expect(screen.getByLabelText('Custom Dice Label')).toBeInTheDocument();
+    });
+
+    it('should render with custom id', () => {
+      render(<DiceSelectFormGroup {...defaultProps} id="custom-id" />);
+      
+      const select = screen.getByRole('combobox');
+      expect(select).toHaveAttribute('id', 'custom-id');
+    });
+  });
+
+  describe('Value Selection', () => {
+    it('should display selected value', () => {
+      render(<DiceSelectFormGroup {...defaultProps} value="d10" />);
+      
+      expect(screen.getByRole('combobox')).toHaveValue('d10');
+    });
+
+    it('should handle value change', () => {
+      const onChange = jest.fn();
+      render(<DiceSelectFormGroup {...defaultProps} onChange={onChange} />);
+      
+      const select = screen.getByRole('combobox');
+      fireEvent.change(select, { target: { value: 'd12' } });
+      
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(expect.objectContaining({
+        target: expect.objectContaining({
+          value: 'd12',
+          name: 'testDice'
+        })
+      }));
+    });
+
+    it('should handle selection of each dice type', () => {
+      const onChange = jest.fn();
+      const { rerender } = render(<DiceSelectFormGroup {...defaultProps} onChange={onChange} />);
+      
+      const diceTypes = ['d4', 'd6', 'd8', 'd10', 'd12', 'd12+1', 'd12+2'];
+      
+      diceTypes.forEach((dice, index) => {
+        const select = screen.getByRole('combobox');
+        fireEvent.change(select, { target: { value: dice } });
+        
+        expect(onChange).toHaveBeenNthCalledWith(index + 1, expect.objectContaining({
+          target: expect.objectContaining({
+            value: dice,
+            name: 'testDice'
+          })
+        }));
+      });
+      
+      expect(onChange).toHaveBeenCalledTimes(diceTypes.length);
+    });
+  });
+
+  describe('Props Validation', () => {
+    it('should work without onChange handler', () => {
+      const { container } = render(
+        <DiceSelectFormGroup
+          id="test-dice"
+          label="Test Dice"
+          name="testDice"
+          value="d6"
+        />
+      );
+      
+      const select = container.querySelector('select');
+      expect(() => fireEvent.change(select, { target: { value: 'd8' } })).not.toThrow();
+    });
+
+    it('should handle empty value', () => {
+      render(<DiceSelectFormGroup {...defaultProps} value="" />);
+      
+      expect(screen.getByRole('combobox')).toHaveValue('');
+    });
+
+    it('should handle undefined value', () => {
+      render(<DiceSelectFormGroup {...defaultProps} value={undefined} />);
+      
+      expect(screen.getByRole('combobox')).toHaveValue('');
+    });
+  });
+
+  describe('FormGroup Structure', () => {
+    it('should render with proper Bootstrap form group structure', () => {
+      const { container } = render(<DiceSelectFormGroup {...defaultProps} />);
+      
+      const formGroup = container.querySelector('.form-group');
+      expect(formGroup).toBeInTheDocument();
+      
+      const label = formGroup.querySelector('label');
+      expect(label).toHaveAttribute('for', 'test-dice');
+      
+      const select = formGroup.querySelector('select.form-control');
+      expect(select).toBeInTheDocument();
+    });
+
+    it('should have proper accessibility attributes', () => {
+      render(<DiceSelectFormGroup {...defaultProps} />);
+      
+      const select = screen.getByRole('combobox');
+      expect(select).toHaveAttribute('id', 'test-dice');
+      expect(select).toHaveAttribute('name', 'testDice');
+      
+      const label = screen.getByText('Test Dice');
+      expect(label).toHaveAttribute('for', 'test-dice');
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('should handle rapid value changes', () => {
+      const onChange = jest.fn();
+      render(<DiceSelectFormGroup {...defaultProps} onChange={onChange} />);
+      
+      const select = screen.getByRole('combobox');
+      
+      fireEvent.change(select, { target: { value: 'd4' } });
+      fireEvent.change(select, { target: { value: 'd6' } });
+      fireEvent.change(select, { target: { value: 'd8' } });
+      
+      expect(onChange).toHaveBeenCalledTimes(3);
+    });
+
+    it('should maintain controlled component behavior', () => {
+      const { rerender } = render(<DiceSelectFormGroup {...defaultProps} value="d4" />);
+      
+      expect(screen.getByRole('combobox')).toHaveValue('d4');
+      
+      rerender(<DiceSelectFormGroup {...defaultProps} value="d8" />);
+      expect(screen.getByRole('combobox')).toHaveValue('d8');
+      
+      rerender(<DiceSelectFormGroup {...defaultProps} value="d12+2" />);
+      expect(screen.getByRole('combobox')).toHaveValue('d12+2');
+    });
+  });
+});
