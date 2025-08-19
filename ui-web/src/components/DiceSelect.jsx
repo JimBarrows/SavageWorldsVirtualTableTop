@@ -16,7 +16,7 @@ export default class DiceSelect extends React.Component {
 		label   : PropTypes.string,
 		onChange: PropTypes.func.isRequired,
 		required: PropTypes.bool,
-		value   : PropTypes.oneOf(['d4', 'd6', 'd8', 'd10', 'd12']),
+		value   : PropTypes.oneOf(['', 'd4', 'd6', 'd8', 'd10', 'd12']),
 	}
 
 	options = [

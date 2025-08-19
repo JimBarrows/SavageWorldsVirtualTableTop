@@ -12,6 +12,10 @@ export default class Navigation extends React.Component {
 		navigateTo: PropTypes.func.isRequired
 	}
 
+	state = {
+		active: 'BasicRules'
+	}
+
 	navigateTo = (name) => () => {
 		this.setState({active: name})
 		return this.props.navigateTo(name)
@@ -163,9 +167,5 @@ export default class Navigation extends React.Component {
 		// 	</div>
 		// </nav>
 
-	}
-
-	state = {
-		active: 'BasicRules'
 	}
 }

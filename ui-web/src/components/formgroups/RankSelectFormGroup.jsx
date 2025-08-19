@@ -8,7 +8,7 @@ export default class RankSelectFormGroup extends React.Component {
 		rank    : PropTypes.string,
 		id      : PropTypes.string.isRequired,
 		label   : PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired,
+		onChange: PropTypes.func,
 		required: PropTypes.bool
 	};
 
@@ -23,7 +23,7 @@ export default class RankSelectFormGroup extends React.Component {
 					<SelectFormGroup id={'RankFormGroupComponent_' + this.props.id}
 					                 label={this.props.label}
 					                 onChange={this.props.onChange}
-					                 options={[{label: 'Novice', value: 'Agility'},
+					                 options={[{label: 'Novice', value: 'Novice'},
 						                 {label: 'Seasoned', value: 'Seasoned'},
 						                 {label: 'Veteran', value: 'Veteran'},
 						                 {label: 'Heroic', value: 'Heroic'},

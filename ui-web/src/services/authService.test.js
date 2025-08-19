@@ -1,131 +1,455 @@
 import authService from './authService';
-import api, { clearTokens } from './api';
+import api, { setTokens, clearTokens } from './api';
 
 // Mock the api module
 jest.mock('./api');
 
-describe('AuthService - Logout Functionality', () => {
+// Mock console methods
+const originalConsoleLog = console.log;
+const originalConsoleError = console.error;
+
+describe('AuthService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    console.log = jest.fn();
+    console.error = jest.fn();
+  });
+
+  afterEach(() => {
+    console.log = originalConsoleLog;
+    console.error = originalConsoleError;
+  });
+
+  describe('register', () => {
+    it('should register a new user successfully', async () => {
+      const userData = {
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'Test User'
+      };
+      const mockResponse = {
+        data: {
+          id: '123',
+          email: 'test@example.com',
+          name: 'Test User'
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.register(userData);
+
+      expect(api.post).toHaveBeenCalledWith('/auth/register', userData);
+      expect(result).toEqual(mockResponse.data);
+    });
+
+    it('should handle registration errors', async () => {
+      const userData = { email: 'test@example.com', password: 'short' };
+      const error = {
+        response: {
+          data: {
+            message: 'Password too short'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.register(userData)).rejects.toEqual({
+        message: 'Password too short'
+      });
+    });
+
+    it('should handle network errors without response', async () => {
+      const userData = { email: 'test@example.com', password: 'password123' };
+      const error = new Error('Network error');
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.register(userData)).rejects.toEqual(error);
+    });
+  });
+
+  describe('login', () => {
+    it('should login user successfully with nested data structure', async () => {
+      const credentials = { email: 'test@example.com', password: 'password123' };
+      const mockResponse = {
+        data: {
+          data: {
+            access_token: 'access123',
+            refresh_token: 'refresh123',
+            user: { id: '1', email: 'test@example.com' }
+          }
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.login(credentials);
+
+      expect(api.post).toHaveBeenCalledWith('/auth/login', credentials);
+      expect(setTokens).toHaveBeenCalledWith('access123', 'refresh123');
+      expect(result).toEqual({
+        user: { id: '1', email: 'test@example.com' },
+        accessToken: 'access123',
+        refreshToken: 'refresh123'
+      });
+      expect(console.log).toHaveBeenCalledWith('Auth service login called with:', credentials);
+    });
+
+    it('should login user successfully with flat data structure', async () => {
+      const credentials = { email: 'test@example.com', password: 'password123' };
+      const mockResponse = {
+        data: {
+          access_token: 'access456',
+          refresh_token: 'refresh456',
+          user: { id: '2', email: 'test@example.com' }
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.login(credentials);
+
+      expect(setTokens).toHaveBeenCalledWith('access456', 'refresh456');
+      expect(result).toEqual({
+        user: { id: '2', email: 'test@example.com' },
+        accessToken: 'access456',
+        refreshToken: 'refresh456'
+      });
+    });
+
+    it('should handle login errors', async () => {
+      const credentials = { email: 'test@example.com', password: 'wrong' };
+      const error = {
+        response: {
+          data: {
+            message: 'Invalid credentials'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.login(credentials)).rejects.toEqual({
+        message: 'Invalid credentials'
+      });
+      expect(console.error).toHaveBeenCalledWith('Auth service login error:', error.response.data);
+    });
+
+    it('should handle network errors during login', async () => {
+      const credentials = { email: 'test@example.com', password: 'password123' };
+      const error = new Error('Network error');
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.login(credentials)).rejects.toEqual(error);
+      expect(console.error).toHaveBeenCalledWith('Auth service login error:', error);
+    });
   });
 
   describe('logout', () => {
-    it('should call api.post with correct endpoint', async () => {
-      api.post.mockResolvedValue({ data: { success: true } });
+    it('should logout user successfully', async () => {
+      api.post.mockResolvedValue({ data: { message: 'Logged out' } });
 
       await authService.logout();
 
       expect(api.post).toHaveBeenCalledWith('/auth/logout');
+      expect(clearTokens).toHaveBeenCalled();
     });
 
-    it('should call clearTokens even if api call succeeds', async () => {
-      api.post.mockResolvedValue({ data: { success: true } });
+    it('should clear tokens even if logout fails on server', async () => {
+      const error = new Error('Server error');
+      api.post.mockRejectedValue(error);
 
       await authService.logout();
 
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call clearTokens even if api call fails', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      api.post.mockRejectedValue(new Error('Network error'));
-
-      await authService.logout();
-
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-      expect(consoleSpy).toHaveBeenCalledWith('Logout error:', expect.any(Error));
-
-      consoleSpy.mockRestore();
-    });
-
-    it('should handle server errors gracefully', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      const serverError = new Error('Server error');
-      serverError.response = { status: 500, data: { message: 'Internal server error' } };
-      
-      api.post.mockRejectedValue(serverError);
-
-      await expect(authService.logout()).resolves.not.toThrow();
-      
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-      expect(consoleSpy).toHaveBeenCalledWith('Logout error:', serverError);
-
-      consoleSpy.mockRestore();
-    });
-
-    it('should handle network errors gracefully', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      const networkError = new Error('Network error');
-      
-      api.post.mockRejectedValue(networkError);
-
-      await expect(authService.logout()).resolves.not.toThrow();
-      
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-      expect(consoleSpy).toHaveBeenCalledWith('Logout error:', networkError);
-
-      consoleSpy.mockRestore();
-    });
-
-    it('should handle timeout errors gracefully', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      const timeoutError = new Error('Request timeout');
-      timeoutError.code = 'TIMEOUT';
-      
-      api.post.mockRejectedValue(timeoutError);
-
-      await expect(authService.logout()).resolves.not.toThrow();
-      
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-      expect(consoleSpy).toHaveBeenCalledWith('Logout error:', timeoutError);
-
-      consoleSpy.mockRestore();
-    });
-
-    it('should complete logout process regardless of server response', async () => {
-      // Test with successful response
-      api.post.mockResolvedValueOnce({ data: { success: true } });
-      await authService.logout();
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-
-      // Reset and test with error response
-      jest.clearAllMocks();
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      api.post.mockRejectedValueOnce(new Error('Server unavailable'));
-      
-      await authService.logout();
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-
-      consoleSpy.mockRestore();
-    });
-
-    it('should not throw errors to calling code', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      api.post.mockRejectedValue(new Error('Critical server error'));
-
-      // Should not throw
-      await expect(authService.logout()).resolves.toBeUndefined();
-
-      consoleSpy.mockRestore();
+      expect(api.post).toHaveBeenCalledWith('/auth/logout');
+      expect(clearTokens).toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledWith('Logout error:', error);
     });
   });
 
-  describe('logout integration with other methods', () => {
-    it('should clear tokens before any other auth operations after logout', async () => {
-      api.post.mockResolvedValue({ data: { success: true } });
+  describe('getCurrentUser', () => {
+    it('should fetch current user successfully', async () => {
+      const mockUser = {
+        data: {
+          id: '123',
+          email: 'test@example.com',
+          name: 'Test User'
+        }
+      };
 
-      await authService.logout();
+      api.get.mockResolvedValue(mockUser);
 
-      expect(clearTokens).toHaveBeenCalledTimes(1);
-      
-      // Verify tokens are cleared before any subsequent operations
-      api.get.mockRejectedValue(new Error('No auth token'));
-      
-      try {
-        await authService.getCurrentUser();
-      } catch (error) {
-        expect(error.message).toBe('No auth token');
-      }
+      const result = await authService.getCurrentUser();
+
+      expect(api.get).toHaveBeenCalledWith('/auth/me');
+      expect(result).toEqual(mockUser.data);
+    });
+
+    it('should handle errors when fetching current user', async () => {
+      const error = {
+        response: {
+          data: {
+            message: 'Unauthorized'
+          }
+        }
+      };
+
+      api.get.mockRejectedValue(error);
+
+      await expect(authService.getCurrentUser()).rejects.toEqual({
+        message: 'Unauthorized'
+      });
+    });
+
+    it('should handle network errors when fetching current user', async () => {
+      const error = new Error('Network error');
+
+      api.get.mockRejectedValue(error);
+
+      await expect(authService.getCurrentUser()).rejects.toEqual(error);
+    });
+  });
+
+  describe('refreshToken', () => {
+    it('should refresh token successfully', async () => {
+      const oldRefreshToken = 'oldRefresh123';
+      const mockResponse = {
+        data: {
+          accessToken: 'newAccess123',
+          refreshToken: 'newRefresh123'
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.refreshToken(oldRefreshToken);
+
+      expect(api.post).toHaveBeenCalledWith('/auth/refresh', {
+        refreshToken: oldRefreshToken
+      });
+      expect(setTokens).toHaveBeenCalledWith('newAccess123', 'newRefresh123');
+      expect(result).toEqual({
+        accessToken: 'newAccess123',
+        refreshToken: 'newRefresh123'
+      });
+    });
+
+    it('should clear tokens on refresh error', async () => {
+      const oldRefreshToken = 'expiredToken';
+      const error = {
+        response: {
+          data: {
+            message: 'Invalid refresh token'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.refreshToken(oldRefreshToken)).rejects.toEqual({
+        message: 'Invalid refresh token'
+      });
+      expect(clearTokens).toHaveBeenCalled();
+    });
+
+    it('should handle network errors during token refresh', async () => {
+      const oldRefreshToken = 'refresh123';
+      const error = new Error('Network error');
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.refreshToken(oldRefreshToken)).rejects.toEqual(error);
+      expect(clearTokens).toHaveBeenCalled();
+    });
+  });
+
+  describe('changePassword', () => {
+    it('should change password successfully', async () => {
+      const currentPassword = 'oldPassword123';
+      const newPassword = 'newPassword456';
+      const mockResponse = {
+        data: {
+          message: 'Password changed successfully'
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.changePassword(currentPassword, newPassword);
+
+      expect(api.post).toHaveBeenCalledWith('/auth/change-password', {
+        currentPassword,
+        newPassword
+      });
+      expect(result).toEqual(mockResponse.data);
+    });
+
+    it('should handle password change errors', async () => {
+      const currentPassword = 'wrongPassword';
+      const newPassword = 'newPassword456';
+      const error = {
+        response: {
+          data: {
+            message: 'Current password is incorrect'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.changePassword(currentPassword, newPassword)).rejects.toEqual({
+        message: 'Current password is incorrect'
+      });
+    });
+
+    it('should handle network errors during password change', async () => {
+      const error = new Error('Network error');
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.changePassword('old', 'new')).rejects.toEqual(error);
+    });
+  });
+
+  describe('requestPasswordReset', () => {
+    it('should request password reset successfully', async () => {
+      const email = 'test@example.com';
+      const mockResponse = {
+        data: {
+          message: 'Password reset email sent'
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.requestPasswordReset(email);
+
+      expect(api.post).toHaveBeenCalledWith('/auth/forgot-password', { email });
+      expect(result).toEqual(mockResponse.data);
+    });
+
+    it('should handle password reset request errors', async () => {
+      const email = 'nonexistent@example.com';
+      const error = {
+        response: {
+          data: {
+            message: 'Email not found'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.requestPasswordReset(email)).rejects.toEqual({
+        message: 'Email not found'
+      });
+    });
+
+    it('should handle network errors during password reset request', async () => {
+      const error = new Error('Network error');
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.requestPasswordReset('test@example.com')).rejects.toEqual(error);
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should reset password successfully', async () => {
+      const token = 'resetToken123';
+      const newPassword = 'newPassword789';
+      const mockResponse = {
+        data: {
+          message: 'Password reset successfully'
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.resetPassword(token, newPassword);
+
+      expect(api.post).toHaveBeenCalledWith('/auth/reset-password', {
+        token,
+        newPassword
+      });
+      expect(result).toEqual(mockResponse.data);
+    });
+
+    it('should handle password reset errors', async () => {
+      const token = 'invalidToken';
+      const newPassword = 'newPassword789';
+      const error = {
+        response: {
+          data: {
+            message: 'Invalid or expired token'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.resetPassword(token, newPassword)).rejects.toEqual({
+        message: 'Invalid or expired token'
+      });
+    });
+
+    it('should handle network errors during password reset', async () => {
+      const error = new Error('Network error');
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.resetPassword('token', 'password')).rejects.toEqual(error);
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('should handle empty credentials in login', async () => {
+      const credentials = { email: '', password: '' };
+      const error = {
+        response: {
+          data: {
+            message: 'Email and password are required'
+          }
+        }
+      };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.login(credentials)).rejects.toEqual({
+        message: 'Email and password are required'
+      });
+    });
+
+    it('should handle missing user data in login response', async () => {
+      const credentials = { email: 'test@example.com', password: 'password123' };
+      const mockResponse = {
+        data: {
+          access_token: 'access123',
+          refresh_token: 'refresh123'
+          // Missing user object
+        }
+      };
+
+      api.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.login(credentials);
+
+      expect(result).toEqual({
+        user: undefined,
+        accessToken: 'access123',
+        refreshToken: 'refresh123'
+      });
+    });
+
+    it('should handle malformed error response', async () => {
+      const error = { message: 'Something went wrong' };
+
+      api.post.mockRejectedValue(error);
+
+      await expect(authService.register({})).rejects.toEqual(error);
     });
   });
 });

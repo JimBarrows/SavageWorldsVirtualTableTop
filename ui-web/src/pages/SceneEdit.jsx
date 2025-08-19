@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import SceneEditor from '../components/scene/SceneEditor'
 import sceneService from '../services/sceneService'
+import characterService from '../services/characterService'
 import Scene from '../models/Scene'
 
 export default function SceneEditPage() {
@@ -28,15 +29,7 @@ export default function SceneEditPage() {
   // Fetch available characters
   const { data: availableCharacters = [] } = useQuery(
     ['characters'],
-    async () => {
-      // Mock data for now
-      return [
-        { name: 'Sir Gareth', description: 'A noble knight' },
-        { name: 'Mara', description: 'A cunning thief' },
-        { name: 'Grimjaw', description: 'An orc bartender' },
-        { name: 'Eldara', description: 'An elven mage' }
-      ]
-    }
+    () => characterService.getAvailableCharacters()
   )
 
   // Update scene mutation

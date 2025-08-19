@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 // Mock dependencies before importing AuthContext
@@ -39,6 +39,531 @@ import { authService } from '../services';
 import * as api from '../services/api';
 // eslint-disable-next-line import/first
 import * as tokenUtils from '../utils/tokenUtils';
+
+// Test component to access auth context
+const TestComponent = ({ onAuthChange } = {}) => {
+  const auth = useAuth();
+  
+  React.useEffect(() => {
+    if (onAuthChange) {
+      onAuthChange(auth);
+    }
+  }, [auth, onAuthChange]);
+  
+  return (
+    <div>
+      <div data-testid="user">{auth.user ? JSON.stringify(auth.user) : 'null'}</div>
+      <div data-testid="loading">{auth.loading.toString()}</div>
+      <div data-testid="error">{auth.error || 'null'}</div>
+      <div data-testid="isAuthenticated">{auth.isAuthenticated.toString()}</div>
+      <button data-testid="login" onClick={() => auth.login({ email: 'test@example.com', password: 'password' })}>
+        Login
+      </button>
+      <button data-testid="logout" onClick={auth.logout}>Logout</button>
+      <button data-testid="register" onClick={() => auth.register({ email: 'test@example.com', password: 'password' })}>
+        Register
+      </button>
+      <button data-testid="refresh" onClick={auth.refreshUser}>Refresh</button>
+      <button data-testid="clearError" onClick={auth.clearError}>Clear Error</button>
+    </div>
+  );
+};
+
+const renderWithAuthProvider = (onAuthChange) => {
+  return render(
+    <AuthProvider>
+      <TestComponent onAuthChange={onAuthChange} />
+    </AuthProvider>
+  );
+};
+
+describe('AuthContext', () => {
+  const originalConsoleLog = console.log;
+  const originalConsoleError = console.error;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    console.log = jest.fn();
+    console.error = jest.fn();
+    jest.clearAllTimers();
+    jest.useFakeTimers();
+    // Setup default mock returns
+    api.getAccessToken.mockReturnValue(null);
+    tokenUtils.isRememberMeSession.mockReturnValue(false);
+    tokenUtils.getStoredTokenExpiry.mockReturnValue(null);
+    tokenUtils.isTokenExpired.mockReturnValue(false);
+    tokenUtils.getTokenExpiryTime.mockReturnValue(Date.now() + 60000);
+  });
+
+  afterEach(() => {
+    console.log = originalConsoleLog;
+    console.error = originalConsoleError;
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+    jest.restoreAllMocks();
+  });
+
+  describe('useAuth hook', () => {
+    it('should throw error when used outside AuthProvider', () => {
+      const TestComponentOutside = () => {
+        useAuth(); // This should throw
+        return <div>Test</div>;
+      };
+
+      // Suppress the React error boundary warning for this test
+      const originalError = console.error;
+      console.error = jest.fn();
+
+      expect(() => render(<TestComponentOutside />)).toThrow('useAuth must be used within an AuthProvider');
+
+      console.error = originalError;
+    });
+  });
+
+  describe('AuthProvider initialization', () => {
+    it('should render with initial loading state', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      renderWithAuthProvider();
+
+      expect(screen.getByTestId('user')).toHaveTextContent('null');
+      expect(screen.getByTestId('loading')).toHaveTextContent('true');
+      expect(screen.getByTestId('error')).toHaveTextContent('null');
+      expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('false');
+
+      // Wait for loading to complete
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('loading')).toHaveTextContent('false');
+      });
+    });
+
+    it('should check authentication on mount with valid token', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      const mockToken = 'valid-token';
+      const mockExpiryTime = Date.now() + 60 * 60 * 1000;
+
+      api.getAccessToken.mockReturnValue(mockToken);
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(null);
+      tokenUtils.getTokenExpiryTime.mockReturnValue(mockExpiryTime);
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser.mockResolvedValue(mockUser);
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent(JSON.stringify(mockUser));
+        expect(screen.getByTestId('loading')).toHaveTextContent('false');
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      });
+
+      expect(authService.getCurrentUser).toHaveBeenCalled();
+      expect(tokenUtils.storeTokenExpiry).toHaveBeenCalledWith(mockExpiryTime);
+    });
+
+    it('should clear session when token is expired', async () => {
+      const mockToken = 'expired-token';
+      const mockExpiryTime = Date.now() - 60 * 60 * 1000;
+
+      api.getAccessToken.mockReturnValue(mockToken);
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(null);
+      tokenUtils.getTokenExpiryTime.mockReturnValue(mockExpiryTime);
+      tokenUtils.isTokenExpired.mockReturnValue(true);
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('loading')).toHaveTextContent('false');
+      });
+
+      expect(api.clearTokens).toHaveBeenCalled();
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+      expect(console.log).toHaveBeenCalledWith('Token expired, clearing session');
+    });
+
+    it('should handle auth check failure', async () => {
+      api.getAccessToken.mockReturnValue('invalid-token');
+      authService.getCurrentUser.mockRejectedValue(new Error('Auth failed'));
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('loading')).toHaveTextContent('false');
+      });
+
+      expect(api.clearTokens).toHaveBeenCalled();
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledWith('Auth check failed:', expect.any(Error));
+    });
+  });
+
+  describe('Login functionality', () => {
+    it('should handle successful login', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      const mockToken = 'new-token';
+      const mockExpiryTime = Date.now() + 60 * 60 * 1000;
+
+      api.getAccessToken.mockReturnValue(null);
+      authService.login.mockResolvedValue({ user: mockUser, accessToken: mockToken });
+      tokenUtils.getTokenExpiryTime.mockReturnValue(mockExpiryTime);
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('loading')).toHaveTextContent('false');
+      });
+
+      await act(async () => {
+        screen.getByTestId('login').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent(JSON.stringify(mockUser));
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+        expect(screen.getByTestId('error')).toHaveTextContent('null');
+      });
+
+      expect(authService.login).toHaveBeenCalledWith({ email: 'test@example.com', password: 'password' });
+      expect(tokenUtils.setRememberMeFlag).toHaveBeenCalledWith(false);
+      expect(tokenUtils.storeTokenExpiry).toHaveBeenCalledWith(mockExpiryTime);
+    });
+
+    it('should handle login failure', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      authService.login.mockRejectedValue(new Error('Invalid credentials'));
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await act(async () => {
+        screen.getByTestId('login').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('error')).toHaveTextContent('Invalid credentials');
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('false');
+      });
+    });
+  });
+
+  describe('Registration functionality', () => {
+    it('should handle successful registration with auto-login', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      const mockToken = 'new-token';
+      const mockExpiryTime = Date.now() + 60 * 60 * 1000;
+
+      api.getAccessToken.mockReturnValue(null);
+      authService.register.mockResolvedValue({ success: true });
+      authService.login.mockResolvedValue({ user: mockUser, accessToken: mockToken });
+      tokenUtils.getTokenExpiryTime.mockReturnValue(mockExpiryTime);
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await act(async () => {
+        screen.getByTestId('register').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent(JSON.stringify(mockUser));
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      });
+
+      expect(authService.register).toHaveBeenCalledWith({ email: 'test@example.com', password: 'password' });
+      expect(authService.login).toHaveBeenCalledWith({ email: 'test@example.com', password: 'password' });
+    });
+
+    it('should handle registration failure', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      authService.register.mockRejectedValue(new Error('Registration failed'));
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await act(async () => {
+        screen.getByTestId('register').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('error')).toHaveTextContent('Registration failed');
+      });
+    });
+  });
+
+  describe('RefreshUser functionality', () => {
+    it('should handle successful user refresh', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      const updatedUser = { id: '1', email: 'test@example.com', name: 'Test User' };
+
+      api.getAccessToken.mockReturnValue('valid-token');
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(Date.now() + 60 * 60 * 1000);
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser
+        .mockResolvedValueOnce(mockUser) // Initial auth check
+        .mockResolvedValueOnce(updatedUser); // Refresh call
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      // Wait for initial auth check
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent(JSON.stringify(mockUser));
+      });
+
+      await act(async () => {
+        screen.getByTestId('refresh').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent(JSON.stringify(updatedUser));
+      });
+
+      expect(authService.getCurrentUser).toHaveBeenCalledTimes(2);
+    });
+
+    it('should handle refresh user failure', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      authService.getCurrentUser.mockRejectedValue(new Error('Failed to refresh'));
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await act(async () => {
+        screen.getByTestId('refresh').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('error')).toHaveTextContent('Failed to refresh');
+      });
+    });
+  });
+
+  describe('Error handling', () => {
+    it('should clear error when clearError is called', async () => {
+      api.getAccessToken.mockReturnValue(null);
+      authService.login.mockRejectedValue(new Error('Login failed'));
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      // Trigger error
+      await act(async () => {
+        screen.getByTestId('login').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('error')).toHaveTextContent('Login failed');
+      });
+
+      // Clear error
+      await act(async () => {
+        screen.getByTestId('clearError').click();
+      });
+
+      expect(screen.getByTestId('error')).toHaveTextContent('null');
+    });
+  });
+
+  describe('Session timeout', () => {
+    it('should setup session timeout and auto-logout when expired', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      const mockToken = 'valid-token';
+      const mockExpiryTime = Date.now() + 1000; // 1 second from now
+
+      api.getAccessToken.mockReturnValue(mockToken);
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(mockExpiryTime);
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser.mockResolvedValue(mockUser);
+      authService.logout.mockResolvedValue();
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      // Wait for initial auth check
+      await waitFor(() => {
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      });
+
+      // Fast-forward time to trigger timeout
+      await act(async () => {
+        jest.advanceTimersByTime(1001);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent('null');
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('false');
+      });
+
+      expect(console.log).toHaveBeenCalledWith('Session timeout - automatically logging out');
+      expect(authService.logout).toHaveBeenCalled();
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+    });
+
+    it('should handle session timeout logout error', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      const mockToken = 'valid-token';
+      const mockExpiryTime = Date.now() + 1000;
+
+      api.getAccessToken.mockReturnValue(mockToken);
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(mockExpiryTime);
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser.mockResolvedValue(mockUser);
+      authService.logout.mockRejectedValue(new Error('Logout failed'));
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      // Wait for initial auth check
+      await waitFor(() => {
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      });
+
+      // Fast-forward time to trigger timeout
+      await act(async () => {
+        jest.advanceTimersByTime(1001);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent('null');
+      });
+
+      expect(console.error).toHaveBeenCalledWith('Session timeout logout error:', expect.any(Error));
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+    });
+  });
+
+  describe('Multi-tab synchronization', () => {
+    it('should logout when token is removed in another tab', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      
+      // Setup initial authenticated state
+      api.getAccessToken.mockReturnValue('valid-token');
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(Date.now() + 60 * 60 * 1000);
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser.mockResolvedValue(mockUser);
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      // Wait for initial auth check
+      await waitFor(() => {
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      });
+
+      // Simulate storage event (token removed in another tab)
+      const storageEvent = new StorageEvent('storage', {
+        key: 'authToken',
+        newValue: null,
+        oldValue: 'some-token'
+      });
+
+      await act(async () => {
+        window.dispatchEvent(storageEvent);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('user')).toHaveTextContent('null');
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('false');
+        expect(screen.getByTestId('error')).toHaveTextContent('null');
+      });
+
+      expect(console.log).toHaveBeenCalledWith('Token removed in another tab - logging out');
+      expect(tokenUtils.clearRememberMeFlag).toHaveBeenCalled();
+      expect(tokenUtils.clearStoredTokenExpiry).toHaveBeenCalled();
+    });
+
+    it('should ignore storage events for other keys', async () => {
+      const mockUser = { id: '1', email: 'test@example.com' };
+      
+      // Setup initial authenticated state
+      api.getAccessToken.mockReturnValue('valid-token');
+      tokenUtils.isRememberMeSession.mockReturnValue(false);
+      tokenUtils.getStoredTokenExpiry.mockReturnValue(Date.now() + 60 * 60 * 1000);
+      tokenUtils.isTokenExpired.mockReturnValue(false);
+      authService.getCurrentUser.mockResolvedValue(mockUser);
+
+      renderWithAuthProvider();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      // Wait for initial auth check
+      await waitFor(() => {
+        expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      });
+
+      // Simulate storage event for different key
+      const storageEvent = new StorageEvent('storage', {
+        key: 'someOtherKey',
+        newValue: null,
+        oldValue: 'some-value'
+      });
+
+      await act(async () => {
+        window.dispatchEvent(storageEvent);
+      });
+
+      // User should still be authenticated
+      expect(screen.getByTestId('isAuthenticated')).toHaveTextContent('true');
+      expect(tokenUtils.clearRememberMeFlag).not.toHaveBeenCalled();
+    });
+  });
 
 describe('AuthContext - Remember Me Functionality', () => {
   beforeEach(() => {
