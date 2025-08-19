@@ -162,3 +162,103 @@ Then('the scene {string} is not in the data store', async function (scene_name) 
 	// TODO: Replace with actual backend API call
 	console.log('TODO: Verify scene removal from data store via backend API')
 })
+
+// Place management steps
+Given('I have places available:', async function (dataTable) {
+	const places = dataTable.hashes()
+	this.available_places = places.map(row => ({
+		name: row.name,
+		description: row.description
+	}))
+})
+
+Given('the scene has places in its setting:', async function (dataTable) {
+	const places = dataTable.hashes()
+	this.expected_scene.places = places.map(row => ({
+		name: row.name,
+		description: row.description
+	}))
+})
+
+Given('{string} is already in the scene\'s places', async function (place_name) {
+	if (!this.expected_scene.places) {
+		this.expected_scene.places = []
+	}
+	if (!this.expected_scene.places.find(place => place.name === place_name)) {
+		this.expected_scene.places.push({
+			name: place_name,
+			description: 'A place in the scene'
+		})
+	}
+})
+
+When('I add {string} to the scene\'s places', async function (place_name) {
+	// Click the add place button
+	await this.browser.findElement(By.id('button-add-place-to-scene')).click()
+	
+	// Select the place from dropdown or enter name
+	const placeInput = await this.browser.findElement(By.id('select-place-for-scene'))
+	await placeInput.sendKeys(place_name)
+	
+	// Confirm the addition
+	await this.browser.findElement(By.id('button-confirm-add-place')).click()
+})
+
+When('I update {string} in the places with description {string}', async function (place_name, new_description) {
+	// Find the place in the places list
+	const placeRow = await this.browser.findElement(By.xpath(`//tr[td[text()='${place_name}']]`))
+	
+	// Click edit button for this place
+	const editButton = await placeRow.findElement(By.className('edit-place-button'))
+	await editButton.click()
+	
+	// Update description
+	const descriptionField = await this.browser.findElement(By.id(`place-description-${place_name}`))
+	await descriptionField.clear()
+	await descriptionField.sendKeys(new_description)
+	
+	// Save changes
+	await this.browser.findElement(By.id(`save-place-${place_name}`)).click()
+})
+
+When('I remove {string} from the scene\'s places', async function (place_name) {
+	// Find the place in the places list
+	const placeRow = await this.browser.findElement(By.xpath(`//tr[td[text()='${place_name}']]`))
+	
+	// Click remove button for this place
+	const removeButton = await placeRow.findElement(By.className('remove-place-button'))
+	await removeButton.click()
+	
+	// Confirm removal if confirmation dialog appears
+	try {
+		await this.browser.findElement(By.id('confirm-remove-place')).click()
+	} catch (error) {
+		// No confirmation dialog, that's fine
+	}
+})
+
+Then('the scene has {int} places in its setting', async function (expected_count) {
+	// Count visible places in the places table
+	const placeRows = await this.browser.findElements(By.className('scene-places-place-row'))
+	expect(placeRows.length).toBe(expected_count)
+})
+
+Then('{string} is in the scene\'s places', async function (place_name) {
+	// Verify place appears in the places list
+	const placeCell = await this.browser.findElement(By.xpath(`//td[text()='${place_name}']`))
+	expect(placeCell).toBeTruthy()
+})
+
+Then('{string} is not in the scene\'s places', async function (place_name) {
+	// Verify place does not appear in the places list
+	const placeCells = await this.browser.findElements(By.xpath(`//td[text()='${place_name}']`))
+	expect(placeCells.length).toBe(0)
+})
+
+Then('{string} has description {string} in the scene\'s places', async function (place_name, expected_description) {
+	// Find the place row and check description
+	const placeRow = await this.browser.findElement(By.xpath(`//tr[td[text()='${place_name}']]`))
+	const descriptionCell = await placeRow.findElement(By.className('place-description'))
+	const actualDescription = await descriptionCell.getText()
+	expect(actualDescription).toBe(expected_description)
+})
