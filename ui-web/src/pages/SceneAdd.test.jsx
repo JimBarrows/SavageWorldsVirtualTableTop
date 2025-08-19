@@ -4,9 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SceneAddPage from './SceneAdd';
 import sceneService from '../services/sceneService';
+import characterService from '../services/characterService';
 
 // Mock the services
 jest.mock('../services/sceneService');
+jest.mock('../services/characterService');
 
 // Mock useNavigate
 const mockNavigate = jest.fn();
@@ -44,6 +46,14 @@ describe('SceneAddPage', () => {
     jest.clearAllMocks();
     // Mock window.alert
     jest.spyOn(window, 'alert').mockImplementation(() => {});
+    
+    // Set default character service mock
+    characterService.getAvailableCharacters.mockResolvedValue([
+      { name: 'Sir Gareth', description: 'A noble knight' },
+      { name: 'Mara', description: 'A cunning thief' },
+      { name: 'Grimjaw', description: 'An orc bartender' },
+      { name: 'Eldara', description: 'An elven mage' }
+    ]);
   });
   
   afterEach(() => {
@@ -157,7 +167,8 @@ describe('SceneAddPage', () => {
 
   describe('Character Query', () => {
     it('should handle empty character list', async () => {
-      queryClient.setQueryData(['characters'], []);
+      // Mock characterService to return empty array
+      characterService.getAvailableCharacters.mockResolvedValue([]);
       
       renderComponent();
       

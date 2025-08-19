@@ -4,9 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SceneEditPage from './SceneEdit';
 import sceneService from '../services/sceneService';
+import characterService from '../services/characterService';
 
 // Mock the services
 jest.mock('../services/sceneService');
+jest.mock('../services/characterService');
 
 // Mock useNavigate and useParams
 const mockNavigate = jest.fn();
@@ -47,6 +49,14 @@ describe('SceneEditPage', () => {
     jest.clearAllMocks();
     // Mock window.alert
     jest.spyOn(window, 'alert').mockImplementation(() => {});
+    
+    // Set default character service mock
+    characterService.getAvailableCharacters.mockResolvedValue([
+      { name: 'Sir Gareth', description: 'A noble knight' },
+      { name: 'Mara', description: 'A cunning thief' },
+      { name: 'Grimjaw', description: 'An orc bartender' },
+      { name: 'Eldara', description: 'An elven mage' }
+    ]);
   });
   
   afterEach(() => {
@@ -233,27 +243,11 @@ describe('SceneEditPage', () => {
       sceneService.getSceneByName.mockResolvedValue(mockScene);
     });
 
-    it.skip('should handle empty character list', async () => {
-      // TODO: This test requires mocking the inline character query in SceneEditPage
-      // The component has hardcoded mock data that returns 4 characters
-      // Skip for now as it's a complex test setup issue, not a functionality issue
+    it('should handle empty character list', async () => {
+      // Mock characterService to return empty array
+      characterService.getAvailableCharacters.mockResolvedValue([]);
       
-      // Create a fresh query client for this test
-      const freshQueryClient = new QueryClient({
-        defaultOptions: {
-          queries: { retry: false },
-          mutations: { retry: false }
-        }
-      });
-      freshQueryClient.setQueryData(['characters'], []);
-      
-      render(
-        <QueryClientProvider client={freshQueryClient}>
-          <BrowserRouter>
-            <SceneEditPage />
-          </BrowserRouter>
-        </QueryClientProvider>
-      );
+      renderComponent();
       
       await waitFor(() => {
         expect(screen.getByText('Available Characters: 0')).toBeInTheDocument();

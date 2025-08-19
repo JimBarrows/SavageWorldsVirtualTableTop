@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import SceneEditor from '../components/scene/SceneEditor'
 import sceneService from '../services/sceneService'
-// import { gameEntityService } from '../services'
+import characterService from '../services/characterService'
 import Scene from '../models/Scene'
 
 export default function SceneAddPage() {
@@ -14,16 +14,7 @@ export default function SceneAddPage() {
   // Fetch available characters (assuming they exist in the system)
   const { data: availableCharacters = [] } = useQuery(
     ['characters'],
-    async () => {
-      // This would normally fetch from a character service
-      // For now, return some mock data
-      return [
-        { name: 'Sir Gareth', description: 'A noble knight' },
-        { name: 'Mara', description: 'A cunning thief' },
-        { name: 'Grimjaw', description: 'An orc bartender' },
-        { name: 'Eldara', description: 'An elven mage' }
-      ]
-    }
+    () => characterService.getAvailableCharacters()
   )
 
   // Create scene mutation
