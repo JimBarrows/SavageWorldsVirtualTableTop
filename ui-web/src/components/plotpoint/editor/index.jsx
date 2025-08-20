@@ -15,6 +15,7 @@ import Powers                                            from './powers'
 import Races                                             from './races'
 import SettingRulesList                                  from './setting_rules'
 import Skills                                            from './skills'
+import PlacesAppendix                                 from '../places-appendix'
 
 export default class PlotPointForm extends React.Component {
 
@@ -113,6 +114,8 @@ export default class PlotPointForm extends React.Component {
 					label={'Description'}
 					onChange={this.descriptionChange}
 					value={plotPoint.description} />
+
+				<PlacesAppendix storyText={plotPoint.description} />
 
 				<div className={'row'} >
 					<div className="col-2" >
