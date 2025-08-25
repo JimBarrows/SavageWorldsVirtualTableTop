@@ -1,0 +1,84 @@
+{
+  "environment": "dev",
+  "region": "us-east-1",
+  "accountId": "${AWS_ACCOUNT_ID}",
+  "
+  
+  "network": {
+    "vpcCidr": "10.0.0.0/16",
+    "availabilityZones": 2,
+    "natGateways": 1
+  },
+  
+  "database": {
+    "engine": "mysql",
+    "version": "8.0",
+    "instanceClass": "db.t3.micro",
+    "allocatedStorage": 20,
+    "maxAllocatedStorage": 100,
+    "multiAz": false,
+    "backupRetentionDays": 7,
+    "deletionProtection": false,
+    "performanceInsights": false,
+    "monitoringInterval": 0,
+    "enableCloudwatchLogs": ["error", "general", "slow-query"]
+  },
+  
+  "backend": {
+    "cpu": 256,
+    "memory": 512,
+    "desiredCount": 1,
+    "containerImage": "nginx:latest",
+    "containerPort": 3000,
+    "healthCheckPath": "/health",
+    "autoScaling": {
+      "enabled": false,
+      "minCapacity": 1,
+      "maxCapacity": 3,
+      "targetCpuUtilization": 70,
+      "targetMemoryUtilization": 80
+    }
+  },
+  
+  "frontend": {
+    "domainName": null,
+    "certificateArn": null,
+    "cloudfrontPriceClass": "PriceClass_100",
+    "cacheTtl": {
+      "defaultTtl": 86400,
+      "maxTtl": 31536000,
+      "minTtl": 0
+    }
+  },
+  
+  "monitoring": {
+    "enableDetailedMonitoring": false,
+    "alertEmail": "dev-alerts@swvtt.com",
+    "alarmThresholds": {
+      "albResponseTime": 2000,
+      "albErrorRate": 10,
+      "ecsCpuUtilization": 80,
+      "ecsMemoryUtilization": 90,
+      "rdsConnectionCount": 80,
+      "rdsCpuUtilization": 80,
+      "rdsStorageSpace": 2147483648
+    },
+    "logRetentionDays": 7
+  },
+  
+  "tags": {
+    "Project": "SWVTT",
+    "Environment": "dev",
+    "Owner": "DevOps",
+    "CostCenter": "Engineering",
+    "Backup": "false"
+  },
+  
+  "features": {
+    "enableWaf": false,
+    "enableShield": false,
+    "enableSecretsRotation": false,
+    "enableVpcEndpoints": false,
+    "enableCloudTrail": false
+  }
+}
