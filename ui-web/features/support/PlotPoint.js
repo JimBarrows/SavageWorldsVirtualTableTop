@@ -1,8 +1,0 @@
-import BasicRules from './BasicRules.js'
-
-export default class PlotPoint {
-	name          = ''
-	description   = ''
-	basic_rules   = new BasicRules()
-	setting_rules = []
-}
