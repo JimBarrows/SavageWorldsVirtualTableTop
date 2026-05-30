@@ -1,6 +1,17 @@
 import './index.css'
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { Button } from "@/components/ui/button"
+import {
+  Menubar,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
 import AuthenticationErrorScreen from './AuthenticationErrorScreen.jsx'
 import AuthenticationSuccessScreen from './AuthenticationSuccessScreen.jsx'
 import LoginForm from './LoginForm.jsx'
@@ -89,32 +100,36 @@ export default function App() {
     setClaims(null)
   }
 
+    var screen = (<>Whoops</>)
+    
   // Show verification state
   if (verifying) {
-      return VerificationScreen()
-  }
-
-  // Show auth error
-  if (authError) {
-      return AuthenticationErrorScreen( authError, setAuthError)
-  }
-
-  // Show auth success (briefly before claims load)
-  if (authSuccess && !claims) {
-      return AuthenticationSuccessScreen()
-  }
-
-  // If user is logged in, show welcome screen
-  if (claims) {
-      return WelcomeScreen( claims, handleLogout)
+      screen = VerificationScreen()
+  } else if (authError) {
+      screen =  AuthenticationErrorScreen( authError, setAuthError)
+  } else if (authSuccess && !claims) {
+      screen = AuthenticationSuccessScreen()
+  } else if (claims) {
+      screen =  WelcomeScreen( claims, handleLogout)
+  } else {
+      screen = LoginForm( handleLogin, email, setEmail, loading)
   }
 
   // Show login form
   return (
-    <div>
-        <h1>Savage Worlds Virtual Table Top</h1>
-        {LoginForm( handleLogin, email, setEmail, loading)}
-    </div>
+      <>
+          <header>Savage Worlds Virtual Table Top
+              <nav>
+              { claims ?  <Button onClick={handleLogout}>Sign Out</Button> : <></>}
+              </nav>
+          </header>
+          <main>
+              {screen}
+          </main>
+          <footer>
+              Footer goes here
+          </footer>
+    </>
   )
 }
 
