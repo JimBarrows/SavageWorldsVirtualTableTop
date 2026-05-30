@@ -104,15 +104,15 @@ export default function App() {
     
   // Show verification state
   if (verifying) {
-      screen = VerificationScreen()
+      screen = <VerificationScreen/>
   } else if (authError) {
-      screen =  AuthenticationErrorScreen( authError, setAuthError)
+      screen =  <AuthenticationErrorScreen authError={authError} setAuthError={setAuthError}/>
   } else if (authSuccess && !claims) {
-      screen = AuthenticationSuccessScreen()
+      screen = <AuthenticationSuccessScreen/>
   } else if (claims) {
-      screen =  WelcomeScreen( claims, handleLogout)
+      screen =  <WelcomeScreen claims={claims} handleLogout={handleLogout}/>
   } else {
-      screen = LoginForm( handleLogin, email, setEmail, loading)
+      screen = <LoginForm handleLogin={handleLogin} email={email} setEmail={setEmail} loading={loading}/>
   }
 
   // Show login form
@@ -123,7 +123,7 @@ export default function App() {
               { claims ?  <Button onClick={handleLogout}>Sign Out</Button> : <></>}
               </nav>
           </header>
-          <main>
+          <main className="w-full max-w-md p-4">
               {screen}
           </main>
           <footer>
