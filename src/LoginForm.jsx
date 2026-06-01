@@ -1,4 +1,7 @@
-export default function LoginForm( handleLogin, email, setEmail, loading) {
+export default function LoginForm( props) {
+    
+    const {handleLogin, email, setEmail, loading} = props
+    
     return (
         <>
             <p>Sign in via magic link with your email below</p>
